@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { BookOpen, Award } from "lucide-react";
+import { BookOpen, Award, Linkedin, Instagram, Twitter } from "lucide-react";
 import { ProgramCard } from "@/components/ProgramCard";
 import { HeroSection } from "@/components/HeroSection";
 
@@ -89,6 +89,38 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Social Media Links */}
+      <footer className="py-8 px-4 md:px-6 lg:px-8 bg-white">
+        <div className="container mx-auto">
+          <div className="flex justify-center space-x-6">
+            <a 
+              href="https://www.linkedin.com/company/comicfix" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-gray-600 hover:text-[#4A00E0] transition-colors"
+            >
+              <Linkedin className="w-6 h-6" />
+            </a>
+            <a 
+              href="https://www.instagram.com/comicfix.in/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-gray-600 hover:text-[#4A00E0] transition-colors"
+            >
+              <Instagram className="w-6 h-6" />
+            </a>
+            <a 
+              href="https://x.com/comicfixin" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-gray-600 hover:text-[#4A00E0] transition-colors"
+            >
+              <Twitter className="w-6 h-6" />
+            </a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
