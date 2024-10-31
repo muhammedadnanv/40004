@@ -83,6 +83,9 @@ const Index = () => {
             {programs.map((program) => (
               <ProgramCard key={program.title} program={program} />
             ))}
+            <div className="col-span-1 md:col-span-2 lg:col-span-3 text-center">
+              <p className="text-xl text-gray-600">+24 more programs (30 Programs total)</p>
+            </div>
           </div>
         </div>
       </section>
