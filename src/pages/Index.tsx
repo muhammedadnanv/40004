@@ -35,6 +35,12 @@ const Index = () => {
       description: "Build AI applications with Python and popular frameworks",
       duration: "14 weeks",
       skills: ["Python", "HuggingFace", "APIs", "Machine Learning"],
+    },
+    {
+      title: "AI Superbase Creation",
+      description: "Build advanced AI applications with Node.js and modern AI tools",
+      duration: "12 weeks",
+      skills: ["Node.js", "AI Integration", "Database Design", "API Development"],
     }
   ];
 
