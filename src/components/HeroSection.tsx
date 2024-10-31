@@ -9,12 +9,9 @@ export const HeroSection = () => {
             Start Your Developer Journey Today
           </h1>
           <p className="text-xl md:text-2xl text-gray-600 mb-8">
-            Get mentored by industry experts and earn a certification for just ₹49
+            Get mentored by community experts and earn a certification for just ₹49
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="text-lg px-8 bg-[#4A00E0] hover:bg-[#4A00E0]/90">
-              Enroll Now
-            </Button>
+          <div className="flex justify-center">
             <Button size="lg" variant="outline" className="text-lg px-8 text-[#4A00E0] border-[#4A00E0] hover:bg-[#4A00E0]/10">
               View Programs
             </Button>
