@@ -3,7 +3,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { BookOpen, Award, CheckCircle, Users } from "lucide-react";
 import { ProgramCard } from "@/components/ProgramCard";
 import { HeroSection } from "@/components/HeroSection";
-import { TestimonialSection } from "@/components/TestimonialSection";
 
 const Index = () => {
   const programs = [
@@ -14,17 +13,29 @@ const Index = () => {
       skills: ["React", "TypeScript", "CSS", "HTML"],
     },
     {
-      title: "Backend Development",
-      description: "Build scalable servers and APIs with Node.js and databases",
-      duration: "12 weeks",
-      skills: ["Node.js", "Express", "MongoDB", "SQL"],
+      title: "AI + Web Design",
+      description: "Learn to create AI-powered web designs and interfaces",
+      duration: "10 weeks",
+      skills: ["Figma", "AI Tools", "UI/UX", "Web Design"],
     },
     {
-      title: "Full Stack Development",
-      description: "Become a complete developer with both frontend and backend skills",
-      duration: "16 weeks",
-      skills: ["React", "Node.js", "Databases", "DevOps"],
+      title: "AI Prompt Specialist",
+      description: "Master the art of crafting effective AI prompts for various applications",
+      duration: "8 weeks",
+      skills: ["Prompt Engineering", "GPT", "DALL-E", "Midjourney"],
     },
+    {
+      title: "No-Code AI Tools",
+      description: "Build AI-powered applications without coding",
+      duration: "6 weeks",
+      skills: ["Bubble", "Adalo", "FlutterFlow", "AI Integration"],
+    },
+    {
+      title: "AI + Python Development",
+      description: "Build AI applications with Python and popular frameworks",
+      duration: "14 weeks",
+      skills: ["Python", "HuggingFace", "APIs", "Machine Learning"],
+    }
   ];
 
   return (
@@ -78,8 +89,6 @@ const Index = () => {
           </div>
         </div>
       </section>
-
-      <TestimonialSection />
     </div>
   );
 };
