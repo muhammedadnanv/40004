@@ -10,7 +10,7 @@ const Index = () => {
       title: "Frontend Development",
       description: "Master modern web development with React, TypeScript, and more",
       duration: "12 weeks",
-      skills: ["React", "TypeScript", "CSS", "HTML"],
+      skills: ["JavaScript", "AIScript", "CSS", "HTML"],
     },
     {
       title: "AI + Web Design",
