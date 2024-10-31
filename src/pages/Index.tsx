@@ -12,36 +12,42 @@ const Index = () => {
       description: "Master modern web development with React, TypeScript, and more",
       duration: "12 weeks",
       skills: ["JavaScript", "AIScript", "CSS", "HTML"],
+      category: "Web Development"
     },
     {
       title: "AI + Web Design",
       description: "Learn to create AI-powered web designs and interfaces",
       duration: "10 weeks",
       skills: ["Figma", "AI Tools", "UI/UX", "Web Design"],
+      category: "Design"
     },
     {
       title: "AI Prompt Specialist",
       description: "Master the art of crafting effective AI prompts for various applications",
       duration: "8 weeks",
       skills: ["Prompt Engineering", "GPT", "DALL-E", "Midjourney"],
+      category: "AI"
     },
     {
       title: "No-Code AI Tools",
       description: "Build AI-powered applications without coding",
       duration: "6 weeks",
       skills: ["Bubble", "Adalo", "FlutterFlow", "AI Integration"],
+      category: "No-Code"
     },
     {
       title: "AI + Python Development",
       description: "Build AI applications with Python and popular frameworks",
       duration: "14 weeks",
       skills: ["Python", "HuggingFace", "APIs", "Machine Learning"],
+      category: "Programming"
     },
     {
       title: "AI Superbase Creation",
       description: "Build advanced AI applications with Node.js and modern AI tools",
       duration: "12 weeks",
       skills: ["Node.js", "AI Integration", "Database Design", "API Development"],
+      category: "Backend"
     }
   ];
 
@@ -79,7 +85,7 @@ const Index = () => {
       <CertificationSection />
 
       {/* Programs Section */}
-      <section className="py-16 px-4 md:px-6 lg:px-8 bg-[#4A00E0]/5">
+      <section id="programs-section" className="py-16 px-4 md:px-6 lg:px-8 bg-[#4A00E0]/5">
         <div className="container mx-auto">
           <h2 className="text-3xl font-bold text-center mb-12">Our Programs</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

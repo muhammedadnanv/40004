@@ -11,6 +11,7 @@ interface ProgramCardProps {
     description: string;
     duration: string;
     skills: string[];
+    category: string;
   };
 }
 
@@ -21,6 +22,11 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
     <>
       <Card className="flex flex-col h-full">
         <CardHeader>
+          <div className="flex items-center justify-between mb-2">
+            <Badge variant="outline" className="bg-[#4A00E0]/5 text-[#4A00E0] hover:bg-[#4A00E0]/10">
+              {program.category}
+            </Badge>
+          </div>
           <CardTitle>{program.title}</CardTitle>
           <CardDescription>{program.description}</CardDescription>
         </CardHeader>
