@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { BookOpen, Award, Linkedin, Instagram, Twitter, Mail } from "lucide-react";
 import { ProgramCard } from "@/components/ProgramCard";
 import { HeroSection } from "@/components/HeroSection";
+import { CertificationSection } from "@/components/CertificationSection";
 
 const Index = () => {
   const programs = [
@@ -74,6 +75,8 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      <CertificationSection />
 
       {/* Programs Section */}
       <section className="py-16 px-4 md:px-6 lg:px-8 bg-[#4A00E0]/5">
