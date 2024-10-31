@@ -25,21 +25,21 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
             <p className="text-sm font-medium mb-2">Duration: {program.duration}</p>
             <div className="flex flex-wrap gap-2">
               {program.skills.map((skill) => (
-                <Badge key={skill} variant="secondary">
+                <Badge key={skill} variant="secondary" className="bg-[#4A00E0]/10 text-[#4A00E0] hover:bg-[#4A00E0]/20">
                   {skill}
                 </Badge>
               ))}
             </div>
           </div>
-          <div className="flex items-center gap-2 text-green-600">
+          <div className="flex items-center gap-2 text-[#4A00E0]">
             <CheckCircle className="w-5 h-5" />
             <span className="text-sm">Certificate Included</span>
           </div>
         </div>
       </CardContent>
       <CardFooter className="flex flex-col gap-4">
-        <p className="text-2xl font-bold">₹49</p>
-        <Button className="w-full">Enroll Now</Button>
+        <p className="text-2xl font-bold text-[#4A00E0]">₹49</p>
+        <Button className="w-full bg-[#4A00E0] hover:bg-[#4A00E0]/90">Enroll Now</Button>
       </CardFooter>
     </Card>
   );
