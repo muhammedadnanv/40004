@@ -58,7 +58,7 @@ const Index = () => {
                 <Award className="w-12 h-12 text-[#4A00E0] mb-4" />
                 <CardTitle>Certification</CardTitle>
                 <CardDescription>
-                  Receive an industry-recognized certificate upon program completion
+                  Receive a community-recognized certificate upon program completion
                 </CardDescription>
               </CardHeader>
             </Card>
