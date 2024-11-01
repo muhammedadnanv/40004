@@ -2,32 +2,32 @@ import { toast } from "@/hooks/use-toast";
 
 const keralaNames = [
   // Hindu Names
-  "Aishwarya Nair",
-  "Deepika Menon",
-  "Karthik Pillai",
-  "Lakshmi Devi",
-  "Meenakshi Amma",
-  "Priya Nambiar",
-  "Rahul Krishna",
-  "Sreeja Gopinath",
+  "Achyuthan Namboothiri",
+  "Devangana Warrier",
+  "Kanakambal Pisharody",
+  "Madhusoodanan Kartha",
+  "Narayani Thampuratty",
+  "Parameswaran Ezhuthachan",
+  "Rugmini Amma",
+  "Unnikrishnan Panicker",
   
   // Muslim Names
-  "Ayesha Begum",
-  "Fathima Riyas",
-  "Mohammed Haris",
-  "Naseema Beevi",
-  "Rashid Khan",
-  "Safiya Nazreen",
-  "Zainab Rahman",
+  "Adamkutty Thangal",
+  "Fathima Beevi",
+  "Hydrose Kurikkal",
+  "Kunhipathumma",
+  "Moideen Kutty",
+  "Safiyath Beevi",
+  "Velayudhan Haji",
   
   // Christian Names
-  "Anna Thomas",
-  "George Kurian",
-  "Mary Joseph",
-  "Paul Vincent",
-  "Sarah Philip",
-  "Thomas John",
-  "Teresa George"
+  "Annamma Kochamma",
+  "Chacko Mappillai",
+  "Kunjachan Upadesi",
+  "Mariamma Pennamma",
+  "Oommen Chandy",
+  "Thresiamma Kunjamma",
+  "Varkey Muthalali"
 ];
 
 const programs = [
