@@ -2,32 +2,30 @@ import { toast } from "@/hooks/use-toast";
 
 const keralaNames = [
   // Hindu Names (Gen Z)
-  "Advaith Namboothiri",
-  "Aanya Warrier",
-  "Arjun Pisharody",
-  "Diya Kartha",
-  "Ishaan Thampuran",
-  "Kavya Menon",
-  "Rithvik Nair",
-  "Zara Panicker",
+  "Arya Menon",
+  "Aarav Nair",
+  "Vedika Warrier",
+  "Vihaan Namboothiri",
+  "Riya Pisharody",
+  "Ahaan Panicker",
+  "Shaan Thampuran",
   
   // Muslim Names (Gen Z)
-  "Aadil Thangal",
-  "Ayra Beevi",
-  "Faiz Kurikkal",
-  "Inaya Rahman",
-  "Zayn Kutty",
-  "Myra Beevi",
-  "Yusuf Haji",
+  "Ayaan Thangal",
+  "Miraal Beevi",
+  "Rayyan Kutty",
+  "Aleena Rahman",
+  "Niyara Kurikkal",
+  "Nadia Haji",
+  "Lina Beevi",
   
   // Christian Names (Gen Z)
-  "Aiden Kuruvilla",
-  "Bella Kochamma",
-  "Chris Mappillai",
-  "Eva Pennamma",
-  "Kevin Chandy",
-  "Sophia Kunjamma",
-  "Zain Muthalali"
+  "Evan Kuruvilla",
+  "Maya Kochamma",
+  "Naomi Mappillai",
+  "Joel Chandy",
+  "Elina Kunjamma",
+  "Zara Muthalali"
 ];
 
 const programs = [
