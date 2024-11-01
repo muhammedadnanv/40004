@@ -76,6 +76,13 @@ const Index = () => {
       duration: "8 weeks",
       skills: ["Prompt Writing", "AI Understanding", "Creative Writing", "System Design"],
       category: "AI"
+    },
+    {
+      title: "Build AI-powered Chatbot",
+      description: "Learn to create intelligent chatbots using cutting-edge AI technologies",
+      duration: "10 weeks",
+      skills: ["NLP", "Chatbot Design", "AI Integration", "Conversation Flow"],
+      category: "AI"
     }
   ];
 

@@ -35,7 +35,8 @@ const programs = [
   "No-Code AI Tools",
   "AI + Python Development",
   "AI Superbase Creation",
-  "AI Prompt Creator"
+  "AI Prompt Creator",
+  "Build AI-powered Chatbot"
 ];
 
 export const showRandomJoinNotification = () => {
