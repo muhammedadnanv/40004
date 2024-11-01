@@ -29,16 +29,12 @@ const keralaNames = [
 ];
 
 const programs = [
+  "Frontend Development",
   "AI + Web Design",
   "AI Prompt Specialist",
   "No-Code AI Tools",
   "AI + Python Development",
-  "AI Superbase Creation",
-  "Digital Marketing",
-  "UI/UX Design",
-  "Data Analytics",
-  "Mobile App Development",
-  "Cloud Computing"
+  "AI Superbase Creation"
 ];
 
 export const showRandomJoinNotification = () => {
