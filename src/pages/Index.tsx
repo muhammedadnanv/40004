@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { BookOpen, Award, Linkedin, Instagram, Twitter, Mail } from "lucide-react";
+import { BookOpen, Award, Linkedin, Instagram, Twitter, Mail, MessageSquare } from "lucide-react";
 import { ProgramCard } from "@/components/ProgramCard";
 import { HeroSection } from "@/components/HeroSection";
 import { CertificationSection } from "@/components/CertificationSection";
@@ -96,6 +96,49 @@ const Index = () => {
               <p className="text-xl text-gray-600">+24 more programs (30 Programs total)</p>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* WhatsApp Group Section */}
+      <section className="py-16 px-4 md:px-6 lg:px-8 bg-white">
+        <div className="container mx-auto">
+          <Card className="max-w-2xl mx-auto">
+            <CardHeader>
+              <div className="flex items-center gap-3">
+                <MessageSquare className="w-8 h-8 text-[#4A00E0]" />
+                <CardTitle>Join Our Community</CardTitle>
+              </div>
+              <CardDescription className="text-lg mt-2">
+                Connect with fellow learners and mentors in our WhatsApp group
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="space-y-4">
+                <h3 className="font-semibold text-lg">How to Join:</h3>
+                <ol className="list-decimal pl-6 space-y-3">
+                  <li>Click the join button below to access our WhatsApp group</li>
+                  <li>Once in the group, introduce yourself with:
+                    <ul className="list-disc pl-6 mt-2">
+                      <li>Your name</li>
+                      <li>Which program you enrolled in</li>
+                      <li>Your learning goals</li>
+                    </ul>
+                  </li>
+                  <li>Share your payment confirmation screenshot</li>
+                  <li>Start engaging with the community!</li>
+                </ol>
+              </div>
+              <div className="flex justify-center">
+                <Button 
+                  className="bg-[#25D366] hover:bg-[#25D366]/90 gap-2"
+                  onClick={() => window.open("https://chat.whatsapp.com/COaTqrI651TKlYTPrHOYDn", "_blank")}
+                >
+                  <MessageSquare className="w-5 h-5" />
+                  Join WhatsApp Group
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </section>
 
