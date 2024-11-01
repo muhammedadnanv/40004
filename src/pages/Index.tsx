@@ -1,3 +1,5 @@
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Award, BookOpen } from "lucide-react";
 import { ProgramCard } from "@/components/ProgramCard";
 import { HeroSection } from "@/components/HeroSection";
 import { CertificationSection } from "@/components/CertificationSection";
