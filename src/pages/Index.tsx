@@ -6,8 +6,27 @@ import { CertificationSection } from "@/components/CertificationSection";
 import { FAQSection } from "@/components/FAQSection";
 import { WhatsAppSection } from "@/components/WhatsAppSection";
 import { SocialMediaFooter } from "@/components/SocialMediaFooter";
+import { useEffect } from "react";
+import { showRandomJoinNotification } from "@/utils/mockNotifications";
 
 const Index = () => {
+  useEffect(() => {
+    // Show initial notification after 2 seconds
+    const initialTimeout = setTimeout(() => {
+      showRandomJoinNotification();
+    }, 2000);
+
+    // Show a new notification every 15 seconds
+    const interval = setInterval(() => {
+      showRandomJoinNotification();
+    }, 15000);
+
+    return () => {
+      clearTimeout(initialTimeout);
+      clearInterval(interval);
+    };
+  }, []);
+
   const programs = [
     {
       title: "Frontend Development",
