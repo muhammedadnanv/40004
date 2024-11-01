@@ -12,6 +12,8 @@
   <script>
     // Basic deterrent for keyboard shortcuts
     document.addEventListener('keydown', function(e) {
+      if (!e || !e.key) return; // Guard against undefined events
+      
       if ((e.ctrlKey || e.metaKey) && (e.key === 'u' || e.key === 's')) {
         e.preventDefault();
         return false;
