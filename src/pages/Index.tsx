@@ -69,6 +69,13 @@ const Index = () => {
       duration: "12 weeks",
       skills: ["Node.js", "AI Integration", "Database Design", "API Development"],
       category: "Backend"
+    },
+    {
+      title: "AI Prompt Creator",
+      description: "Learn to create effective and engaging prompts for various AI models",
+      duration: "8 weeks",
+      skills: ["Prompt Writing", "AI Understanding", "Creative Writing", "System Design"],
+      category: "AI"
     }
   ];
 
