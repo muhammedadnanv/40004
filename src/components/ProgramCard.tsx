@@ -20,14 +20,14 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
 
   return (
     <>
-      <Card className="flex flex-col h-full transform hover:scale-[1.02] transition-all duration-300 hover:shadow-xl bg-white/80 backdrop-blur-sm border-[#4A00E0]/10">
+      <Card className="flex flex-col h-full transform hover:scale-[1.02] transition-all duration-300 hover:shadow-xl bg-white/80 backdrop-blur-sm border-[#4A00E0]/10 group">
         <CardHeader>
           <div className="flex items-center justify-between mb-2">
             <Badge variant="outline" className="bg-[#4A00E0]/5 text-[#4A00E0] hover:bg-[#4A00E0]/10 transition-colors">
               {program.category}
             </Badge>
           </div>
-          <CardTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#4A00E0] to-purple-600">
+          <CardTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#4A00E0] to-purple-600 group-hover:scale-105 transition-transform">
             {program.title}
           </CardTitle>
           <CardDescription className="text-gray-600">{program.description}</CardDescription>
@@ -41,7 +41,7 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
                   <Badge 
                     key={skill} 
                     variant="secondary" 
-                    className="bg-[#4A00E0]/10 text-[#4A00E0] hover:bg-[#4A00E0]/20 transition-colors"
+                    className="bg-[#4A00E0]/10 text-[#4A00E0] hover:bg-[#4A00E0]/20 transition-colors group-hover:translate-y-[-2px]"
                   >
                     {skill}
                   </Badge>
