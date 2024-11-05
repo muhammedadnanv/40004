@@ -30,7 +30,7 @@ const Index = () => {
   const programs = [
     {
       title: "Frontend Development",
-      description: "We will mentor you to master modern web development with React and more",
+      description: "We will mentor you to master AI-powered modern web development with React and more",
       duration: "12 weeks",
       skills: ["JavaScript", "AIScript", "CSS", "HTML"],
       category: "Web Development"
@@ -58,28 +58,28 @@ const Index = () => {
     },
     {
       title: "AI + Python Development",
-      description: "We will mentor you to build AI applications with Python and popular frameworks",
+      description: "We will mentor you to build AI-powered applications with Python and popular frameworks",
       duration: "14 weeks",
       skills: ["Python", "HuggingFace", "APIs", "Machine Learning"],
       category: "Programming"
     },
     {
       title: "AI Superbase Creation",
-      description: "We will mentor you to build advanced AI applications with Node.js and modern AI tools",
+      description: "We will mentor you to build advanced AI-powered applications with Node.js and modern AI tools",
       duration: "12 weeks",
       skills: ["Node.js", "AI Integration", "Database Design", "API Development"],
       category: "Backend"
     },
     {
       title: "AI Prompt Creator",
-      description: "We will mentor you to create effective and engaging prompts for various AI models",
+      description: "We will mentor you to create effective and engaging AI-powered prompts for various AI models",
       duration: "8 weeks",
       skills: ["Prompt Writing", "AI Understanding", "Creative Writing", "System Design"],
       category: "AI"
     },
     {
       title: "Build AI-powered Chatbot",
-      description: "We will mentor you to create intelligent chatbots using cutting-edge AI technologies",
+      description: "We will mentor you to create intelligent AI-powered chatbots using cutting-edge AI technologies",
       duration: "10 weeks",
       skills: ["NLP", "Chatbot Design", "AI Integration", "Conversation Flow"],
       category: "AI"
