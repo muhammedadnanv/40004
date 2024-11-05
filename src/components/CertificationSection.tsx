@@ -8,11 +8,7 @@ export const CertificationSection = () => {
   const { toast } = useToast();
 
   const handleCertificateClick = () => {
-    toast({
-      title: "Certificate Preview",
-      description: "You need to complete the program to access your certificate. Please enroll in a program to get started.",
-      variant: "default",
-    });
+    window.open("https://i.ibb.co/SRb4264/title.png", "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -66,7 +62,7 @@ export const CertificationSection = () => {
             <CardContent className="p-6">
               <div className="relative">
                 <img 
-                  src="https://i.ibb.co/z50wV8d/title.png" 
+                  src="https://i.ibb.co/SRb4264/title.png" 
                   alt="Sample Certificate Preview" 
                   className="w-full rounded-lg filter blur-sm group-hover:blur-lg transition-all duration-300"
                 />
