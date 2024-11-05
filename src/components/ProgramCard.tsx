@@ -20,23 +20,29 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
 
   return (
     <>
-      <Card className="flex flex-col h-full">
+      <Card className="flex flex-col h-full transform hover:scale-[1.02] transition-all duration-300 hover:shadow-xl bg-white/80 backdrop-blur-sm border-[#4A00E0]/10">
         <CardHeader>
           <div className="flex items-center justify-between mb-2">
-            <Badge variant="outline" className="bg-[#4A00E0]/5 text-[#4A00E0] hover:bg-[#4A00E0]/10">
+            <Badge variant="outline" className="bg-[#4A00E0]/5 text-[#4A00E0] hover:bg-[#4A00E0]/10 transition-colors">
               {program.category}
             </Badge>
           </div>
-          <CardTitle>{program.title}</CardTitle>
-          <CardDescription>{program.description}</CardDescription>
+          <CardTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#4A00E0] to-purple-600">
+            {program.title}
+          </CardTitle>
+          <CardDescription className="text-gray-600">{program.description}</CardDescription>
         </CardHeader>
         <CardContent className="flex-grow">
           <div className="space-y-4">
             <div>
-              <p className="text-sm font-medium mb-2">Duration: {program.duration}</p>
+              <p className="text-sm font-medium mb-2 text-gray-700">Duration: {program.duration}</p>
               <div className="flex flex-wrap gap-2">
                 {program.skills.map((skill) => (
-                  <Badge key={skill} variant="secondary" className="bg-[#4A00E0]/10 text-[#4A00E0] hover:bg-[#4A00E0]/20">
+                  <Badge 
+                    key={skill} 
+                    variant="secondary" 
+                    className="bg-[#4A00E0]/10 text-[#4A00E0] hover:bg-[#4A00E0]/20 transition-colors"
+                  >
                     {skill}
                   </Badge>
                 ))}
@@ -51,7 +57,7 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
         <CardFooter className="flex flex-col gap-4">
           <p className="text-2xl font-bold text-[#4A00E0]">₹49</p>
           <Button 
-            className="w-full bg-[#4A00E0] hover:bg-[#4A00E0]/90"
+            className="w-full bg-[#4A00E0] hover:bg-[#4A00E0]/90 transform hover:scale-105 transition-all duration-300 shadow-md hover:shadow-lg"
             onClick={() => setShowEnrollmentForm(true)}
           >
             Enroll Now
