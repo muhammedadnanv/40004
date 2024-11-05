@@ -29,14 +29,14 @@ const keralaNames = [
 ];
 
 const programs = [
-  "Frontend Development Course",
-  "AI + Web Design Course",
-  "AI Prompt Specialist Course",
-  "No-Code AI Tools Course",
-  "AI + Python Development Course",
-  "AI Superbase Creation Course",
-  "AI Prompt Creator Course",
-  "Build AI-powered Chatbot Course"
+  "Frontend Development",
+  "AI + Web Design",
+  "AI Prompt Specialist",
+  "No-Code AI Tools",
+  "AI + Python Development",
+  "AI Superbase Creation",
+  "AI Prompt Creator",
+  "Build AI-powered Chatbot"
 ];
 
 export const showRandomJoinNotification = () => {

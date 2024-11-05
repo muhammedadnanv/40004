@@ -29,56 +29,56 @@ const Index = () => {
 
   const programs = [
     {
-      title: "Frontend Development Course",
+      title: "Frontend Development",
       description: "We will mentor you to master modern web development with React, TypeScript, and more",
       duration: "12 weeks",
       skills: ["JavaScript", "AIScript", "CSS", "HTML"],
       category: "Web Development"
     },
     {
-      title: "AI + Web Design Course",
+      title: "AI + Web Design",
       description: "We will mentor you to create AI-powered web designs and interfaces",
       duration: "10 weeks",
       skills: ["Figma", "AI Tools", "UI/UX", "Web Design"],
       category: "Design"
     },
     {
-      title: "AI Prompt Specialist Course",
+      title: "AI Prompt Specialist",
       description: "We will mentor you to master the art of crafting effective AI prompts for various applications",
       duration: "8 weeks",
       skills: ["Prompt Engineering", "GPT", "DALL-E", "Midjourney"],
       category: "AI"
     },
     {
-      title: "No-Code AI Tools Course",
+      title: "No-Code AI Tools",
       description: "We will mentor you to build AI-powered applications without coding",
       duration: "6 weeks",
       skills: ["Bubble", "Adalo", "FlutterFlow", "AI Integration"],
       category: "No-Code"
     },
     {
-      title: "AI + Python Development Course",
+      title: "AI + Python Development",
       description: "We will mentor you to build AI applications with Python and popular frameworks",
       duration: "14 weeks",
       skills: ["Python", "HuggingFace", "APIs", "Machine Learning"],
       category: "Programming"
     },
     {
-      title: "AI Superbase Creation Course",
+      title: "AI Superbase Creation",
       description: "We will mentor you to build advanced AI applications with Node.js and modern AI tools",
       duration: "12 weeks",
       skills: ["Node.js", "AI Integration", "Database Design", "API Development"],
       category: "Backend"
     },
     {
-      title: "AI Prompt Creator Course",
+      title: "AI Prompt Creator",
       description: "We will mentor you to create effective and engaging prompts for various AI models",
       duration: "8 weeks",
       skills: ["Prompt Writing", "AI Understanding", "Creative Writing", "System Design"],
       category: "AI"
     },
     {
-      title: "Build AI-powered Chatbot Course",
+      title: "Build AI-powered Chatbot",
       description: "We will mentor you to create intelligent chatbots using cutting-edge AI technologies",
       duration: "10 weeks",
       skills: ["NLP", "Chatbot Design", "AI Integration", "Conversation Flow"],
