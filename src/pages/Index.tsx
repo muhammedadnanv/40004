@@ -29,57 +29,57 @@ const Index = () => {
 
   const programs = [
     {
-      title: "Frontend Development",
-      description: "Master modern web development with React, TypeScript, and more",
+      title: "Frontend Development Course",
+      description: "We will mentor you to master modern web development with React, TypeScript, and more",
       duration: "12 weeks",
       skills: ["JavaScript", "AIScript", "CSS", "HTML"],
       category: "Web Development"
     },
     {
-      title: "AI + Web Design",
-      description: "Learn to create AI-powered web designs and interfaces",
+      title: "AI + Web Design Course",
+      description: "We will mentor you to create AI-powered web designs and interfaces",
       duration: "10 weeks",
       skills: ["Figma", "AI Tools", "UI/UX", "Web Design"],
       category: "Design"
     },
     {
-      title: "AI Prompt Specialist",
-      description: "Master the art of crafting effective AI prompts for various applications",
+      title: "AI Prompt Specialist Course",
+      description: "We will mentor you to master the art of crafting effective AI prompts for various applications",
       duration: "8 weeks",
       skills: ["Prompt Engineering", "GPT", "DALL-E", "Midjourney"],
       category: "AI"
     },
     {
-      title: "No-Code AI Tools",
-      description: "Build AI-powered applications without coding",
+      title: "No-Code AI Tools Course",
+      description: "We will mentor you to build AI-powered applications without coding",
       duration: "6 weeks",
       skills: ["Bubble", "Adalo", "FlutterFlow", "AI Integration"],
       category: "No-Code"
     },
     {
-      title: "AI + Python Development",
-      description: "Build AI applications with Python and popular frameworks",
+      title: "AI + Python Development Course",
+      description: "We will mentor you to build AI applications with Python and popular frameworks",
       duration: "14 weeks",
       skills: ["Python", "HuggingFace", "APIs", "Machine Learning"],
       category: "Programming"
     },
     {
-      title: "AI Superbase Creation",
-      description: "Build advanced AI applications with Node.js and modern AI tools",
+      title: "AI Superbase Creation Course",
+      description: "We will mentor you to build advanced AI applications with Node.js and modern AI tools",
       duration: "12 weeks",
       skills: ["Node.js", "AI Integration", "Database Design", "API Development"],
       category: "Backend"
     },
     {
-      title: "AI Prompt Creator",
-      description: "Learn to create effective and engaging prompts for various AI models",
+      title: "AI Prompt Creator Course",
+      description: "We will mentor you to create effective and engaging prompts for various AI models",
       duration: "8 weeks",
       skills: ["Prompt Writing", "AI Understanding", "Creative Writing", "System Design"],
       category: "AI"
     },
     {
-      title: "Build AI-powered Chatbot",
-      description: "Learn to create intelligent chatbots using cutting-edge AI technologies",
+      title: "Build AI-powered Chatbot Course",
+      description: "We will mentor you to create intelligent chatbots using cutting-edge AI technologies",
       duration: "10 weeks",
       skills: ["NLP", "Chatbot Design", "AI Integration", "Conversation Flow"],
       category: "AI"
