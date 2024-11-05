@@ -30,7 +30,7 @@ const Index = () => {
   const programs = [
     {
       title: "Frontend Development",
-      description: "We will mentor you to master modern web development with React, TypeScript, and more",
+      description: "We will mentor you to master modern web development with React and more",
       duration: "12 weeks",
       skills: ["JavaScript", "AIScript", "CSS", "HTML"],
       category: "Web Development"
@@ -39,7 +39,7 @@ const Index = () => {
       title: "AI + Web Design",
       description: "We will mentor you to create AI-powered web designs and interfaces",
       duration: "10 weeks",
-      skills: ["Figma", "AI Tools", "UI/UX", "Web Design"],
+      skills: ["AI Tools", "UI/UX", "Web Design"],
       category: "Design"
     },
     {
