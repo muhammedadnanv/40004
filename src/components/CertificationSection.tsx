@@ -1,8 +1,20 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Award, CheckCircle } from "lucide-react";
+import { Award, CheckCircle, ExternalLink } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 
 export const CertificationSection = () => {
+  const { toast } = useToast();
+
+  const handleCertificateClick = () => {
+    toast({
+      title: "Certificate Preview",
+      description: "You need to complete the program to access your certificate. Please enroll in a program to get started.",
+      variant: "default",
+    });
+  };
+
   return (
     <section className="py-16 px-4 md:px-6 lg:px-8 bg-white">
       <div className="container mx-auto">
@@ -59,9 +71,16 @@ export const CertificationSection = () => {
                   className="w-full rounded-lg filter blur-sm group-hover:blur-lg transition-all duration-300"
                 />
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="bg-white/90 p-4 rounded-lg text-center">
-                    <Award className="w-12 h-12 text-[#4A00E0] mx-auto mb-2" />
-                    <p className="font-medium text-gray-800">Complete the program to view your certificate</p>
+                  <div className="bg-white/90 p-6 rounded-lg text-center space-y-4">
+                    <Award className="w-12 h-12 text-[#4A00E0] mx-auto" />
+                    <p className="font-medium text-gray-800 mb-4">Complete the program to view your certificate</p>
+                    <Button 
+                      variant="outline" 
+                      className="gap-2 text-[#4A00E0] border-[#4A00E0] hover:bg-[#4A00E0]/10"
+                      onClick={handleCertificateClick}
+                    >
+                      Preview Certificate <ExternalLink className="w-4 h-4" />
+                    </Button>
                   </div>
                 </div>
               </div>
