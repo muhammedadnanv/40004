@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Info } from "lucide-react";
 
 export const HeroSection = () => {
   const scrollToPrograms = () => {
@@ -9,6 +10,12 @@ export const HeroSection = () => {
   return (
     <section className="relative py-20 px-4 md:px-6 lg:px-8 bg-gradient-to-r from-[#4A00E0]/10 via-[#4A00E0]/5 to-[#4A00E0]/10">
       <div className="container mx-auto">
+        <div className="flex items-center justify-center gap-2 mb-8 bg-white/80 backdrop-blur-sm py-3 px-4 rounded-lg shadow-sm">
+          <Info className="w-5 h-5 text-[#4A00E0]" />
+          <p className="text-sm md:text-base text-gray-700">
+            The Dev Mentorship Program is not just about enhancing your technical skills; it's about investing in your future.
+          </p>
+        </div>
         <div className="max-w-3xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
             Start Your Developer Journey Today
