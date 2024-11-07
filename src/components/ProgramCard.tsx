@@ -22,44 +22,44 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
   return (
     <>
       <Card className="flex flex-col h-full transform hover:scale-[1.02] transition-all duration-300 hover:shadow-xl bg-white/80 backdrop-blur-sm border-[#4A00E0]/10 group">
-        <CardHeader className="space-y-2 p-4 sm:p-6">
+        <CardHeader className="space-y-2 p-3 sm:p-4 lg:p-6">
           <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
-            <Badge variant="outline" className="bg-[#4A00E0]/5 text-[#4A00E0] hover:bg-[#4A00E0]/10 transition-colors text-xs">
+            <Badge variant="outline" className="bg-[#4A00E0]/5 text-[#4A00E0] hover:bg-[#4A00E0]/10 transition-colors text-xs sm:text-sm">
               {program.category}
             </Badge>
             <ShareProgramCard program={program} />
           </div>
-          <CardTitle className="text-base sm:text-lg md:text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#4A00E0] to-purple-600 group-hover:scale-105 transition-transform">
+          <CardTitle className="text-sm sm:text-base lg:text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#4A00E0] to-purple-600 group-hover:scale-105 transition-transform">
             {program.title}
           </CardTitle>
-          <CardDescription className="text-xs sm:text-sm md:text-base text-gray-600">
+          <CardDescription className="text-xs sm:text-sm lg:text-base text-gray-600">
             {program.description}
           </CardDescription>
         </CardHeader>
-        <CardContent className="flex-grow space-y-4 p-4 sm:p-6">
+        <CardContent className="flex-grow space-y-3 sm:space-y-4 p-3 sm:p-4 lg:p-6">
           <div>
             <p className="text-xs sm:text-sm font-medium mb-2 text-gray-700">Duration: {program.duration}</p>
-            <div className="flex flex-wrap gap-1.5 sm:gap-2">
+            <div className="flex flex-wrap gap-1 sm:gap-1.5 lg:gap-2">
               {program.skills.map((skill) => (
                 <Badge 
                   key={skill} 
                   variant="secondary" 
-                  className="bg-[#4A00E0]/10 text-[#4A00E0] hover:bg-[#4A00E0]/20 transition-colors group-hover:translate-y-[-2px] text-xs"
+                  className="bg-[#4A00E0]/10 text-[#4A00E0] hover:bg-[#4A00E0]/20 transition-colors group-hover:translate-y-[-2px] text-[10px] sm:text-xs"
                 >
                   {skill}
                 </Badge>
               ))}
             </div>
           </div>
-          <div className="flex items-center gap-2 text-[#4A00E0]">
+          <div className="flex items-center gap-1.5 sm:gap-2 text-[#4A00E0]">
             <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4" />
             <span className="text-xs sm:text-sm">Certificate Included</span>
           </div>
         </CardContent>
-        <CardFooter className="flex flex-col gap-2 sm:gap-3 p-4 sm:p-6">
-          <p className="text-lg sm:text-xl md:text-2xl font-bold text-[#4A00E0]">₹49</p>
+        <CardFooter className="flex flex-col gap-2 sm:gap-3 p-3 sm:p-4 lg:p-6">
+          <p className="text-base sm:text-lg lg:text-2xl font-bold text-[#4A00E0]">₹49</p>
           <Button 
-            className="w-full bg-[#4A00E0] hover:bg-[#4A00E0]/90 transform hover:scale-105 transition-all duration-300 shadow-md hover:shadow-lg text-xs sm:text-sm py-2"
+            className="w-full bg-[#4A00E0] hover:bg-[#4A00E0]/90 transform hover:scale-105 transition-all duration-300 shadow-md hover:shadow-lg text-xs sm:text-sm py-1.5 sm:py-2"
             onClick={() => setShowEnrollmentForm(true)}
           >
             Enroll Now

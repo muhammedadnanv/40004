@@ -4,13 +4,13 @@ import { MessageSquare } from "lucide-react";
 
 export const WhatsAppSection = () => {
   return (
-    <section className="py-8 sm:py-12 md:py-16 px-4 sm:px-6 lg:px-8 bg-white">
+    <section className="py-6 sm:py-8 md:py-12 lg:py-16 px-4 sm:px-6 lg:px-8 bg-white">
       <div className="container mx-auto">
         <Card className="max-w-2xl mx-auto">
           <CardHeader className="space-y-2 p-4 sm:p-6">
             <div className="flex items-center gap-2 sm:gap-3">
               <MessageSquare className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-[#4A00E0]" />
-              <CardTitle className="text-lg sm:text-xl md:text-2xl">Join Our Community</CardTitle>
+              <CardTitle className="text-base sm:text-xl md:text-2xl">Join Our Community</CardTitle>
             </div>
             <CardDescription className="text-sm sm:text-base md:text-lg mt-2">
               Connect with fellow developers and mentors in our WhatsApp group
