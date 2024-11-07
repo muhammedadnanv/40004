@@ -25,9 +25,9 @@ export const FAQSection = () => {
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-4">
-            <AccordionTrigger>How valuable is the certification?</AccordionTrigger>
+            <AccordionTrigger>How valuable is the certification in job market?</AccordionTrigger>
             <AccordionContent>
-              Our certificates are recognized by industry professionals and validated through practical assessments. They demonstrate not just course completion, but actual project experience and skill mastery. Many of our alumni have successfully used these certificates to advance their careers at top tech companies.
+              This certification is not just a typical credential; it's a powerful and valuable testament to a developer's skills, passion, and problem-solving ability, showcasing a proactive growth mindset and readiness to take on complex challenges—qualities that are increasingly sought after by employers in the tech industry.
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-5">
