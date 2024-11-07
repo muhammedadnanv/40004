@@ -37,7 +37,7 @@ export const EnrollmentForm = ({ isOpen, onClose, programTitle, amount }: Enroll
 
   const handleCouponCode = () => {
     const couponCode = form.getValues("couponCode");
-    if (couponCode === "ComicFix" && !couponApplied) {
+    if (couponCode === "comicfix500" && !couponApplied) {
       setFinalAmount(amount - 500);
       setCouponApplied(true);
       toast({
