@@ -11,12 +11,10 @@ import { showRandomJoinNotification } from "@/utils/mockNotifications";
 
 const Index = () => {
   useEffect(() => {
-    // Show initial notification after 2 seconds
     const initialTimeout = setTimeout(() => {
       showRandomJoinNotification();
     }, 2000);
 
-    // Show a new notification every 15 seconds
     const interval = setInterval(() => {
       showRandomJoinNotification();
     }, 15000);
@@ -91,61 +89,67 @@ const Index = () => {
       <HeroSection />
       
       {/* Features Section */}
-      <section className="py-12 md:py-16 px-4 md:px-6 lg:px-8">
+      <section className="py-8 sm:py-12 md:py-16 px-4 sm:px-6 lg:px-8">
         <div className="container mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-12">Why Choose Dev Mentorship?</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-6 sm:mb-8 md:mb-12">Why Choose Dev Mentorship?</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
+            {/* Feature Cards */}
             <Card className="transform hover:scale-105 transition-all duration-300">
-              <CardHeader>
-                <Award className="w-12 h-12 text-[#4A00E0] mb-4" />
-                <CardTitle>Industry-Recognized Certification</CardTitle>
-                <CardDescription>
-                  Earn a prestigious certificate validated by industry experts and recognized by top tech companies
+              <CardHeader className="space-y-2 text-center sm:text-left">
+                <Award className="w-8 h-8 sm:w-12 sm:h-12 text-[#4A00E0] mx-auto sm:mx-0" />
+                <CardTitle className="text-lg sm:text-xl">Industry-Recognized Certification</CardTitle>
+                <CardDescription className="text-sm sm:text-base">
+                  Earn a prestigious certificate validated by industry experts
                 </CardDescription>
               </CardHeader>
             </Card>
+            
             <Card className="transform hover:scale-105 transition-all duration-300">
-              <CardHeader>
-                <BookOpen className="w-12 h-12 text-[#4A00E0] mb-4" />
-                <CardTitle>Hands-on Experience</CardTitle>
-                <CardDescription>
-                  Build real-world projects using cutting-edge technologies and AI tools that employers value
+              <CardHeader className="space-y-2 text-center sm:text-left">
+                <BookOpen className="w-8 h-8 sm:w-12 sm:h-12 text-[#4A00E0] mx-auto sm:mx-0" />
+                <CardTitle className="text-lg sm:text-xl">Hands-on Experience</CardTitle>
+                <CardDescription className="text-sm sm:text-base">
+                  Build real-world projects using cutting-edge technologies
                 </CardDescription>
               </CardHeader>
             </Card>
+            
             <Card className="transform hover:scale-105 transition-all duration-300">
-              <CardHeader>
-                <Users className="w-12 h-12 text-[#4A00E0] mb-4" />
-                <CardTitle>Expert Mentorship</CardTitle>
-                <CardDescription>
-                  Get mentored directly by industry professionals with years of experience in leading tech companies
+              <CardHeader className="space-y-2 text-center sm:text-left">
+                <Users className="w-8 h-8 sm:w-12 sm:h-12 text-[#4A00E0] mx-auto sm:mx-0" />
+                <CardTitle className="text-lg sm:text-xl">Expert Mentorship</CardTitle>
+                <CardDescription className="text-sm sm:text-base">
+                  Get mentored by industry professionals
                 </CardDescription>
               </CardHeader>
             </Card>
+            
             <Card className="transform hover:scale-105 transition-all duration-300">
-              <CardHeader>
-                <Target className="w-12 h-12 text-[#4A00E0] mb-4" />
-                <CardTitle>Personalized Learning Path</CardTitle>
-                <CardDescription>
-                  Follow a customized curriculum tailored to your goals and current skill level
+              <CardHeader className="space-y-2 text-center sm:text-left">
+                <Target className="w-8 h-8 sm:w-12 sm:h-12 text-[#4A00E0] mx-auto sm:mx-0" />
+                <CardTitle className="text-lg sm:text-xl">Personalized Learning Path</CardTitle>
+                <CardDescription className="text-sm sm:text-base">
+                  Follow a customized curriculum for your goals
                 </CardDescription>
               </CardHeader>
             </Card>
+            
             <Card className="transform hover:scale-105 transition-all duration-300">
-              <CardHeader>
-                <Rocket className="w-12 h-12 text-[#4A00E0] mb-4" />
-                <CardTitle>Career Growth</CardTitle>
-                <CardDescription>
-                  Access job opportunities, resume reviews, and interview preparation support
+              <CardHeader className="space-y-2 text-center sm:text-left">
+                <Rocket className="w-8 h-8 sm:w-12 sm:h-12 text-[#4A00E0] mx-auto sm:mx-0" />
+                <CardTitle className="text-lg sm:text-xl">Career Growth</CardTitle>
+                <CardDescription className="text-sm sm:text-base">
+                  Access job opportunities and interview preparation
                 </CardDescription>
               </CardHeader>
             </Card>
+            
             <Card className="transform hover:scale-105 transition-all duration-300">
-              <CardHeader>
-                <Shield className="w-12 h-12 text-[#4A00E0] mb-4" />
-                <CardTitle>Lifetime Access</CardTitle>
-                <CardDescription>
-                  Get unlimited access to course materials, updates, and our supportive community
+              <CardHeader className="space-y-2 text-center sm:text-left">
+                <Shield className="w-8 h-8 sm:w-12 sm:h-12 text-[#4A00E0] mx-auto sm:mx-0" />
+                <CardTitle className="text-lg sm:text-xl">Lifetime Access</CardTitle>
+                <CardDescription className="text-sm sm:text-base">
+                  Get unlimited access to course materials
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -156,15 +160,15 @@ const Index = () => {
       <CertificationSection />
 
       {/* Programs Section */}
-      <section id="programs-section" className="py-12 md:py-16 px-4 md:px-6 lg:px-8 bg-[#4A00E0]/5">
+      <section id="programs-section" className="py-8 sm:py-12 md:py-16 px-4 sm:px-6 lg:px-8 bg-[#4A00E0]/5">
         <div className="container mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-12">Our Programs</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-6 sm:mb-8 md:mb-12">Our Programs</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
             {programs.map((program) => (
               <ProgramCard key={program.title} program={program} />
             ))}
-            <div className="col-span-1 md:col-span-2 lg:col-span-3 text-center">
-              <p className="text-lg md:text-xl text-gray-600">+24 more programs (30 Programs total)</p>
+            <div className="col-span-1 sm:col-span-2 lg:col-span-3 text-center">
+              <p className="text-base sm:text-lg md:text-xl text-gray-600">+24 more programs (30 Programs total)</p>
             </div>
           </div>
         </div>
