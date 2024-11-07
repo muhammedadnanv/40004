@@ -118,7 +118,7 @@ const Index = () => {
                 <Users className="w-12 h-12 text-[#4A00E0] mb-4" />
                 <CardTitle>Expert Mentorship</CardTitle>
                 <CardDescription>
-                  Learn directly from industry professionals with years of experience in leading tech companies
+                  Get mentored directly by industry professionals with years of experience in leading tech companies
                 </CardDescription>
               </CardHeader>
             </Card>
