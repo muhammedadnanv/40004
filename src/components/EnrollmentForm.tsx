@@ -15,6 +15,7 @@ const formSchema = z.object({
   email: z.string().email("Invalid email address"),
   phone: z.string().min(10, "Phone number must be at least 10 digits"),
   address: z.string().min(10, "Please enter your full address"),
+  couponCode: z.string().optional(),
 });
 
 interface EnrollmentFormProps {
@@ -27,15 +28,42 @@ interface EnrollmentFormProps {
 export const EnrollmentForm = ({ isOpen, onClose, programTitle, amount }: EnrollmentFormProps) => {
   const { toast } = useToast();
   const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [finalAmount, setFinalAmount] = useState(amount);
+  const [couponApplied, setCouponApplied] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
+
+  const handleCouponCode = () => {
+    const couponCode = form.getValues("couponCode");
+    if (couponCode === "ComicFix" && !couponApplied) {
+      setFinalAmount(amount - 500);
+      setCouponApplied(true);
+      toast({
+        title: "Surprise! 🎉",
+        description: "You got ₹500 off on your enrollment!",
+      });
+    } else if (couponApplied) {
+      toast({
+        title: "Coupon already applied",
+        description: "You've already used a coupon code.",
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Invalid coupon",
+        description: "Please enter a valid coupon code.",
+        variant: "destructive",
+      });
+    }
+  };
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
       const options = {
         key: "rzp_live_5JYQnqKRnKhB5y",
-        amount: amount * 100,
+        amount: finalAmount * 100,
         currency: "INR",
         name: "Dev Mentor Hub",
         description: `Enrollment for ${programTitle}`,
@@ -126,6 +154,32 @@ export const EnrollmentForm = ({ isOpen, onClose, programTitle, amount }: Enroll
                     </FormItem>
                   )}
                 />
+                <div className="flex gap-2">
+                  <FormField
+                    control={form.control}
+                    name="couponCode"
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <FormLabel>Coupon Code</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter coupon code" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    className="mt-8"
+                    onClick={handleCouponCode}
+                  >
+                    Apply
+                  </Button>
+                </div>
+                <div className="text-right font-semibold">
+                  Total Amount: ₹{finalAmount}
+                </div>
                 <Button type="submit" className="w-full">Proceed to Payment</Button>
               </form>
             </Form>
