@@ -95,10 +95,10 @@ const Index = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
             {/* Feature Cards */}
             <Card className="transform hover:scale-105 transition-all duration-300">
-              <CardHeader className="space-y-2 text-center sm:text-left">
-                <Award className="w-8 h-8 sm:w-12 sm:h-12 text-[#4A00E0] mx-auto sm:mx-0" />
-                <CardTitle className="text-lg sm:text-xl">Industry-Recognized Certification</CardTitle>
-                <CardDescription className="text-sm sm:text-base">
+              <CardHeader className="space-y-2 text-center sm:text-left p-4 sm:p-6">
+                <Award className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-[#4A00E0] mx-auto sm:mx-0" />
+                <CardTitle className="text-base sm:text-lg md:text-xl">Industry-Recognized Certification</CardTitle>
+                <CardDescription className="text-xs sm:text-sm md:text-base">
                   Earn a prestigious certificate validated by industry experts
                 </CardDescription>
               </CardHeader>
@@ -168,7 +168,7 @@ const Index = () => {
               <ProgramCard key={program.title} program={program} />
             ))}
             <div className="col-span-1 sm:col-span-2 lg:col-span-3 text-center">
-              <p className="text-base sm:text-lg md:text-xl text-gray-600">+24 more programs (30 Programs total)</p>
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600">+24 more programs (30 Programs total)</p>
             </div>
           </div>
         </div>
