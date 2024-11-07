@@ -9,7 +9,7 @@ export const generateAndDownloadPDF = () => {
     
     Thank you for using the coupon code!
     
-    Visit our website: https://devmentorhub.com
+    Visit our website: https://drive.google.com/drive/folders/1aee-AT9y5P6Ldd-xZISMA6YvuincC0OL?usp=sharing
   `;
 
   // Create a Blob with the content
