@@ -21,7 +21,7 @@ export const FAQSection = () => {
           <AccordionItem value="item-3">
             <AccordionTrigger>What career support do you provide?</AccordionTrigger>
             <AccordionContent>
-              Beyond technical training, we offer comprehensive career support including resume building, interview preparation, portfolio development, and job referrals. Our network includes connections with leading tech companies, and we actively help students secure internships and job opportunities.
+              We offer comprehensive career support to help you secure your dream job. Our AI-powered resume checker meticulously reviews your resume, ensuring it meets industry standards and highlights your unique skills effectively. Beyond resume optimization, we provide personalized interview preparation using our AI-driven question bank, crafted to anticipate real interview scenarios. Our AI-powered assistant offers insights and tips to help you confidently tackle complex questions, giving you a distinct advantage. Whether you're refining your resume or preparing to make a strong impression in interviews, we're dedicated to supporting your career journey every step of the way.
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-4">
