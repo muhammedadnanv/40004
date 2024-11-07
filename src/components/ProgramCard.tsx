@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { CheckCircle } from "lucide-react";
 import { useState } from "react";
 import { EnrollmentForm } from "./EnrollmentForm";
+import { ShareProgramCard } from "./ShareProgramCard";
 
 interface ProgramCardProps {
   program: {
@@ -26,6 +27,7 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
             <Badge variant="outline" className="bg-[#4A00E0]/5 text-[#4A00E0] hover:bg-[#4A00E0]/10 transition-colors">
               {program.category}
             </Badge>
+            <ShareProgramCard program={program} />
           </div>
           <CardTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#4A00E0] to-purple-600 group-hover:scale-105 transition-transform">
             {program.title}
