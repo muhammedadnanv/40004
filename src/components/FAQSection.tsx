@@ -7,33 +7,39 @@ export const FAQSection = () => {
         <h2 className="text-2xl md:text-3xl font-bold text-center mb-6 md:mb-8">Frequently Asked Questions</h2>
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1">
-            <AccordionTrigger>What is the program fee?</AccordionTrigger>
+            <AccordionTrigger>What makes this program unique?</AccordionTrigger>
             <AccordionContent>
-              All our programs are available at an affordable price of ₹49. This includes lifetime access to the program content, certification, and community support.
+              Our program stands out through its combination of personalized mentorship, practical project-based learning, and industry-relevant curriculum. You'll work directly with experienced professionals while building a strong portfolio of real-world projects, all at an incredibly accessible price point of ₹49.
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-2">
-            <AccordionTrigger>How do I get started?</AccordionTrigger>
+            <AccordionTrigger>How is the mentorship structured?</AccordionTrigger>
             <AccordionContent>
-              Simply choose your preferred program, complete the enrollment process, and join our WhatsApp community. You'll receive immediate access to the program materials and mentorship support.
+              You'll receive guidance through our WhatsApp community, where mentors provide regular feedback, code reviews, and career advice. We host weekly doubt-clearing sessions, project discussions, and one-on-one mentoring sessions to ensure your continuous growth and learning.
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-3">
-            <AccordionTrigger>What support will I receive?</AccordionTrigger>
+            <AccordionTrigger>What career support do you provide?</AccordionTrigger>
             <AccordionContent>
-              You'll get access to our WhatsApp community where you can interact with mentors and fellow learners. We provide regular guidance, doubt clearing sessions, and project feedback.
+              Beyond technical training, we offer comprehensive career support including resume building, interview preparation, portfolio development, and job referrals. Our network includes connections with leading tech companies, and we actively help students secure internships and job opportunities.
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-4">
-            <AccordionTrigger>How do I get certified?</AccordionTrigger>
+            <AccordionTrigger>How valuable is the certification?</AccordionTrigger>
             <AccordionContent>
-              Complete the program assignments and projects to earn your certification. Our certificates are community-recognized and can be shared on your professional profiles.
+              Our certificates are recognized by industry professionals and validated through practical assessments. They demonstrate not just course completion, but actual project experience and skill mastery. Many of our alumni have successfully used these certificates to advance their careers at top tech companies.
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-5">
-            <AccordionTrigger>Can I access the content after completion?</AccordionTrigger>
+            <AccordionTrigger>What ongoing support do I receive?</AccordionTrigger>
             <AccordionContent>
-              Yes, you get lifetime access to the program content and can revisit the materials anytime. You'll also remain part of our community for continued learning and networking.
+              You'll have lifetime access to our learning materials, community, and regular program updates. As technology evolves, we continuously update our content to ensure you stay current with industry trends. You'll also maintain access to our alumni network for ongoing networking and career opportunities.
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-6">
+            <AccordionTrigger>How do you ensure quality learning?</AccordionTrigger>
+            <AccordionContent>
+              Our curriculum is designed by industry experts and regularly updated to reflect current market demands. We maintain small mentor-to-student ratios, provide personalized feedback, and ensure hands-on experience through real-world projects. Our success is measured by your growth and career achievements.
             </AccordionContent>
           </AccordionItem>
         </Accordion>

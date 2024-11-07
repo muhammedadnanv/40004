@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Award, BookOpen } from "lucide-react";
+import { Award, BookOpen, Users, Target, Rocket, Shield } from "lucide-react";
 import { ProgramCard } from "@/components/ProgramCard";
 import { HeroSection } from "@/components/HeroSection";
 import { CertificationSection } from "@/components/CertificationSection";
@@ -94,22 +94,58 @@ const Index = () => {
       <section className="py-12 md:py-16 px-4 md:px-6 lg:px-8">
         <div className="container mx-auto">
           <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-12">Why Choose Dev Mentorship?</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-            <Card>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            <Card className="transform hover:scale-105 transition-all duration-300">
               <CardHeader>
                 <Award className="w-12 h-12 text-[#4A00E0] mb-4" />
-                <CardTitle>Certification</CardTitle>
+                <CardTitle>Industry-Recognized Certification</CardTitle>
                 <CardDescription>
-                  Receive a community-recognized certificate upon program completion
+                  Earn a prestigious certificate validated by industry experts and recognized by top tech companies
                 </CardDescription>
               </CardHeader>
             </Card>
-            <Card>
+            <Card className="transform hover:scale-105 transition-all duration-300">
               <CardHeader>
                 <BookOpen className="w-12 h-12 text-[#4A00E0] mb-4" />
-                <CardTitle>Practical Learning</CardTitle>
+                <CardTitle>Hands-on Experience</CardTitle>
                 <CardDescription>
-                  Work on real projects and build a strong portfolio
+                  Build real-world projects using cutting-edge technologies and AI tools that employers value
+                </CardDescription>
+              </CardHeader>
+            </Card>
+            <Card className="transform hover:scale-105 transition-all duration-300">
+              <CardHeader>
+                <Users className="w-12 h-12 text-[#4A00E0] mb-4" />
+                <CardTitle>Expert Mentorship</CardTitle>
+                <CardDescription>
+                  Learn directly from industry professionals with years of experience in leading tech companies
+                </CardDescription>
+              </CardHeader>
+            </Card>
+            <Card className="transform hover:scale-105 transition-all duration-300">
+              <CardHeader>
+                <Target className="w-12 h-12 text-[#4A00E0] mb-4" />
+                <CardTitle>Personalized Learning Path</CardTitle>
+                <CardDescription>
+                  Follow a customized curriculum tailored to your goals and current skill level
+                </CardDescription>
+              </CardHeader>
+            </Card>
+            <Card className="transform hover:scale-105 transition-all duration-300">
+              <CardHeader>
+                <Rocket className="w-12 h-12 text-[#4A00E0] mb-4" />
+                <CardTitle>Career Growth</CardTitle>
+                <CardDescription>
+                  Access job opportunities, resume reviews, and interview preparation support
+                </CardDescription>
+              </CardHeader>
+            </Card>
+            <Card className="transform hover:scale-105 transition-all duration-300">
+              <CardHeader>
+                <Shield className="w-12 h-12 text-[#4A00E0] mb-4" />
+                <CardTitle>Lifetime Access</CardTitle>
+                <CardDescription>
+                  Get unlimited access to course materials, updates, and our supportive community
                 </CardDescription>
               </CardHeader>
             </Card>
