@@ -9,13 +9,13 @@ export const FAQSection = () => {
           <AccordionItem value="item-1">
             <AccordionTrigger>What makes this program unique?</AccordionTrigger>
             <AccordionContent>
-              Our program stands out through its combination of personalized mentorship, practical project-based learning, and industry-relevant curriculum. You'll work directly with experienced professionals while building a strong portfolio of real-world projects, all at an incredibly accessible price point of ₹49.
+              Our program stands out through its combination of personalized mentorship, practical project-based development, and industry-relevant curriculum. You'll work directly with experienced professionals while building a strong portfolio of real-world projects, all at an incredibly accessible price point of ₹49.
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-2">
             <AccordionTrigger>How is the mentorship structured?</AccordionTrigger>
             <AccordionContent>
-              You'll receive guidance through our WhatsApp community, where mentors provide regular feedback, code reviews, and career advice. We host weekly doubt-clearing sessions, project discussions, and one-on-one mentoring sessions to ensure your continuous growth and learning.
+              You'll receive guidance through our WhatsApp community, where mentors provide regular feedback, code reviews, and career advice. We host weekly doubt-clearing sessions, project discussions, and one-on-one mentoring sessions to ensure your continuous growth and development.
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-3">
@@ -33,11 +33,11 @@ export const FAQSection = () => {
           <AccordionItem value="item-5">
             <AccordionTrigger>What ongoing support do I receive?</AccordionTrigger>
             <AccordionContent>
-              You'll have lifetime access to our learning materials, community, and regular program updates. As technology evolves, we continuously update our content to ensure you stay current with industry trends. You'll also maintain access to our alumni network for ongoing networking and career opportunities.
+              You'll have lifetime access to our materials, community, and regular program updates. As technology evolves, we continuously update our content to ensure you stay current with industry trends. You'll also maintain access to our alumni network for ongoing networking and career opportunities.
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-6">
-            <AccordionTrigger>How do you ensure quality learning?</AccordionTrigger>
+            <AccordionTrigger>How do you ensure quality mentorship?</AccordionTrigger>
             <AccordionContent>
               Our curriculum is designed by industry experts and regularly updated to reflect current market demands. We maintain small mentor-to-student ratios, provide personalized feedback, and ensure hands-on experience through real-world projects. Our success is measured by your growth and career achievements.
             </AccordionContent>

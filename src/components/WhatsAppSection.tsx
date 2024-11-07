@@ -13,7 +13,7 @@ export const WhatsAppSection = () => {
               <CardTitle className="text-xl md:text-2xl">Join Our Community</CardTitle>
             </div>
             <CardDescription className="text-base md:text-lg mt-2">
-              Connect with fellow learners and mentors in our WhatsApp group
+              Connect with fellow developers and mentors in our WhatsApp group
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
@@ -25,7 +25,7 @@ export const WhatsAppSection = () => {
                   <ul className="list-disc pl-6 mt-2">
                     <li>Your name</li>
                     <li>Which program you enrolled in</li>
-                    <li>Your learning goals</li>
+                    <li>Your development goals</li>
                   </ul>
                 </li>
                 <li>Share your payment confirmation screenshot</li>

@@ -13,7 +13,7 @@ export const HeroSection = () => {
         <div className="flex items-center justify-center gap-2 mb-8 bg-white/80 backdrop-blur-sm py-3 px-4 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 border border-[#4A00E0]/10">
           <Info className="w-5 h-5 text-[#4A00E0] animate-pulse" />
           <p className="text-sm md:text-base text-gray-700">
-            The Dev Mentorship Program is not just about enhancing your technical skills; it's about investing in your future.
+            The Dev Mentorship Program is not just about technical skills; it's about investing in your future.
           </p>
         </div>
         <div className="max-w-3xl mx-auto text-center space-y-8">
