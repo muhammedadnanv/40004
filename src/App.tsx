@@ -1,31 +1,23 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
-import { toast } from "sonner";
+import { Toaster } from "@/components/ui/toaster";
+import { startMarketingRecommendations } from "./utils/marketingRecommendations";
 
-const queryClient = new QueryClient();
+function App() {
+  useEffect(() => {
+    // Initialize marketing recommendations system
+    startMarketingRecommendations();
+  }, []);
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Index />} />
+      </Routes>
       <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="*" element={
-            <>
-              {toast.error("Page not found, redirecting to home...")}
-              <Navigate to="/" replace />
-            </>
-          } />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+    </Router>
+  );
+}
 
 export default App;
