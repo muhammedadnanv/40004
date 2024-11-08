@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, ExternalLink } from "lucide-react";
 import { useState, useEffect } from "react";
 import { EnrollmentForm } from "./EnrollmentForm";
 import { ShareProgramCard } from "./ShareProgramCard";
@@ -81,6 +81,16 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
           >
             Enroll Now
           </Button>
+          <div className="relative">
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
+            <Button 
+              variant="link" 
+              className="w-full mt-2 text-[10px] sm:text-xs md:text-sm text-gray-600 hover:text-[#4A00E0] flex items-center justify-center gap-1"
+              onClick={() => window.open('https://www.mygreatlearning.com/academy?referrer_code=GLL44ZJATMMKQ', '_blank')}
+            >
+              Learn for Free <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4" />
+            </Button>
+          </div>
         </CardFooter>
       </Card>
 
