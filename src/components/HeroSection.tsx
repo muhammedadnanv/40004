@@ -14,7 +14,10 @@ export const HeroSection = () => {
         <p className="text-lg sm:text-xl mb-8">Your journey to mastering the world of technology starts here.</p>
         
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Button onClick={scrollToPrograms} className="bg-[#4A00E0] text-white rounded-md px-6 py-3 w-full sm:w-auto">
+          <Button 
+            onClick={scrollToPrograms} 
+            className="bg-[#4A00E0] text-white rounded-md px-6 py-3 w-full sm:w-[200px] h-[48px] text-sm sm:text-base"
+          >
             Explore Programs
           </Button>
           
@@ -22,7 +25,7 @@ export const HeroSection = () => {
             href="https://www.mygreatlearning.com/academy?referrer_code=GLL44ZJATMMKQ"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 w-full sm:w-auto text-sm sm:text-base bg-gradient-to-r from-[#4A00E0] to-blue-500 text-white rounded-md hover:opacity-90 transition-opacity"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 w-full sm:w-[200px] h-[48px] text-sm sm:text-base bg-gradient-to-r from-[#4A00E0] to-blue-500 text-white rounded-md hover:opacity-90 transition-opacity"
           >
             <span>Learn Everything for Free</span>
             <ExternalLink className="w-4 h-4" />
