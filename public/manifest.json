@@ -1,0 +1,21 @@
+{
+  "name": "Dev Mentor Hub",
+  "short_name": "DevMentor",
+  "description": "AI-Powered Development Mentorship Platform",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#4A00E0",
+  "theme_color": "#4A00E0",
+  "icons": [
+    {
+      "src": "https://i.ibb.co/wy6KYyT/DALL-E-2024-11-07-14-58-28-A-professional-and-modern-logo-for-Dev-Mentor-a-mentorship-platform-in-te.webp",
+      "sizes": "192x192",
+      "type": "image/webp"
+    },
+    {
+      "src": "https://i.ibb.co/wy6KYyT/DALL-E-2024-11-07-14-58-28-A-professional-and-modern-logo-for-Dev-Mentor-a-mentorship-platform-in-te.webp",
+      "sizes": "512x512",
+      "type": "image/webp"
+    }
+  ]
+}
