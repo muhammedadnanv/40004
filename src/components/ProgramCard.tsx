@@ -2,9 +2,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { EnrollmentForm } from "./EnrollmentForm";
 import { ShareProgramCard } from "./ShareProgramCard";
+import { showImmediateJoinNotification, showProgramPopularityNotification } from "@/utils/mockNotifications";
 
 interface ProgramCardProps {
   program: {
@@ -18,6 +19,22 @@ interface ProgramCardProps {
 
 export const ProgramCard = ({ program }: ProgramCardProps) => {
   const [showEnrollmentForm, setShowEnrollmentForm] = useState(false);
+
+  useEffect(() => {
+    // Show program popularity notification randomly
+    const randomDelay = Math.floor(Math.random() * 30000) + 20000; // Random delay between 20-50 seconds
+    const timer = setTimeout(() => {
+      showProgramPopularityNotification(program.title);
+    }, randomDelay);
+
+    return () => clearTimeout(timer);
+  }, [program.title]);
+
+  const handleEnrollClick = () => {
+    setShowEnrollmentForm(true);
+    // Show immediate join notification
+    showImmediateJoinNotification(program.title);
+  };
 
   return (
     <>
@@ -60,7 +77,7 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
           <p className="text-sm sm:text-base md:text-lg lg:text-2xl font-bold text-[#4A00E0]">₹49</p>
           <Button 
             className="w-full bg-[#4A00E0] hover:bg-[#4A00E0]/90 transform hover:scale-105 transition-all duration-300 shadow-md hover:shadow-lg text-[10px] sm:text-xs md:text-sm py-1 sm:py-1.5 md:py-2"
-            onClick={() => setShowEnrollmentForm(true)}
+            onClick={handleEnrollClick}
           >
             Enroll Now
           </Button>
