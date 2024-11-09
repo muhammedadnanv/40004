@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Award, BookOpen, Users, Target, Rocket, Shield } from "lucide-react";
+import { Award, BookOpen, Users, Target } from "lucide-react";
 import { ProgramCard } from "@/components/ProgramCard";
 import { HeroSection } from "@/components/HeroSection";
 import { CertificationSection } from "@/components/CertificationSection";
@@ -27,53 +27,32 @@ const Index = () => {
 
   const programs = [
     {
-      title: "Frontend Development",
-      description: "Master AI-powered modern web development with React",
+      title: "Beginner Web Development Journey",
+      description: "Start your coding journey with guided project-based learning in HTML, CSS, and JavaScript",
       duration: "12 weeks",
-      skills: ["JavaScript", "AIScript", "CSS", "HTML"],
+      skills: ["HTML", "CSS", "JavaScript", "Git"],
       category: "Web Development"
     },
     {
-      title: "AI + Web Design",
-      description: "Create AI-powered web designs and interfaces",
+      title: "Frontend Development Basics",
+      description: "Build your first React applications with step-by-step guidance",
       duration: "10 weeks",
-      skills: ["AI Tools", "UI/UX", "Web Design"],
-      category: "Design"
+      skills: ["React", "CSS", "Component Design", "State Management"],
+      category: "Frontend"
     },
     {
-      title: "AI Prompt Creation Mastery",
-      description: "Learn to craft powerful AI prompts for various use cases",
-      duration: "6 weeks",
-      skills: ["Prompt Engineering", "ChatGPT", "Claude", "Anthropic"],
-      category: "AI"
+      title: "Backend Fundamentals",
+      description: "Learn backend development through practical projects",
+      duration: "12 weeks",
+      skills: ["Node.js", "Express", "MongoDB", "API Design"],
+      category: "Backend"
     },
     {
-      title: "AI Prompt + Supabase",
-      description: "Build AI applications with database integration",
-      duration: "8 weeks",
-      skills: ["Supabase", "AI Integration", "Database Design", "API Development"],
-      category: "AI Development"
-    },
-    {
-      title: "Code Without Code",
-      description: "Build full applications using no-code tools and AI",
-      duration: "10 weeks",
-      skills: ["No-Code Tools", "Automation", "AI Integration", "Visual Development"],
-      category: "No-Code"
-    },
-    {
-      title: "AI Prompt Specialist",
-      description: "Master the art of crafting effective AI prompts",
-      duration: "8 weeks",
-      skills: ["Prompt Engineering", "GPT", "DALL-E", "Midjourney"],
-      category: "AI"
-    },
-    {
-      title: "No-Code AI Tools",
-      description: "Build AI-powered applications without coding",
-      duration: "6 weeks",
-      skills: ["Bubble", "Adalo", "FlutterFlow", "AI Integration"],
-      category: "No-Code"
+      title: "Full Stack Project Builder",
+      description: "Create complete web applications from scratch with mentor guidance",
+      duration: "16 weeks",
+      skills: ["MERN Stack", "Database Design", "Authentication", "Deployment"],
+      category: "Full Stack"
     }
   ];
 
@@ -81,45 +60,40 @@ const Index = () => {
     <div className="min-h-screen bg-white">
       <HeroSection />
       
-      {/* Features Section */}
       <section className="py-24 px-4">
         <div className="container mx-auto max-w-5xl">
-          <h2 className="text-2xl font-light text-center mb-16">Why Choose Dev Mentorship?</h2>
+          <h2 className="text-2xl font-light text-center mb-16">Why Choose Our Mentorship Program?</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Feature Cards */}
             <Card className="border-0 shadow-none">
               <CardHeader className="space-y-4">
                 <Award className="w-8 h-8 text-black" />
-                <CardTitle className="text-lg font-light">Industry-Recognized Certification</CardTitle>
-                <CardDescription>Earn a prestigious certificate validated by industry experts</CardDescription>
+                <CardTitle className="text-lg font-light">Structured Learning Path</CardTitle>
+                <CardDescription>Follow a clear roadmap with practical projects designed for beginners</CardDescription>
               </CardHeader>
             </Card>
             
             <Card className="border-0 shadow-none">
               <CardHeader className="space-y-4">
                 <BookOpen className="w-8 h-8 text-black" />
-                <CardTitle className="text-lg font-light">Hands-on Experience</CardTitle>
-                <CardDescription>Build real-world projects using cutting-edge technologies</CardDescription>
+                <CardTitle className="text-lg font-light">Project-Based Learning</CardTitle>
+                <CardDescription>Build real projects with guidance from experienced mentors</CardDescription>
               </CardHeader>
             </Card>
             
             <Card className="border-0 shadow-none">
               <CardHeader className="space-y-4">
                 <Users className="w-8 h-8 text-black" />
-                <CardTitle className="text-lg font-light">Expert Mentorship</CardTitle>
-                <CardDescription>Get mentored by industry professionals</CardDescription>
+                <CardTitle className="text-lg font-light">1-on-1 Mentorship</CardTitle>
+                <CardDescription>Get personalized guidance and code reviews from industry experts</CardDescription>
               </CardHeader>
             </Card>
           </div>
         </div>
       </section>
 
-      <CertificationSection />
-
-      {/* Programs Section */}
       <section id="programs-section" className="py-24 px-4 bg-gray-50">
         <div className="container mx-auto max-w-6xl">
-          <h2 className="text-2xl font-light text-center mb-16">Our Programs</h2>
+          <h2 className="text-2xl font-light text-center mb-16">Beginner-Friendly Programs</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
             {programs.map((program) => (
               <ProgramCard key={program.title} program={program} />
