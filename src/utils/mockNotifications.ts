@@ -23,25 +23,42 @@ const getUserLocalTime = () => {
   });
 };
 
-// List of realistic names for notifications
-const realisticNames = [
-  "Arjun Kumar",
-  "Priya Patel",
-  "Rahul Sharma",
-  "Neha Singh",
-  "Amit Verma",
-  "Deepika Reddy",
-  "Vikram Malhotra",
-  "Ananya Desai"
+// List of diverse names from around the world
+const globalNames = [
+  // Asia
+  "Arjun Kumar", "Priya Patel", "Zhang Wei", "Li Na", "Kim Min-ji", "Park Ji-sung",
+  "Nguyen Thi Mai", "Abdullah Al-Rahman", "Fatima Al-Sayed",
+  
+  // Europe
+  "Sofia Müller", "Giovanni Romano", "Pierre Dubois", "Ana García", "Ivan Petrov",
+  "Maria Kowalski", "Anders Nielsen", "Elena Popov",
+  
+  // Americas
+  "James Smith", "Isabella Rodriguez", "Miguel Santos", "Sarah Johnson",
+  "Carlos Hernandez", "Emily Thompson", "José Silva",
+  
+  // Africa
+  "Kwame Mensah", "Chioma Okafor", "Amir Mohammed", "Zainab Ibrahim",
+  "Thabo Ndlovu", "Amara Diallo", "Omar Farah",
+  
+  // Oceania
+  "Jack Wilson", "Maia Williams", "Tane Hohepa", "Aroha Smith",
+  "Leilani Miller", "Koa Thompson"
 ];
 
-const getRandomNames = (count: number) => {
-  const shuffled = [...realisticNames].sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, count);
+let nameIndex = 0;
+
+const getNextNames = (count: number) => {
+  const names = [];
+  for (let i = 0; i < count; i++) {
+    names.push(globalNames[nameIndex]);
+    nameIndex = (nameIndex + 1) % globalNames.length; // Loop back to start when reaching the end
+  }
+  return names;
 };
 
 export const showRandomJoinNotification = () => {
-  const selectedNames = getRandomNames(3);
+  const selectedNames = getNextNames(3);
   
   toast({
     title: `${getGreeting()} 👋`,
@@ -84,7 +101,7 @@ export const showImmediateJoinNotification = (programTitle: string) => {
     "This program perfectly matches your interests!" : 
     "Explore something new!";
 
-  const selectedNames = getRandomNames(2);
+  const selectedNames = getNextNames(2);
 
   toast({
     title: `${matchLevel} ✨`,
