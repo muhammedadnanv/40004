@@ -42,6 +42,41 @@ export const FAQSection = () => {
               Our curriculum is designed by industry experts and regularly updated to reflect current market demands. We maintain small mentor-to-student ratios, provide personalized feedback, and ensure hands-on experience through real-world projects. Our success is measured by your growth and career achievements.
             </AccordionContent>
           </AccordionItem>
+
+          <AccordionItem value="item-7">
+            <AccordionTrigger>What technologies and tools will I learn?</AccordionTrigger>
+            <AccordionContent>
+              Our program covers a wide range of modern technologies including React, Node.js, Python, AI/ML frameworks, cloud platforms (AWS, Azure, GCP), and DevOps tools. The specific technologies will be tailored to your chosen path and career goals, ensuring you learn what's most relevant for your future.
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="item-8">
+            <AccordionTrigger>Can I switch between different learning paths?</AccordionTrigger>
+            <AccordionContent>
+              Yes, you have the flexibility to explore different paths within your program duration. We understand that interests may evolve as you learn, and our mentors will help you transition between paths while ensuring you maintain a strong foundation in your core areas of interest.
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="item-9">
+            <AccordionTrigger>What if I have a busy schedule?</AccordionTrigger>
+            <AccordionContent>
+              Our program is designed to be flexible and accommodating to different schedules. You can learn at your own pace, and mentorship sessions can be scheduled at times that work best for you. We recommend dedicating at least 5-10 hours per week for optimal progress.
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="item-10">
+            <AccordionTrigger>Is there a community of learners I can connect with?</AccordionTrigger>
+            <AccordionContent>
+              Absolutely! You'll be part of an active community of learners through our WhatsApp groups and online forums. This provides opportunities for peer learning, networking, collaboration on projects, and sharing experiences. Many students form lasting professional connections through these community interactions.
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="item-11">
+            <AccordionTrigger>What happens after I complete the program?</AccordionTrigger>
+            <AccordionContent>
+              After completion, you'll receive a verified certification and continue to have access to our alumni network and resources. We also provide ongoing support for job searching, interview preparation, and career advancement. Many of our alumni stay connected as mentors, creating a growing ecosystem of tech professionals.
+            </AccordionContent>
+          </AccordionItem>
         </Accordion>
       </div>
     </section>
