@@ -28,7 +28,7 @@ export const HeroSection = () => {
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 px-6 py-2 w-full sm:w-auto text-sm border border-gray-200 rounded-md hover:bg-gray-50 transition-colors font-light"
           >
-            Learn <ExternalLink className="w-4 h-4" />
+            Learn Free <ExternalLink className="w-4 h-4" />
           </a>
         </div>
       </div>
