@@ -79,7 +79,7 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
             className="w-full text-xs text-gray-500 hover:text-gray-800 font-light"
             onClick={() => window.open('https://www.mygreatlearning.com/academy?referrer_code=GLL44ZJATMMKQ', '_blank')}
           >
-            Learn for Free <ExternalLink className="w-3 h-3 ml-1" />
+            Learn <ExternalLink className="w-3 h-3 ml-1" />
           </Button>
         </CardFooter>
       </Card>
