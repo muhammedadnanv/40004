@@ -12,18 +12,8 @@ import { showRandomJoinNotification } from "@/utils/mockNotifications";
 
 const Index = () => {
   useEffect(() => {
-    const initialTimeout = setTimeout(() => {
-      showRandomJoinNotification();
-    }, 2000);
-
-    const interval = setInterval(() => {
-      showRandomJoinNotification();
-    }, 15000);
-
-    return () => {
-      clearTimeout(initialTimeout);
-      clearInterval(interval);
-    };
+    // Start the real-time notifications immediately
+    showRandomJoinNotification();
   }, []);
 
   const programs = [

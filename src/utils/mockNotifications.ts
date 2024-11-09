@@ -14,11 +14,12 @@ const getGreeting = () => {
   return "Good evening";
 };
 
-// Get user's local time
+// Get user's local time with seconds for real-time feel
 const getUserLocalTime = () => {
   return new Date().toLocaleTimeString('en-US', { 
     hour: 'numeric', 
     minute: 'numeric',
+    second: 'numeric',
     hour12: true 
   });
 };
@@ -46,26 +47,37 @@ const globalNames = [
   "Leilani Miller", "Koa Thompson"
 ];
 
+// Dynamic timing for notifications
+const getRandomInterval = () => Math.floor(Math.random() * (8000 - 3000) + 3000);
+
 let nameIndex = 0;
+let lastNotificationTime = Date.now();
 
 const getNextNames = (count: number) => {
   const names = [];
   for (let i = 0; i < count; i++) {
     names.push(globalNames[nameIndex]);
-    nameIndex = (nameIndex + 1) % globalNames.length; // Loop back to start when reaching the end
+    nameIndex = (nameIndex + 1) % globalNames.length;
   }
   return names;
 };
 
 export const showRandomJoinNotification = () => {
-  const selectedNames = getNextNames(3);
+  const currentTime = Date.now();
+  if (currentTime - lastNotificationTime < 3000) return; // Prevent notification spam
+  
+  lastNotificationTime = currentTime;
+  const selectedNames = getNextNames(Math.floor(Math.random() * 2) + 1);
   
   toast({
     title: `${getGreeting()} 👋`,
-    description: `${selectedNames.join(', ')} just joined our learning community!`,
+    description: `${selectedNames.join(', ')} just joined our learning community! (${getUserLocalTime()})`,
     duration: 4000,
     className: "bg-gradient-to-r from-blue-500/10 to-purple-500/10 border-blue-500/20",
   });
+
+  // Schedule next notification
+  setTimeout(showRandomJoinNotification, getRandomInterval());
 };
 
 export const showPersonalizedRecommendation = () => {
@@ -79,7 +91,7 @@ export const showPersonalizedRecommendation = () => {
   
   toast({
     title: `${greeting}, learner! 👋`,
-    description: `Based on your interests: "${topRecommendation.name}" might be perfect for you!`,
+    description: `Based on your interests: "${topRecommendation.name}" might be perfect for you! (${getUserLocalTime()})`,
     duration: 6000,
     className: "bg-gradient-to-r from-blue-500/10 to-purple-500/10 border-blue-500/20",
   });
