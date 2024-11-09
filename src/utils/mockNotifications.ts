@@ -6,15 +6,39 @@ import {
   getMockUsers
 } from "./mockDatabase";
 
-// Helper function to get time-appropriate greeting
+// Helper function to get time-appropriate greeting with more variations
 const getGreeting = () => {
   const hour = new Date().getHours();
-  if (hour < 12) return "Good morning";
-  if (hour < 18) return "Good afternoon";
-  return "Good evening";
+  
+  // Early morning (12 AM - 5 AM)
+  if (hour >= 0 && hour < 5) {
+    const lateNightGreetings = ["Still up? 🌙", "Night owl! ✨", "Working late? 🌠"];
+    return lateNightGreetings[Math.floor(Math.random() * lateNightGreetings.length)];
+  }
+  
+  // Morning (5 AM - 11:59 AM)
+  if (hour < 12) {
+    const morningGreetings = ["Good morning ☀️", "Rise and shine! 🌅", "Morning! ☕", "Hello sunshine! 🌞"];
+    return morningGreetings[Math.floor(Math.random() * morningGreetings.length)];
+  }
+  
+  // Afternoon (12 PM - 4:59 PM)
+  if (hour < 17) {
+    const afternoonGreetings = ["Good afternoon 🌤️", "Having a good day? 🌈", "Afternoon! 🌺", "Hello! 👋"];
+    return afternoonGreetings[Math.floor(Math.random() * afternoonGreetings.length)];
+  }
+  
+  // Evening (5 PM - 8:59 PM)
+  if (hour < 21) {
+    const eveningGreetings = ["Good evening 🌆", "Evening! ⭐", "Hi there! 🌙", "Lovely evening! 🌅"];
+    return eveningGreetings[Math.floor(Math.random() * eveningGreetings.length)];
+  }
+  
+  // Night (9 PM - 11:59 PM)
+  const nightGreetings = ["Good night 🌙", "Winding down? ✨", "Night time! 🌠", "Evening! 🌃"];
+  return nightGreetings[Math.floor(Math.random() * nightGreetings.length)];
 };
 
-// Get user's local time with seconds for real-time feel
 const getUserLocalTime = () => {
   return new Date().toLocaleTimeString('en-US', { 
     hour: 'numeric', 
@@ -70,7 +94,7 @@ export const showRandomJoinNotification = () => {
   const selectedNames = getNextNames(Math.floor(Math.random() * 2) + 1);
   
   toast({
-    title: `${getGreeting()} 👋`,
+    title: `${getGreeting()}`,
     description: `${selectedNames.join(', ')} just joined our learning community! (${getUserLocalTime()})`,
     duration: 4000,
     className: "bg-gradient-to-r from-blue-500/10 to-purple-500/10 border-blue-500/20",
