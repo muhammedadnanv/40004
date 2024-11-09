@@ -36,24 +36,24 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
 
   return (
     <>
-      <Card className="flex flex-col h-full transition-all duration-300 hover:shadow-sm border-gray-100">
-        <CardHeader className="space-y-2 p-6">
-          <Badge variant="secondary" className="w-fit text-xs font-normal bg-gray-50 text-gray-600 hover:bg-gray-100">
+      <Card className="border-0 shadow-none hover:bg-gray-50 transition-colors duration-300">
+        <CardHeader className="space-y-4">
+          <Badge variant="secondary" className="w-fit text-xs font-light bg-gray-100 text-gray-600 hover:bg-gray-200">
             {program.category}
           </Badge>
-          <CardTitle className="text-lg font-medium">{program.title}</CardTitle>
-          <CardDescription className="text-sm text-gray-500">{program.description}</CardDescription>
+          <CardTitle className="text-xl font-light">{program.title}</CardTitle>
+          <CardDescription className="text-sm">{program.description}</CardDescription>
         </CardHeader>
         
-        <CardContent className="flex-grow space-y-4 px-6">
+        <CardContent className="space-y-6">
           <div>
-            <p className="text-sm text-gray-600 mb-2">Duration: {program.duration}</p>
-            <div className="flex flex-wrap gap-1.5">
+            <p className="text-sm text-gray-600 mb-4">Duration: {program.duration}</p>
+            <div className="flex flex-wrap gap-2">
               {program.skills.map((skill) => (
                 <Badge 
                   key={skill} 
                   variant="outline"
-                  className="text-xs font-normal"
+                  className="text-xs font-light"
                 >
                   {skill}
                 </Badge>
@@ -66,20 +66,20 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
           </div>
         </CardContent>
 
-        <CardFooter className="flex flex-col gap-3 p-6 border-t">
+        <CardFooter className="flex flex-col gap-4 pt-6">
           <p className="text-lg font-light">₹49</p>
           <Button 
-            className="w-full bg-black hover:bg-gray-800 text-sm font-normal"
+            className="w-full bg-black hover:bg-gray-900 text-sm font-light"
             onClick={handleEnrollClick}
           >
             Enroll Now
           </Button>
           <Button 
             variant="ghost"
-            className="w-full text-xs text-gray-500 hover:text-gray-800 flex items-center justify-center gap-1"
+            className="w-full text-xs text-gray-500 hover:text-gray-800 font-light"
             onClick={() => window.open('https://www.mygreatlearning.com/academy?referrer_code=GLL44ZJATMMKQ', '_blank')}
           >
-            Learn for Free <ExternalLink className="w-3 h-3" />
+            Learn for Free <ExternalLink className="w-3 h-3 ml-1" />
           </Button>
         </CardFooter>
       </Card>
