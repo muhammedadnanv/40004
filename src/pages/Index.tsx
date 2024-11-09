@@ -28,28 +28,28 @@ const Index = () => {
   const programs = [
     {
       title: "AI Prompt Engineering Mastery",
-      description: "Master the art of crafting effective AI prompts. Learn prompt engineering techniques, best practices, and how to get the most out of AI models. Weekly assignments and personalized feedback from experienced mentors.",
+      description: "Join our structured mentorship program focused on AI prompt engineering. You'll receive weekly assignments with clear objectives and get personalized feedback from your dedicated mentor. No courses or videos - just practical tasks and expert guidance.",
       duration: "8 weeks",
       skills: ["Prompt Engineering", "AI Models", "Content Generation", "Problem Solving"],
       category: "AI Development"
     },
     {
       title: "AI + Supabase Integration",
-      description: "Learn to build AI-powered applications with Supabase backend. Get weekly tasks to create applications that combine AI capabilities with database management, authentication, and real-time features.",
+      description: "Get hands-on experience through weekly tasks in AI and Supabase integration. Your mentor will guide you through each assignment, providing detailed feedback and support. Pure mentorship with practical assignments - no courses included.",
       duration: "12 weeks",
       skills: ["Supabase", "AI Integration", "Database Design", "API Development"],
       category: "Full Stack AI"
     },
     {
       title: "No-Code Development",
-      description: "Build powerful applications without writing code. Learn to use popular no-code platforms and tools. Get weekly projects and guidance on creating functional applications using drag-and-drop interfaces.",
+      description: "Learn through doing with our task-based mentorship program. Each week, your mentor will assign practical no-code projects and provide personalized guidance. Focus on hands-on learning with expert feedback - no traditional courses.",
       duration: "10 weeks",
       skills: ["No-Code Tools", "Visual Development", "Automation", "App Design"],
       category: "No-Code"
     },
     {
       title: "Frontend Development with Low-Code",
-      description: "Create modern web interfaces using low-code platforms while understanding the fundamentals. Weekly assignments focus on building responsive and interactive web applications with minimal coding.",
+      description: "Get weekly assignments focused on low-code frontend development. Your mentor will provide clear tasks and personalized feedback on your work. Pure mentorship approach - no courses, just practical learning with expert guidance.",
       duration: "10 weeks",
       skills: ["Low-Code Platforms", "UI Design", "Web Development", "Component Building"],
       category: "Low-Code"
@@ -62,7 +62,7 @@ const Index = () => {
       
       <section className="py-24 px-4">
         <div className="container mx-auto max-w-5xl">
-          <h2 className="text-2xl font-light text-center mb-16">Why Choose Our Mentorship Program?</h2>
+          <h2 className="text-2xl font-light text-center mb-16">Our Task-Based Mentorship Approach</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             <Card className="border-0 shadow-none">
               <CardHeader className="space-y-4">
