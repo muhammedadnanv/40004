@@ -36,12 +36,17 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
 
   return (
     <>
-      <Card className="border-0 shadow-none hover:bg-gray-50 transition-colors duration-300">
+      <Card className="group border-0 shadow-material-1 hover:shadow-material-3 transition-shadow duration-300 ease-in-out animate-scale-in">
         <CardHeader className="space-y-4">
-          <Badge variant="secondary" className="w-fit text-xs font-light bg-gray-100 text-gray-600 hover:bg-gray-200">
+          <Badge 
+            variant="secondary" 
+            className="w-fit text-xs font-light bg-primary/5 text-primary hover:bg-primary/10 transition-colors"
+          >
             {program.category}
           </Badge>
-          <CardTitle className="text-xl font-light">{program.title}</CardTitle>
+          <CardTitle className="text-xl font-light group-hover:text-primary transition-colors">
+            {program.title}
+          </CardTitle>
           <CardDescription className="text-sm">{program.description}</CardDescription>
         </CardHeader>
         
@@ -53,14 +58,14 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
                 <Badge 
                   key={skill} 
                   variant="outline"
-                  className="text-xs font-light"
+                  className="text-xs font-light border-primary/20 text-primary/80"
                 >
                   {skill}
                 </Badge>
               ))}
             </div>
           </div>
-          <div className="flex items-center gap-2 text-gray-600">
+          <div className="flex items-center gap-2 text-primary">
             <CheckCircle className="w-4 h-4" />
             <span className="text-xs">Certificate Included</span>
           </div>
@@ -69,17 +74,17 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
         <CardFooter className="flex flex-col gap-4 pt-6">
           <p className="text-lg font-light">₹49</p>
           <Button 
-            className="w-full bg-black hover:bg-gray-900 text-sm font-light"
+            className="w-full bg-primary hover:bg-primary/90 text-sm font-light shadow-material-1 hover:shadow-material-2 transition-all duration-300"
             onClick={handleEnrollClick}
           >
             Enroll Now
           </Button>
           <Button 
             variant="ghost"
-            className="w-full text-xs text-gray-500 hover:text-gray-800 font-light"
+            className="w-full text-xs text-gray-500 hover:text-primary font-light group"
             onClick={() => window.open('https://www.mygreatlearning.com/academy?referrer_code=GLL44ZJATMMKQ', '_blank')}
           >
-            Learn <ExternalLink className="w-3 h-3 ml-1" />
+            Learn <ExternalLink className="w-3 h-3 ml-1 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </Button>
         </CardFooter>
       </Card>
