@@ -41,6 +41,27 @@ const Index = () => {
       category: "Design"
     },
     {
+      title: "AI Prompt Creation Mastery",
+      description: "Learn to craft powerful AI prompts for various use cases",
+      duration: "6 weeks",
+      skills: ["Prompt Engineering", "ChatGPT", "Claude", "Anthropic"],
+      category: "AI"
+    },
+    {
+      title: "AI Prompt + Supabase",
+      description: "Build AI applications with database integration",
+      duration: "8 weeks",
+      skills: ["Supabase", "AI Integration", "Database Design", "API Development"],
+      category: "AI Development"
+    },
+    {
+      title: "Code Without Code",
+      description: "Build full applications using no-code tools and AI",
+      duration: "10 weeks",
+      skills: ["No-Code Tools", "Automation", "AI Integration", "Visual Development"],
+      category: "No-Code"
+    },
+    {
       title: "AI Prompt Specialist",
       description: "Master the art of crafting effective AI prompts",
       duration: "8 weeks",
