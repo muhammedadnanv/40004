@@ -9,7 +9,7 @@ export const FAQSection = () => {
           <AccordionItem value="item-1">
             <AccordionTrigger>What makes this program unique?</AccordionTrigger>
             <AccordionContent>
-              Our program stands out through its combination of personalized mentorship, practical project-based development, and industry-relevant curriculum. You'll work directly with experienced professionals while building a strong portfolio of real-world projects, all at an incredibly accessible price point of ₹49.
+              Our program stands out through its combination of personalized mentorship, practical project-based development, and industry-relevant curriculum. You'll work directly with experienced professionals while building a strong portfolio of real-world projects at ₹49.
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-2">
