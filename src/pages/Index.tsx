@@ -6,6 +6,7 @@ import { CertificationSection } from "@/components/CertificationSection";
 import { FAQSection } from "@/components/FAQSection";
 import { WhatsAppSection } from "@/components/WhatsAppSection";
 import { SocialMediaFooter } from "@/components/SocialMediaFooter";
+import { ProjectIdeasSection } from "@/components/ProjectIdeasSection";
 import { useEffect } from "react";
 import { showRandomJoinNotification } from "@/utils/mockNotifications";
 
@@ -102,6 +103,7 @@ const Index = () => {
         </div>
       </section>
 
+      <ProjectIdeasSection />
       <FAQSection />
       <WhatsAppSection />
       <SocialMediaFooter />
