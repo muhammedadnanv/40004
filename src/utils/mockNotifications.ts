@@ -1,95 +1,44 @@
-import { toast } from "@/hooks/use-toast";
-
-const keralaNames = [
-  // Hindu Names (Gen Z)
-  "Arya",
-  "Aarav",
-  "Vedika",
-  "Vihaan",
-  "Riya",
-  "Ahaan",
-  "Shaan",
-  
-  // Muslim Names (Gen Z)
-  "Ayaan",
-  "Miraal",
-  "Rayyan",
-  "Aleena",
-  "Niyara",
-  "Nadia",
-  "Lina",
-  
-  // Christian Names (Gen Z)
-  "Evan",
-  "Maya",
-  "Naomi",
-  "Joel",
-  "Elina",
-  "Zara"
-];
-
-const programs = [
-  "Frontend Development",
-  "AI + Web Design",
-  "AI Prompt Specialist",
-  "No-Code AI Tools",
-  "AI + Python Development",
-  "AI Superbase Creation",
-  "AI Prompt Creator",
-  "Build AI-powered Chatbot"
-];
-
-const locations = [
-  "Kochi",
-  "Trivandrum",
-  "Kozhikode",
-  "Thrissur",
-  "Kannur",
-  "Kollam",
-  "Alappuzha"
-];
-
-const getRandomElement = (array: string[]) => array[Math.floor(Math.random() * array.length)];
-
-const getTimeAgo = () => {
-  const minutes = Math.floor(Math.random() * 5);
-  return minutes === 0 ? "just now" : `${minutes} minutes ago`;
-};
+import { toast } from "@/components/ui/use-toast";
+import { getRecentEnrollments, getPopularPrograms } from "./mockDatabase";
 
 export const showRandomJoinNotification = () => {
-  const randomName = getRandomElement(keralaNames);
-  const randomProgram = getRandomElement(programs);
-  const randomLocation = getRandomElement(locations);
-  const timeAgo = getTimeAgo();
+  const recentEnrollments = getRecentEnrollments();
+  if (recentEnrollments.length === 0) return;
 
-  toast({
-    title: `${randomName} joined from ${randomLocation} ${timeAgo} 🎉`,
-    description: `Enrolled in ${randomProgram}. Join them now!`,
-    duration: 5000,
-    className: "bg-gradient-to-r from-[#4A00E0]/10 to-purple-500/10 border-[#4A00E0]/20 cursor-pointer hover:scale-105 transition-transform",
-  });
-};
-
-// Function to show immediate join notification
-export const showImmediateJoinNotification = (programTitle: string) => {
-  const randomLocation = getRandomElement(locations);
+  const randomEnrollment = recentEnrollments[Math.floor(Math.random() * recentEnrollments.length)];
   
   toast({
-    title: "Live Enrollment Alert! 🔥",
-    description: `Someone from ${randomLocation} just enrolled in ${programTitle}. Limited seats remaining!`,
-    duration: 7000,
-    className: "bg-gradient-to-r from-[#4A00E0]/10 to-purple-500/10 border-[#4A00E0]/20 animate-pulse",
+    title: "New Enrollment!",
+    description: `${randomEnrollment.userName} just joined ${randomEnrollment.programName}!`,
+    duration: 3000,
   });
 };
 
-// Function to show program popularity notification
 export const showProgramPopularityNotification = (programTitle: string) => {
-  const randomNumber = Math.floor(Math.random() * 20) + 10;
+  const popularPrograms = getPopularPrograms();
+  const position = popularPrograms.indexOf(programTitle);
+  
+  if (position === -1) return;
+  
+  const enrollmentCount = Math.floor(Math.random() * 50) + 50;
   
   toast({
-    title: "Trending Program! 📈",
-    description: `${randomNumber} people are viewing ${programTitle} right now. Don't miss out!`,
-    duration: 6000,
-    className: "bg-gradient-to-r from-red-500/10 to-orange-500/10 border-red-500/20",
+    title: "Program Popularity Update",
+    description: `${programTitle} is one of our most popular programs with ${enrollmentCount}+ enrollments!`,
+    duration: 3000,
+  });
+};
+
+export const showImmediateJoinNotification = (programTitle: string) => {
+  const recentUsers = getRecentEnrollments()
+    .filter(e => e.programName === programTitle)
+    .map(e => e.userName);
+    
+  const count = recentUsers.length;
+  
+  toast({
+    title: "Join the Community!",
+    description: `${count} people enrolled in ${programTitle} recently. Don't miss out!`,
+    duration: 4000,
   });
 };
