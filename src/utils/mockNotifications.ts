@@ -50,7 +50,7 @@ export const showPersonalizedRecommendation = () => {
   const greeting = getGreeting();
   
   toast({
-    title: `${greeting}, ${userPrefs.name || 'there'}! 👋`,
+    title: `${greeting}, learner! 👋`,
     description: `Based on your interests: "${topRecommendation.name}" might be perfect for you!`,
     duration: 6000,
     className: "bg-gradient-to-r from-blue-500/10 to-purple-500/10 border-blue-500/20",
