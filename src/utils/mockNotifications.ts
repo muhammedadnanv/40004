@@ -6,9 +6,6 @@ import {
   getMockUsers
 } from "./mockDatabase";
 
-// Simulate current user ID (in a real app, this would come from auth)
-const CURRENT_USER_ID = 1;
-
 // Helper function to get time-appropriate greeting
 const getGreeting = () => {
   const hour = new Date().getHours();
@@ -26,15 +23,29 @@ const getUserLocalTime = () => {
   });
 };
 
+// List of realistic names for notifications
+const realisticNames = [
+  "Arjun Kumar",
+  "Priya Patel",
+  "Rahul Sharma",
+  "Neha Singh",
+  "Amit Verma",
+  "Deepika Reddy",
+  "Vikram Malhotra",
+  "Ananya Desai"
+];
+
+const getRandomNames = (count: number) => {
+  const shuffled = [...realisticNames].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, count);
+};
+
 export const showRandomJoinNotification = () => {
-  const recentUsers = getMockUsers()
-    .slice(0, 3)
-    .map(u => u.name)
-    .join(', ');
+  const selectedNames = getRandomNames(3);
   
   toast({
     title: `${getGreeting()} 👋`,
-    description: `${recentUsers} just joined our learning community!`,
+    description: `${selectedNames.join(', ')} just joined our learning community!`,
     duration: 4000,
     className: "bg-gradient-to-r from-blue-500/10 to-purple-500/10 border-blue-500/20",
   });
@@ -73,14 +84,11 @@ export const showImmediateJoinNotification = (programTitle: string) => {
     "This program perfectly matches your interests!" : 
     "Explore something new!";
 
-  const recentUsers = getMockUsers()
-    .slice(0, 3)
-    .map(u => u.name)
-    .join(', ');
+  const selectedNames = getRandomNames(2);
 
   toast({
     title: `${matchLevel} ✨`,
-    description: `At ${localTime}: ${recentUsers} and others are exploring "${programTitle}". Join them now!`,
+    description: `At ${localTime}: ${selectedNames.join(', ')} and others are exploring "${programTitle}". Join them now!`,
     duration: 5000,
     className: "bg-gradient-to-r from-green-500/10 to-blue-500/10 border-green-500/20",
   });
@@ -112,3 +120,6 @@ export const showProgramPopularityNotification = (programTitle: string) => {
       'from-gray-500/10 to-blue-500/10 border-gray-500/20'}`,
   });
 };
+
+// Simulate current user ID (in a real app, this would come from auth)
+const CURRENT_USER_ID = 1;
