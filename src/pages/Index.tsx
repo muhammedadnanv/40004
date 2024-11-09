@@ -27,29 +27,29 @@ const Index = () => {
 
   const programs = [
     {
-      title: "Beginner Web Development Journey",
-      description: "Start your coding journey with guided project-based learning in HTML, CSS, and JavaScript",
+      title: "Web Development Foundations",
+      description: "Perfect for complete beginners! Start your coding journey with hands-on projects like personal portfolios and landing pages. Our mentors will guide you through HTML, CSS, and JavaScript basics with weekly project assignments and detailed feedback.",
       duration: "12 weeks",
       skills: ["HTML", "CSS", "JavaScript", "Git"],
       category: "Web Development"
     },
     {
-      title: "Frontend Development Basics",
-      description: "Build your first React applications with step-by-step guidance",
+      title: "React Development Path",
+      description: "Ready to build modern web apps? This program helps beginners master React through practical projects. You'll create real applications like todo apps, weather dashboards, and social media feeds with step-by-step guidance.",
       duration: "10 weeks",
       skills: ["React", "CSS", "Component Design", "State Management"],
       category: "Frontend"
     },
     {
-      title: "Backend Fundamentals",
-      description: "Learn backend development through practical projects",
+      title: "Backend Development Journey",
+      description: "Start your backend journey with Node.js! Perfect for beginners who want to build server-side applications. You'll create REST APIs, authentication systems, and database-driven applications with weekly project assignments.",
       duration: "12 weeks",
       skills: ["Node.js", "Express", "MongoDB", "API Design"],
       category: "Backend"
     },
     {
       title: "Full Stack Project Builder",
-      description: "Create complete web applications from scratch with mentor guidance",
+      description: "Begin your full stack journey! This program helps beginners create complete web applications from scratch. You'll build projects like e-commerce platforms and social networks with personalized mentorship and structured weekly tasks.",
       duration: "16 weeks",
       skills: ["MERN Stack", "Database Design", "Authentication", "Deployment"],
       category: "Full Stack"
@@ -93,7 +93,7 @@ const Index = () => {
 
       <section id="programs-section" className="py-24 px-4 bg-gray-50">
         <div className="container mx-auto max-w-6xl">
-          <h2 className="text-2xl font-light text-center mb-16">Beginner-Friendly Programs</h2>
+          <h2 className="text-2xl font-light text-center mb-16">Start Your Coding Journey Today</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
             {programs.map((program) => (
               <ProgramCard key={program.title} program={program} />
