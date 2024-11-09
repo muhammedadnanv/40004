@@ -11,7 +11,7 @@ export const SocialMediaFooter = () => {
             <img 
               src="https://i.ibb.co/8MydcJj/image-removebg-preview-1.png" 
               alt="Partnership Logo" 
-              className="h-12 w-auto object-contain" // Changed from h-16 to h-12
+              className="h-8 w-auto object-contain" // Changed from h-12 to h-8
             />
           </div>
 
