@@ -27,29 +27,29 @@ const Index = () => {
 
   const programs = [
     {
-      title: "Web Development Foundations",
-      description: "Perfect for complete beginners! Start your coding journey with hands-on projects like personal portfolios and landing pages. Our mentors will guide you through HTML, CSS, and JavaScript basics with weekly project assignments and detailed feedback.",
+      title: "Web Development Mentorship",
+      description: "Get personalized mentorship and weekly coding tasks in HTML, CSS, and JavaScript. Our mentors will review your code, provide detailed feedback, and guide you through building your first websites.",
       duration: "12 weeks",
       skills: ["HTML", "CSS", "JavaScript", "Git"],
       category: "Web Development"
     },
     {
-      title: "React Development Path",
-      description: "Ready to build modern web apps? This program helps beginners master React through practical projects. You'll create real applications like todo apps, weather dashboards, and social media feeds with step-by-step guidance.",
+      title: "React Mentorship Program",
+      description: "Learn React through structured weekly assignments. Your mentor will guide you through component building, state management, and help you improve your code quality with regular code reviews.",
       duration: "10 weeks",
       skills: ["React", "CSS", "Component Design", "State Management"],
       category: "Frontend"
     },
     {
-      title: "Backend Development Journey",
-      description: "Start your backend journey with Node.js! Perfect for beginners who want to build server-side applications. You'll create REST APIs, authentication systems, and database-driven applications with weekly project assignments.",
+      title: "Backend Development Tasks",
+      description: "Get weekly backend development tasks and personalized mentorship. Your mentor will help you build APIs, implement authentication, and guide you through database design with detailed feedback.",
       duration: "12 weeks",
       skills: ["Node.js", "Express", "MongoDB", "API Design"],
       category: "Backend"
     },
     {
-      title: "Full Stack Project Builder",
-      description: "Begin your full stack journey! This program helps beginners create complete web applications from scratch. You'll build projects like e-commerce platforms and social networks with personalized mentorship and structured weekly tasks.",
+      title: "Full Stack Mentorship",
+      description: "Receive comprehensive mentorship in full stack development. Get weekly tasks to build complete applications while your mentor guides you through both frontend and backend challenges.",
       duration: "16 weeks",
       skills: ["MERN Stack", "Database Design", "Authentication", "Deployment"],
       category: "Full Stack"
@@ -67,16 +67,16 @@ const Index = () => {
             <Card className="border-0 shadow-none">
               <CardHeader className="space-y-4">
                 <Award className="w-8 h-8 text-black" />
-                <CardTitle className="text-lg font-light">Structured Learning Path</CardTitle>
-                <CardDescription>Follow a clear roadmap with practical projects designed for beginners</CardDescription>
+                <CardTitle className="text-lg font-light">Weekly Tasks</CardTitle>
+                <CardDescription>Get structured weekly assignments with clear learning objectives</CardDescription>
               </CardHeader>
             </Card>
             
             <Card className="border-0 shadow-none">
               <CardHeader className="space-y-4">
                 <BookOpen className="w-8 h-8 text-black" />
-                <CardTitle className="text-lg font-light">Project-Based Learning</CardTitle>
-                <CardDescription>Build real projects with guidance from experienced mentors</CardDescription>
+                <CardTitle className="text-lg font-light">Code Reviews</CardTitle>
+                <CardDescription>Receive detailed feedback on your code from experienced mentors</CardDescription>
               </CardHeader>
             </Card>
             
@@ -84,7 +84,7 @@ const Index = () => {
               <CardHeader className="space-y-4">
                 <Users className="w-8 h-8 text-black" />
                 <CardTitle className="text-lg font-light">1-on-1 Mentorship</CardTitle>
-                <CardDescription>Get personalized guidance and code reviews from industry experts</CardDescription>
+                <CardDescription>Get personalized guidance and support throughout your journey</CardDescription>
               </CardHeader>
             </Card>
           </div>
@@ -93,7 +93,7 @@ const Index = () => {
 
       <section id="programs-section" className="py-24 px-4 bg-gray-50">
         <div className="container mx-auto max-w-6xl">
-          <h2 className="text-2xl font-light text-center mb-16">Start Your Coding Journey Today</h2>
+          <h2 className="text-2xl font-light text-center mb-16">Choose Your Mentorship Path</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
             {programs.map((program) => (
               <ProgramCard key={program.title} program={program} />
