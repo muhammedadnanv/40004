@@ -27,32 +27,32 @@ const Index = () => {
 
   const programs = [
     {
-      title: "Web Development Mentorship",
-      description: "Get personalized mentorship and weekly coding tasks in HTML, CSS, and JavaScript. Our mentors will review your code, provide detailed feedback, and guide you through building your first websites.",
-      duration: "12 weeks",
-      skills: ["HTML", "CSS", "JavaScript", "Git"],
-      category: "Web Development"
+      title: "AI Prompt Engineering Mastery",
+      description: "Master the art of crafting effective AI prompts. Learn prompt engineering techniques, best practices, and how to get the most out of AI models. Weekly assignments and personalized feedback from experienced mentors.",
+      duration: "8 weeks",
+      skills: ["Prompt Engineering", "AI Models", "Content Generation", "Problem Solving"],
+      category: "AI Development"
     },
     {
-      title: "React Mentorship Program",
-      description: "Learn React through structured weekly assignments. Your mentor will guide you through component building, state management, and help you improve your code quality with regular code reviews.",
+      title: "AI + Supabase Integration",
+      description: "Learn to build AI-powered applications with Supabase backend. Get weekly tasks to create applications that combine AI capabilities with database management, authentication, and real-time features.",
+      duration: "12 weeks",
+      skills: ["Supabase", "AI Integration", "Database Design", "API Development"],
+      category: "Full Stack AI"
+    },
+    {
+      title: "No-Code Development",
+      description: "Build powerful applications without writing code. Learn to use popular no-code platforms and tools. Get weekly projects and guidance on creating functional applications using drag-and-drop interfaces.",
       duration: "10 weeks",
-      skills: ["React", "CSS", "Component Design", "State Management"],
-      category: "Frontend"
+      skills: ["No-Code Tools", "Visual Development", "Automation", "App Design"],
+      category: "No-Code"
     },
     {
-      title: "Backend Development Tasks",
-      description: "Get weekly backend development tasks and personalized mentorship. Your mentor will help you build APIs, implement authentication, and guide you through database design with detailed feedback.",
-      duration: "12 weeks",
-      skills: ["Node.js", "Express", "MongoDB", "API Design"],
-      category: "Backend"
-    },
-    {
-      title: "Full Stack Mentorship",
-      description: "Receive comprehensive mentorship in full stack development. Get weekly tasks to build complete applications while your mentor guides you through both frontend and backend challenges.",
-      duration: "16 weeks",
-      skills: ["MERN Stack", "Database Design", "Authentication", "Deployment"],
-      category: "Full Stack"
+      title: "Frontend Development with Low-Code",
+      description: "Create modern web interfaces using low-code platforms while understanding the fundamentals. Weekly assignments focus on building responsive and interactive web applications with minimal coding.",
+      duration: "10 weeks",
+      skills: ["Low-Code Platforms", "UI Design", "Web Development", "Component Building"],
+      category: "Low-Code"
     }
   ];
 
@@ -75,8 +75,8 @@ const Index = () => {
             <Card className="border-0 shadow-none">
               <CardHeader className="space-y-4">
                 <BookOpen className="w-8 h-8 text-black" />
-                <CardTitle className="text-lg font-light">Code Reviews</CardTitle>
-                <CardDescription>Receive detailed feedback on your code from experienced mentors</CardDescription>
+                <CardTitle className="text-lg font-light">Personalized Feedback</CardTitle>
+                <CardDescription>Receive detailed feedback on your assignments from experienced mentors</CardDescription>
               </CardHeader>
             </Card>
             
