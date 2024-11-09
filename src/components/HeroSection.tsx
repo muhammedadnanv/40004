@@ -8,15 +8,16 @@ export const HeroSection = () => {
   };
 
   return (
-    <section className="relative py-12 sm:py-16 md:py-20 lg:py-24">
-      <div className="container mx-auto text-center">
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4">Welcome to Dev Mentor Hub</h1>
-        <p className="text-lg sm:text-xl mb-8">Your journey to mastering the world of technology starts here.</p>
+    <section className="relative py-24 sm:py-32">
+      <div className="container mx-auto max-w-3xl text-center px-4">
+        <h1 className="text-3xl sm:text-4xl font-light mb-6 tracking-tight">Dev Mentor Hub</h1>
+        <p className="text-base sm:text-lg text-gray-600 mb-12">Your journey to mastering technology starts here.</p>
         
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto">
           <Button 
             onClick={scrollToPrograms} 
-            className="bg-[#4A00E0] text-white rounded-md px-6 py-3 w-full sm:w-[200px] h-[48px] text-sm sm:text-base"
+            variant="outline"
+            className="w-full sm:w-auto border-gray-300 hover:bg-gray-50"
           >
             Explore Programs
           </Button>
@@ -25,10 +26,9 @@ export const HeroSection = () => {
             href="https://www.mygreatlearning.com/academy?referrer_code=GLL44ZJATMMKQ"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 w-full sm:w-[200px] h-[48px] text-sm sm:text-base bg-gradient-to-r from-[#4A00E0] to-blue-500 text-white rounded-md hover:opacity-90 transition-opacity"
+            className="inline-flex items-center justify-center gap-2 px-6 py-2 w-full sm:w-auto text-sm border border-gray-200 rounded-md hover:bg-gray-50 transition-colors"
           >
-            <span>Learn Everything for Free</span>
-            <ExternalLink className="w-4 h-4" />
+            Learn Free <ExternalLink className="w-4 h-4" />
           </a>
         </div>
       </div>
