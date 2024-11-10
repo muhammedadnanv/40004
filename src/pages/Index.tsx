@@ -12,7 +12,6 @@ import { showRandomJoinNotification } from "@/utils/mockNotifications";
 
 const Index = () => {
   useEffect(() => {
-    // Start the real-time notifications immediately
     showRandomJoinNotification();
   }, []);
 
@@ -48,55 +47,58 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
-      <HeroSection />
-      
-      <section className="py-24 px-4">
-        <div className="container mx-auto max-w-5xl">
-          <h2 className="text-2xl font-light text-center mb-16">Our Task-Based Mentorship Approach</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className="border-0 shadow-none">
-              <CardHeader className="space-y-4">
-                <Award className="w-8 h-8 text-black" />
-                <CardTitle className="text-lg font-light">Weekly Tasks</CardTitle>
-                <CardDescription>Get structured weekly assignments with clear learning objectives</CardDescription>
-              </CardHeader>
-            </Card>
-            
-            <Card className="border-0 shadow-none">
-              <CardHeader className="space-y-4">
-                <BookOpen className="w-8 h-8 text-black" />
-                <CardTitle className="text-lg font-light">Personalized Feedback</CardTitle>
-                <CardDescription>Receive detailed feedback on your assignments from experienced mentors</CardDescription>
-              </CardHeader>
-            </Card>
-            
-            <Card className="border-0 shadow-none">
-              <CardHeader className="space-y-4">
-                <Users className="w-8 h-8 text-black" />
-                <CardTitle className="text-lg font-light">1-on-1 Mentorship</CardTitle>
-                <CardDescription>Get personalized guidance and support throughout your journey</CardDescription>
-              </CardHeader>
-            </Card>
+    <div className="min-h-screen bg-gradient-to-br from-white via-purple-50 to-white">
+      <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1527576539890-dfa815648363')] bg-cover bg-center opacity-5 pointer-events-none"></div>
+      <div className="relative">
+        <HeroSection />
+        
+        <section className="py-24 px-4">
+          <div className="container mx-auto max-w-5xl">
+            <h2 className="text-2xl font-light text-center mb-16 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-purple-800">Our Task-Based Mentorship Approach</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              <Card className="border-0 shadow-none hover:bg-purple-50/50 transition-colors duration-300">
+                <CardHeader className="space-y-4">
+                  <Award className="w-8 h-8 text-purple-600" />
+                  <CardTitle className="text-lg font-light">Weekly Tasks</CardTitle>
+                  <CardDescription>Get structured weekly assignments with clear learning objectives</CardDescription>
+                </CardHeader>
+              </Card>
+              
+              <Card className="border-0 shadow-none hover:bg-purple-50/50 transition-colors duration-300">
+                <CardHeader className="space-y-4">
+                  <BookOpen className="w-8 h-8 text-purple-600" />
+                  <CardTitle className="text-lg font-light">Personalized Feedback</CardTitle>
+                  <CardDescription>Receive detailed feedback on your assignments from experienced mentors</CardDescription>
+                </CardHeader>
+              </Card>
+              
+              <Card className="border-0 shadow-none hover:bg-purple-50/50 transition-colors duration-300">
+                <CardHeader className="space-y-4">
+                  <Users className="w-8 h-8 text-purple-600" />
+                  <CardTitle className="text-lg font-light">1-on-1 Mentorship</CardTitle>
+                  <CardDescription>Get personalized guidance and support throughout your journey</CardDescription>
+                </CardHeader>
+              </Card>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section id="programs-section" className="py-24 px-4 bg-gray-50">
-        <div className="container mx-auto max-w-6xl">
-          <h2 className="text-2xl font-light text-center mb-16">Choose Your Mentorship Path</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
-            {programs.map((program) => (
-              <ProgramCard key={program.title} program={program} />
-            ))}
+        <section id="programs-section" className="py-24 px-4 bg-gradient-to-b from-white via-purple-50/30 to-white">
+          <div className="container mx-auto max-w-6xl">
+            <h2 className="text-2xl font-light text-center mb-16 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-purple-800">Choose Your Mentorship Path</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
+              {programs.map((program) => (
+                <ProgramCard key={program.title} program={program} />
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <ProjectIdeasSection />
-      <FAQSection />
-      <WhatsAppSection />
-      <SocialMediaFooter />
+        <ProjectIdeasSection />
+        <FAQSection />
+        <WhatsAppSection />
+        <SocialMediaFooter />
+      </div>
     </div>
   );
 };
