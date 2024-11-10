@@ -7,12 +7,21 @@ import { FAQSection } from "@/components/FAQSection";
 import { WhatsAppSection } from "@/components/WhatsAppSection";
 import { SocialMediaFooter } from "@/components/SocialMediaFooter";
 import { ProjectIdeasSection } from "@/components/ProjectIdeasSection";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { showRandomJoinNotification } from "@/utils/mockNotifications";
+import { getContentRecommendations, getContentEngagementStats } from "@/utils/contentAdaptation";
 
 const Index = () => {
   useEffect(() => {
     showRandomJoinNotification();
+    
+    // Analyze content performance periodically
+    const interval = setInterval(() => {
+      const stats = getContentEngagementStats();
+      console.log('Content engagement stats:', stats);
+    }, 300000); // Every 5 minutes
+
+    return () => clearInterval(interval);
   }, []);
 
   const programs = [
@@ -61,7 +70,9 @@ const Index = () => {
         
         <section className="py-24 px-4">
           <div className="container mx-auto max-w-5xl">
-            <h2 className="text-2xl font-light text-center mb-16 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-purple-800">Our Task-Based Mentorship Approach</h2>
+            <h2 className="text-2xl font-light text-center mb-16 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-purple-800">
+              Our Task-Based Mentorship Approach
+            </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               <Card className="border-0 shadow-none hover:bg-purple-50/50 transition-colors duration-300">
                 <CardHeader className="space-y-4">
@@ -92,7 +103,9 @@ const Index = () => {
 
         <section id="programs-section" className="py-24 px-4 bg-gradient-to-b from-white via-purple-50/30 to-white">
           <div className="container mx-auto max-w-6xl">
-            <h2 className="text-2xl font-light text-center mb-16 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-purple-800">Choose Your Mentorship Path</h2>
+            <h2 className="text-2xl font-light text-center mb-16 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-purple-800">
+              Choose Your Mentorship Path
+            </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
               {programs.map((program) => (
                 <ProgramCard key={program.title} program={program} />
