@@ -1,4 +1,4 @@
-// Mock database with pre-computed data and user behavior tracking
+// Mock database with optimized personalization algorithms
 const MOCK_DB = {
   users: Array.from({ length: 100 }, (_, i) => ({
     id: i + 1,
@@ -56,10 +56,10 @@ const MOCK_DB = {
     }
   ],
 
-  userInteractions: new Map() // Store real-time user interactions
+  userInteractions: new Map()
 };
 
-// Optimized functions for personalized recommendations
+// Enhanced personalization functions
 export const getUserPreferences = (userId: number) => {
   const user = MOCK_DB.users.find(u => u.id === userId);
   return user?.preferences || null;
@@ -68,9 +68,20 @@ export const getUserPreferences = (userId: number) => {
 export const trackUserInteraction = (userId: number, programId: number, interactionType: string) => {
   const key = `${userId}-${programId}`;
   const currentInteractions = MOCK_DB.userInteractions.get(key) || [];
+  const timestamp = new Date();
+  
+  // Track interaction with weight based on type
+  const weight = {
+    'view': 1,
+    'click': 2,
+    'enroll': 5,
+    'complete': 10
+  }[interactionType] || 1;
+
   MOCK_DB.userInteractions.set(key, [...currentInteractions, {
     type: interactionType,
-    timestamp: new Date()
+    timestamp,
+    weight
   }]);
 };
 
@@ -78,17 +89,16 @@ export const getPersonalizedRecommendations = (userId: number) => {
   const user = MOCK_DB.users.find(u => u.id === userId);
   if (!user) return [];
 
-  // Calculate program scores based on user preferences and behavior
-  const programScores = MOCK_DB.programs.map(program => {
+  return MOCK_DB.programs.map(program => {
     let score = 0;
 
-    // Match with user interests
+    // Interest matching (30% weight)
     const interestMatch = program.topics.some(topic => 
       user.preferences.interests.includes(topic)
     );
     score += interestMatch ? 30 : 0;
 
-    // Match with experience level
+    // Experience level matching (20% weight)
     const difficultyMap = { beginner: 0, intermediate: 1, advanced: 2 };
     const experienceLevelMap = { beginner: 0, intermediate: 1, advanced: 2 };
     const levelDifference = Math.abs(
@@ -97,38 +107,41 @@ export const getPersonalizedRecommendations = (userId: number) => {
     );
     score += (2 - levelDifference) * 20;
 
-    // Consider engagement history
-    const previousEngagement = user.preferences.engagementHistory.find(
-      h => h.programId === program.id
-    );
-    if (previousEngagement) {
-      score += previousEngagement.engagementScore * 0.3;
-    }
+    // Recent interactions (30% weight)
+    const interactions = MOCK_DB.userInteractions.get(`${userId}-${program.id}`) || [];
+    const recentInteractions = interactions.filter(i => {
+      const daysSinceInteraction = (Date.now() - i.timestamp.getTime()) / (1000 * 60 * 60 * 24);
+      return daysSinceInteraction <= 7; // Consider last 7 days
+    });
+    
+    const interactionScore = recentInteractions.reduce((acc, interaction) => 
+      acc + (interaction.weight * (1 - ((Date.now() - interaction.timestamp.getTime()) / (7 * 24 * 60 * 60 * 1000))))
+    , 0);
+    score += Math.min(interactionScore * 2, 30); // Cap at 30 points
 
-    // Recent interactions bonus
-    const interactions = MOCK_DB.userInteractions.get(`${userId}-${program.id}`);
-    if (interactions?.length) {
-      const recentInteractions = interactions.filter(
-        i => i.timestamp > new Date(Date.now() - 24 * 60 * 60 * 1000)
-      );
-      score += recentInteractions.length * 5;
-    }
+    // Learning style compatibility (20% weight)
+    const learningStyleMatch = program.topics.some(topic => {
+      const topicStyle = {
+        'AI': ['practical', 'theoretical'],
+        'Database': ['practical'],
+        'Frontend': ['visual', 'practical'],
+        'No-Code': ['visual', 'practical']
+      }[topic];
+      return topicStyle?.includes(user.preferences.learningStyle);
+    });
+    score += learningStyleMatch ? 20 : 0;
 
     return { program, score };
-  });
-
-  // Sort by score and return programs
-  return programScores
-    .sort((a, b) => b.score - a.score)
-    .map(({ program }) => program);
+  })
+  .sort((a, b) => b.score - a.score)
+  .map(({ program }) => program);
 };
 
-// Export existing functions with optimization
+// Optimized helper functions
 export const getMockEnrollments = () => MOCK_DB.enrollments;
 export const getMockUsers = () => MOCK_DB.users;
 export const getMockPrograms = () => MOCK_DB.programs;
 
-// Optimized functions for notifications
 export const getRecentEnrollments = () => {
   const now = Date.now();
   const oneHourAgo = now - 3600000;
@@ -142,12 +155,16 @@ export const getRecentEnrollments = () => {
 };
 
 export const getPopularPrograms = () => {
-  const enrollmentCounts = MOCK_DB.enrollments.reduce((acc, curr) => {
-    acc[curr.programId] = (acc[curr.programId] || 0) + 1;
-    return acc;
-  }, {} as Record<number, number>);
+  const oneWeekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+  
+  const programScores = MOCK_DB.enrollments
+    .filter(e => e.enrolledAt.getTime() > oneWeekAgo)
+    .reduce((acc, curr) => {
+      acc[curr.programId] = (acc[curr.programId] || 0) + 1;
+      return acc;
+    }, {} as Record<number, number>);
 
-  return Object.entries(enrollmentCounts)
+  return Object.entries(programScores)
     .sort(([, a], [, b]) => b - a)
     .map(([programId]) => 
       MOCK_DB.programs.find(p => p.id === Number(programId))?.name
