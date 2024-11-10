@@ -18,35 +18,35 @@ const Index = () => {
   const programs = [
     {
       title: "AI Prompt Design Mentorship",
-      description: "Get hands-on experience through weekly tasks in AI prompt design. Your mentor will guide you through each assignment, providing detailed feedback and support. Pure mentorship with practical assignments - no courses included.",
+      description: "Weekly hands-on assignments focused on AI prompt design fundamentals. Your dedicated mentor provides personalized feedback and guidance on each task. Pure mentorship program with practical exercises - no courses, just real-world experience.",
       duration: "6 weeks",
       skills: ["Basic Prompt Engineering", "Context Design", "Response Optimization", "AI Basics"],
       category: "AI Development"
     },
     {
       title: "Prompt Engineering Mentorship",
-      description: "Receive weekly assignments focused on advanced prompt engineering techniques. Your mentor will provide clear tasks and personalized feedback on your work. Pure mentorship approach - no courses, just practical learning with expert guidance.",
+      description: "Intensive weekly assignments in advanced prompt engineering. Get direct feedback and guidance from your expert mentor on each practical task. Focused on hands-on learning through real projects - no theoretical courses included.",
       duration: "8 weeks",
       skills: ["Advanced Prompting", "Chain-of-Thought", "Enterprise AI", "System Design"],
       category: "AI Development"
     },
     {
       title: "AI + Supabase Integration",
-      description: "Get hands-on experience through weekly tasks in AI and Supabase integration. Your mentor will guide you through each assignment, providing detailed feedback and support. Pure mentorship with practical assignments - no courses included.",
+      description: "Weekly practical assignments integrating AI with Supabase. Your mentor reviews your work and provides detailed guidance on each task. Pure mentorship focused on hands-on development - no courses involved.",
       duration: "12 weeks",
       skills: ["Supabase", "AI Integration", "Database Design", "API Development"],
       category: "Full Stack AI"
     },
     {
       title: "Frontend Development with Low-Code",
-      description: "Get weekly assignments focused on low-code frontend development. Your mentor will provide clear tasks and personalized feedback on your work. Pure mentorship approach - no courses, just practical learning with expert guidance.",
+      description: "Practical weekly assignments in low-code frontend development. Get direct mentorship and feedback on each task you complete. Focus on building real projects with expert guidance - no traditional courses.",
       duration: "10 weeks",
       skills: ["Low-Code Platforms", "UI Design", "Web Development", "Component Building"],
       category: "Frontend Development"
     },
     {
       title: "No-Code Development",
-      description: "Learn through doing with our task-based mentorship program. Each week, your mentor will assign practical no-code projects and provide personalized guidance. Focus on hands-on learning with expert feedback - no traditional courses.",
+      description: "Weekly hands-on assignments in no-code development. Your mentor provides personalized feedback on each practical task. Pure mentorship program focused on building real applications - no courses included.",
       duration: "10 weeks",
       skills: ["No-Code Tools", "Visual Development", "Automation", "App Design"],
       category: "No-Code Development"
