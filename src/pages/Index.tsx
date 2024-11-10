@@ -17,10 +17,17 @@ const Index = () => {
 
   const programs = [
     {
-      title: "AI Prompt Engineering Mastery",
-      description: "Join our structured mentorship program focused on AI prompt engineering. You'll receive weekly assignments with clear objectives and get personalized feedback from your dedicated mentor. No courses or videos - just practical tasks and expert guidance.",
+      title: "AI Prompt Engineering Fundamentals",
+      description: "Master the basics of AI prompt engineering. Learn essential techniques for crafting effective prompts, understanding context, and optimizing AI responses. Perfect for beginners looking to enter the field of AI.",
+      duration: "6 weeks",
+      skills: ["Basic Prompt Engineering", "Context Design", "Response Optimization", "AI Basics"],
+      category: "AI Development"
+    },
+    {
+      title: "Advanced AI Prompt Engineering",
+      description: "Take your prompt engineering skills to the next level. Learn advanced techniques for complex use cases, chain-of-thought prompting, and enterprise-level AI applications. For those who understand the basics.",
       duration: "8 weeks",
-      skills: ["Prompt Engineering", "AI Models", "Content Generation", "Problem Solving"],
+      skills: ["Advanced Prompting", "Chain-of-Thought", "Enterprise AI", "System Design"],
       category: "AI Development"
     },
     {
