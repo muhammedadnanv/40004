@@ -31,18 +31,18 @@ const Index = () => {
       category: "Full Stack AI"
     },
     {
-      title: "No-Code Development",
-      description: "Learn through doing with our task-based mentorship program. Each week, your mentor will assign practical no-code projects and provide personalized guidance. Focus on hands-on learning with expert feedback - no traditional courses.",
-      duration: "10 weeks",
-      skills: ["No-Code Tools", "Visual Development", "Automation", "App Design"],
-      category: "No-Code"
-    },
-    {
       title: "Frontend Development with Low-Code",
       description: "Get weekly assignments focused on low-code frontend development. Your mentor will provide clear tasks and personalized feedback on your work. Pure mentorship approach - no courses, just practical learning with expert guidance.",
       duration: "10 weeks",
       skills: ["Low-Code Platforms", "UI Design", "Web Development", "Component Building"],
-      category: "Low-Code"
+      category: "Frontend Development"
+    },
+    {
+      title: "No-Code Development",
+      description: "Learn through doing with our task-based mentorship program. Each week, your mentor will assign practical no-code projects and provide personalized guidance. Focus on hands-on learning with expert feedback - no traditional courses.",
+      duration: "10 weeks",
+      skills: ["No-Code Tools", "Visual Development", "Automation", "App Design"],
+      category: "No-Code Development"
     }
   ];
 
