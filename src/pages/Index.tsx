@@ -7,7 +7,7 @@ import { FAQSection } from "@/components/FAQSection";
 import { WhatsAppSection } from "@/components/WhatsAppSection";
 import { SocialMediaFooter } from "@/components/SocialMediaFooter";
 import { ProjectIdeasSection } from "@/components/ProjectIdeasSection";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { showRandomJoinNotification } from "@/utils/mockNotifications";
 import { getContentRecommendations, getContentEngagementStats } from "@/utils/contentAdaptation";
 
@@ -15,11 +15,10 @@ const Index = () => {
   useEffect(() => {
     showRandomJoinNotification();
     
-    // Analyze content performance periodically
     const interval = setInterval(() => {
       const stats = getContentEngagementStats();
       console.log('Content engagement stats:', stats);
-    }, 300000); // Every 5 minutes
+    }, 300000);
 
     return () => clearInterval(interval);
   }, []);
@@ -47,11 +46,18 @@ const Index = () => {
       category: "Full Stack AI"
     },
     {
-      title: "Frontend Development with Low-Code",
-      description: "Practical weekly assignments in low-code frontend development. Get direct mentorship and feedback on each task you complete. Focus on building real projects with expert guidance - no traditional courses.",
+      title: "Frontend Development",
+      description: "Practical weekly assignments in modern frontend development. Get direct mentorship and feedback on each task you complete. Focus on building real projects with expert guidance - no traditional courses.",
       duration: "10 weeks",
-      skills: ["Low-Code Platforms", "UI Design", "Web Development", "Component Building"],
+      skills: ["React", "TypeScript", "UI/UX", "Modern Web Development"],
       category: "Frontend Development"
+    },
+    {
+      title: "Low-Code Development",
+      description: "Weekly hands-on assignments in low-code development platforms. Your mentor provides personalized feedback on each practical task. Pure mentorship program focused on building applications efficiently.",
+      duration: "8 weeks",
+      skills: ["Low-Code Platforms", "Visual Development", "Rapid Prototyping", "App Design"],
+      category: "Low-Code Development"
     },
     {
       title: "No-Code Development",
