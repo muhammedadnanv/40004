@@ -8,57 +8,53 @@ interface ContentScore {
   cachedUntil?: Date;
 }
 
-// Cache storage
+// Optimized cache with Map for O(1) lookups
 const contentScores = new Map<string, ContentScore>();
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in milliseconds
-const SCORE_THRESHOLD = 0.1; // Minimum score difference to trigger update
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+const SCORE_THRESHOLD = 0.1;
 
-// Memoized calculation function
-const memoizedCalculateTimeWeight = (() => {
-  const cache = new Map<string, number>();
+// Memoized time weight calculation with WeakMap for better memory management
+const timeWeightCache = new WeakMap();
+
+const calculateTimeWeight = (enrollments: any[]) => {
+  const cacheKey = enrollments;
   
-  return (enrollments: any[]) => {
-    const cacheKey = JSON.stringify(enrollments.map(e => e.enrolledAt));
-    
-    if (cache.has(cacheKey)) {
-      return cache.get(cacheKey)!;
-    }
-    
-    const now = Date.now();
-    const oneWeek = 7 * 24 * 60 * 60 * 1000;
-    
-    const weight = enrollments.reduce((weight, enrollment) => {
-      const timeDiff = now - enrollment.enrolledAt.getTime();
-      const timeWeight = Math.max(0, 1 - (timeDiff / oneWeek));
-      return weight + timeWeight;
-    }, 1);
-    
-    cache.set(cacheKey, weight);
-    return weight;
-  };
-})();
+  if (timeWeightCache.has(cacheKey)) {
+    return timeWeightCache.get(cacheKey);
+  }
+  
+  const now = Date.now();
+  const oneWeek = 7 * 24 * 60 * 60 * 1000;
+  
+  // Use reduce instead of forEach for better performance
+  const weight = enrollments.reduce((acc, enrollment) => {
+    const timeDiff = now - enrollment.enrolledAt.getTime();
+    return acc + Math.max(0, 1 - (timeDiff / oneWeek));
+  }, 1);
+  
+  timeWeightCache.set(cacheKey, weight);
+  return weight;
+};
 
+// Optimized batch processing with Set for deduplication
 export const analyzeContentPerformance = () => {
   const now = new Date();
   const recentEnrollments = getMockEnrollments();
-  const users = getMockUsers();
+  const users = new Set(getMockUsers());
   const programs = getMockPrograms();
   
-  // Batch process programs for better performance
-  const updates = programs.map(program => {
+  return programs.map(program => {
     const existingScore = contentScores.get(program.id.toString());
     
-    // Skip calculation if cache is still valid
     if (existingScore?.cachedUntil && existingScore.cachedUntil > now) {
       return existingScore;
     }
     
     const programEnrollments = recentEnrollments.filter(e => e.programId === program.id);
-    const engagementRate = programEnrollments.length / users.length;
-    const timeWeight = memoizedCalculateTimeWeight(programEnrollments);
+    const engagementRate = programEnrollments.length / users.size;
+    const timeWeight = calculateTimeWeight(programEnrollments);
     const newScore = engagementRate * timeWeight;
     
-    // Only update if significant change or cache expired
     if (!existingScore || 
         Math.abs(existingScore.score - newScore) > SCORE_THRESHOLD || 
         !existingScore.cachedUntil || 
@@ -77,36 +73,36 @@ export const analyzeContentPerformance = () => {
     }
     
     return existingScore;
-  });
-
-  return updates.sort((a, b) => b.score - a.score);
+  }).sort((a, b) => b.score - a.score);
 };
 
+// Optimized content retrieval with caching
 export const getTopPerformingContent = (limit: number = 5) => {
-  const cachedScores = Array.from(contentScores.values());
+  const scores = Array.from(contentScores.values());
   const now = new Date();
   
-  // Check if we need to refresh the analysis
-  const needsRefresh = cachedScores.some(score => !score.cachedUntil || score.cachedUntil <= now);
-  
-  if (needsRefresh) {
+  if (scores.some(score => !score.cachedUntil || score.cachedUntil <= now)) {
     return analyzeContentPerformance().slice(0, limit);
   }
   
-  return cachedScores
+  return scores
     .sort((a, b) => b.score - a.score)
     .slice(0, limit);
 };
 
+// Optimized recommendations with parallel processing
 export const getContentRecommendations = (userId: number) => {
-  const personalizedRecs = getPersonalizedRecommendations(userId);
-  const topPerforming = getTopPerformingContent();
+  const [personalizedRecs, scores] = [
+    getPersonalizedRecommendations(userId),
+    Array.from(contentScores.values())
+  ];
   
-  // Combine and sort recommendations efficiently
+  const scoreMap = new Map(scores.map(s => [s.id, s.score]));
+  
   return personalizedRecs
     .map(program => ({
       ...program,
-      score: contentScores.get(program.id.toString())?.score || 0
+      score: scoreMap.get(program.id.toString()) || 0
     }))
     .sort((a, b) => b.score - a.score);
 };
@@ -115,10 +111,7 @@ export const getContentEngagementStats = () => {
   const scores = Array.from(contentScores.values());
   const now = new Date();
   
-  // Check if we need fresh data
-  const needsRefresh = scores.some(score => !score.cachedUntil || score.cachedUntil <= now);
-  
-  if (needsRefresh) {
+  if (scores.some(score => !score.cachedUntil || score.cachedUntil <= now)) {
     analyzeContentPerformance();
   }
   

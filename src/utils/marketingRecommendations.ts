@@ -1,6 +1,5 @@
 import { toast } from "@/hooks/use-toast";
 
-// Marketing strategies database (in a real app, this would come from an API)
 const marketingStrategies = [
   {
     category: "Social Media",
@@ -40,42 +39,53 @@ const marketingStrategies = [
   }
 ];
 
-// Mock user preferences (in a real app, this would come from a database)
-const userPreferences = {
+// Optimized user preferences with TypeScript interfaces
+interface UserPreference {
+  interests: string[];
+  experience: string;
+  goals: string[];
+  activeHours: number[];
+}
+
+const userPreferences: UserPreference = {
   interests: ["Social Media", "Content Marketing"],
   experience: "intermediate",
   goals: ["increase_engagement", "build_brand"],
-  activeHours: [9, 13, 17, 21] // Hours when user is most active
+  activeHours: [9, 13, 17, 21]
 };
 
-// Function to get random strategy from category
-const getRandomStrategy = (category: string) => {
-  const categoryData = marketingStrategies.find(s => s.category === category);
-  if (!categoryData) return null;
-  return categoryData.strategies[Math.floor(Math.random() * categoryData.strategies.length)];
+// Optimized strategy selection with Map for O(1) lookups
+const strategyMap = new Map(
+  marketingStrategies.map(category => [
+    category.category,
+    category.strategies
+  ])
+);
+
+const getRandomStrategy = (category: string): string | null => {
+  const strategies = strategyMap.get(category);
+  return strategies ? 
+    strategies[Math.floor(Math.random() * strategies.length)] : 
+    null;
 };
 
-// Function to check if current hour is an active hour
-const isActiveHour = () => {
-  const currentHour = new Date().getHours();
-  return userPreferences.activeHours.includes(currentHour);
-};
+// Optimized time check with Set for O(1) lookups
+const activeHoursSet = new Set(userPreferences.activeHours);
+const isActiveHour = () => activeHoursSet.has(new Date().getHours());
 
-// Function to generate personalized recommendation
 const generateRecommendation = () => {
-  const category = userPreferences.interests[Math.floor(Math.random() * userPreferences.interests.length)];
+  const category = userPreferences.interests[
+    Math.floor(Math.random() * userPreferences.interests.length)
+  ];
   const strategy = getRandomStrategy(category);
   
-  if (!strategy) return null;
-  
-  return {
+  return strategy ? {
     category,
     strategy,
     timestamp: new Date().toISOString()
-  };
+  } : null;
 };
 
-// Function to show recommendation notification
 const showRecommendation = () => {
   const recommendation = generateRecommendation();
   
@@ -89,26 +99,22 @@ const showRecommendation = () => {
   });
 };
 
-// Function to start the recommendation system
+let recommendationInterval: NodeJS.Timeout;
+
 export const startMarketingRecommendations = () => {
-  // Show initial recommendation
   if (isActiveHour()) {
     showRecommendation();
   }
   
-  // Set up interval for future recommendations (every 4 hours)
-  setInterval(() => {
+  recommendationInterval = setInterval(() => {
     if (isActiveHour()) {
       showRecommendation();
     }
-  }, 4 * 60 * 60 * 1000); // 4 hours in milliseconds
+  }, 4 * 60 * 60 * 1000);
 };
 
-// Function to stop the recommendation system
 export const stopMarketingRecommendations = () => {
-  // Clear all intervals
-  const highestId = window.setTimeout(() => {}, 0);
-  for (let i = highestId; i >= 0; i--) {
-    window.clearInterval(i);
+  if (recommendationInterval) {
+    clearInterval(recommendationInterval);
   }
 };
