@@ -12,8 +12,8 @@ export const CertificationSection = () => {
   };
 
   return (
-    <section className="py-6 sm:py-8 md:py-12 lg:py-16 px-3 sm:px-4 md:px-6 lg:px-8 bg-white">
-      <div className="container mx-auto max-w-7xl">
+    <section className="py-6 sm:py-8 md:py-12 lg:py-16 px-3 sm:px-4 md:px-6 lg:px-8 bg-white flex items-center justify-center min-h-screen">
+      <div className="container mx-auto max-w-5xl">
         <div className="text-center mb-6 sm:mb-8 md:mb-10 lg:mb-12">
           <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-2 sm:mb-3 md:mb-4">Community Certification</h2>
           <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600">Earn a recognized certificate upon completing your chosen program</p>
