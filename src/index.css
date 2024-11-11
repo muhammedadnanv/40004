@@ -6,60 +6,47 @@
   :root {
     --background: 0 0% 100%;
     --foreground: 262 83% 58%;
-
     --card: 0 0% 100%;
     --card-foreground: 262 83% 58%;
-
     --popover: 0 0% 100%;
     --popover-foreground: 262 83% 58%;
-
     --primary: 262 83% 58%;
     --primary-foreground: 0 0% 100%;
-
+    --primary-muted: 262 83% 96%;
+    --primary-hover: 262 83% 52%;
     --secondary: 262 83% 98%;
     --secondary-foreground: 262 83% 58%;
-
-    --muted: 262 83% 96%;
-    --muted-foreground: 262 83% 40%;
-
+    --secondary-hover: 262 83% 94%;
     --accent: 262 83% 96%;
     --accent-foreground: 262 83% 58%;
-
+    --accent-hover: 262 83% 92%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-
-    --border: 0 0% 85%;
-    --input: 0 0% 85%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
     --ring: 262 83% 58%;
-
     --radius: 0.5rem;
   }
 
   .dark {
     --background: 262 83% 4%;
     --foreground: 262 83% 98%;
-
     --card: 262 83% 4%;
     --card-foreground: 262 83% 98%;
-
     --popover: 262 83% 4%;
     --popover-foreground: 262 83% 98%;
-
     --primary: 262 83% 98%;
     --primary-foreground: 262 83% 4%;
-
+    --primary-muted: 262 83% 14%;
+    --primary-hover: 262 83% 94%;
     --secondary: 262 83% 14.9%;
     --secondary-foreground: 262 83% 98%;
-
-    --muted: 262 83% 14.9%;
-    --muted-foreground: 262 83% 63.9%;
-
+    --secondary-hover: 262 83% 18%;
     --accent: 262 83% 14.9%;
     --accent-foreground: 262 83% 98%;
-
+    --accent-hover: 262 83% 18%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 262 83% 98%;
-
     --border: 262 83% 14.9%;
     --input: 262 83% 14.9%;
     --ring: 262 83% 83.1%;
@@ -79,14 +66,38 @@
     text-rendering: optimizeLegibility;
   }
 
-  /* Material Design Transitions */
+  /* Enhanced Transitions */
   .transition-all {
     transition-property: all;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 300ms;
   }
 
-  .hover\:scale-up:hover {
+  /* Hover Effects */
+  .hover-lift {
+    @apply transition-transform duration-300;
+  }
+  
+  .hover-lift:hover {
     transform: translateY(-2px);
+  }
+
+  /* Card Styles */
+  .card-hover {
+    @apply transition-shadow duration-300 hover:shadow-soft;
+  }
+
+  /* Button Styles */
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary-hover transition-colors duration-300;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary-hover transition-colors duration-300;
+  }
+
+  /* Input Styles */
+  .input-focus {
+    @apply focus:ring-2 focus:ring-primary/20 focus:border-primary transition-shadow duration-300;
   }
 }
