@@ -57,47 +57,13 @@
   * {
     @apply border-border font-sans;
   }
-
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
   }
-
-  /* Enhanced Transitions */
-  .transition-all {
-    transition-property: all;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 300ms;
-  }
-
-  /* Hover Effects */
-  .hover-lift {
-    @apply transition-transform duration-300;
-  }
-  
-  .hover-lift:hover {
-    transform: translateY(-2px);
-  }
-
-  /* Card Styles */
-  .card-hover {
-    @apply transition-shadow duration-300 hover:shadow-soft;
-  }
-
-  /* Button Styles */
-  .btn-primary {
-    @apply bg-primary text-primary-foreground hover:bg-primary-hover transition-colors duration-300;
-  }
-
-  .btn-secondary {
-    @apply bg-secondary text-secondary-foreground hover:bg-secondary-hover transition-colors duration-300;
-  }
-
-  /* Input Styles */
-  .input-focus {
-    @apply focus:ring-2 focus:ring-primary/20 focus:border-primary transition-shadow duration-300;
-  }
+  .hover-lift { @apply transition-transform hover:-translate-y-1; }
+  .card-hover { @apply transition-shadow hover:shadow-lg; }
+  .btn-primary { @apply bg-primary text-white hover:bg-primary-hover transition-all; }
+  .btn-secondary { @apply bg-secondary text-primary hover:bg-secondary-hover transition-all; }
+  .input-focus { @apply focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all; }
 }

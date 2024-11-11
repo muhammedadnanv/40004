@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Award, BookOpen, Users } from "lucide-react";
+import { Award, BookOpen, Users, Sparkles, Star, Rocket } from "lucide-react";
 import { ProgramCard } from "@/components/ProgramCard";
 import { HeroSection } from "@/components/HeroSection";
 import { CertificationSection } from "@/components/CertificationSection";
@@ -10,6 +10,7 @@ import { ProjectIdeasSection } from "@/components/ProjectIdeasSection";
 import { useEffect } from "react";
 import { showRandomJoinNotification } from "@/utils/mockNotifications";
 import { getContentRecommendations, getContentEngagementStats } from "@/utils/contentAdaptation";
+import { motion } from "framer-motion";
 
 const Index = () => {
   useEffect(() => {
@@ -68,53 +69,79 @@ const Index = () => {
     }
   ];
 
+  const fadeInUp = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.6 }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white via-purple-50 to-white">
-      <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1527576539890-dfa815648363')] bg-cover bg-center opacity-5 pointer-events-none"></div>
+    <div className="min-h-screen bg-gradient-to-br from-white via-purple-50 to-white overflow-hidden">
+      <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1485827404703-89b55fcc595e')] bg-cover bg-center opacity-5 pointer-events-none"></div>
       <div className="relative">
         <HeroSection />
         
-        <section className="py-24 px-4">
-          <div className="container mx-auto max-w-5xl">
-            <h2 className="text-2xl font-light text-center mb-16 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-purple-800">
-              Our Task-Based Mentorship Approach
-            </h2>
+        <section className="py-24 px-4 relative">
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-50/30 to-transparent"></div>
+          <div className="container mx-auto max-w-5xl relative">
+            <motion.h2 
+              {...fadeInUp}
+              className="text-3xl font-extralight text-center mb-16 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-purple-800"
+            >
+              Our Task-Based Mentorship Approach <Sparkles className="inline-block w-6 h-6 text-purple-600 animate-pulse" />
+            </motion.h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              <Card className="border-0 shadow-none hover:bg-purple-50/50 transition-colors duration-300">
-                <CardHeader className="space-y-4">
-                  <Award className="w-8 h-8 text-purple-600" />
-                  <CardTitle className="text-lg font-light">Weekly Tasks</CardTitle>
-                  <CardDescription>Get structured weekly assignments with clear learning objectives</CardDescription>
-                </CardHeader>
-              </Card>
+              <motion.div {...fadeInUp} className="group">
+                <Card className="border-0 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 bg-white/80 backdrop-blur-sm">
+                  <CardHeader className="space-y-4">
+                    <Star className="w-8 h-8 text-purple-600 group-hover:rotate-12 transition-transform duration-300" />
+                    <CardTitle className="text-lg font-light">Weekly Tasks</CardTitle>
+                    <CardDescription className="text-sm">Get structured weekly assignments with clear learning objectives</CardDescription>
+                  </CardHeader>
+                </Card>
+              </motion.div>
               
-              <Card className="border-0 shadow-none hover:bg-purple-50/50 transition-colors duration-300">
-                <CardHeader className="space-y-4">
-                  <BookOpen className="w-8 h-8 text-purple-600" />
-                  <CardTitle className="text-lg font-light">Personalized Feedback</CardTitle>
-                  <CardDescription>Receive detailed feedback on your assignments from experienced mentors</CardDescription>
-                </CardHeader>
-              </Card>
+              <motion.div {...fadeInUp} transition={{ delay: 0.1 }} className="group">
+                <Card className="border-0 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 bg-white/80 backdrop-blur-sm">
+                  <CardHeader className="space-y-4">
+                    <BookOpen className="w-8 h-8 text-purple-600 group-hover:rotate-12 transition-transform duration-300" />
+                    <CardTitle className="text-lg font-light">Personalized Feedback</CardTitle>
+                    <CardDescription className="text-sm">Receive detailed feedback on your assignments from experienced mentors</CardDescription>
+                  </CardHeader>
+                </Card>
+              </motion.div>
               
-              <Card className="border-0 shadow-none hover:bg-purple-50/50 transition-colors duration-300">
-                <CardHeader className="space-y-4">
-                  <Users className="w-8 h-8 text-purple-600" />
-                  <CardTitle className="text-lg font-light">1-on-1 Mentorship</CardTitle>
-                  <CardDescription>Get personalized guidance and support throughout your journey</CardDescription>
-                </CardHeader>
-              </Card>
+              <motion.div {...fadeInUp} transition={{ delay: 0.2 }} className="group">
+                <Card className="border-0 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 bg-white/80 backdrop-blur-sm">
+                  <CardHeader className="space-y-4">
+                    <Rocket className="w-8 h-8 text-purple-600 group-hover:rotate-12 transition-transform duration-300" />
+                    <CardTitle className="text-lg font-light">1-on-1 Mentorship</CardTitle>
+                    <CardDescription className="text-sm">Get personalized guidance and support throughout your journey</CardDescription>
+                  </CardHeader>
+                </Card>
+              </motion.div>
             </div>
           </div>
         </section>
 
-        <section id="programs-section" className="py-24 px-4 bg-gradient-to-b from-white via-purple-50/30 to-white">
-          <div className="container mx-auto max-w-6xl">
-            <h2 className="text-2xl font-light text-center mb-16 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-purple-800">
-              Choose Your Mentorship Path
-            </h2>
+        <section id="programs-section" className="py-24 px-4 bg-gradient-to-b from-white via-purple-50/30 to-white relative">
+          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1498050108023-c5249f4df085')] bg-cover bg-fixed opacity-[0.02] pointer-events-none"></div>
+          <div className="container mx-auto max-w-6xl relative">
+            <motion.h2 
+              {...fadeInUp}
+              className="text-3xl font-extralight text-center mb-16 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-purple-800"
+            >
+              Choose Your Mentorship Path <Star className="inline-block w-6 h-6 text-purple-600 animate-pulse" />
+            </motion.h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
-              {programs.map((program) => (
-                <ProgramCard key={program.title} program={program} />
+              {programs.map((program, index) => (
+                <motion.div
+                  key={program.title}
+                  {...fadeInUp}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <ProgramCard program={program} />
+                </motion.div>
               ))}
             </div>
           </div>
