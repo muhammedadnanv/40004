@@ -1,4 +1,4 @@
-import { Share2, Facebook, Twitter, Linkedin } from "lucide-react";
+import { Share2, Facebook, Twitter, Linkedin, Link2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -6,7 +6,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { toast } from "sonner";
+import { useToast } from "@/hooks/use-toast";
 
 interface ShareProgramCardProps {
   program: {
@@ -16,8 +16,12 @@ interface ShareProgramCardProps {
 }
 
 export const ShareProgramCard = ({ program }: ShareProgramCardProps) => {
+  const { toast } = useToast();
   const websiteUrl = window.location.origin;
-  const shareUrl = `${websiteUrl}?program=${encodeURIComponent(program.title)}`;
+  
+  // Add referral ID to track shares
+  const referralId = Math.random().toString(36).substring(7);
+  const shareUrl = `${websiteUrl}?program=${encodeURIComponent(program.title)}&ref=${referralId}`;
   
   const shareText = `Join me in mastering ${program.title} with expert mentorship! 🚀`;
   
@@ -36,7 +40,26 @@ export const ShareProgramCard = ({ program }: ShareProgramCardProps) => {
 
     if (shareWindow) {
       shareWindow.focus();
-      toast.success(`Sharing on ${platform}! Thank you for spreading the word!`);
+      toast({
+        title: `Sharing on ${platform}!`,
+        description: "Thank you for spreading the word!",
+      });
+    }
+  };
+
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      toast({
+        title: "Link Copied!",
+        description: "Share this link with your friends",
+      });
+    } catch (err) {
+      toast({
+        title: "Failed to copy",
+        description: "Please try again",
+        variant: "destructive",
+      });
     }
   };
 
@@ -63,6 +86,10 @@ export const ShareProgramCard = ({ program }: ShareProgramCardProps) => {
         <DropdownMenuItem onClick={() => handleShare('linkedin')} className="cursor-pointer">
           <Linkedin className="mr-2 h-4 w-4" />
           LinkedIn
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={copyToClipboard} className="cursor-pointer">
+          <Link2 className="mr-2 h-4 w-4" />
+          Copy Link
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
