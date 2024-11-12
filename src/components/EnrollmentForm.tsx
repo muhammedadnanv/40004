@@ -34,15 +34,23 @@ export const EnrollmentForm = ({ isOpen, onClose, programTitle, amount }: Enroll
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      address: "",
+      couponCode: "",
+    },
   });
 
   const handleCouponCode = () => {
     const couponCode = form.getValues("couponCode");
     if (couponCode === "comicfix500" && !couponApplied) {
+      setFinalAmount(prev => Math.max(0, prev - 500));
       setCouponApplied(true);
       toast({
-        title: "Success! 🎉",
-        description: "Your preview content is downloading...",
+        title: "Coupon Applied Successfully! 🎉",
+        description: "₹500 has been deducted from your total amount.",
       });
       generateAndDownloadPDF();
     } else if (couponApplied) {
@@ -68,17 +76,22 @@ export const EnrollmentForm = ({ isOpen, onClose, programTitle, amount }: Enroll
         currency: "INR",
         name: "Dev Mentor Hub",
         description: `Enrollment for ${programTitle}`,
+        handler: function (response: any) {
+          if (response.razorpay_payment_id) {
+            toast({
+              title: "Payment Successful! 🎉",
+              description: "Welcome to Dev Mentor Hub! You can now join our WhatsApp group.",
+            });
+            setPaymentSuccess(true);
+          }
+        },
         prefill: {
           name: data.name,
           email: data.email,
           contact: data.phone,
         },
-        handler: function (response: any) {
-          toast({
-            title: "Payment Successful!",
-            description: "You can now join our WhatsApp group.",
-          });
-          setPaymentSuccess(true);
+        theme: {
+          color: "#4A00E0",
         },
       };
 
@@ -99,7 +112,9 @@ export const EnrollmentForm = ({ isOpen, onClose, programTitle, amount }: Enroll
         {!paymentSuccess ? (
           <>
             <DialogHeader>
-              <DialogTitle>Enroll in {programTitle}</DialogTitle>
+              <DialogTitle className="text-xl font-semibold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">
+                Enroll in {programTitle}
+              </DialogTitle>
             </DialogHeader>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -109,20 +124,27 @@ export const EnrollmentForm = ({ isOpen, onClose, programTitle, amount }: Enroll
                     <Input 
                       placeholder="Enter coupon code" 
                       {...form.register("couponCode")}
+                      className="border-purple-200 focus:border-purple-400 transition-colors"
                     />
                   </div>
                   <Button 
                     type="button" 
                     variant="outline" 
                     onClick={handleCouponCode}
+                    className="border-purple-200 hover:bg-purple-50 text-purple-600 hover:text-purple-700"
                   >
                     Apply
                   </Button>
                 </div>
-                <div className="text-right font-semibold">
+                <div className="text-right font-semibold text-purple-600">
                   Total Amount: ₹{finalAmount}
                 </div>
-                <Button type="submit" className="w-full">Proceed to Payment</Button>
+                <Button 
+                  type="submit" 
+                  className="w-full bg-purple-600 hover:bg-purple-700 text-white transition-all duration-300"
+                >
+                  Proceed to Payment
+                </Button>
               </form>
             </Form>
           </>
