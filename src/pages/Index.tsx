@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Award, BookOpen, Users, Sparkles, Star, Rocket } from "lucide-react";
+import { Award, BookOpen, Users, Sparkles, Star, Rocket, Code, Brain, Target, Zap } from "lucide-react";
 import { ProgramCard } from "@/components/ProgramCard";
 import { HeroSection } from "@/components/HeroSection";
 import { CertificationSection } from "@/components/CertificationSection";
@@ -8,6 +8,8 @@ import { WhatsAppSection } from "@/components/WhatsAppSection";
 import { SocialMediaFooter } from "@/components/SocialMediaFooter";
 import { ProjectIdeasSection } from "@/components/ProjectIdeasSection";
 import { CategoryTopper } from "@/components/CategoryTopper";
+import { LearningPathSection } from "@/components/LearningPathSection";
+import { SuccessStoriesSection } from "@/components/SuccessStoriesSection";
 import { useEffect } from "react";
 import { showRandomJoinNotification } from "@/utils/mockNotifications";
 import { getContentRecommendations, getContentEngagementStats } from "@/utils/contentAdaptation";
@@ -96,6 +98,10 @@ const Index = () => {
           <HeroSection />
         </section>
 
+        <section aria-label="learning-paths" className="py-24 bg-gradient-to-r from-purple-50 via-white to-purple-50">
+          <LearningPathSection />
+        </section>
+
         <section aria-label="features" className="py-24 px-4 relative">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-50/30 to-transparent"></div>
           <div className="container mx-auto max-w-5xl relative">
@@ -106,36 +112,28 @@ const Index = () => {
               Our Task-Based Mentorship Approach <Sparkles className="inline-block w-6 h-6 text-purple-600 animate-pulse" />
             </motion.h2>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              <motion.div {...fadeInUp} className="group">
-                <Card className="border-0 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 bg-white/80 backdrop-blur-sm">
-                  <CardHeader className="space-y-4">
-                    <Star className="w-8 h-8 text-purple-600 group-hover:rotate-12 transition-transform duration-300" />
-                    <CardTitle className="text-lg font-light">Weekly Tasks</CardTitle>
-                    <CardDescription className="text-sm">Get structured weekly assignments with clear learning objectives</CardDescription>
-                  </CardHeader>
-                </Card>
-              </motion.div>
-              
-              <motion.div {...fadeInUp} transition={{ delay: 0.1 }} className="group">
-                <Card className="border-0 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 bg-white/80 backdrop-blur-sm">
-                  <CardHeader className="space-y-4">
-                    <BookOpen className="w-8 h-8 text-purple-600 group-hover:rotate-12 transition-transform duration-300" />
-                    <CardTitle className="text-lg font-light">Personalized Feedback</CardTitle>
-                    <CardDescription className="text-sm">Receive detailed feedback on your assignments from experienced mentors</CardDescription>
-                  </CardHeader>
-                </Card>
-              </motion.div>
-              
-              <motion.div {...fadeInUp} transition={{ delay: 0.2 }} className="group">
-                <Card className="border-0 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 bg-white/80 backdrop-blur-sm">
-                  <CardHeader className="space-y-4">
-                    <Rocket className="w-8 h-8 text-purple-600 group-hover:rotate-12 transition-transform duration-300" />
-                    <CardTitle className="text-lg font-light">1-on-1 Mentorship</CardTitle>
-                    <CardDescription className="text-sm">Get personalized guidance and support throughout your journey</CardDescription>
-                  </CardHeader>
-                </Card>
-              </motion.div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              {[
+                { icon: Star, title: "Weekly Tasks", desc: "Structured assignments with clear objectives" },
+                { icon: Brain, title: "AI-Powered Learning", desc: "Personalized learning paths and feedback" },
+                { icon: Target, title: "Goal-Oriented", desc: "Focus on practical skill development" },
+                { icon: Zap, title: "Rapid Progress", desc: "Accelerated learning through hands-on practice" }
+              ].map((feature, index) => (
+                <motion.div 
+                  key={feature.title}
+                  {...fadeInUp} 
+                  transition={{ delay: index * 0.1 }}
+                  className="group"
+                >
+                  <Card className="border-0 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 bg-white/80 backdrop-blur-sm">
+                    <CardHeader className="space-y-4">
+                      <feature.icon className="w-8 h-8 text-purple-600 group-hover:rotate-12 transition-transform duration-300" />
+                      <CardTitle className="text-lg font-light">{feature.title}</CardTitle>
+                      <CardDescription className="text-sm">{feature.desc}</CardDescription>
+                    </CardHeader>
+                  </Card>
+                </motion.div>
+              ))}
             </div>
           </div>
         </section>
@@ -161,6 +159,10 @@ const Index = () => {
               ))}
             </div>
           </div>
+        </section>
+
+        <section aria-label="success-stories" className="py-24 bg-gradient-to-r from-purple-50 via-white to-purple-50">
+          <SuccessStoriesSection />
         </section>
 
         <section aria-label="project-ideas" className="py-24">
