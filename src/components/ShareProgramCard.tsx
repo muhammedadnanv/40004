@@ -23,7 +23,8 @@ export const ShareProgramCard = ({ program }: ShareProgramCardProps) => {
   const referralId = Math.random().toString(36).substring(7);
   const shareUrl = `${websiteUrl}?program=${encodeURIComponent(program.title)}&ref=${referralId}`;
   
-  const shareText = `Join me in mastering ${program.title} with expert mentorship! 🚀`;
+  // Create a more engaging share text with program details
+  const shareText = `🚀 Join me in mastering ${program.title}!\n\n${program.description.slice(0, 100)}... \n\nStart your journey with expert mentorship!`;
   
   const shareLinks = {
     facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareText)}`,
@@ -49,7 +50,7 @@ export const ShareProgramCard = ({ program }: ShareProgramCardProps) => {
 
   const copyToClipboard = async () => {
     try {
-      await navigator.clipboard.writeText(shareUrl);
+      await navigator.clipboard.writeText(`${shareText}\n\n${shareUrl}`);
       toast({
         title: "Link Copied!",
         description: "Share this link with your friends",
