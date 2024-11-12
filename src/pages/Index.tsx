@@ -76,12 +76,15 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white via-purple-50 to-white overflow-hidden">
+    <main className="min-h-screen bg-gradient-to-br from-white via-purple-50 to-white overflow-hidden">
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1485827404703-89b55fcc595e')] bg-cover bg-center opacity-5 pointer-events-none"></div>
+      
       <div className="relative">
-        <HeroSection />
+        <section aria-label="hero" className="py-24">
+          <HeroSection />
+        </section>
         
-        <section className="py-24 px-4 relative">
+        <section aria-label="features" className="py-24 px-4 relative">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-50/30 to-transparent"></div>
           <div className="container mx-auto max-w-5xl relative">
             <motion.h2 
@@ -90,6 +93,7 @@ const Index = () => {
             >
               Our Task-Based Mentorship Approach <Sparkles className="inline-block w-6 h-6 text-purple-600 animate-pulse" />
             </motion.h2>
+            
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               <motion.div {...fadeInUp} className="group">
                 <Card className="border-0 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 bg-white/80 backdrop-blur-sm">
@@ -124,7 +128,7 @@ const Index = () => {
           </div>
         </section>
 
-        <section id="programs-section" className="py-24 px-4 bg-gradient-to-b from-white via-purple-50/30 to-white relative">
+        <section id="programs-section" aria-label="programs" className="py-24 px-4 bg-gradient-to-b from-white via-purple-50/30 to-white relative">
           <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1498050108023-c5249f4df085')] bg-cover bg-fixed opacity-[0.02] pointer-events-none"></div>
           <div className="container mx-auto max-w-6xl relative">
             <motion.h2 
@@ -147,12 +151,27 @@ const Index = () => {
           </div>
         </section>
 
-        <ProjectIdeasSection />
-        <FAQSection />
-        <WhatsAppSection />
-        <SocialMediaFooter />
+        <section aria-label="project-ideas" className="py-24">
+          <ProjectIdeasSection />
+        </section>
+
+        <section aria-label="certification" className="py-24">
+          <CertificationSection />
+        </section>
+
+        <section aria-label="faq" className="py-24">
+          <FAQSection />
+        </section>
+
+        <section aria-label="whatsapp" className="py-24">
+          <WhatsAppSection />
+        </section>
+
+        <footer className="py-24">
+          <SocialMediaFooter />
+        </footer>
       </div>
-    </div>
+    </main>
   );
 };
 
