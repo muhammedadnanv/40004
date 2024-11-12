@@ -19,6 +19,7 @@ interface ProgramCardProps {
 
 export const ProgramCard = ({ program }: ProgramCardProps) => {
   const [showEnrollmentForm, setShowEnrollmentForm] = useState(false);
+  const [isEnrolled, setIsEnrolled] = useState(false);
 
   useEffect(() => {
     const randomDelay = Math.floor(Math.random() * 30000) + 20000;
@@ -47,10 +48,12 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
           <CardTitle className="text-base sm:text-lg md:text-xl font-light group-hover:text-primary transition-colors">
             {program.title}
           </CardTitle>
-          <CardDescription className="text-xs sm:text-sm">{program.description}</CardDescription>
+          <CardDescription className={`text-xs sm:text-sm ${!isEnrolled ? 'blur-sm' : ''}`}>
+            {program.description}
+          </CardDescription>
         </CardHeader>
         
-        <CardContent className="space-y-3 sm:space-y-4 p-4 sm:p-6">
+        <CardContent className={`space-y-3 sm:space-y-4 p-4 sm:p-6 ${!isEnrolled ? 'blur-sm' : ''}`}>
           <div>
             <p className="text-xs sm:text-sm text-gray-600 mb-2 sm:mb-3">Duration: {program.duration}</p>
             <div className="flex flex-wrap gap-1.5 sm:gap-2">
@@ -73,12 +76,22 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
 
         <CardFooter className="flex flex-col gap-2 sm:gap-3 p-4 sm:p-6">
           <p className="text-sm sm:text-base md:text-lg font-light">₹49</p>
-          <Button 
-            className="w-full bg-primary hover:bg-primary/90 text-xs sm:text-sm font-light shadow-material-1 hover:shadow-material-2 transition-all duration-300"
-            onClick={handleEnrollClick}
-          >
-            Enroll Now
-          </Button>
+          {!isEnrolled ? (
+            <Button 
+              className="w-full bg-primary hover:bg-primary/90 text-xs sm:text-sm font-light shadow-material-1 hover:shadow-material-2 transition-all duration-300"
+              onClick={handleEnrollClick}
+            >
+              Enroll Now
+            </Button>
+          ) : (
+            <Button 
+              variant="outline"
+              className="w-full text-xs sm:text-sm font-light border-primary/20 text-primary/80"
+              disabled
+            >
+              Enrolled
+            </Button>
+          )}
           <Button 
             variant="ghost"
             className="w-full text-[10px] sm:text-xs text-gray-500 hover:text-primary font-light group"
@@ -91,7 +104,10 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
 
       <EnrollmentForm 
         isOpen={showEnrollmentForm}
-        onClose={() => setShowEnrollmentForm(false)}
+        onClose={() => {
+          setShowEnrollmentForm(false);
+          setIsEnrolled(true);
+        }}
         programTitle={program.title}
         amount={49}
       />
