@@ -9,7 +9,7 @@ export const HeroSection = () => {
   };
 
   return (
-    <section className="relative py-32 px-4 overflow-hidden">
+    <section className="relative py-16 sm:py-20 md:py-24 lg:py-32 px-4 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-r from-purple-100/50 via-white to-purple-100/50"></div>
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
@@ -17,21 +17,21 @@ export const HeroSection = () => {
         transition={{ duration: 0.6 }}
         className="container mx-auto max-w-3xl text-center relative"
       >
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <motion.h1 
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="text-4xl sm:text-5xl md:text-6xl font-extralight mb-8 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-purple-800 flex items-center justify-center gap-2"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extralight tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-purple-800 flex items-center justify-center gap-2 px-4"
           >
-            Dev Mentor Hub <Sparkles className="w-8 h-8 text-purple-600 animate-pulse" />
+            Dev Mentor Hub <Sparkles className="w-6 h-6 sm:w-8 sm:h-8 text-purple-600 animate-pulse" />
           </motion.h1>
           
           <motion.p 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.5 }}
-            className="text-lg text-gray-600 mb-16 font-light max-w-xl mx-auto"
+            className="text-base sm:text-lg text-gray-600 mb-8 sm:mb-12 lg:mb-16 font-light max-w-xl mx-auto px-4"
           >
             Your journey to mastering technology starts here.
           </motion.p>
@@ -40,7 +40,7 @@ export const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.5 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto"
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto px-4"
           >
             <Button 
               onClick={scrollToPrograms} 

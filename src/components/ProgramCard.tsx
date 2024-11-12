@@ -36,23 +36,23 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
 
   return (
     <>
-      <Card className="group border-0 shadow-material-1 hover:shadow-material-3 transition-shadow duration-300 ease-in-out animate-scale-in">
-        <CardHeader className="space-y-4">
+      <Card className="group border-0 shadow-material-1 hover:shadow-material-3 transition-shadow duration-300 ease-in-out animate-scale-in h-full">
+        <CardHeader className="space-y-3 sm:space-y-4">
           <Badge 
             variant="secondary" 
             className="w-fit text-xs font-light bg-primary/5 text-primary hover:bg-primary/10 transition-colors"
           >
             {program.category}
           </Badge>
-          <CardTitle className="text-xl font-light group-hover:text-primary transition-colors">
+          <CardTitle className="text-lg sm:text-xl font-light group-hover:text-primary transition-colors">
             {program.title}
           </CardTitle>
           <CardDescription className="text-sm">{program.description}</CardDescription>
         </CardHeader>
         
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-4 sm:space-y-6">
           <div>
-            <p className="text-sm text-gray-600 mb-4">Duration: {program.duration}</p>
+            <p className="text-sm text-gray-600 mb-3 sm:mb-4">Duration: {program.duration}</p>
             <div className="flex flex-wrap gap-2">
               {program.skills.map((skill) => (
                 <Badge 
@@ -71,8 +71,8 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
           </div>
         </CardContent>
 
-        <CardFooter className="flex flex-col gap-4 pt-6">
-          <p className="text-lg font-light">₹49</p>
+        <CardFooter className="flex flex-col gap-3 sm:gap-4 pt-4 sm:pt-6">
+          <p className="text-base sm:text-lg font-light">₹49</p>
           <Button 
             className="w-full bg-primary hover:bg-primary/90 text-sm font-light shadow-material-1 hover:shadow-material-2 transition-all duration-300"
             onClick={handleEnrollClick}
