@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Award, BookOpen, Users, Sparkles, Star, Rocket } from "lucide-react";
 import { ProgramCard } from "@/components/ProgramCard";
 import { HeroSection } from "@/components/HeroSection";
+import { AiWorkingProcess } from "@/components/AiWorkingProcess";
 import { CertificationSection } from "@/components/CertificationSection";
 import { FAQSection } from "@/components/FAQSection";
 import { WhatsAppSection } from "@/components/WhatsAppSection";
@@ -95,6 +96,8 @@ const Index = () => {
         <section aria-label="hero" className="py-24">
           <HeroSection />
         </section>
+
+        <AiWorkingProcess />
 
         <section aria-label="features" className="py-24 px-4 relative">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-50/30 to-transparent"></div>
