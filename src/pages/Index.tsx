@@ -81,12 +81,12 @@ const Index = () => {
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1485827404703-89b55fcc595e')] bg-cover bg-center opacity-5 pointer-events-none"></div>
       
       <div className="relative">
+        <section aria-label="category-notice" className="container mx-auto px-4 pt-8">
+          <CategoryTopper />
+        </section>
+
         <section aria-label="hero" className="py-24">
           <HeroSection />
-        </section>
-        
-        <section aria-label="category-notice" className="container mx-auto px-4">
-          <CategoryTopper />
         </section>
 
         <section aria-label="features" className="py-24 px-4 relative">
