@@ -7,6 +7,7 @@ import { FAQSection } from "@/components/FAQSection";
 import { WhatsAppSection } from "@/components/WhatsAppSection";
 import { SocialMediaFooter } from "@/components/SocialMediaFooter";
 import { ProjectIdeasSection } from "@/components/ProjectIdeasSection";
+import { CategoryTopper } from "@/components/CategoryTopper";
 import { useEffect } from "react";
 import { showRandomJoinNotification } from "@/utils/mockNotifications";
 import { getContentRecommendations, getContentEngagementStats } from "@/utils/contentAdaptation";
@@ -84,6 +85,10 @@ const Index = () => {
           <HeroSection />
         </section>
         
+        <section aria-label="category-notice" className="container mx-auto px-4">
+          <CategoryTopper />
+        </section>
+
         <section aria-label="features" className="py-24 px-4 relative">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-50/30 to-transparent"></div>
           <div className="container mx-auto max-w-5xl relative">
