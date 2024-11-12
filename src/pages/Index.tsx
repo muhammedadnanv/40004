@@ -67,6 +67,13 @@ const Index = () => {
       duration: "10 weeks",
       skills: ["No-Code Tools", "Visual Development", "Automation", "App Design"],
       category: "No-Code Development"
+    },
+    {
+      title: "Full Stack API Development",
+      description: "Comprehensive mentorship in building scalable APIs and full stack applications. Learn best practices in API design, authentication, database modeling, and deployment. Get hands-on experience with real-world projects and weekly feedback.",
+      duration: "14 weeks",
+      skills: ["RESTful APIs", "Node.js", "Database Design", "Authentication", "Cloud Deployment"],
+      category: "Full Stack Development"
     }
   ];
 
