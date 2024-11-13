@@ -1,33 +1,26 @@
 import { motion } from "framer-motion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Quote } from "lucide-react";
 
 export const SuccessStoriesSection = () => {
   const stories = [
     {
-      name: "Sarah Chen",
+      name: "Rahul Sharma",
       role: "AI Developer",
-      company: "TechCorp",
-      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
-      quote: "The AI development mentorship program helped me transition into a new role. The practical assignments were invaluable.",
-      initials: "SC"
+      company: "TechVision India",
+      quote: "The AI development mentorship program helped me transition from a traditional software role to AI development. The practical assignments and weekly feedback sessions were instrumental in building my confidence.",
     },
     {
-      name: "Michael Rodriguez",
+      name: "Priya Patel",
       role: "Frontend Engineer",
-      company: "StartupX",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d",
-      quote: "The structured learning approach and weekly feedback accelerated my growth as a developer.",
-      initials: "MR"
+      company: "Bangalore Digital Solutions",
+      quote: "Thanks to the structured learning approach and real-world projects, I was able to land my dream job. The mentorship in React and TypeScript was exactly what I needed.",
     },
     {
-      name: "Emily Johnson",
+      name: "Arun Kumar",
       role: "Full Stack Developer",
-      company: "InnovateLabs",
-      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80",
-      quote: "The mentorship helped me build real-world projects that now power my portfolio.",
-      initials: "EJ"
+      company: "Kerala Tech Hub",
+      quote: "The mentorship program helped me understand complex concepts through practical applications. I now lead development teams and implement AI solutions in our projects.",
     }
   ];
 
@@ -52,10 +45,6 @@ export const SuccessStoriesSection = () => {
           >
             <Card className="h-full border-0 shadow-lg hover:shadow-xl transition-all duration-300">
               <CardHeader className="text-center">
-                <Avatar className="w-20 h-20 mx-auto mb-4">
-                  <AvatarImage src={story.image} alt={story.name} />
-                  <AvatarFallback>{story.initials}</AvatarFallback>
-                </Avatar>
                 <Quote className="w-8 h-8 mx-auto text-purple-400 mb-4 opacity-50" />
                 <CardDescription className="text-base italic">"{story.quote}"</CardDescription>
               </CardHeader>
