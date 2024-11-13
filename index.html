@@ -27,25 +27,69 @@
 
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script>
-    // Basic deterrent for keyboard shortcuts
-    document.addEventListener('keydown', function(e) {
-      if (!e || !e.key) return; // Guard against undefined events
-      
-      if ((e.ctrlKey || e.metaKey) && (e.key === 'u' || e.key === 's')) {
+    // Comprehensive protection against dev tools and inspection
+    (function() {
+      // Disable right click
+      document.addEventListener('contextmenu', function(e) {
         e.preventDefault();
         return false;
-      }
-      if (e.key === 'F12') {
-        e.preventDefault();
-        return false;
-      }
-    });
+      });
 
-    // Disable right-click
-    document.addEventListener('contextmenu', function(e) {
-      e.preventDefault();
-      return false;
-    });
+      // Disable keyboard shortcuts
+      document.addEventListener('keydown', function(e) {
+        if (!e || !e.key) return;
+        
+        // Prevent common dev tool shortcuts
+        if ((e.ctrlKey || e.metaKey) && (
+          e.key === 'u' ||      // View source
+          e.key === 's' ||      // Save
+          e.key === 'p' ||      // Print/PDF
+          e.key === 'i' ||      // Inspect
+          e.key === 'j' ||      // Console
+          e.key === 'c' ||      // Copy (when combined with inspect)
+          e.shiftKey           // Various combinations
+        )) {
+          e.preventDefault();
+          return false;
+        }
+
+        // Prevent F12 key
+        if (e.key === 'F12' || e.keyCode === 123) {
+          e.preventDefault();
+          return false;
+        }
+      });
+
+      // Disable drag and select
+      document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+        return false;
+      });
+
+      document.addEventListener('dragstart', function(e) {
+        e.preventDefault();
+        return false;
+      });
+
+      // Additional protection against dev tools
+      function detectDevTools() {
+        const widthThreshold = window.outerWidth - window.innerWidth > 160;
+        const heightThreshold = window.outerHeight - window.innerHeight > 160;
+        
+        if(widthThreshold || heightThreshold) {
+          document.body.innerHTML = 'Dev tools detected';
+        }
+      }
+
+      window.addEventListener('resize', detectDevTools);
+      setInterval(detectDevTools, 1000);
+
+      // Clear console
+      setInterval(() => {
+        console.clear();
+        console.log('%c', 'font-size:0;');
+      }, 100);
+    })();
 
     // Register Service Worker
     if ('serviceWorker' in navigator) {
