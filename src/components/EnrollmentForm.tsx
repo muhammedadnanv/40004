@@ -11,6 +11,13 @@ import { FormFields } from "./enrollment/FormFields";
 import { SuccessCard } from "./enrollment/SuccessCard";
 import { generateAndDownloadPDF } from "@/utils/generatePDF";
 
+// Define Razorpay response type
+interface RazorpayResponse {
+  razorpay_payment_id: string;
+  razorpay_order_id?: string;
+  razorpay_signature?: string;
+}
+
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
@@ -31,6 +38,7 @@ export const EnrollmentForm = ({ isOpen, onClose, programTitle, amount }: Enroll
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [finalAmount, setFinalAmount] = useState(amount);
   const [couponApplied, setCouponApplied] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -68,23 +76,41 @@ export const EnrollmentForm = ({ isOpen, onClose, programTitle, amount }: Enroll
     }
   };
 
+  const handlePaymentSuccess = (response: RazorpayResponse) => {
+    if (response.razorpay_payment_id) {
+      setPaymentSuccess(true);
+      toast({
+        title: "Payment Successful! 🎉",
+        description: "Welcome to Dev Mentor Hub! You can now join our WhatsApp group.",
+      });
+    }
+  };
+
+  const handlePaymentError = (error: any) => {
+    toast({
+      title: "Payment Failed",
+      description: error?.description || "Something went wrong with the payment. Please try again.",
+      variant: "destructive",
+    });
+    setIsProcessing(false);
+  };
+
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
+      setIsProcessing(true);
+
+      // Check if Razorpay is loaded
+      if (!(window as any).Razorpay) {
+        throw new Error("Razorpay SDK failed to load");
+      }
+
       const options = {
-        key: "rzp_live_5JYQnqKRnKhB5y",
-        amount: finalAmount * 100,
+        key: "rzp_live_5JYQnqKRnKhB5y", // Your Razorpay Key
+        amount: finalAmount * 100, // Amount in smallest currency unit (paise)
         currency: "INR",
         name: "Dev Mentor Hub",
         description: `Enrollment for ${programTitle}`,
-        handler: function (response: any) {
-          if (response.razorpay_payment_id) {
-            toast({
-              title: "Payment Successful! 🎉",
-              description: "Welcome to Dev Mentor Hub! You can now join our WhatsApp group.",
-            });
-            setPaymentSuccess(true);
-          }
-        },
+        handler: handlePaymentSuccess,
         prefill: {
           name: data.name,
           email: data.email,
@@ -93,16 +119,23 @@ export const EnrollmentForm = ({ isOpen, onClose, programTitle, amount }: Enroll
         theme: {
           color: "#4A00E0",
         },
+        modal: {
+          ondismiss: () => {
+            setIsProcessing(false);
+          },
+        },
       };
 
       const razorpay = new (window as any).Razorpay(options);
+      razorpay.on('payment.failed', handlePaymentError);
       razorpay.open();
-    } catch (error) {
+    } catch (error: any) {
       toast({
         title: "Error",
-        description: "Something went wrong. Please try again.",
+        description: error.message || "Something went wrong. Please try again.",
         variant: "destructive",
       });
+      setIsProcessing(false);
     }
   };
 
@@ -142,8 +175,9 @@ export const EnrollmentForm = ({ isOpen, onClose, programTitle, amount }: Enroll
                 <Button 
                   type="submit" 
                   className="w-full bg-purple-600 hover:bg-purple-700 text-white transition-all duration-300"
+                  disabled={isProcessing}
                 >
-                  Proceed to Payment
+                  {isProcessing ? "Processing..." : "Proceed to Payment"}
                 </Button>
               </form>
             </Form>
