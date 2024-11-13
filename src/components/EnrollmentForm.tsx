@@ -11,11 +11,40 @@ import { FormFields } from "./enrollment/FormFields";
 import { SuccessCard } from "./enrollment/SuccessCard";
 import { generateAndDownloadPDF } from "@/utils/generatePDF";
 
-// Define Razorpay response type
+// Define Razorpay response and options types
 interface RazorpayResponse {
   razorpay_payment_id: string;
   razorpay_order_id?: string;
   razorpay_signature?: string;
+}
+
+interface RazorpayOptions {
+  key: string;
+  amount: number;
+  currency: string;
+  name: string;
+  description: string;
+  handler: (response: RazorpayResponse) => void;
+  prefill: {
+    name: string;
+    email: string;
+    contact: string;
+  };
+  theme: {
+    color: string;
+  };
+  modal?: {
+    ondismiss: () => void;
+  };
+}
+
+declare global {
+  interface Window {
+    Razorpay: new (options: RazorpayOptions) => {
+      open: () => void;
+      on: (event: string, handler: (response: any) => void) => void;
+    };
+  }
 }
 
 const formSchema = z.object({
@@ -79,6 +108,7 @@ export const EnrollmentForm = ({ isOpen, onClose, programTitle, amount }: Enroll
   const handlePaymentSuccess = (response: RazorpayResponse) => {
     if (response.razorpay_payment_id) {
       setPaymentSuccess(true);
+      setIsProcessing(false);
       toast({
         title: "Payment Successful! 🎉",
         description: "Welcome to Dev Mentor Hub! You can now join our WhatsApp group.",
@@ -87,6 +117,7 @@ export const EnrollmentForm = ({ isOpen, onClose, programTitle, amount }: Enroll
   };
 
   const handlePaymentError = (error: any) => {
+    console.error("Payment failed:", error);
     toast({
       title: "Payment Failed",
       description: error?.description || "Something went wrong with the payment. Please try again.",
@@ -99,14 +130,14 @@ export const EnrollmentForm = ({ isOpen, onClose, programTitle, amount }: Enroll
     try {
       setIsProcessing(true);
 
-      // Check if Razorpay is loaded
-      if (!(window as any).Razorpay) {
-        throw new Error("Razorpay SDK failed to load");
+      // Verify Razorpay SDK is loaded
+      if (typeof window.Razorpay === "undefined") {
+        throw new Error("Razorpay SDK failed to load. Please check your internet connection and try again.");
       }
 
-      const options = {
-        key: "rzp_live_5JYQnqKRnKhB5y", // Your Razorpay Key
-        amount: finalAmount * 100, // Amount in smallest currency unit (paise)
+      const options: RazorpayOptions = {
+        key: "rzp_live_5JYQnqKRnKhB5y",
+        amount: finalAmount * 100, // Amount in paise
         currency: "INR",
         name: "Dev Mentor Hub",
         description: `Enrollment for ${programTitle}`,
@@ -126,10 +157,11 @@ export const EnrollmentForm = ({ isOpen, onClose, programTitle, amount }: Enroll
         },
       };
 
-      const razorpay = new (window as any).Razorpay(options);
+      const razorpay = new window.Razorpay(options);
       razorpay.on('payment.failed', handlePaymentError);
       razorpay.open();
     } catch (error: any) {
+      console.error("Razorpay initialization error:", error);
       toast({
         title: "Error",
         description: error.message || "Something went wrong. Please try again.",
