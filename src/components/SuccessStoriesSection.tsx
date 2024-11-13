@@ -6,21 +6,18 @@ export const SuccessStoriesSection = () => {
   const stories = [
     {
       name: "Rahul Sharma",
-      role: "AI Developer",
-      company: "TechVision India",
-      quote: "The AI development mentorship program helped me transition from a traditional software role to AI development. The practical assignments and weekly feedback sessions were instrumental in building my confidence.",
+      program: "AI Prompt Design Mentorship",
+      quote: "The AI development mentorship program helped me transition from a traditional software role to AI development. The practical assignments and weekly feedback sessions were instrumental in building my confidence."
     },
     {
       name: "Priya Patel",
-      role: "Frontend Engineer",
-      company: "Bangalore Digital Solutions",
-      quote: "Thanks to the structured learning approach and real-world projects, I was able to land my dream job. The mentorship in React and TypeScript was exactly what I needed.",
+      program: "Frontend Development",
+      quote: "Thanks to the structured learning approach and real-world projects, I was able to land my dream job. The mentorship in React and TypeScript was exactly what I needed."
     },
     {
       name: "Arun Kumar",
-      role: "Full Stack Developer",
-      company: "Kerala Tech Hub",
-      quote: "The mentorship program helped me understand complex concepts through practical applications. I now lead development teams and implement AI solutions in our projects.",
+      program: "Full Stack API Development",
+      quote: "The mentorship program helped me understand complex concepts through practical applications. I now lead development teams and implement AI solutions in our projects."
     }
   ];
 
@@ -50,8 +47,7 @@ export const SuccessStoriesSection = () => {
               </CardHeader>
               <CardContent className="text-center">
                 <h3 className="font-medium text-lg">{story.name}</h3>
-                <p className="text-sm text-gray-600">{story.role}</p>
-                <p className="text-sm text-purple-600">{story.company}</p>
+                <p className="text-sm text-purple-600">{story.program}</p>
               </CardContent>
             </Card>
           </motion.div>
