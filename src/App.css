@@ -10,7 +10,6 @@
   }
 }
 
-/* Mobile-first responsive utilities */
 .container-fluid {
   width: 100%;
   padding-right: 1rem;
@@ -33,14 +32,6 @@
   }
 }
 
-/* Touch-friendly interactions */
-@media (hover: none) {
-  .hover-lift:hover {
-    transform: none;
-  }
-}
-
-/* Improved accessibility */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;

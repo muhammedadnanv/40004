@@ -28,11 +28,11 @@ export default {
         display: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
       },
       colors: {
-        border: "hsl(250 30% 90%)",
-        input: "hsl(250 30% 90%)",
+        border: "hsl(220 13% 91%)",
+        input: "hsl(220 13% 91%)",
         ring: "hsl(250 60% 45%)",
         background: "hsl(0 0% 100%)",
-        foreground: "hsl(250 60% 45%)",
+        foreground: "hsl(224 71% 4%)",
         primary: {
           DEFAULT: "hsl(250 60% 45%)",
           foreground: "hsl(0 0% 100%)",
@@ -42,14 +42,18 @@ export default {
           dark: "hsl(250 60% 35%)",
         },
         secondary: {
-          DEFAULT: "hsl(270 70% 98%)",
-          foreground: "hsl(250 60% 45%)",
-          hover: "hsl(270 70% 94%)",
+          DEFAULT: "hsl(0 0% 98%)",
+          foreground: "hsl(224 71% 4%)",
+          hover: "hsl(0 0% 96%)",
         },
         accent: {
-          DEFAULT: "hsl(270 70% 96%)",
-          foreground: "hsl(250 60% 45%)",
-          hover: "hsl(270 70% 92%)",
+          DEFAULT: "hsl(220 14% 96%)",
+          foreground: "hsl(224 71% 4%)",
+          hover: "hsl(220 14% 94%)",
+        },
+        muted: {
+          DEFAULT: "hsl(220 14% 96%)",
+          foreground: "hsl(220 9% 46%)",
         },
         success: {
           DEFAULT: "hsl(142 72% 29%)",
@@ -68,9 +72,9 @@ export default {
         },
       },
       boxShadow: {
-        'soft': '0 2px 15px rgba(0,0,0,0.05)',
-        'glow': '0 0 15px rgba(101,93,255,0.15)',
-        'card': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+        'soft': '0 2px 15px rgba(0,0,0,0.03)',
+        'glow': '0 0 15px rgba(101,93,255,0.1)',
+        'card': '0 1px 3px rgba(0,0,0,0.05)',
       },
       animation: {
         "fade-up": "fadeUp 0.5s ease-out",
