@@ -11,14 +11,14 @@ import { FormFields } from "./enrollment/FormFields";
 import { SuccessCard } from "./enrollment/SuccessCard";
 import { generateAndDownloadPDF } from "@/utils/generatePDF";
 
-// Define Razorpay response and options types
-interface RazorpayResponse {
+// Separate types into their own section for better readability
+type RazorpayResponse = {
   razorpay_payment_id: string;
   razorpay_order_id?: string;
   razorpay_signature?: string;
-}
+};
 
-interface RazorpayOptions {
+type RazorpayOptions = {
   key: string;
   amount: number;
   currency: string;
@@ -36,8 +36,9 @@ interface RazorpayOptions {
   modal?: {
     ondismiss: () => void;
   };
-}
+};
 
+// Validate Razorpay global type
 declare global {
   interface Window {
     Razorpay: new (options: RazorpayOptions) => {
@@ -47,6 +48,7 @@ declare global {
   }
 }
 
+// Form validation schema
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
@@ -55,6 +57,7 @@ const formSchema = z.object({
   couponCode: z.string().optional(),
 });
 
+// Separate component props
 interface EnrollmentFormProps {
   isOpen: boolean;
   onClose: () => void;
@@ -62,7 +65,12 @@ interface EnrollmentFormProps {
   amount: number;
 }
 
-export const EnrollmentForm = ({ isOpen, onClose, programTitle, amount }: EnrollmentFormProps) => {
+export const EnrollmentForm = ({ 
+  isOpen, 
+  onClose, 
+  programTitle, 
+  amount 
+}: EnrollmentFormProps) => {
   const { toast } = useToast();
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [finalAmount, setFinalAmount] = useState(amount);
@@ -80,6 +88,7 @@ export const EnrollmentForm = ({ isOpen, onClose, programTitle, amount }: Enroll
     },
   });
 
+  // Separate method for coupon handling
   const handleCouponCode = () => {
     const couponCode = form.getValues("couponCode");
     if (couponCode === "comicfix500" && !couponApplied) {
@@ -105,6 +114,7 @@ export const EnrollmentForm = ({ isOpen, onClose, programTitle, amount }: Enroll
     }
   };
 
+  // Separate method for payment success
   const handlePaymentSuccess = (response: RazorpayResponse) => {
     if (response.razorpay_payment_id) {
       setPaymentSuccess(true);
@@ -116,6 +126,7 @@ export const EnrollmentForm = ({ isOpen, onClose, programTitle, amount }: Enroll
     }
   };
 
+  // Separate method for payment error
   const handlePaymentError = (error: any) => {
     console.error("Payment failed:", error);
     toast({
@@ -126,6 +137,7 @@ export const EnrollmentForm = ({ isOpen, onClose, programTitle, amount }: Enroll
     setIsProcessing(false);
   };
 
+  // Main form submission method
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
       setIsProcessing(true);
@@ -173,7 +185,7 @@ export const EnrollmentForm = ({ isOpen, onClose, programTitle, amount }: Enroll
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="w-[95%] max-w-[425px] mx-auto rounded-lg">
         {!paymentSuccess ? (
           <>
             <DialogHeader>
@@ -184,19 +196,19 @@ export const EnrollmentForm = ({ isOpen, onClose, programTitle, amount }: Enroll
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                 <FormFields form={form} />
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2">
                   <div className="flex-1">
                     <Input 
                       placeholder="Enter coupon code" 
                       {...form.register("couponCode")}
-                      className="border-purple-200 focus:border-purple-400 transition-colors"
+                      className="border-purple-200 focus:border-purple-400 transition-colors w-full"
                     />
                   </div>
                   <Button 
                     type="button" 
                     variant="outline" 
                     onClick={handleCouponCode}
-                    className="border-purple-200 hover:bg-purple-50 text-purple-600 hover:text-purple-700"
+                    className="border-purple-200 hover:bg-purple-50 text-purple-600 hover:text-purple-700 w-full sm:w-auto"
                   >
                     Apply
                   </Button>

@@ -1,3 +1,30 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Index from "./pages/Index";
+import { Toaster } from "@/components/ui/toaster";
+import { startMarketingRecommendations } from "./utils/marketingRecommendations";
+import { useEffect } from "react";
+import { WhatsAppWidget } from "./components/WhatsAppWidget";
+
+function App() {
+  useEffect(() => {
+    startMarketingRecommendations();
+  }, []);
+
+  return (
+    <Router>
+      <div className="min-w-full overflow-x-hidden">
+        <Routes>
+          <Route path="/" element={<Index />} />
+        </Routes>
+        <WhatsAppWidget />
+        <Toaster />
+      </div>
+    </Router>
+  );
+}
+
+export default App;
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Award, BookOpen, Users, Sparkles, Star, Rocket, Code, Brain, Target, Zap } from "lucide-react";
 import { ProgramCard } from "@/components/ProgramCard";
@@ -147,7 +174,7 @@ const Index = () => {
             >
               Choose Your Mentorship Path <Star className="inline-block w-6 h-6 text-purple-600 animate-pulse" />
             </motion.h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {programs.map((program, index) => (
                 <motion.div
                   key={program.title}
