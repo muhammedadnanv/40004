@@ -1,32 +1,14 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
 import { Toaster } from "@/components/ui/toaster";
-import { startMarketingRecommendations } from "./utils/marketingRecommendations";
+import { startMarketingRecommendations } from "@/utils/marketingRecommendations";
 import { useEffect } from "react";
-import { WhatsAppWidget } from "./components/WhatsAppWidget";
+import { WhatsAppWidget } from "@/components/WhatsAppWidget";
+import { motion } from "framer-motion";
 
-function App() {
-  useEffect(() => {
-    startMarketingRecommendations();
-  }, []);
-
-  return (
-    <Router>
-      <div className="min-w-full overflow-x-hidden">
-        <Routes>
-          <Route path="/" element={<Index />} />
-        </Routes>
-        <WhatsAppWidget />
-        <Toaster />
-      </div>
-    </Router>
-  );
-}
-
-export default App;
-
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+// Import Lucide icons
 import { Award, BookOpen, Users, Sparkles, Star, Rocket, Code, Brain, Target, Zap } from "lucide-react";
+
+// Import components
 import { ProgramCard } from "@/components/ProgramCard";
 import { HeroSection } from "@/components/HeroSection";
 import { CertificationSection } from "@/components/CertificationSection";
@@ -37,12 +19,10 @@ import { ProjectIdeasSection } from "@/components/ProjectIdeasSection";
 import { CategoryTopper } from "@/components/CategoryTopper";
 import { LearningPathSection } from "@/components/LearningPathSection";
 import { SuccessStoriesSection } from "@/components/SuccessStoriesSection";
-import { useEffect } from "react";
 import { showRandomJoinNotification } from "@/utils/mockNotifications";
 import { getContentRecommendations, getContentEngagementStats } from "@/utils/contentAdaptation";
-import { motion } from "framer-motion";
 
-const Index = () => {
+const IndexPage = () => {
   useEffect(() => {
     showRandomJoinNotification();
     
@@ -53,6 +33,8 @@ const Index = () => {
 
     return () => clearInterval(interval);
   }, []);
+
+  // ... keep existing code (programs array and fadeInUp definition)
 
   const programs = [
     {
@@ -216,4 +198,22 @@ const Index = () => {
   );
 };
 
-export default Index;
+function App() {
+  useEffect(() => {
+    startMarketingRecommendations();
+  }, []);
+
+  return (
+    <Router>
+      <div className="min-w-full overflow-x-hidden">
+        <Routes>
+          <Route path="/" element={<IndexPage />} />
+        </Routes>
+        <WhatsAppWidget />
+        <Toaster />
+      </div>
+    </Router>
+  );
+}
+
+export default App;
