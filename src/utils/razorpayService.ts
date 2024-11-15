@@ -1,5 +1,15 @@
 import { toast } from "@/components/ui/use-toast";
 
+// Global type declaration for Razorpay
+declare global {
+  interface Window {
+    Razorpay: new (options: RazorpayOptions) => {
+      open: () => void;
+      on: (event: string, handler: (response: any) => void) => void;
+    };
+  }
+}
+
 export type RazorpayResponse = {
   razorpay_payment_id: string;
   razorpay_order_id?: string;
