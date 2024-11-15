@@ -19,12 +19,12 @@ export const ShareProgramCard = ({ program }: ShareProgramCardProps) => {
   const { toast } = useToast();
   const websiteUrl = window.location.origin;
   
-  // Add referral ID to track shares
-  const referralId = Math.random().toString(36).substring(7);
-  const shareUrl = `${websiteUrl}?program=${encodeURIComponent(program.title)}&ref=${referralId}`;
+  // Using the standard referral code
+  const referralCode = '40met';
+  const shareUrl = `${websiteUrl}?program=${encodeURIComponent(program.title)}&ref=${referralCode}`;
   
-  // Create a more engaging share text with program details
-  const shareText = `🚀 Join me in mastering ${program.title}!\n\n${program.description.slice(0, 100)}... \n\nStart your journey with expert mentorship!`;
+  // Create a more concise referral-focused share text
+  const shareText = `🎓 Join me in the ${program.title} program!\n\nUse my referral code "${referralCode}" to get 10% off. Let's learn together! 🚀`;
   
   const shareLinks = {
     facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareText)}`,
@@ -43,17 +43,17 @@ export const ShareProgramCard = ({ program }: ShareProgramCardProps) => {
       shareWindow.focus();
       toast({
         title: `Sharing on ${platform}!`,
-        description: "Thank you for spreading the word!",
+        description: "Thanks for spreading the word! Your friends can use your referral code.",
       });
     }
   };
 
   const copyToClipboard = async () => {
     try {
-      await navigator.clipboard.writeText(`${shareText}\n\n${shareUrl}`);
+      await navigator.clipboard.writeText(`${shareText}\n\nJoin here: ${shareUrl}`);
       toast({
-        title: "Link Copied!",
-        description: "Share this link with your friends",
+        title: "Link & Referral Code Copied!",
+        description: "Share this with your friends to give them a discount!",
       });
     } catch (err) {
       toast({
