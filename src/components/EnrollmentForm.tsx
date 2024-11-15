@@ -16,16 +16,7 @@ import {
   RazorpayResponse, 
   RazorpayOptions 
 } from "@/utils/razorpayService";
-
-// Validate Razorpay global type
-declare global {
-  interface Window {
-    Razorpay: new (options: RazorpayOptions) => {
-      open: () => void;
-      on: (event: string, handler: (response: any) => void) => void;
-    };
-  }
-}
+import { validateReferralCode } from "@/utils/referralUtils";
 
 // Form validation schema
 const formSchema = z.object({
@@ -33,7 +24,7 @@ const formSchema = z.object({
   email: z.string().email("Invalid email address"),
   phone: z.string().min(10, "Phone number must be at least 10 digits"),
   address: z.string().min(10, "Please enter your full address"),
-  couponCode: z.string().optional(),
+  referralCode: z.string().optional(),
 });
 
 // Separate component props
@@ -53,7 +44,7 @@ export const EnrollmentForm = ({
   const { toast } = useToast();
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [finalAmount, setFinalAmount] = useState(amount);
-  const [couponApplied, setCouponApplied] = useState(false);
+  const [referralApplied, setReferralApplied] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -63,31 +54,35 @@ export const EnrollmentForm = ({
       email: "",
       phone: "",
       address: "",
-      couponCode: "",
+      referralCode: "",
     },
   });
 
-  // Separate method for coupon handling
-  const handleCouponCode = () => {
-    const couponCode = form.getValues("couponCode");
-    if (couponCode === "comicfix500" && !couponApplied) {
-      setFinalAmount(prev => Math.max(0, prev - 500));
-      setCouponApplied(true);
+  const handleReferralCode = () => {
+    const referralCode = form.getValues("referralCode");
+    const { isValid, discountPercentage } = validateReferralCode(referralCode || '');
+
+    if (referralCode && isValid && !referralApplied) {
+      const discountAmount = amount * discountPercentage;
+      const newFinalAmount = Math.max(0, amount - discountAmount);
+      
+      setFinalAmount(newFinalAmount);
+      setReferralApplied(true);
+      
       toast({
-        title: "Coupon Applied Successfully! 🎉",
-        description: "₹500 has been deducted from your total amount.",
+        title: "Referral Code Applied! 🎉",
+        description: `${(discountPercentage * 100).toFixed(0)}% discount applied.`,
       });
-      generateAndDownloadPDF();
-    } else if (couponApplied) {
+    } else if (referralApplied) {
       toast({
-        title: "Coupon already applied",
-        description: "You've already used a coupon code.",
+        title: "Referral Code Already Applied",
+        description: "You've already used a referral code.",
         variant: "destructive",
       });
     } else {
       toast({
-        title: "Invalid coupon",
-        description: "Please enter a valid coupon code.",
+        title: "Invalid Referral Code",
+        description: "Please enter a valid referral code.",
         variant: "destructive",
       });
     }
@@ -173,15 +168,15 @@ export const EnrollmentForm = ({
                 <div className="flex flex-col sm:flex-row gap-2">
                   <div className="flex-1">
                     <Input 
-                      placeholder="Enter coupon code" 
-                      {...form.register("couponCode")}
+                      placeholder="Enter referral code" 
+                      {...form.register("referralCode")}
                       className="border-purple-200 focus:border-purple-400 transition-colors w-full"
                     />
                   </div>
                   <Button 
                     type="button" 
                     variant="outline" 
-                    onClick={handleCouponCode}
+                    onClick={handleReferralCode}
                     className="border-purple-200 hover:bg-purple-50 text-purple-600 hover:text-purple-700 w-full sm:w-auto"
                   >
                     Apply
