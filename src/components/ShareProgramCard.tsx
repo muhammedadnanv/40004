@@ -24,11 +24,11 @@ export const ShareProgramCard = ({ program }: ShareProgramCardProps) => {
   const shareUrl = `${websiteUrl}?program=${encodeURIComponent(program.title)}&ref=${referralCode}`;
   
   // Create a more concise referral-focused share text
-  const shareText = `🎓 Join me in the ${program.title} program!\n\nUse my referral code "${referralCode}" to get 10% off. Let's learn together! 🚀`;
+  const shareText = `🎓 Join me in the ${program.title} program!\n\nUse my referral code "${referralCode}" to get 10% off. Let's learn together! 🚀\n\n${shareUrl}`;
   
   const shareLinks = {
     facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareText)}`,
-    twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`,
+    twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`,
     linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}&summary=${encodeURIComponent(shareText)}`
   };
 
@@ -50,7 +50,7 @@ export const ShareProgramCard = ({ program }: ShareProgramCardProps) => {
 
   const copyToClipboard = async () => {
     try {
-      await navigator.clipboard.writeText(`${shareText}\n\nJoin here: ${shareUrl}`);
+      await navigator.clipboard.writeText(`${shareText}`);
       toast({
         title: "Link & Referral Code Copied!",
         description: "Share this with your friends to give them a discount!",
