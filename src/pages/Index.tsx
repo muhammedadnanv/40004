@@ -22,6 +22,9 @@ import { SuccessStoriesSection } from "@/components/SuccessStoriesSection";
 import { showRandomJoinNotification } from "@/utils/mockNotifications";
 import { getContentRecommendations, getContentEngagementStats } from "@/utils/contentAdaptation";
 
+// Import Card components
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+
 const IndexPage = () => {
   useEffect(() => {
     showRandomJoinNotification();
@@ -33,8 +36,6 @@ const IndexPage = () => {
 
     return () => clearInterval(interval);
   }, []);
-
-  // ... keep existing code (programs array and fadeInUp definition)
 
   const programs = [
     {
