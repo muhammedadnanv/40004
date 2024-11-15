@@ -1,4 +1,4 @@
-import { Share2, Facebook, Twitter, Linkedin, Link2 } from "lucide-react";
+import { Share2, Facebook, Twitter, Linkedin, Instagram, Link2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -29,7 +29,8 @@ export const ShareProgramCard = ({ program }: ShareProgramCardProps) => {
   const shareLinks = {
     facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareText)}`,
     twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`,
-    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}&summary=${encodeURIComponent(shareText)}`
+    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}&summary=${encodeURIComponent(shareText)}`,
+    instagram: `https://www.instagram.com/create/select/?caption=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`
   };
 
   const handleShare = (platform: string) => {
@@ -87,6 +88,10 @@ export const ShareProgramCard = ({ program }: ShareProgramCardProps) => {
         <DropdownMenuItem onClick={() => handleShare('linkedin')} className="cursor-pointer">
           <Linkedin className="mr-2 h-4 w-4" />
           LinkedIn
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => handleShare('instagram')} className="cursor-pointer">
+          <Instagram className="mr-2 h-4 w-4" />
+          Instagram
         </DropdownMenuItem>
         <DropdownMenuItem onClick={copyToClipboard} className="cursor-pointer">
           <Link2 className="mr-2 h-4 w-4" />
