@@ -1,30 +1,3 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import { Toaster } from "@/components/ui/toaster";
-import { startMarketingRecommendations } from "./utils/marketingRecommendations";
-import { useEffect } from "react";
-import { WhatsAppWidget } from "./components/WhatsAppWidget";
-
-function App() {
-  useEffect(() => {
-    startMarketingRecommendations();
-  }, []);
-
-  return (
-    <Router>
-      <div className="min-w-full overflow-x-hidden">
-        <Routes>
-          <Route path="/" element={<Index />} />
-        </Routes>
-        <WhatsAppWidget />
-        <Toaster />
-      </div>
-    </Router>
-  );
-}
-
-export default App;
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Award, BookOpen, Users, Sparkles, Star, Rocket, Code, Brain, Target, Zap } from "lucide-react";
 import { ProgramCard } from "@/components/ProgramCard";
