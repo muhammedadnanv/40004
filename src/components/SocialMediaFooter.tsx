@@ -32,14 +32,6 @@ export const SocialMediaFooter = () => {
               <Linkedin className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
             </a>
             <a 
-              href="https://www.instagram.com/comicfix.in/" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-gray-600 hover:text-[#4A00E0] transition-colors p-1.5 sm:p-2 hover:bg-[#4A00E0]/5 rounded-full"
-            >
-              <Instagram className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
-            </a>
-            <a 
               href="https://x.com/comicfixin" 
               target="_blank" 
               rel="noopener noreferrer"
@@ -47,6 +39,20 @@ export const SocialMediaFooter = () => {
             >
               <Twitter className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
             </a>
+          </div>
+
+          {/* Product Hunt iframe */}
+          <div className="mt-6 flex justify-center w-full">
+            <iframe 
+              style={{ border: 'none' }} 
+              src="https://cards.producthunt.com/cards/products/705762" 
+              width="500" 
+              height="405" 
+              frameBorder="0" 
+              scrolling="no" 
+              allowFullScreen 
+              className="max-w-full"
+            />
           </div>
         </div>
       </div>
