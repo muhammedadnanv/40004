@@ -47,6 +47,44 @@ export const FAQSection = () => {
               After enrollment, you'll receive immediate access to your chosen program's WhatsApp group where you'll connect with your mentor and fellow learners. You'll start receiving weekly assignments with clear objectives, and get personalized feedback on your progress.
             </AccordionContent>
           </AccordionItem>
+
+          <AccordionItem value="item-7">
+            <AccordionTrigger>Who is this program for?</AccordionTrigger>
+            <AccordionContent>
+              This program is ideal for:
+              <ul className="list-disc list-inside space-y-2 mt-2">
+                <li>Fresher developers just starting their coding journey</li>
+                <li>Self-learners who want guidance on the right learning path</li>
+                <li>Anyone stuck on a coding challenge or seeking project feedback</li>
+              </ul>
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="item-8">
+            <AccordionTrigger>How is this different from free resources online?</AccordionTrigger>
+            <AccordionContent>
+              While free resources are abundant, this program offers:
+              <ul className="list-disc list-inside space-y-2 mt-2">
+                <li>Direct interaction with an experienced mentor who understands your challenges</li>
+                <li>Personalized guidance tailored to your specific goals and projects</li>
+                <li>A chance to ask questions and receive immediate answers</li>
+              </ul>
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="item-9">
+            <AccordionTrigger>What if I want more sessions or 1:1 mentorship?</AccordionTrigger>
+            <AccordionContent>
+              After the program, you can choose to enroll in advanced mentorship options, including 1:1 sessions, starting at ₹499.
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="item-10">
+            <AccordionTrigger>Can I share this program with friends?</AccordionTrigger>
+            <AccordionContent>
+              Of course! Feel free to share this opportunity with anyone who would benefit from it.
+            </AccordionContent>
+          </AccordionItem>
         </Accordion>
       </div>
     </section>
