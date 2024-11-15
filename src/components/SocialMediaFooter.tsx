@@ -1,30 +1,26 @@
-import { Mail, Linkedin, Instagram, Twitter } from "lucide-react";
+import { Facebook, Twitter, Linkedin } from "lucide-react";
+import { Button } from "./ui/button";
 
 export const SocialMediaFooter = () => {
   return (
-    <footer className="py-6 sm:py-8 md:py-10 px-4 sm:px-6 lg:px-8 bg-white">
-      <div className="container mx-auto">
-        <div className="flex flex-col items-center space-y-4 sm:space-y-6">
-          <div className="mb-3 sm:mb-4">
-            <h3 className="text-sm sm:text-base md:text-lg font-light text-gray-700 mb-2 sm:mb-3 text-center">We Are Partnered With</h3>
-            <img 
-              src="https://i.ibb.co/8MydcJj/image-removebg-preview-1.png" 
-              alt="Partnership Logo" 
-              className="h-5 sm:h-6 md:h-8 w-auto object-contain"
-            />
-          </div>
-
-          <div className="flex justify-center space-x-2 sm:space-x-3 md:space-x-4">
+    <footer className="bg-white py-12 sm:py-16">
+      <div className="container mx-auto px-4">
+        <div className="max-w-2xl mx-auto text-center">
+          <h3 className="text-xl sm:text-2xl font-light text-gray-800 mb-6">
+            Connect With Us
+          </h3>
+          
+          <div className="flex justify-center items-center gap-4 mb-8">
             <a 
-              href="mailto:comicfix@f5.si" 
+              href="https://www.facebook.com/comicfix.in/" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-gray-600 hover:text-[#4A00E0] transition-colors p-1.5 sm:p-2 hover:bg-[#4A00E0]/5 rounded-full"
             >
-              <Mail className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
+              <Facebook className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
             </a>
             <a 
-              href="https://www.linkedin.com/company/comicfix" 
+              href="https://www.linkedin.com/company/comicfix/" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-gray-600 hover:text-[#4A00E0] transition-colors p-1.5 sm:p-2 hover:bg-[#4A00E0]/5 rounded-full"
@@ -39,6 +35,24 @@ export const SocialMediaFooter = () => {
             >
               <Twitter className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
             </a>
+          </div>
+
+          {/* Resume Building Call-to-Action */}
+          <div className="mb-8 p-6 bg-purple-50 rounded-lg">
+            <h4 className="text-lg sm:text-xl font-medium text-purple-800 mb-2">
+              Build Your Professional Resume
+            </h4>
+            <p className="text-sm sm:text-base text-purple-600 mb-4">
+              Create an impressive resume that highlights your skills and experience. 
+              Try our resume builder featured on Product Hunt!
+            </p>
+            <Button 
+              variant="secondary"
+              className="bg-purple-600 hover:bg-purple-700 text-white"
+              onClick={() => window.open('https://www.producthunt.com/products/705762', '_blank')}
+            >
+              Start Building Your Resume
+            </Button>
           </div>
 
           {/* Product Hunt iframe */}
