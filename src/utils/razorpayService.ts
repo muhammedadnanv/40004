@@ -15,10 +15,9 @@ export type RazorpayResponse = {
   razorpay_signature?: string;
 };
 
+// Make optional properties that will be set by initializeRazorpay
 export type RazorpayOptions = {
-  key: string;
   amount: number;
-  currency: string;
   name: string;
   description: string;
   handler: (response: RazorpayResponse) => void;
@@ -27,15 +26,16 @@ export type RazorpayOptions = {
     email: string;
     contact: string;
   };
-  theme: {
-    color: string;
-  };
   modal?: {
     ondismiss: () => void;
   };
+  key?: string;
+  currency?: string;
+  theme?: {
+    color: string;
+  };
 };
 
-// Use environment variable or fallback to test key
 const RAZORPAY_KEY = import.meta.env.VITE_RAZORPAY_KEY || 'rzp_test_5JYQnqKRnKhB5y';
 
 export const initializeRazorpay = (options: RazorpayOptions) => {
@@ -94,7 +94,6 @@ export const verifyPayment = async (
   signature: string
 ) => {
   try {
-    // This should be replaced with your actual API endpoint
     const response = await fetch('/api/verify-payment', {
       method: 'POST',
       headers: {
