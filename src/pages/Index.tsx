@@ -53,7 +53,7 @@ const Index = () => {
       title: "Frontend Development",
       description: "Practical weekly assignments in modern frontend development. Get direct mentorship and feedback on each task you complete. Focus on building real projects with expert guidance - no traditional courses.",
       duration: "10 weeks", 
-      skills: ["HTML5", "CSS3", "JavaScript", "Toggle.js"],
+      skills: ["React", "Angular", "Vue.js", "TypeScript"],
       category: "Frontend Development"
     },
     {
