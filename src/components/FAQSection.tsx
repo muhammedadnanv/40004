@@ -1,7 +1,7 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 // Define the current program fee as a constant that can be easily updated
-const CURRENT_PROGRAM_FEE = 99;
+const CURRENT_PROGRAM_FEE = 166;
 
 export const FAQSection = () => {
   return (
@@ -9,7 +9,7 @@ export const FAQSection = () => {
       <div className="container mx-auto max-w-3xl">
         <h2 className="text-2xl md:text-3xl font-bold text-center mb-6 md:mb-8">Frequently Asked Questions</h2>
         <Accordion type="single" collapsible className="w-full">
-          {/* ... keep existing code (previous accordion items) */}
+          // ... keep existing code (previous accordion items)
 
           <AccordionItem value="item-1">
             <AccordionTrigger>What makes this mentorship program unique?</AccordionTrigger>
