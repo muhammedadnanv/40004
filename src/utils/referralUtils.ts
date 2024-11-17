@@ -3,8 +3,7 @@ const BASE_REFERRAL_CODES: Record<string, number> = {
   '40met': 0.001, // 0.1% discount
   'you50': 0.001, // 0.1% discount
   'me2': 0.001,   // 0.1% discount
-  'lov6': 0.001,  // 0.1% discount
-  'ad4000': 0.5   // Special 50% discount
+  'lov6': 0.001   // 0.1% discount
 };
 
 // Generate a random 4-character code
@@ -15,30 +14,19 @@ const generateRandomCode = (): string => {
   ).join('');
 };
 
-// Generate a large number of unique random codes
-const generateManyRandomCodes = (count: number): Record<string, number> => {
+// Generate additional random codes
+const generateAdditionalCodes = (count: number): Record<string, number> => {
   const additionalCodes: Record<string, number> = {};
-  const usedCodes = new Set(Object.keys(BASE_REFERRAL_CODES));
-  
-  let attempts = 0;
-  const maxAttempts = count * 2; // Prevent infinite loops
-  
-  while (Object.keys(additionalCodes).length < count && attempts < maxAttempts) {
-    const code = generateRandomCode();
-    if (!usedCodes.has(code)) {
-      additionalCodes[code] = 0.001; // Always 0.1% discount
-      usedCodes.add(code);
-    }
-    attempts++;
+  for (let i = 0; i < count; i++) {
+    additionalCodes[generateRandomCode()] = 0.001; // Always 0.1% discount
   }
-  
   return additionalCodes;
 };
 
-// Combine base codes with 40k random codes
+// Combine base codes with additional random codes
 export const VALID_REFERRAL_CODES: Record<string, number> = {
   ...BASE_REFERRAL_CODES,
-  ...generateManyRandomCodes(40000)
+  ...generateAdditionalCodes(5) // Generate 5 additional random codes
 };
 
 // Get the current active referral code based on time
