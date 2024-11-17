@@ -1,9 +1,10 @@
-// Base referral codes with 0.1% discount
+// Base referral codes with their respective discounts
 const BASE_REFERRAL_CODES: Record<string, number> = {
-  '40met': 0.001, // 0.1% discount
-  'you50': 0.001, // 0.1% discount
-  'me2': 0.001,   // 0.1% discount
-  'lov6': 0.001   // 0.1% discount
+  'ad4000': 0.5,    // 50% discount for special code
+  '40met': 0.001,   // 0.1% discount
+  'you50': 0.001,   // 0.1% discount
+  'me2': 0.001,     // 0.1% discount
+  'lov6': 0.001     // 0.1% discount
 };
 
 // Generate a random 4-character code
