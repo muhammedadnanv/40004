@@ -1,7 +1,7 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 // Define the current program fee as a constant that can be easily updated
-const CURRENT_PROGRAM_FEE = 99;
+const CURRENT_PROGRAM_FEE = 2;
 
 export const FAQSection = () => {
   return (
@@ -14,7 +14,7 @@ export const FAQSection = () => {
           <AccordionItem value="item-1">
             <AccordionTrigger>What makes this mentorship program unique?</AccordionTrigger>
             <AccordionContent>
-              Our program focuses purely on task-based mentorship without traditional courses or videos. You'll receive weekly assignments with clear objectives and get personalized feedback from dedicated mentors, all at an accessible price point of ₹{CURRENT_PROGRAM_FEE}.
+              Our program focuses purely on task-based mentorship without traditional courses or videos. You'll receive weekly assignments with clear objectives and get personalized feedback from dedicated mentors, all at an accessible price point of ${CURRENT_PROGRAM_FEE}.
             </AccordionContent>
           </AccordionItem>
 
@@ -80,7 +80,7 @@ export const FAQSection = () => {
           <AccordionItem value="item-9">
             <AccordionTrigger>What if I want more sessions or 1:1 mentorship?</AccordionTrigger>
             <AccordionContent>
-              After the program, you can choose to enroll in advanced mentorship options, including 1:1 sessions, starting at ₹{CURRENT_PROGRAM_FEE + 400}.
+              After the program, you can choose to enroll in advanced mentorship options, including 1:1 sessions, starting at ${CURRENT_PROGRAM_FEE + 400}.
             </AccordionContent>
           </AccordionItem>
 
