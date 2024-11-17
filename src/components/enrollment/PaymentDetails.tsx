@@ -16,6 +16,10 @@ export const PaymentDetails = ({
   onReferralApply,
   form 
 }: PaymentDetailsProps) => {
+  const tax = finalAmount * 0.05; // 5% tax
+  const serviceFee = finalAmount * 0.09; // 9% service fee
+  const totalAmount = finalAmount + tax + serviceFee;
+
   return (
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row gap-2">
@@ -35,9 +39,26 @@ export const PaymentDetails = ({
           Apply
         </Button>
       </div>
-      <div className="text-right font-semibold text-purple-600">
-        Total Amount: ₹{finalAmount}
+      
+      <div className="space-y-2 text-sm text-gray-600">
+        <div className="flex justify-between">
+          <span>Program Fee:</span>
+          <span>₹{finalAmount}</span>
+        </div>
+        <div className="flex justify-between">
+          <span>Tax (5%):</span>
+          <span>₹{tax.toFixed(0)}</span>
+        </div>
+        <div className="flex justify-between">
+          <span>Service Fee (9%):</span>
+          <span>₹{serviceFee.toFixed(0)}</span>
+        </div>
+        <div className="flex justify-between font-semibold text-purple-600 text-base border-t border-gray-200 pt-2 mt-2">
+          <span>Total Amount:</span>
+          <span>₹{totalAmount.toFixed(0)}</span>
+        </div>
       </div>
+
       <Button 
         type="submit" 
         className="w-full bg-purple-600 hover:bg-purple-700 text-white transition-all duration-300"

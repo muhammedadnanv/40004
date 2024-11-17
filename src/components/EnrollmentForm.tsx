@@ -33,16 +33,11 @@ export const EnrollmentForm = ({ isOpen, onClose, programTitle, amount }: Enroll
   const [referralApplied, setReferralApplied] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      phone: "",
-      address: "",
-      referralCode: "",
-    },
-  });
+  const calculateTotalAmount = (baseAmount: number) => {
+    const tax = baseAmount * 0.05; // 5% tax
+    const serviceFee = baseAmount * 0.09; // 9% service fee
+    return baseAmount + tax + serviceFee;
+  };
 
   const handleReferralCode = () => {
     const referralCode = form.getValues("referralCode");
@@ -74,12 +69,25 @@ export const EnrollmentForm = ({ isOpen, onClose, programTitle, amount }: Enroll
     }
   };
 
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      address: "",
+      referralCode: "",
+    },
+  });
+
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
       setIsProcessing(true);
+      const totalAmount = calculateTotalAmount(finalAmount);
+      
       const options = {
         key: "rzp_live_5JYQnqKRnKhB5y",
-        amount: finalAmount * 100,
+        amount: totalAmount * 100, // Convert to paisa
         currency: "INR",
         name: "Dev Mentor Hub",
         description: `Enrollment for ${programTitle}`,
