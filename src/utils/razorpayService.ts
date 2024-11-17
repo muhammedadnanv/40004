@@ -15,7 +15,6 @@ export type RazorpayResponse = {
   razorpay_signature?: string;
 };
 
-// Make optional properties that will be set by initializeRazorpay
 export type RazorpayOptions = {
   amount: number;
   name: string;

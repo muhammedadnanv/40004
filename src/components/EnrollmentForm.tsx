@@ -11,10 +11,19 @@ import { initializeRazorpay, verifyPayment } from "@/utils/razorpayService";
 import { validateReferralCode } from "@/utils/referralUtils";
 
 const formSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
-  phone: z.string().min(10, "Phone number must be at least 10 digits"),
-  address: z.string().min(10, "Please enter your full address"),
+  name: z.string()
+    .min(2, "Name must be at least 2 characters")
+    .regex(/^[a-zA-Z\s]*$/, "Name should only contain letters and spaces"),
+  email: z.string()
+    .email("Invalid email address")
+    .min(5, "Email must be at least 5 characters"),
+  phone: z.string()
+    .min(10, "Phone number must be at least 10 digits")
+    .max(15, "Phone number must not exceed 15 digits")
+    .regex(/^\+?[\d\s-]+$/, "Invalid phone number format"),
+  address: z.string()
+    .min(10, "Please enter your full address")
+    .max(200, "Address is too long"),
   referralCode: z.string().optional(),
 });
 
@@ -33,8 +42,8 @@ export const EnrollmentForm = ({ isOpen, onClose, programTitle, amount }: Enroll
   const [isProcessing, setIsProcessing] = useState(false);
 
   const calculateTotalAmount = (baseAmount: number) => {
-    const tax = baseAmount * 0.05; // 5% tax
-    const serviceFee = baseAmount * 0.09; // 9% service fee
+    const tax = baseAmount * 0.05;
+    const serviceFee = baseAmount * 0.09;
     return baseAmount + tax + serviceFee;
   };
 
@@ -85,7 +94,7 @@ export const EnrollmentForm = ({ isOpen, onClose, programTitle, amount }: Enroll
       const totalAmount = calculateTotalAmount(finalAmount);
       
       const options = {
-        amount: totalAmount * 100, // Convert to paisa
+        amount: totalAmount * 100,
         name: "Dev Mentor Hub",
         description: `Enrollment for ${programTitle}`,
         handler: async (response: any) => {
