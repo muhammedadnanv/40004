@@ -4,8 +4,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
-
-// Move project ideas data to a separate file to reduce file size
 import { projectIdeas } from "@/data/projectIdeas";
 
 export function ProjectIdeasSection() {

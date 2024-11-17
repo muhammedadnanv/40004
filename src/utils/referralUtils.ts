@@ -1,6 +1,6 @@
 export const validateReferralCode = (code: string): { isValid: boolean; discountPercentage: number } => {
   const VALID_REFERRAL_CODES: Record<string, number> = {
-    '40met': 0.1, // 10% discount
+    '40met': 0.001, // 0.1% discount
   };
 
   return {
