@@ -1,6 +1,3 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Form } from "@/components/ui/form";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -8,14 +5,9 @@ import * as z from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { FormFields } from "./enrollment/FormFields";
+import { PaymentDetails } from "./enrollment/PaymentDetails";
 import { SuccessCard } from "./enrollment/SuccessCard";
-import { generateAndDownloadPDF } from "@/utils/generatePDF";
-import { 
-  initializeRazorpay, 
-  verifyPayment, 
-  RazorpayResponse, 
-  RazorpayOptions 
-} from "@/utils/razorpayService";
+import { initializeRazorpay, verifyPayment } from "@/utils/razorpayService";
 import { validateReferralCode } from "@/utils/referralUtils";
 
 // Form validation schema
@@ -27,7 +19,6 @@ const formSchema = z.object({
   referralCode: z.string().optional(),
 });
 
-// Separate component props
 interface EnrollmentFormProps {
   isOpen: boolean;
   onClose: () => void;
@@ -35,12 +26,7 @@ interface EnrollmentFormProps {
   amount: number;
 }
 
-export const EnrollmentForm = ({ 
-  isOpen, 
-  onClose, 
-  programTitle, 
-  amount 
-}: EnrollmentFormProps) => {
+export const EnrollmentForm = ({ isOpen, onClose, programTitle, amount }: EnrollmentFormProps) => {
   const { toast } = useToast();
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [finalAmount, setFinalAmount] = useState(amount);
@@ -88,34 +74,29 @@ export const EnrollmentForm = ({
     }
   };
 
-  // Main form submission method
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
       setIsProcessing(true);
-
-      const options: RazorpayOptions = {
+      const options = {
         key: "rzp_live_5JYQnqKRnKhB5y",
-        amount: finalAmount * 100, // Amount in paise
+        amount: finalAmount * 100,
         currency: "INR",
         name: "Dev Mentor Hub",
         description: `Enrollment for ${programTitle}`,
-        handler: async (response: RazorpayResponse) => {
+        handler: async (response: any) => {
           try {
-            // Verify payment on the server
             await verifyPayment(
               response.razorpay_payment_id, 
               response.razorpay_order_id || '', 
               response.razorpay_signature || ''
             );
-
-            // Payment successful
             setPaymentSuccess(true);
             setIsProcessing(false);
             toast({
               title: "Payment Successful! 🎉",
               description: "Welcome to Dev Mentor Hub! You can now join our WhatsApp group.",
             });
-          } catch (verificationError) {
+          } catch (error) {
             setIsProcessing(false);
             toast({
               title: "Payment Verification Failed",
@@ -129,17 +110,10 @@ export const EnrollmentForm = ({
           email: data.email,
           contact: data.phone,
         },
-        theme: {
-          color: "#4A00E0",
-        },
-        modal: {
-          ondismiss: () => {
-            setIsProcessing(false);
-          },
-        },
+        theme: { color: "#4A00E0" },
+        modal: { ondismiss: () => setIsProcessing(false) },
       };
 
-      // Initialize and open Razorpay checkout
       await initializeRazorpay(options);
     } catch (error: any) {
       console.error("Razorpay initialization error:", error);
@@ -162,38 +136,16 @@ export const EnrollmentForm = ({
                 Enroll in {programTitle}
               </DialogTitle>
             </DialogHeader>
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                <FormFields form={form} />
-                <div className="flex flex-col sm:flex-row gap-2">
-                  <div className="flex-1">
-                    <Input 
-                      placeholder="Enter referral code" 
-                      {...form.register("referralCode")}
-                      className="border-purple-200 focus:border-purple-400 transition-colors w-full"
-                    />
-                  </div>
-                  <Button 
-                    type="button" 
-                    variant="outline" 
-                    onClick={handleReferralCode}
-                    className="border-purple-200 hover:bg-purple-50 text-purple-600 hover:text-purple-700 w-full sm:w-auto"
-                  >
-                    Apply
-                  </Button>
-                </div>
-                <div className="text-right font-semibold text-purple-600">
-                  Total Amount: ${finalAmount}
-                </div>
-                <Button 
-                  type="submit" 
-                  className="w-full bg-purple-600 hover:bg-purple-700 text-white transition-all duration-300"
-                  disabled={isProcessing}
-                >
-                  {isProcessing ? "Processing..." : "Proceed to Payment"}
-                </Button>
-              </form>
-            </Form>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <FormFields form={form} />
+              <PaymentDetails 
+                finalAmount={finalAmount}
+                referralApplied={referralApplied}
+                isProcessing={isProcessing}
+                onReferralApply={handleReferralCode}
+                form={form}
+              />
+            </form>
           </>
         ) : (
           <SuccessCard onClose={onClose} />
