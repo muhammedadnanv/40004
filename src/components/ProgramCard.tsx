@@ -67,7 +67,7 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
       </CardContent>
 
       <CardFooter className="flex flex-col gap-2 sm:gap-3 p-3 sm:p-4 md:p-6">
-        <p className="text-sm sm:text-base md:text-lg font-light">$2</p>
+        <p className="text-sm sm:text-base md:text-lg font-light">₹99</p>
         <Button 
           className="w-full bg-primary hover:bg-primary/90 text-xs sm:text-sm font-light shadow-material-1 hover:shadow-material-2 transition-all duration-300"
           onClick={handleEnrollClick}
@@ -86,7 +86,7 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
         isOpen={showEnrollmentForm}
         onClose={() => setShowEnrollmentForm(false)}
         programTitle={program.title}
-        amount={2}
+        amount={99}
       />
       <ShareProgramCard program={program} />
     </Card>
