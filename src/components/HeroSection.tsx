@@ -9,7 +9,7 @@ export const HeroSection = () => {
   };
 
   return (
-    <section className="relative min-h-[80vh] flex items-center justify-center py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <section className="relative min-h-[80vh] flex items-center justify-center py-8 sm:py-12 md:py-16 lg:py-20 xl:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-r from-purple-100/50 via-white to-purple-100/50"></div>
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
@@ -55,7 +55,7 @@ export const HeroSection = () => {
               href="https://www.mygreatlearning.com/academy?referrer_code=GLL44ZJATMMKQ"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-4 sm:px-6 py-2 w-full sm:w-auto text-sm sm:text-base border border-purple-200 rounded-md hover:bg-purple-50 transition-all duration-300 hover:scale-105 font-light text-purple-700 group"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 sm:px-6 py-2 text-sm sm:text-base border border-purple-200 rounded-md hover:bg-purple-50 transition-all duration-300 hover:scale-105 font-light text-purple-700 group"
             >
               Learn <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </a>

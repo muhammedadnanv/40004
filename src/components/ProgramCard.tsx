@@ -35,7 +35,7 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
 
   return (
     <Card className="group relative bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-      <CardHeader className="space-y-2 p-4 sm:p-6">
+      <CardHeader className="space-y-2 p-3 sm:p-4 md:p-6">
         <Badge 
           variant="secondary" 
           className="w-fit text-[10px] sm:text-xs font-light"
@@ -43,15 +43,15 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
           {program.category}
         </Badge>
         
-        <CardTitle className="text-base sm:text-lg md:text-xl font-light group-hover:text-primary transition-colors">
+        <CardTitle className="text-sm sm:text-base md:text-lg lg:text-xl font-light group-hover:text-primary transition-colors">
           {program.title}
         </CardTitle>
         <CardDescription className="text-xs sm:text-sm">{program.description}</CardDescription>
       </CardHeader>
       
-      <CardContent className="space-y-3 sm:space-y-4 p-4 sm:p-6">
+      <CardContent className="space-y-3 sm:space-y-4 p-3 sm:p-4 md:p-6">
         <div>
-          <p className="text-xs sm:text-sm text-gray-600 mb-2 sm:mb-3">Duration: {program.duration}</p>
+          <p className="text-xs sm:text-sm text-gray-600 mb-2">Duration: {program.duration}</p>
           <div className="flex flex-wrap gap-1.5 sm:gap-2">
             {program.skills.map((skill, index) => (
               <Badge
@@ -66,7 +66,7 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
         </div>
       </CardContent>
 
-      <CardFooter className="flex flex-col gap-2 sm:gap-3 p-4 sm:p-6">
+      <CardFooter className="flex flex-col gap-2 sm:gap-3 p-3 sm:p-4 md:p-6">
         <p className="text-sm sm:text-base md:text-lg font-light">₹99</p>
         <Button 
           className="w-full bg-primary hover:bg-primary/90 text-xs sm:text-sm font-light shadow-material-1 hover:shadow-material-2 transition-all duration-300"
