@@ -10,7 +10,6 @@ import { SuccessCard } from "./enrollment/SuccessCard";
 import { initializeRazorpay, verifyPayment } from "@/utils/razorpayService";
 import { validateReferralCode } from "@/utils/referralUtils";
 
-// Form validation schema
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
@@ -86,9 +85,7 @@ export const EnrollmentForm = ({ isOpen, onClose, programTitle, amount }: Enroll
       const totalAmount = calculateTotalAmount(finalAmount);
       
       const options = {
-        key: "rzp_live_5JYQnqKRnKhB5y",
         amount: totalAmount * 100, // Convert to paisa
-        currency: "INR",
         name: "Dev Mentor Hub",
         description: `Enrollment for ${programTitle}`,
         handler: async (response: any) => {
@@ -118,7 +115,6 @@ export const EnrollmentForm = ({ isOpen, onClose, programTitle, amount }: Enroll
           email: data.email,
           contact: data.phone,
         },
-        theme: { color: "#4A00E0" },
         modal: { ondismiss: () => setIsProcessing(false) },
       };
 
