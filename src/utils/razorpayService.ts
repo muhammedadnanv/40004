@@ -37,43 +37,76 @@ export type RazorpayOptions = {
 
 const RAZORPAY_KEY = import.meta.env.VITE_RAZORPAY_KEY || 'rzp_test_5JYQnqKRnKhB5y';
 
-export const initializeRazorpay = (options: RazorpayOptions) => {
-  return new Promise<void>((resolve, reject) => {
+export const createOrder = async (amount: number) => {
+  try {
+    const response = await fetch('/api/create-order', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ amount }),
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to create order');
+    }
+    
+    return await response.json();
+  } catch (error) {
+    console.error('Order creation failed:', error);
+    throw error;
+  }
+};
+
+export const initializeRazorpay = async (options: RazorpayOptions) => {
+  try {
+    const order = await createOrder(options.amount);
+    
     const finalOptions = {
       ...options,
       key: RAZORPAY_KEY,
       currency: 'INR',
-      theme: { color: "#4A00E0" }
+      theme: { color: "#4A00E0" },
+      order_id: order.id,
     };
 
-    if (typeof window.Razorpay === "undefined") {
-      const script = document.createElement("script");
-      script.src = "https://checkout.razorpay.com/v1/checkout.js";
-      
-      script.onload = () => {
+    return new Promise<void>((resolve, reject) => {
+      if (typeof window.Razorpay === "undefined") {
+        const script = document.createElement("script");
+        script.src = "https://checkout.razorpay.com/v1/checkout.js";
+        
+        script.onload = () => {
+          const razorpay = new window.Razorpay(finalOptions);
+          setupRazorpayHandlers(razorpay, reject);
+          razorpay.open();
+          resolve();
+        };
+        
+        script.onerror = () => {
+          toast({
+            title: "Payment Error",
+            description: "Failed to load Razorpay SDK. Please check your internet connection.",
+            variant: "destructive"
+          });
+          reject(new Error("Razorpay SDK failed to load"));
+        };
+        
+        document.body.appendChild(script);
+      } else {
         const razorpay = new window.Razorpay(finalOptions);
         setupRazorpayHandlers(razorpay, reject);
         razorpay.open();
         resolve();
-      };
-      
-      script.onerror = () => {
-        toast({
-          title: "Payment Error",
-          description: "Failed to load Razorpay SDK. Please check your internet connection.",
-          variant: "destructive"
-        });
-        reject(new Error("Razorpay SDK failed to load"));
-      };
-      
-      document.body.appendChild(script);
-    } else {
-      const razorpay = new window.Razorpay(finalOptions);
-      setupRazorpayHandlers(razorpay, reject);
-      razorpay.open();
-      resolve();
-    }
-  });
+      }
+    });
+  } catch (error) {
+    toast({
+      title: "Order Creation Failed",
+      description: "Unable to create payment order. Please try again.",
+      variant: "destructive"
+    });
+    throw error;
+  }
 };
 
 const setupRazorpayHandlers = (razorpay: any, reject: (reason?: any) => void) => {
@@ -98,7 +131,11 @@ export const verifyPayment = async (
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ paymentId, orderId, signature })
+      body: JSON.stringify({ 
+        paymentId, 
+        orderId, 
+        signature,
+      })
     });
 
     if (!response.ok) {

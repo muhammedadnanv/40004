@@ -47,31 +47,48 @@ export const EnrollmentForm = ({ isOpen, onClose, programTitle, amount }: Enroll
     return baseAmount + tax + serviceFee;
   };
 
-  const handleReferralCode = () => {
+  const handleReferralCode = async () => {
     const referralCode = form.getValues("referralCode");
-    const { isValid, discountPercentage } = validateReferralCode(referralCode || '');
+    
+    try {
+      const response = await fetch('/api/validate-referral', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ referralCode }),
+      });
 
-    if (referralCode && isValid && !referralApplied) {
-      const discountAmount = amount * discountPercentage;
-      const newFinalAmount = Math.max(0, amount - discountAmount);
-      
-      setFinalAmount(newFinalAmount);
-      setReferralApplied(true);
-      
+      const data = await response.json();
+
+      if (data.isValid && !referralApplied) {
+        const discountAmount = amount * data.discountPercentage;
+        const newFinalAmount = Math.max(0, amount - discountAmount);
+        
+        setFinalAmount(newFinalAmount);
+        setReferralApplied(true);
+        
+        toast({
+          title: "Referral Code Applied! 🎉",
+          description: `${(data.discountPercentage * 100).toFixed(0)}% discount applied.`,
+        });
+      } else if (referralApplied) {
+        toast({
+          title: "Referral Code Already Applied",
+          description: "You've already used a referral code.",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Invalid Referral Code",
+          description: "Please enter a valid referral code.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
       toast({
-        title: "Referral Code Applied! 🎉",
-        description: `${(discountPercentage * 100).toFixed(0)}% discount applied.`,
-      });
-    } else if (referralApplied) {
-      toast({
-        title: "Referral Code Already Applied",
-        description: "You've already used a referral code.",
-        variant: "destructive",
-      });
-    } else {
-      toast({
-        title: "Invalid Referral Code",
-        description: "Please enter a valid referral code.",
+        title: "Error",
+        description: "Failed to validate referral code. Please try again.",
         variant: "destructive",
       });
     }
@@ -93,6 +110,26 @@ export const EnrollmentForm = ({ isOpen, onClose, programTitle, amount }: Enroll
       setIsProcessing(true);
       const totalAmount = calculateTotalAmount(finalAmount);
       
+      // Save enrollment data first
+      const enrollmentResponse = await fetch('/api/save-enrollment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...data,
+          programTitle,
+          amount: totalAmount,
+          referralApplied,
+        }),
+      });
+
+      if (!enrollmentResponse.ok) {
+        throw new Error('Failed to save enrollment data');
+      }
+
+      const { enrollmentId } = await enrollmentResponse.json();
+      
       const options = {
         amount: totalAmount * 100,
         name: "Dev Mentor Hub",
@@ -104,6 +141,19 @@ export const EnrollmentForm = ({ isOpen, onClose, programTitle, amount }: Enroll
               response.razorpay_order_id || '', 
               response.razorpay_signature || ''
             );
+
+            // Update enrollment status
+            await fetch(`/api/update-enrollment-status/${enrollmentId}`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ 
+                status: 'completed',
+                paymentId: response.razorpay_payment_id,
+              }),
+            });
+
             setPaymentSuccess(true);
             setIsProcessing(false);
             toast({
@@ -129,7 +179,7 @@ export const EnrollmentForm = ({ isOpen, onClose, programTitle, amount }: Enroll
 
       await initializeRazorpay(options);
     } catch (error: any) {
-      console.error("Razorpay initialization error:", error);
+      console.error("Enrollment/Payment error:", error);
       toast({
         title: "Error",
         description: error.message || "Something went wrong. Please try again.",
