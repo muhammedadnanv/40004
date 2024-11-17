@@ -183,7 +183,7 @@ export const EnrollmentForm = ({
                   </Button>
                 </div>
                 <div className="text-right font-semibold text-purple-600">
-                  Total Amount: ₹{finalAmount}
+                  Total Amount: ${finalAmount}
                 </div>
                 <Button 
                   type="submit" 
