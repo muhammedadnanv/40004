@@ -53,9 +53,9 @@ export const SuccessStoriesSection = () => {
     const startAnimation = async () => {
       while (true) {
         await controls.start((i) => ({
-          y: ["0%", "-100%"],
+          x: ["100%", "-100%"],
           transition: {
-            duration: 20,
+            duration: 30,
             delay: i * 0.1,
             ease: "linear",
             repeat: Infinity,
@@ -81,15 +81,16 @@ export const SuccessStoriesSection = () => {
 
       <div className="relative h-[500px] overflow-hidden">
         <motion.div 
-          className="grid grid-cols-1 md:grid-cols-3 gap-8 absolute w-full"
+          className="grid grid-cols-3 gap-8 absolute w-full"
           animate={controls}
+          style={{ width: "300%" }} // Make the container wider to accommodate horizontal scrolling
         >
           {stories.map((story, index) => (
             <motion.div
               key={story.name}
               custom={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.1, duration: 0.6 }}
             >
               <Card className="h-full border-0 shadow-lg hover:shadow-xl transition-all duration-300">
