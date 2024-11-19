@@ -30,9 +30,9 @@ const Index = () => {
   const programs = [
     {
       title: "ChatGPT Expert Program",
-      description: "Master advanced ChatGPT techniques, prompt engineering, and AI conversation design. Learn to create sophisticated prompts and build AI-powered applications with expert guidance.",
+      description: "Complete A-Z mentorship in ChatGPT mastery. Learn everything from basic prompts to advanced AI applications, including prompt engineering, API integration, custom GPT creation, automation, business use cases, and ethical considerations. Get hands-on experience with real-world projects and personalized feedback.",
       duration: "8 weeks",
-      skills: ["Prompt Engineering", "AI Systems", "ChatGPT API", "LLM Integration"],
+      skills: ["Basic to Advanced Prompting", "Custom GPT Creation", "ChatGPT API", "Business Applications", "AI Ethics"],
       category: "AI Development"
     },
     {
