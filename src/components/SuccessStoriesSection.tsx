@@ -21,31 +21,6 @@ export const SuccessStoriesSection = () => {
       name: "Anil Kumar",
       program: "Full Stack API Development",
       quote: "The mentorship program helped me understand complex concepts through practical applications. I now lead development teams and implement AI solutions in our projects."
-    },
-    {
-      name: "Priya Sharma",
-      program: "ChatGPT Expert Program",
-      quote: "The comprehensive A-Z mentorship in ChatGPT transformed my career. I now consult for major companies on AI implementation and automation strategies."
-    },
-    {
-      name: "Mohammed Rizwan",
-      program: "Low-Code Development",
-      quote: "This program showed me how to build complex applications efficiently. I've reduced development time by 70% using the low-code techniques I learned."
-    },
-    {
-      name: "Sarah Thomas",
-      program: "No-Code Development",
-      quote: "As a business analyst, this program was perfect. I can now create custom solutions for my clients without writing code. The ROI has been incredible."
-    },
-    {
-      name: "Rahul Nair",
-      program: "AI + Supabase Integration",
-      quote: "The hands-on approach to combining AI with database solutions was exactly what I needed. I've launched two successful SaaS products since completing the program."
-    },
-    {
-      name: "Lisa Chen",
-      program: "ChatGPT Expert Program",
-      quote: "The program's focus on ethical AI and business applications helped me establish my AI consulting practice. The real-world projects were invaluable."
     }
   ];
 
@@ -79,11 +54,11 @@ export const SuccessStoriesSection = () => {
         Success Stories
       </motion.h2>
 
-      <div className="relative h-[500px] overflow-hidden">
+      <div className="relative h-[200px] overflow-hidden">
         <motion.div 
-          className="grid grid-cols-3 gap-8 absolute w-full"
+          className="flex gap-8 absolute w-full"
           animate={controls}
-          style={{ width: "300%" }} // Make the container wider to accommodate horizontal scrolling
+          style={{ width: "300%" }}
         >
           {stories.map((story, index) => (
             <motion.div
@@ -92,6 +67,7 @@ export const SuccessStoriesSection = () => {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.1, duration: 0.6 }}
+              className="w-full"
             >
               <Card className="h-full border-0 shadow-lg hover:shadow-xl transition-all duration-300">
                 <CardHeader className="text-center">
