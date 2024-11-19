@@ -29,6 +29,13 @@ const Index = () => {
 
   const programs = [
     {
+      title: "ChatGPT Expert Program",
+      description: "Master advanced ChatGPT techniques, prompt engineering, and AI conversation design. Learn to create sophisticated prompts and build AI-powered applications with expert guidance.",
+      duration: "8 weeks",
+      skills: ["Prompt Engineering", "AI Systems", "ChatGPT API", "LLM Integration"],
+      category: "AI Development"
+    },
+    {
       title: "AI Prompt Design Mentorship",
       description: "Weekly hands-on assignments focused on AI prompt design fundamentals. Your dedicated mentor provides personalized feedback and guidance on each task. Pure mentorship program with practical exercises - no courses, just real-world experience.",
       duration: "6 weeks",
