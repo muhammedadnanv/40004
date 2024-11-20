@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { verifyPayment } from "@/utils/razorpayService";
 
 export const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -39,12 +40,16 @@ export const createRazorpayOptions = (
     email: data.email,
     contact: data.phone,
     method: 'upi',
-    'contact[address]': data.address
   },
   notes: {
     address: data.address,
     program: programTitle,
-    referralCode: data.referralCode || 'None'
+    referralCode: data.referralCode || 'None',
+    fullName: data.name,
+    emailAddress: data.email,
+    phoneNumber: data.phone,
+    completeAddress: data.address,
+    enrolledProgram: programTitle,
   },
   theme: {
     color: "#4A00E0",
