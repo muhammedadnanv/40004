@@ -65,13 +65,19 @@ export const EnrollmentForm = ({
         }
       );
 
-      const razorpayResult = await initializeRazorpay(options);
+      const paymentResult = await initializeRazorpay(options);
       
-      if (razorpayResult) {
+      if (paymentResult && paymentResult.success) {
         setPaymentSuccess(true);
         toast({
           title: "Payment Successful! 🎉",
           description: "Welcome to Dev Mentor Hub! You can now join our WhatsApp group.",
+        });
+      } else {
+        toast({
+          title: "Payment Failed",
+          description: paymentResult.error || "Something went wrong with the payment. Please try again.",
+          variant: "destructive",
         });
       }
     } catch (error: any) {

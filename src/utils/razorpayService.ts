@@ -1,6 +1,5 @@
 import { toast } from "@/components/ui/use-toast";
 
-// Global type declaration for Razorpay
 declare global {
   interface Window {
     Razorpay: new (options: RazorpayOptions) => {
@@ -36,45 +35,53 @@ export type RazorpayOptions = {
   };
 };
 
-export const initializeRazorpay = (options: RazorpayOptions) => {
-  return new Promise<void>((resolve, reject) => {
+export const initializeRazorpay = (options: RazorpayOptions): Promise<{ success: boolean; error?: string }> => {
+  return new Promise((resolve) => {
+    const handlePaymentSuccess = async (response: RazorpayResponse) => {
+      try {
+        if (response.razorpay_payment_id) {
+          const verified = await verifyPayment(
+            response.razorpay_payment_id,
+            response.razorpay_order_id || '',
+            response.razorpay_signature || ''
+          );
+          resolve({ success: verified });
+        } else {
+          resolve({ success: false, error: 'Payment ID not received' });
+        }
+      } catch (error: any) {
+        resolve({ success: false, error: error.message });
+      }
+    };
+
     if (typeof window.Razorpay === "undefined") {
       const script = document.createElement("script");
       script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      
       script.onload = () => {
-        const razorpay = new window.Razorpay(options);
-        razorpay.on('payment.failed', (response: any) => {
-          toast({
-            title: "Payment Failed",
-            description: response.error.description || "Something went wrong with the payment",
-            variant: "destructive"
-          });
-          reject(response.error);
+        const razorpay = new window.Razorpay({
+          ...options,
+          handler: handlePaymentSuccess
         });
         razorpay.open();
-        resolve();
       };
+      
       script.onerror = () => {
         toast({
           title: "Payment Error",
           description: "Failed to load Razorpay SDK. Please check your internet connection.",
           variant: "destructive"
         });
-        reject(new Error("Razorpay SDK failed to load"));
+        resolve({ success: false, error: "Failed to load Razorpay SDK" });
       };
+      
       document.body.appendChild(script);
     } else {
-      const razorpay = new window.Razorpay(options);
-      razorpay.on('payment.failed', (response: any) => {
-        toast({
-          title: "Payment Failed",
-          description: response.error.description || "Something went wrong with the payment",
-          variant: "destructive"
-        });
-        reject(response.error);
+      const razorpay = new window.Razorpay({
+        ...options,
+        handler: handlePaymentSuccess
       });
       razorpay.open();
-      resolve();
     }
   });
 };
@@ -83,10 +90,8 @@ export const verifyPayment = async (
   paymentId: string, 
   orderId: string, 
   signature: string
-) => {
+): Promise<boolean> => {
   try {
-    // Implement server-side verification logic here
-    // This is a placeholder and should be replaced with actual server-side verification
     const response = await fetch('/api/verify-payment', {
       method: 'POST',
       headers: {
@@ -99,7 +104,8 @@ export const verifyPayment = async (
       throw new Error('Payment verification failed');
     }
 
-    return await response.json();
+    const result = await response.json();
+    return result.verified;
   } catch (error) {
     toast({
       title: "Verification Failed",
