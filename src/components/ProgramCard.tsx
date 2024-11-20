@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Share } from "lucide-react";
+import { Share, Check } from "lucide-react";
 import { ShareProgramCard } from "./ShareProgramCard";
 import { EnrollmentForm } from "./EnrollmentForm";
 import { showRandomJoinNotification } from "@/utils/mockNotifications";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface ProgramCardProps {
   program: {
@@ -17,8 +18,40 @@ interface ProgramCardProps {
   };
 }
 
+interface PricingPlan {
+  name: string;
+  price: number;
+  features: string[];
+}
+
 export const ProgramCard = ({ program }: ProgramCardProps) => {
   const [showEnrollmentForm, setShowEnrollmentForm] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<PricingPlan>(plans[0]);
+
+  const plans: PricingPlan[] = [
+    {
+      name: "Basic",
+      price: 166,
+      features: [
+        "Weekly mentorship sessions",
+        "Basic project reviews",
+        "Community access",
+        "Course materials"
+      ]
+    },
+    {
+      name: "Premium",
+      price: 599,
+      features: [
+        "Everything in Basic",
+        "Priority support",
+        "Extended mentorship hours",
+        "Advanced resources",
+        "1-on-1 career guidance",
+        "Certificate of completion"
+      ]
+    }
+  ];
 
   useEffect(() => {
     const randomDelay = Math.floor(Math.random() * 30000) + 20000;
@@ -67,7 +100,28 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
       </CardContent>
 
       <CardFooter className="flex flex-col gap-2 sm:gap-3 p-3 sm:p-4 md:p-6">
-        <p className="text-sm sm:text-base md:text-lg font-light">₹166</p>
+        <Tabs defaultValue="basic" className="w-full" onValueChange={(value) => setSelectedPlan(plans[value === 'basic' ? 0 : 1])}>
+          <TabsList className="grid w-full grid-cols-2 mb-4">
+            <TabsTrigger value="basic">Basic</TabsTrigger>
+            <TabsTrigger value="premium">Premium</TabsTrigger>
+          </TabsList>
+          {plans.map((plan) => (
+            <TabsContent key={plan.name.toLowerCase()} value={plan.name.toLowerCase()} className="mt-0">
+              <div className="space-y-2">
+                <p className="text-lg font-semibold text-primary">₹{plan.price}</p>
+                <ul className="space-y-1">
+                  {plan.features.map((feature, index) => (
+                    <li key={index} className="text-xs sm:text-sm flex items-center gap-2">
+                      <Check className="w-4 h-4 text-primary" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </TabsContent>
+          ))}
+        </Tabs>
+
         <Button 
           className="w-full bg-primary hover:bg-primary/90 text-xs sm:text-sm font-light shadow-material-1 hover:shadow-material-2 transition-all duration-300"
           onClick={handleEnrollClick}
@@ -86,7 +140,7 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
         isOpen={showEnrollmentForm}
         onClose={() => setShowEnrollmentForm(false)}
         programTitle={program.title}
-        amount={166}
+        amount={selectedPlan.price}
       />
       <ShareProgramCard program={program} />
     </Card>
