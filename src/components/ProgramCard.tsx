@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Share } from "lucide-react";
+import { Share, Check } from "lucide-react";
 import { ShareProgramCard } from "./ShareProgramCard";
 import { EnrollmentForm } from "./EnrollmentForm";
 import { showRandomJoinNotification } from "@/utils/mockNotifications";
@@ -18,32 +18,40 @@ interface ProgramCardProps {
   };
 }
 
+interface PricingPlan {
+  name: string;
+  price: number;
+  features: string[];
+}
+
 export const ProgramCard = ({ program }: ProgramCardProps) => {
   const [showEnrollmentForm, setShowEnrollmentForm] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState("basic");
+  const [selectedPlan, setSelectedPlan] = useState<PricingPlan>(plans[0]);
 
-  const plans = {
-    basic: {
+  const plans: PricingPlan[] = [
+    {
+      name: "Basic",
       price: 166,
       features: [
         "Weekly mentorship sessions",
         "Basic project reviews",
         "Community access",
-        "Assignment feedback"
+        "Course materials"
       ]
     },
-    premium: {
+    {
+      name: "Premium",
       price: 599,
       features: [
-        "All Basic features",
+        "Everything in Basic",
         "Priority support",
         "Extended mentorship hours",
-        "Advanced project reviews",
-        "Resource library access",
-        "Career guidance"
+        "Advanced resources",
+        "1-on-1 career guidance",
+        "Certificate of completion"
       ]
     }
-  };
+  ];
 
   useEffect(() => {
     const randomDelay = Math.floor(Math.random() * 30000) + 20000;
@@ -89,38 +97,31 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
             ))}
           </div>
         </div>
-
-        <Tabs defaultValue="basic" className="w-full" onValueChange={setSelectedPlan}>
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="basic">Basic Plan</TabsTrigger>
-            <TabsTrigger value="premium">Premium Plan</TabsTrigger>
-          </TabsList>
-          <TabsContent value="basic" className="space-y-2">
-            <div className="text-sm sm:text-base md:text-lg font-light">₹{plans.basic.price}</div>
-            <ul className="text-xs sm:text-sm space-y-1">
-              {plans.basic.features.map((feature, index) => (
-                <li key={index} className="flex items-center gap-2">
-                  <span className="w-1 h-1 bg-purple-500 rounded-full"></span>
-                  {feature}
-                </li>
-              ))}
-            </ul>
-          </TabsContent>
-          <TabsContent value="premium" className="space-y-2">
-            <div className="text-sm sm:text-base md:text-lg font-light">₹{plans.premium.price}</div>
-            <ul className="text-xs sm:text-sm space-y-1">
-              {plans.premium.features.map((feature, index) => (
-                <li key={index} className="flex items-center gap-2">
-                  <span className="w-1 h-1 bg-purple-500 rounded-full"></span>
-                  {feature}
-                </li>
-              ))}
-            </ul>
-          </TabsContent>
-        </Tabs>
       </CardContent>
 
       <CardFooter className="flex flex-col gap-2 sm:gap-3 p-3 sm:p-4 md:p-6">
+        <Tabs defaultValue="basic" className="w-full" onValueChange={(value) => setSelectedPlan(plans[value === 'basic' ? 0 : 1])}>
+          <TabsList className="grid w-full grid-cols-2 mb-4">
+            <TabsTrigger value="basic">Basic</TabsTrigger>
+            <TabsTrigger value="premium">Premium</TabsTrigger>
+          </TabsList>
+          {plans.map((plan) => (
+            <TabsContent key={plan.name.toLowerCase()} value={plan.name.toLowerCase()} className="mt-0">
+              <div className="space-y-2">
+                <p className="text-lg font-semibold text-primary">₹{plan.price}</p>
+                <ul className="space-y-1">
+                  {plan.features.map((feature, index) => (
+                    <li key={index} className="text-xs sm:text-sm flex items-center gap-2">
+                      <Check className="w-4 h-4 text-primary" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </TabsContent>
+          ))}
+        </Tabs>
+
         <Button 
           className="w-full bg-primary hover:bg-primary/90 text-xs sm:text-sm font-light shadow-material-1 hover:shadow-material-2 transition-all duration-300"
           onClick={handleEnrollClick}
@@ -139,8 +140,7 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
         isOpen={showEnrollmentForm}
         onClose={() => setShowEnrollmentForm(false)}
         programTitle={program.title}
-        amount={selectedPlan === "premium" ? plans.premium.price : plans.basic.price}
-        selectedPlan={selectedPlan}
+        amount={selectedPlan.price}
       />
       <ShareProgramCard program={program} />
     </Card>
