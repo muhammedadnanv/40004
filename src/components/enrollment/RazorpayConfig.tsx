@@ -1,4 +1,5 @@
 import { RazorpayOptions } from "@/utils/razorpayService";
+import { verifyPayment } from "@/utils/razorpayService";
 
 export const createRazorpayOptions = (
   finalAmount: number,
@@ -15,18 +16,17 @@ export const createRazorpayOptions = (
     amount: finalAmount * 100, // Amount in paise
     currency: "INR",
     name: "Dev Mentor Hub",
-    description: `Enrollment for ${programTitle} - ${selectedPlan} Plan`,
-    handler: async (response) => {
-      try {
-        await verifyPayment(
+    description: `Enrollment for ${programTitle} - ${selectedPlan} Plan (₹${finalAmount})`,
+    handler: async function(response) {
+      if (response.razorpay_payment_id) {
+        const verified = await verifyPayment(
           response.razorpay_payment_id,
           response.razorpay_order_id || '',
           response.razorpay_signature || ''
         );
-        return true;
-      } catch (error) {
-        throw error;
+        return verified;
       }
+      return false;
     },
     prefill: {
       name: userData.name,

@@ -9,7 +9,7 @@ import { FormFields } from "./enrollment/FormFields";
 import { SuccessCard } from "./enrollment/SuccessCard";
 import { ReferralHandler } from "./enrollment/ReferralHandler";
 import { createRazorpayOptions } from "./enrollment/RazorpayConfig";
-import { initializeRazorpay, verifyPayment } from "@/utils/razorpayService";
+import { initializeRazorpay } from "@/utils/razorpayService";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -65,8 +65,9 @@ export const EnrollmentForm = ({
         }
       );
 
-      const razorpay = await initializeRazorpay(options);
-      if (razorpay) {
+      const razorpayResult = await initializeRazorpay(options);
+      
+      if (razorpayResult) {
         setPaymentSuccess(true);
         toast({
           title: "Payment Successful! 🎉",
@@ -92,7 +93,7 @@ export const EnrollmentForm = ({
           <>
             <DialogHeader>
               <DialogTitle className="text-xl font-semibold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">
-                Enroll in {programTitle} - {selectedPlan} Plan
+                Enroll in {programTitle} - {selectedPlan} Plan (₹{finalAmount})
               </DialogTitle>
             </DialogHeader>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -110,7 +111,7 @@ export const EnrollmentForm = ({
                 className="w-full bg-purple-600 hover:bg-purple-700 text-white transition-all duration-300"
                 disabled={isProcessing}
               >
-                {isProcessing ? "Processing..." : "Proceed to Payment"}
+                {isProcessing ? "Processing..." : `Pay ₹${finalAmount}`}
               </Button>
             </form>
           </>
