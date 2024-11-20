@@ -140,6 +140,7 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
         onClose={() => setShowEnrollmentForm(false)}
         programTitle={program.title}
         amount={selectedPlan === "premium" ? plans.premium.price : plans.basic.price}
+        selectedPlan={selectedPlan}
       />
       <ShareProgramCard program={program} />
     </Card>
