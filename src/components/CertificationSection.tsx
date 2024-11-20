@@ -1,14 +1,34 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Award, CheckCircle, ExternalLink } from "lucide-react";
+import { Award, CheckCircle, ExternalLink, Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
 
 export const CertificationSection = () => {
   const { toast } = useToast();
+  const [isUnlocked, setIsUnlocked] = useState(false);
+  const [specialCode, setSpecialCode] = useState("");
 
   const handleCertificateClick = () => {
     window.open("https://i.ibb.co/SRb4264/title.png", "_blank", "noopener,noreferrer");
+  };
+
+  const handleUnlock = () => {
+    if (specialCode === "DMH2024") {
+      setIsUnlocked(true);
+      toast({
+        title: "Certificate Preview Unlocked! 🎉",
+        description: "You can now view your certificate preview.",
+      });
+    } else {
+      toast({
+        title: "Invalid Code",
+        description: "Please enter a valid unlock code. You can get this after payment.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -69,14 +89,44 @@ export const CertificationSection = () => {
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="bg-white/90 p-3 sm:p-4 md:p-6 rounded-lg text-center space-y-2 sm:space-y-3 md:space-y-4">
                     <Award className="w-6 h-6 sm:w-8 sm:h-8 md:w-12 md:h-12 text-[#4A00E0] mx-auto" />
-                    <p className="font-medium text-xs sm:text-sm md:text-base text-gray-800 mb-2 sm:mb-3 md:mb-4">Complete the program to view your certificate</p>
-                    <Button 
-                      variant="outline" 
-                      className="gap-1.5 sm:gap-2 text-[10px] sm:text-xs md:text-sm text-[#4A00E0] border-[#4A00E0] hover:bg-[#4A00E0]/10"
-                      onClick={handleCertificateClick}
-                    >
-                      Preview Certificate <ExternalLink className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4" />
-                    </Button>
+                    {!isUnlocked ? (
+                      <>
+                        <p className="font-medium text-xs sm:text-sm md:text-base text-gray-800 mb-2 sm:mb-3 md:mb-4">
+                          Enter your unlock code to view the certificate
+                        </p>
+                        <div className="flex flex-col gap-2">
+                          <Input
+                            type="text"
+                            placeholder="Enter unlock code"
+                            value={specialCode}
+                            onChange={(e) => setSpecialCode(e.target.value)}
+                            className="text-sm"
+                          />
+                          <Button 
+                            onClick={handleUnlock}
+                            className="w-full bg-[#4A00E0] hover:bg-[#4A00E0]/90 text-white"
+                          >
+                            Unlock Preview
+                          </Button>
+                        </div>
+                        <p className="text-xs text-gray-600">
+                          You'll receive the unlock code after payment
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <p className="font-medium text-xs sm:text-sm md:text-base text-gray-800 mb-2 sm:mb-3 md:mb-4">
+                          Click below to view your certificate
+                        </p>
+                        <Button 
+                          variant="outline" 
+                          className="gap-1.5 sm:gap-2 text-[10px] sm:text-xs md:text-sm text-[#4A00E0] border-[#4A00E0] hover:bg-[#4A00E0]/10"
+                          onClick={handleCertificateClick}
+                        >
+                          Preview Certificate <ExternalLink className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4" />
+                        </Button>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
