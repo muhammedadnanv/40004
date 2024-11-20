@@ -1,15 +1,27 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { CheckCircle, MessageCircle } from "lucide-react";
+import { CheckCircle, MessageCircle, Copy } from "lucide-react";
 import { motion } from "framer-motion";
+import { useToast } from "@/components/ui/use-toast";
 
 interface SuccessCardProps {
   onClose: () => void;
 }
 
 export const SuccessCard = ({ onClose }: SuccessCardProps) => {
+  const { toast } = useToast();
+  const unlockCode = "DMH2024";
+
   const handleJoinWhatsApp = () => {
     window.open("https://chat.whatsapp.com/COaTqrI651TKlYTPrHOYDn", "_blank");
+  };
+
+  const handleCopyCode = () => {
+    navigator.clipboard.writeText(unlockCode);
+    toast({
+      title: "Code Copied!",
+      description: "The unlock code has been copied to your clipboard.",
+    });
   };
 
   return (
@@ -38,6 +50,20 @@ export const SuccessCard = ({ onClose }: SuccessCardProps) => {
           <div className="space-y-4">
             <p className="text-center text-gray-600">Please follow these steps:</p>
             <ol className="list-decimal pl-6 space-y-3 text-gray-600">
+              <li className="transition-all duration-200 hover:text-purple-600">
+                Save your unlock code for the Project Ideas Gallery: 
+                <div className="flex items-center justify-center gap-2 mt-2">
+                  <code className="bg-gray-100 px-4 py-2 rounded">{unlockCode}</code>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={handleCopyCode}
+                    className="h-8 w-8"
+                  >
+                    <Copy className="h-4 w-4" />
+                  </Button>
+                </div>
+              </li>
               <li className="transition-all duration-200 hover:text-purple-600">
                 Click the button below to join our WhatsApp group
               </li>

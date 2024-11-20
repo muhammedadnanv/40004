@@ -5,17 +5,29 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { projectIdeas } from "@/data/projectIdeas";
+import { Input } from "@/components/ui/input";
 
 export function ProjectIdeasSection() {
   const [isUnlocked, setIsUnlocked] = useState(false);
+  const [specialCode, setSpecialCode] = useState("");
   const { toast } = useToast();
 
   const handleUnlock = () => {
-    setIsUnlocked(true);
-    toast({
-      title: "Project Ideas Unlocked!",
-      description: "You now have access to all project ideas.",
-    });
+    // Check if the special code matches the payment verification code
+    // This code should match what's given after payment
+    if (specialCode === "DMH2024") {
+      setIsUnlocked(true);
+      toast({
+        title: "Project Ideas Unlocked! 🎉",
+        description: "You now have access to all project ideas.",
+      });
+    } else {
+      toast({
+        title: "Invalid Code",
+        description: "Please enter a valid unlock code. You can get this after payment.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -29,10 +41,22 @@ export function ProjectIdeasSection() {
         <div className="relative">
           {!isUnlocked && (
             <div className="absolute inset-0 bg-white/50 backdrop-blur-md z-10 flex flex-col items-center justify-center">
-              <p className="text-lg mb-4 text-gray-800">Enroll to unlock all project ideas</p>
-              <Button onClick={handleUnlock} className="bg-primary hover:bg-primary/90">
-                Unlock Project Ideas
-              </Button>
+              <p className="text-lg mb-4 text-gray-800">Enter your unlock code to access project ideas</p>
+              <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md px-4">
+                <Input
+                  type="text"
+                  placeholder="Enter unlock code"
+                  value={specialCode}
+                  onChange={(e) => setSpecialCode(e.target.value)}
+                  className="flex-1"
+                />
+                <Button onClick={handleUnlock} className="bg-primary hover:bg-primary/90">
+                  Unlock Gallery
+                </Button>
+              </div>
+              <p className="mt-4 text-sm text-gray-600">
+                You'll receive the unlock code after completing the payment
+              </p>
             </div>
           )}
           
