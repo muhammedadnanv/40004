@@ -4,30 +4,15 @@ import { Form } from "@/components/ui/form";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { FormFields } from "./enrollment/FormFields";
 import { SuccessCard } from "./enrollment/SuccessCard";
-import { generateAndDownloadPDF } from "@/utils/generatePDF";
-import { 
-  initializeRazorpay, 
-  verifyPayment, 
-  RazorpayResponse, 
-  RazorpayOptions 
-} from "@/utils/razorpayService";
+import { initializeRazorpay } from "@/utils/razorpayService";
 import { validateReferralCode } from "@/utils/referralUtils";
+import { formSchema, createRazorpayOptions } from "./enrollment/RazorpayConfig";
+import type { FormData } from "./enrollment/RazorpayConfig";
 
-// Form validation schema
-const formSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
-  phone: z.string().min(10, "Phone number must be at least 10 digits"),
-  address: z.string().min(10, "Please enter your full address"),
-  referralCode: z.string().optional(),
-});
-
-// Separate component props
 interface EnrollmentFormProps {
   isOpen: boolean;
   onClose: () => void;
@@ -47,7 +32,7 @@ export const EnrollmentForm = ({
   const [referralApplied, setReferralApplied] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
@@ -88,58 +73,32 @@ export const EnrollmentForm = ({
     }
   };
 
-  // Main form submission method
-  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+  const onSubmit = async (data: FormData) => {
     try {
       setIsProcessing(true);
 
-      const options: RazorpayOptions = {
-        key: "rzp_live_5JYQnqKRnKhB5y",
-        amount: finalAmount * 100, // Amount in paise
-        currency: "INR",
-        name: "Dev Mentor Hub",
-        description: `Enrollment for ${programTitle}`,
-        handler: async (response: RazorpayResponse) => {
-          try {
-            // Verify payment on the server
-            await verifyPayment(
-              response.razorpay_payment_id, 
-              response.razorpay_order_id || '', 
-              response.razorpay_signature || ''
-            );
+      const options = createRazorpayOptions(
+        data,
+        finalAmount,
+        programTitle,
+        () => {
+          setPaymentSuccess(true);
+          setIsProcessing(false);
+          toast({
+            title: "Payment Successful! 🎉",
+            description: "Welcome to Dev Mentor Hub! You can now join our WhatsApp group.",
+          });
+        },
+        (error) => {
+          setIsProcessing(false);
+          toast({
+            title: "Payment Failed",
+            description: error.message || "Something went wrong with the payment",
+            variant: "destructive",
+          });
+        }
+      );
 
-            // Payment successful
-            setPaymentSuccess(true);
-            setIsProcessing(false);
-            toast({
-              title: "Payment Successful! 🎉",
-              description: "Welcome to Dev Mentor Hub! You can now join our WhatsApp group.",
-            });
-          } catch (verificationError) {
-            setIsProcessing(false);
-            toast({
-              title: "Payment Verification Failed",
-              description: "Your payment could not be verified. Please contact support.",
-              variant: "destructive",
-            });
-          }
-        },
-        prefill: {
-          name: data.name,
-          email: data.email,
-          contact: data.phone,
-        },
-        theme: {
-          color: "#4A00E0",
-        },
-        modal: {
-          ondismiss: () => {
-            setIsProcessing(false);
-          },
-        },
-      };
-
-      // Initialize and open Razorpay checkout
       await initializeRazorpay(options);
     } catch (error: any) {
       console.error("Razorpay initialization error:", error);
