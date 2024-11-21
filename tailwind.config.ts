@@ -3,24 +3,11 @@ import type { Config } from "tailwindcss";
 export default {
   darkMode: ["class"],
   content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
-  prefix: "",
   theme: {
     container: {
       center: true,
-      padding: {
-        DEFAULT: '1rem',
-        sm: '2rem',
-        lg: '4rem',
-        xl: '5rem',
-        '2xl': '6rem',
-      },
-      screens: {
-        sm: '640px',
-        md: '768px',
-        lg: '1024px',
-        xl: '1280px',
-        '2xl': '1400px',
-      },
+      padding: "2rem",
+      screens: { sm: "640px", md: "768px", lg: "1024px", xl: "1280px", "2xl": "1400px" },
     },
     extend: {
       fontFamily: {
@@ -40,36 +27,11 @@ export default {
           hover: "hsl(250 60% 40%)",
           light: "hsl(250 60% 97%)",
           dark: "hsl(250 60% 35%)",
+          600: "hsl(250 60% 40%)",
         },
-        secondary: {
-          DEFAULT: "hsl(0 0% 98%)",
-          foreground: "hsl(224 71% 4%)",
-          hover: "hsl(0 0% 96%)",
-        },
-        accent: {
-          DEFAULT: "hsl(220 14% 96%)",
-          foreground: "hsl(224 71% 4%)",
-          hover: "hsl(220 14% 94%)",
-        },
-        muted: {
-          DEFAULT: "hsl(220 14% 96%)",
-          foreground: "hsl(220 9% 46%)",
-        },
-        success: {
-          DEFAULT: "hsl(142 72% 29%)",
-          foreground: "hsl(0 0% 100%)",
-          muted: "hsl(142 72% 95%)",
-        },
-        warning: {
-          DEFAULT: "hsl(37 91% 55%)",
-          foreground: "hsl(0 0% 100%)",
-          muted: "hsl(37 91% 95%)",
-        },
-        destructive: {
-          DEFAULT: "hsl(0 84% 60%)",
-          foreground: "hsl(0 0% 98%)",
-          muted: "hsl(0 84% 95%)",
-        },
+        secondary: { DEFAULT: "hsl(0 0% 98%)", foreground: "hsl(224 71% 4%)", hover: "hsl(0 0% 96%)" },
+        muted: { DEFAULT: "hsl(220 14% 96%)", foreground: "hsl(220 9% 46%)" },
+        accent: { DEFAULT: "hsl(220 14% 96%)", foreground: "hsl(224 71% 4%)", hover: "hsl(220 14% 94%)" },
       },
       boxShadow: {
         'soft': '0 2px 15px rgba(0,0,0,0.03)',

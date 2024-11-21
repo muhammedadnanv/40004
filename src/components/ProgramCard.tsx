@@ -6,6 +6,7 @@ import { Share } from "lucide-react";
 import { ShareProgramCard } from "./ShareProgramCard";
 import { EnrollmentForm } from "./EnrollmentForm";
 import { showRandomJoinNotification } from "@/utils/mockNotifications";
+import { motion } from "framer-motion";
 
 interface ProgramCardProps {
   program: {
@@ -34,61 +35,69 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
   };
 
   return (
-    <Card className="group relative bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-      <CardHeader className="space-y-2 p-3 sm:p-4 md:p-6">
-        <Badge 
-          variant="secondary" 
-          className="w-fit text-[10px] sm:text-xs font-light"
-        >
-          {program.category}
-        </Badge>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <Card className="premium-card overflow-hidden group">
+        <CardHeader className="space-y-2 p-6">
+          <Badge 
+            variant="secondary" 
+            className="w-fit text-xs font-medium bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+          >
+            {program.category}
+          </Badge>
+          
+          <CardTitle className="text-lg sm:text-xl font-semibold group-hover:premium-gradient transition-colors">
+            {program.title}
+          </CardTitle>
+          <CardDescription className="text-sm text-gray-600">
+            {program.description}
+          </CardDescription>
+        </CardHeader>
         
-        <CardTitle className="text-sm sm:text-base md:text-lg lg:text-xl font-light group-hover:text-primary transition-colors">
-          {program.title}
-        </CardTitle>
-        <CardDescription className="text-xs sm:text-sm">{program.description}</CardDescription>
-      </CardHeader>
-      
-      <CardContent className="space-y-3 sm:space-y-4 p-3 sm:p-4 md:p-6">
-        <div>
-          <p className="text-xs sm:text-sm text-gray-600 mb-2">Duration: {program.duration}</p>
-          <div className="flex flex-wrap gap-1.5 sm:gap-2">
-            {program.skills.map((skill, index) => (
-              <Badge
-                key={index}
-                variant="outline"
-                className="text-[10px] sm:text-xs font-light bg-white/50"
-              >
-                {skill}
-              </Badge>
-            ))}
+        <CardContent className="space-y-4 p-6">
+          <div>
+            <p className="text-sm text-gray-600 mb-3">Duration: {program.duration}</p>
+            <div className="flex flex-wrap gap-2">
+              {program.skills.map((skill, index) => (
+                <Badge
+                  key={index}
+                  variant="outline"
+                  className="text-xs font-medium bg-white/50 hover:bg-primary/5 transition-colors"
+                >
+                  {skill}
+                </Badge>
+              ))}
+            </div>
           </div>
-        </div>
-      </CardContent>
+        </CardContent>
 
-      <CardFooter className="flex flex-col gap-2 sm:gap-3 p-3 sm:p-4 md:p-6">
-        <p className="text-sm sm:text-base md:text-lg font-light">₹299</p>
-        <Button 
-          className="w-full bg-primary hover:bg-primary/90 text-xs sm:text-sm font-light shadow-material-1 hover:shadow-material-2 transition-all duration-300"
-          onClick={handleEnrollClick}
-        >
-          Enroll Now
-        </Button>
-        <Button 
-          variant="ghost"
-          className="w-full text-[10px] sm:text-xs text-gray-500 hover:text-primary font-light group"
-        >
-          Share <Share className="w-3 h-3 ml-2 group-hover:scale-110 transition-transform" />
-        </Button>
-      </CardFooter>
+        <CardFooter className="flex flex-col gap-3 p-6 bg-gray-50/50">
+          <p className="text-lg font-semibold premium-gradient">₹299</p>
+          <Button 
+            className="w-full bg-primary hover:bg-primary-600 text-sm font-medium shadow-lg hover:shadow-xl transition-all duration-300"
+            onClick={handleEnrollClick}
+          >
+            Enroll Now
+          </Button>
+          <Button 
+            variant="ghost"
+            className="w-full text-xs text-gray-500 hover:text-primary font-medium group"
+          >
+            Share <Share className="w-3 h-3 ml-2 group-hover:scale-110 transition-transform" />
+          </Button>
+        </CardFooter>
 
-      <EnrollmentForm 
-        isOpen={showEnrollmentForm}
-        onClose={() => setShowEnrollmentForm(false)}
-        programTitle={program.title}
-        amount={299}
-      />
-      <ShareProgramCard program={program} />
-    </Card>
+        <EnrollmentForm 
+          isOpen={showEnrollmentForm}
+          onClose={() => setShowEnrollmentForm(false)}
+          programTitle={program.title}
+          amount={299}
+        />
+        <ShareProgramCard program={program} />
+      </Card>
+    </motion.div>
   );
 };

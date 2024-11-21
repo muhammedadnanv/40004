@@ -9,45 +9,44 @@ export const HeroSection = () => {
   };
 
   return (
-    <section className="relative min-h-[80vh] flex items-center justify-center py-8 sm:py-12 md:py-16 lg:py-20 xl:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-r from-purple-100/50 via-white to-purple-100/50"></div>
+    <section className="relative min-h-[90vh] flex items-center justify-center py-8 sm:py-12 md:py-16 lg:py-20 xl:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1498050108023-c5249f4df085')] bg-cover bg-center opacity-[0.02] pointer-events-none"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-white via-purple-50/30 to-white"></div>
+      
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="container mx-auto max-w-3xl text-center relative"
+        className="container mx-auto max-w-4xl text-center relative"
       >
-        <div className="space-y-4 sm:space-y-6 md:space-y-8">
-          <motion.h1 
+        <div className="space-y-8">
+          <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extralight tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-purple-800 flex items-center justify-center gap-2 px-4"
+            className="space-y-4"
           >
-            Dev Mentor Hub <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 lg:w-8 lg:h-8 text-purple-600 animate-pulse" />
-          </motion.h1>
-          
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4, duration: 0.5 }}
-            className="text-sm sm:text-base md:text-lg text-gray-600 mb-6 sm:mb-8 lg:mb-10 font-light max-w-xl mx-auto px-4"
-          >
-            Your journey to mastering technology starts here.
-          </motion.p>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight premium-gradient flex items-center justify-center gap-4">
+              Dev Mentor Hub 
+              <Sparkles className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-purple-600 animate-pulse" />
+            </h1>
+            
+            <p className="text-lg sm:text-xl md:text-2xl text-gray-600 font-light max-w-2xl mx-auto">
+              Your journey to mastering technology starts here
+            </p>
+          </motion.div>
           
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.5 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 max-w-md mx-auto px-4"
+            transition={{ delay: 0.4, duration: 0.5 }}
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto"
           >
             <Button 
               onClick={scrollToPrograms} 
-              variant="outline"
-              className="w-full sm:w-auto border-purple-200 hover:bg-purple-50 font-light text-purple-700 group transition-all duration-300 hover:scale-105 text-sm sm:text-base"
+              className="w-full sm:w-auto bg-primary hover:bg-primary-600 text-white font-medium px-8 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 text-lg group"
             >
-              <BookOpen className="w-4 h-4 mr-2 group-hover:rotate-12 transition-transform" />
+              <BookOpen className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" />
               Explore Programs
             </Button>
             
@@ -55,9 +54,10 @@ export const HeroSection = () => {
               href="https://www.mygreatlearning.com/academy?referrer_code=GLL44ZJATMMKQ"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 sm:px-6 py-2 text-sm sm:text-base border border-purple-200 rounded-md hover:bg-purple-50 transition-all duration-300 hover:scale-105 font-light text-purple-700 group"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-6 text-lg border-2 border-primary/20 rounded-xl hover:bg-primary/5 transition-all duration-300 hover:scale-105 font-medium text-primary group"
             >
-              Learn <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              Learn More
+              <ExternalLink className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </a>
           </motion.div>
         </div>
