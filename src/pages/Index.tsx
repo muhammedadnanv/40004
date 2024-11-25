@@ -10,6 +10,7 @@ import { ProjectIdeasSection } from "@/components/ProjectIdeasSection";
 import { CategoryTopper } from "@/components/CategoryTopper";
 import { LearningPathSection } from "@/components/LearningPathSection";
 import { SuccessStoriesSection } from "@/components/SuccessStoriesSection";
+import { PartnershipsSection } from "@/components/PartnershipsSection";
 import { useEffect } from "react";
 import { showRandomJoinNotification } from "@/utils/mockNotifications";
 import { getContentRecommendations, getContentEngagementStats } from "@/utils/contentAdaptation";
@@ -166,6 +167,10 @@ const Index = () => {
               ))}
             </div>
           </div>
+        </section>
+
+        <section aria-label="partnerships" className="py-24">
+          <PartnershipsSection />
         </section>
 
         <section aria-label="success-stories" className="py-24 bg-gradient-to-r from-purple-50 via-white to-purple-50">
