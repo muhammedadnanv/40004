@@ -7,7 +7,8 @@ export const PartnershipsSection = () => {
     { name: "ComicFix", description: "Leading tech community focused on developer growth" },
     { name: "Community Developer Community", description: "Global network of developers and mentors" },
     { name: "Dev Connect", description: "Professional development and networking platform" },
-    { name: "Dev2 Developers Community", description: "Innovative learning and certification provider" }
+    { name: "Dev2 Developers Community", description: "Innovative learning and certification provider" },
+    { name: "Bugver Developer", description: "Expert community specializing in software quality and debugging" }
   ];
 
   return (
@@ -27,7 +28,7 @@ export const PartnershipsSection = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
           {partners.map((partner, index) => (
             <motion.div
               key={partner.name}

@@ -77,13 +77,14 @@ export const SuccessStoriesSection = () => {
   useEffect(() => {
     const startAnimation = async () => {
       await controls.start((i) => ({
-        x: ["100%", "-100%"],
+        x: [0, "-100%"],
         transition: {
           duration: 30,
           delay: i * 0.1,
           ease: "linear",
           repeat: Infinity,
-          repeatType: "loop"
+          repeatType: "loop",
+          repeatDelay: 0
         }
       }));
     };
@@ -108,9 +109,9 @@ export const SuccessStoriesSection = () => {
           animate={controls}
           style={{ width: "300%" }}
         >
-          {stories.map((story, index) => (
+          {[...stories, ...stories].map((story, index) => (
             <motion.div
-              key={story.name}
+              key={`${story.name}-${index}`}
               custom={index}
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
