@@ -3,15 +3,13 @@ import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/
 import { Quote } from "lucide-react";
 import { useEffect } from "react";
 
-export const SuccessStoriesSection = () => {
-  const controls = useAnimation();
-  
-  const stories = [
-    {
-      name: "Arjun Menon",
-      program: "AI Prompt Design Mentorship",
-      quote: "The AI development mentorship program helped me transition from a traditional software role to AI development. The practical assignments and weekly feedback sessions were instrumental in building my confidence."
-    },
+// Separate stories data into its own constant
+const successStories = [
+  {
+    name: "Arjun Menon",
+    program: "AI Prompt Design Mentorship",
+    quote: "The AI development mentorship program helped me transition from a traditional software role to AI development. The practical assignments and weekly feedback sessions were instrumental in building my confidence."
+  },
     {
       name: "Aysha Fathima",
       program: "Frontend Development",
@@ -72,28 +70,52 @@ export const SuccessStoriesSection = () => {
       program: "NLP Engineering",
       quote: "The natural language processing expertise I gained was transformative. My team now develops cutting-edge language models that serve millions of users globally."
     }
-  ];
+];
+
+// Separate Story component for better organization
+const StoryCard = ({ story, index }: { story: typeof successStories[0], index: number }) => (
+  <motion.div
+    key={`${story.name}-${index}`}
+    custom={index}
+    initial={{ opacity: 0, x: 20 }}
+    animate={{ opacity: 1, x: 0 }}
+    transition={{ delay: index * 0.1, duration: 0.6 }}
+    className="min-w-[300px] mx-4"
+  >
+    <Card className="h-full border-0 shadow-lg hover:shadow-xl transition-all duration-300">
+      <CardHeader className="text-center">
+        <Quote className="w-8 h-8 mx-auto text-purple-400 mb-4 opacity-50" />
+        <CardDescription className="text-base italic">"{story.quote}"</CardDescription>
+      </CardHeader>
+      <CardContent className="text-center">
+        <h3 className="font-medium text-lg">{story.name}</h3>
+        <p className="text-sm text-purple-600">{story.program}</p>
+      </CardContent>
+    </Card>
+  </motion.div>
+);
+
+export const SuccessStoriesSection = () => {
+  const controls = useAnimation();
 
   useEffect(() => {
     const startAnimation = async () => {
-      await controls.start((i) => ({
-        x: [0, "-100%"],
+      await controls.start({
+        x: [0, -2000],
         transition: {
           duration: 30,
-          delay: i * 0.1,
           ease: "linear",
           repeat: Infinity,
           repeatType: "loop",
-          repeatDelay: 0
         }
-      }));
+      });
     };
 
     startAnimation();
   }, [controls]);
 
   return (
-    <div className="container mx-auto max-w-6xl px-4 overflow-hidden">
+    <div className="container mx-auto max-w-6xl px-4 py-16">
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -103,32 +125,14 @@ export const SuccessStoriesSection = () => {
         Success Stories
       </motion.h2>
 
-      <div className="relative h-[200px] overflow-hidden">
+      <div className="relative overflow-hidden">
         <motion.div 
-          className="flex gap-8 absolute w-full"
+          className="flex whitespace-nowrap"
           animate={controls}
-          style={{ width: "300%" }}
+          style={{ width: "max-content" }}
         >
-          {[...stories, ...stories].map((story, index) => (
-            <motion.div
-              key={`${story.name}-${index}`}
-              custom={index}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: index * 0.1, duration: 0.6 }}
-              className="w-full"
-            >
-              <Card className="h-full border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-                <CardHeader className="text-center">
-                  <Quote className="w-8 h-8 mx-auto text-purple-400 mb-4 opacity-50" />
-                  <CardDescription className="text-base italic">"{story.quote}"</CardDescription>
-                </CardHeader>
-                <CardContent className="text-center">
-                  <h3 className="font-medium text-lg">{story.name}</h3>
-                  <p className="text-sm text-purple-600">{story.program}</p>
-                </CardContent>
-              </Card>
-            </motion.div>
+          {[...successStories, ...successStories].map((story, index) => (
+            <StoryCard key={index} story={story} index={index} />
           ))}
         </motion.div>
       </div>
