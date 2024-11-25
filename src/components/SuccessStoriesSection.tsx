@@ -21,6 +21,31 @@ export const SuccessStoriesSection = () => {
       name: "Anil Kumar",
       program: "Full Stack API Development",
       quote: "The mentorship program helped me understand complex concepts through practical applications. I now lead development teams and implement AI solutions in our projects."
+    },
+    {
+      name: "Sarah Chen",
+      program: "ChatGPT Expert Program",
+      quote: "This program transformed my career. I'm now consulting for major tech companies on AI implementation strategies. The hands-on approach to learning made all the difference."
+    },
+    {
+      name: "Mohammed Al-Rashid",
+      program: "Low-Code Development",
+      quote: "Within months of completing the program, I launched my own SaaS product. The mentorship in low-code development gave me the perfect balance of speed and functionality."
+    },
+    {
+      name: "Elena Rodriguez",
+      program: "AI + Supabase Integration",
+      quote: "The practical knowledge gained from this program was invaluable. I've successfully integrated AI into multiple enterprise applications, increasing efficiency by 300%."
+    },
+    {
+      name: "David Park",
+      program: "No-Code Development",
+      quote: "As a non-technical founder, this program was a game-changer. I built and launched my MVP in weeks, securing seed funding shortly after."
+    },
+    {
+      name: "Priya Sharma",
+      program: "Prompt Engineering Mentorship",
+      quote: "The specialized focus on prompt engineering opened doors to amazing opportunities. I now work with leading AI research teams and contribute to groundbreaking projects."
     }
   ];
 
