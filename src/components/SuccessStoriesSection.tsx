@@ -46,6 +46,31 @@ export const SuccessStoriesSection = () => {
       name: "Priya Sharma",
       program: "Prompt Engineering Mentorship",
       quote: "The specialized focus on prompt engineering opened doors to amazing opportunities. I now work with leading AI research teams and contribute to groundbreaking projects."
+    },
+    {
+      name: "Lisa Thompson",
+      program: "AI for Business Analytics",
+      quote: "The program revolutionized how I approach data analysis. I've implemented AI solutions that saved my company millions in operational costs. The ROI was immediate and substantial."
+    },
+    {
+      name: "Marcus Johnson",
+      program: "Enterprise AI Solutions",
+      quote: "This mentorship helped me transition from traditional IT to AI architecture. I now lead AI initiatives across multiple Fortune 500 companies, thanks to the practical skills gained."
+    },
+    {
+      name: "Sophia Zhang",
+      program: "AI Product Management",
+      quote: "The program's focus on both technical and business aspects was perfect. I successfully launched three AI products that are now market leaders in their respective categories."
+    },
+    {
+      name: "Rafael Santos",
+      program: "Computer Vision AI",
+      quote: "The mentorship in computer vision AI was exceptional. I've developed solutions that are now used in major manufacturing plants, improving quality control by 85%."
+    },
+    {
+      name: "Nina Patel",
+      program: "NLP Engineering",
+      quote: "The natural language processing expertise I gained was transformative. My team now develops cutting-edge language models that serve millions of users globally."
     }
   ];
 
