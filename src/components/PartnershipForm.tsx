@@ -33,6 +33,7 @@ interface PartnershipFormProps {
 export const PartnershipForm = ({ isOpen, onClose, partnerName }: PartnershipFormProps) => {
   const { toast } = useToast();
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -45,14 +46,37 @@ export const PartnershipForm = ({ isOpen, onClose, partnerName }: PartnershipFor
   });
 
   const onSubmit = async (data: FormData) => {
-    // Here you would typically send the data to your backend
-    console.log("Form submitted:", data);
-    
-    setIsSubmitted(true);
-    toast({
-      title: "Success!",
-      description: "You can now join our WhatsApp groups below.",
-    });
+    setIsSubmitting(true);
+    try {
+      const formData = new FormData();
+      Object.entries(data).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+      formData.append("partnerName", partnerName);
+
+      const response = await fetch("https://formbold.com/s/3Orzd", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit form");
+      }
+
+      setIsSubmitted(true);
+      toast({
+        title: "Success!",
+        description: "You can now join our WhatsApp groups below.",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to submit form. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -116,8 +140,9 @@ export const PartnershipForm = ({ isOpen, onClose, partnerName }: PartnershipFor
               <Button 
                 type="submit" 
                 className="w-full bg-purple-600 hover:bg-purple-700 text-white transition-all duration-300"
+                disabled={isSubmitting}
               >
-                Submit
+                {isSubmitting ? "Submitting..." : "Submit"}
               </Button>
             </form>
           </Form>
