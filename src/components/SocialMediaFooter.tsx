@@ -54,20 +54,6 @@ export const SocialMediaFooter = () => {
               Start Building Your Resume
             </Button>
           </div>
-
-          {/* Product Hunt iframe */}
-          <div className="mt-6 flex justify-center w-full">
-            <iframe 
-              style={{ border: 'none' }} 
-              src="https://cards.producthunt.com/cards/products/705762" 
-              width="500" 
-              height="405" 
-              frameBorder="0" 
-              scrolling="no" 
-              allowFullScreen 
-              className="max-w-full"
-            />
-          </div>
         </div>
       </div>
     </footer>
