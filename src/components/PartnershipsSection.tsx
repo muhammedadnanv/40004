@@ -1,8 +1,12 @@
 import { motion } from "framer-motion";
 import { Award, Building2 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useState } from "react";
+import { PartnershipForm } from "./PartnershipForm";
 
 export const PartnershipsSection = () => {
+  const [selectedPartner, setSelectedPartner] = useState<string | null>(null);
+
   const partners = [
     { name: "ComicFix", description: "Leading tech community focused on developer growth" },
     { name: "Community Developer Community", description: "Global network of developers and mentors" },
@@ -36,7 +40,10 @@ export const PartnershipsSection = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1, duration: 0.6 }}
             >
-              <Card className="h-full border-0 shadow-lg hover:shadow-xl transition-all duration-300 group">
+              <Card 
+                className="h-full border-0 shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer"
+                onClick={() => setSelectedPartner(partner.name)}
+              >
                 <CardHeader className="space-y-1">
                   <Building2 className="w-8 h-8 text-purple-600 group-hover:scale-110 transition-transform duration-300" />
                   <CardTitle className="text-lg font-medium">{partner.name}</CardTitle>
@@ -53,6 +60,12 @@ export const PartnershipsSection = () => {
           ))}
         </div>
       </div>
+
+      <PartnershipForm 
+        isOpen={!!selectedPartner}
+        onClose={() => setSelectedPartner(null)}
+        partnerName={selectedPartner || ""}
+      />
     </section>
   );
 };
