@@ -32,16 +32,24 @@ export default {
         secondary: { DEFAULT: "hsl(0 0% 98%)", foreground: "hsl(224 71% 4%)", hover: "hsl(0 0% 96%)" },
         muted: { DEFAULT: "hsl(220 14% 96%)", foreground: "hsl(220 9% 46%)" },
         accent: { DEFAULT: "hsl(220 14% 96%)", foreground: "hsl(224 71% 4%)", hover: "hsl(220 14% 94%)" },
+        glass: {
+          DEFAULT: "rgba(255, 255, 255, 0.8)",
+          dark: "rgba(255, 255, 255, 0.1)",
+          hover: "rgba(255, 255, 255, 0.9)",
+        }
       },
       boxShadow: {
         'soft': '0 2px 15px rgba(0,0,0,0.03)',
         'glow': '0 0 15px rgba(101,93,255,0.1)',
         'card': '0 1px 3px rgba(0,0,0,0.05)',
+        'premium': '0 8px 32px rgba(0, 0, 0, 0.1)',
+        'glass': '0 8px 32px rgba(31, 38, 135, 0.15)',
       },
       animation: {
         "fade-up": "fadeUp 0.5s ease-out",
         "scale-in": "scaleIn 0.3s ease-out",
         "slide-in": "slideIn 0.5s ease-out",
+        "float": "float 6s ease-in-out infinite",
       },
       keyframes: {
         fadeUp: {
@@ -55,6 +63,10 @@ export default {
         slideIn: {
           "0%": { opacity: "0", transform: "translateX(-10px)" },
           "100%": { opacity: "1", transform: "translateX(0)" },
+        },
+        float: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-10px)" },
         },
       },
     },

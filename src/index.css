@@ -40,8 +40,7 @@
   body {
     @apply bg-background text-foreground antialiased min-h-screen overflow-x-hidden;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
-    background-image: radial-gradient(at 50% 0%, rgba(156, 163, 175, 0.05) 0px, transparent 75%),
-                     radial-gradient(at 100% 0%, rgba(124, 58, 237, 0.05) 0px, transparent 50%);
+    background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(249,250,251,1) 100%);
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-display tracking-tight;
@@ -50,11 +49,11 @@
 
 @layer utilities {
   .glass-effect {
-    @apply bg-white/80 backdrop-blur-lg border border-white/20;
+    @apply bg-glass backdrop-blur-md border border-white/20 shadow-glass;
   }
   
   .premium-card {
-    @apply glass-effect shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl;
+    @apply glass-effect shadow-premium hover:shadow-xl transition-all duration-300 rounded-xl;
   }
   
   .premium-gradient {
@@ -63,6 +62,26 @@
   
   .hover-scale {
     @apply transition-transform duration-300 hover:scale-[1.02];
+  }
+
+  .premium-border {
+    @apply border border-white/20 shadow-premium;
+  }
+
+  .premium-button {
+    @apply glass-effect hover:bg-glass-hover transition-all duration-300 shadow-premium hover:shadow-xl;
+  }
+
+  .premium-section {
+    @apply relative overflow-hidden bg-gradient-to-br from-white via-purple-50/30 to-white;
+  }
+
+  .premium-text {
+    @apply bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent;
+  }
+
+  .premium-hover {
+    @apply hover:bg-purple-50/50 transition-colors duration-300;
   }
 }
 

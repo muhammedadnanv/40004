@@ -16,6 +16,7 @@
   padding-left: 1rem;
   margin-right: auto;
   margin-left: auto;
+  background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(249,250,251,0.8) 100%);
 }
 
 @media (min-width: 640px) {
