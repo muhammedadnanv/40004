@@ -76,18 +76,16 @@ export const SuccessStoriesSection = () => {
 
   useEffect(() => {
     const startAnimation = async () => {
-      while (true) {
-        await controls.start((i) => ({
-          x: ["100%", "-100%"],
-          transition: {
-            duration: 30,
-            delay: i * 0.1,
-            ease: "linear",
-            repeat: Infinity,
-            repeatType: "loop"
-          }
-        }));
-      }
+      await controls.start((i) => ({
+        x: ["100%", "-100%"],
+        transition: {
+          duration: 30,
+          delay: i * 0.1,
+          ease: "linear",
+          repeat: Infinity,
+          repeatType: "loop"
+        }
+      }));
     };
 
     startAnimation();
