@@ -11,6 +11,7 @@ import { CategoryTopper } from "@/components/CategoryTopper";
 import { LearningPathSection } from "@/components/LearningPathSection";
 import { SuccessStoriesSection } from "@/components/SuccessStoriesSection";
 import { PartnershipsSection } from "@/components/PartnershipsSection";
+import { ReviewSection } from "@/components/ReviewSection";
 import { useEffect } from "react";
 import { showRandomJoinNotification } from "@/utils/mockNotifications";
 import { getContentRecommendations, getContentEngagementStats } from "@/utils/contentAdaptation";
@@ -183,6 +184,10 @@ const Index = () => {
 
         <section aria-label="certification" className="py-24">
           <CertificationSection />
+        </section>
+
+        <section aria-label="reviews" className="py-24">
+          <ReviewSection />
         </section>
 
         <section aria-label="faq" className="py-24">
