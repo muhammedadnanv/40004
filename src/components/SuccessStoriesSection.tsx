@@ -1,7 +1,6 @@
-import { motion, useAnimation } from "framer-motion";
+import { motion } from "framer-motion";
 import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
 import { Quote } from "lucide-react";
-import { useEffect } from "react";
 
 // Separate stories data into its own constant
 const successStories = [
@@ -76,11 +75,10 @@ const successStories = [
 const StoryCard = ({ story, index }: { story: typeof successStories[0], index: number }) => (
   <motion.div
     key={`${story.name}-${index}`}
-    custom={index}
-    initial={{ opacity: 0, x: 20 }}
-    animate={{ opacity: 1, x: 0 }}
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
     transition={{ delay: index * 0.1, duration: 0.6 }}
-    className="min-w-[300px] mx-4"
+    className="w-full"
   >
     <Card className="h-full border-0 shadow-lg hover:shadow-xl transition-all duration-300">
       <CardHeader className="text-center">
@@ -96,24 +94,6 @@ const StoryCard = ({ story, index }: { story: typeof successStories[0], index: n
 );
 
 export const SuccessStoriesSection = () => {
-  const controls = useAnimation();
-
-  useEffect(() => {
-    const startAnimation = async () => {
-      await controls.start({
-        x: [0, -2000],
-        transition: {
-          duration: 30,
-          ease: "linear",
-          repeat: Infinity,
-          repeatType: "loop",
-        }
-      });
-    };
-
-    startAnimation();
-  }, [controls]);
-
   return (
     <div className="container mx-auto max-w-6xl px-4 py-16">
       <motion.h2
@@ -125,16 +105,10 @@ export const SuccessStoriesSection = () => {
         Success Stories
       </motion.h2>
 
-      <div className="relative overflow-hidden">
-        <motion.div 
-          className="flex whitespace-nowrap"
-          animate={controls}
-          style={{ width: "max-content" }}
-        >
-          {[...successStories, ...successStories].map((story, index) => (
-            <StoryCard key={index} story={story} index={index} />
-          ))}
-        </motion.div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {successStories.map((story, index) => (
+          <StoryCard key={index} story={story} index={index} />
+        ))}
       </div>
     </div>
   );
