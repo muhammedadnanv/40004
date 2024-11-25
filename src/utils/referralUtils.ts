@@ -1,10 +1,10 @@
 // Base referral codes with their respective discounts
 const BASE_REFERRAL_CODES: Record<string, number> = {
   'ad4000': 0.5,    // 50% discount for special code
-  '40met': 0.001,   // 0.1% discount
-  'you50': 0.001,   // 0.1% discount
-  'me2': 0.001,     // 0.1% discount
-  'lov6': 0.001     // 0.1% discount
+  '40met': 0.1,     // 10% discount
+  'you50': 0.1,     // 10% discount
+  'me2': 0.1,       // 10% discount
+  'lov6': 0.1       // 10% discount
 };
 
 // Generate a random 4-character code
@@ -19,7 +19,7 @@ const generateRandomCode = (): string => {
 const generateAdditionalCodes = (count: number): Record<string, number> => {
   const additionalCodes: Record<string, number> = {};
   for (let i = 0; i < count; i++) {
-    additionalCodes[generateRandomCode()] = 0.001; // Always 0.1% discount
+    additionalCodes[generateRandomCode()] = 0.1; // 10% discount for all additional codes
   }
   return additionalCodes;
 };
