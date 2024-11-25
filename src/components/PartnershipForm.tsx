@@ -34,6 +34,7 @@ export const PartnershipForm = ({ isOpen, onClose, partnerName }: PartnershipFor
   const { toast } = useToast();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [hasFollowed, setHasFollowed] = useState(false);
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -66,7 +67,7 @@ export const PartnershipForm = ({ isOpen, onClose, partnerName }: PartnershipFor
       setIsSubmitted(true);
       toast({
         title: "Success!",
-        description: "You can now join our WhatsApp groups below.",
+        description: "Please follow us on Twitter/X to join our WhatsApp groups.",
       });
     } catch (error) {
       toast({
@@ -77,6 +78,15 @@ export const PartnershipForm = ({ isOpen, onClose, partnerName }: PartnershipFor
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleFollowClick = () => {
+    window.open("https://x.com/comicfixin", "_blank");
+    setHasFollowed(true);
+    toast({
+      title: "Thank you!",
+      description: "You can now join our WhatsApp groups below.",
+    });
   };
 
   return (
@@ -146,10 +156,22 @@ export const PartnershipForm = ({ isOpen, onClose, partnerName }: PartnershipFor
               </Button>
             </form>
           </Form>
+        ) : !hasFollowed ? (
+          <div className="space-y-4">
+            <p className="text-center text-gray-600">
+              Please follow us on Twitter/X to join our WhatsApp groups:
+            </p>
+            <Button
+              className="w-full bg-black hover:bg-black/90 text-white"
+              onClick={handleFollowClick}
+            >
+              Follow on Twitter/X
+            </Button>
+          </div>
         ) : (
           <div className="space-y-4">
             <p className="text-center text-gray-600">
-              Thank you for joining! Click any of the links below to join our WhatsApp groups:
+              Thank you for following! Click any of the links below to join our WhatsApp groups:
             </p>
             <div className="space-y-2">
               {whatsappGroups.map((link, index) => (
