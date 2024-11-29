@@ -1,7 +1,7 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 // Define the current program fee as a constant that can be easily updated
-const CURRENT_PROGRAM_FEE = 299;
+const CURRENT_PROGRAM_FEE = 199;
 
 export const FAQSection = () => {
   return (
