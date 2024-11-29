@@ -31,34 +31,6 @@ const Index = () => {
 
   const programs = [
     {
-      title: "ChatGPT Expert Program",
-      description: "Complete A-Z mentorship in ChatGPT mastery. Learn everything from basic prompts to advanced AI applications, including prompt engineering, API integration, custom GPT creation, automation, business use cases, and ethical considerations. Get hands-on experience with real-world projects and personalized feedback.",
-      duration: "8 weeks",
-      skills: ["Basic to Advanced Prompting", "Custom GPT Creation", "ChatGPT API", "Business Applications", "AI Ethics"],
-      category: "AI Development"
-    },
-    {
-      title: "AI Prompt Design Mentorship",
-      description: "Weekly hands-on assignments focused on AI prompt design fundamentals. Your dedicated mentor provides personalized feedback and guidance on each task. Pure mentorship program with practical exercises - no courses, just real-world experience.",
-      duration: "6 weeks",
-      skills: ["Basic Prompt Engineering", "Context Design", "Response Optimization", "AI Basics"],
-      category: "AI Development"
-    },
-    {
-      title: "Prompt Engineering Mentorship",
-      description: "Intensive weekly assignments in advanced prompt engineering. Get direct feedback and guidance from your expert mentor on each practical task. Focused on hands-on learning through real projects - no theoretical courses included.",
-      duration: "8 weeks",
-      skills: ["Advanced Prompting", "Chain-of-Thought", "Enterprise AI", "System Design"],
-      category: "AI Development"
-    },
-    {
-      title: "AI + Supabase Integration",
-      description: "Weekly practical assignments integrating AI with Supabase. Your mentor reviews your work and provides detailed guidance on each task. Pure mentorship focused on hands-on development - no courses involved.",
-      duration: "12 weeks",
-      skills: ["Supabase", "AI Integration", "Database Design", "API Development"],
-      category: "Full Stack AI"
-    },
-    {
       title: "Frontend Development",
       description: "Practical weekly assignments in modern frontend development. Get direct mentorship and feedback on each task you complete. Focus on building real projects with expert guidance - no traditional courses.",
       duration: "10 weeks", 
