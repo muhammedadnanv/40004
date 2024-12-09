@@ -57,6 +57,13 @@ const Index = () => {
       duration: "14 weeks",
       skills: ["RESTful APIs", "Node.js", "Database Design", "Authentication", "Cloud Deployment"],
       category: "Full Stack Development"
+    },
+    {
+      title: "ManyChat Automation",
+      description: "Master ManyChat automation in just 3 days! Learn interface basics, workflow automation, chatbot creation, and customer engagement best practices. Hands-on training with expert guidance.",
+      duration: "3 days",
+      skills: ["ManyChat", "Automation", "Chatbots", "Customer Engagement"],
+      category: "Automation"
     }
   ];
 
