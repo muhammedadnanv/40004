@@ -24,11 +24,11 @@ export const EnrollmentForm = ({
   isOpen, 
   onClose, 
   programTitle, 
-  amount 
+  amount: initialAmount 
 }: EnrollmentFormProps) => {
   const { toast } = useToast();
   const [paymentSuccess, setPaymentSuccess] = useState(false);
-  const [finalAmount, setFinalAmount] = useState(amount);
+  const [finalAmount, setFinalAmount] = useState(programTitle === "ManyChat Automation" ? 299 : initialAmount);
   const [referralApplied, setReferralApplied] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -48,8 +48,9 @@ export const EnrollmentForm = ({
     const { isValid, discountPercentage } = validateReferralCode(referralCode || '');
 
     if (referralCode && isValid && !referralApplied) {
-      const discountAmount = amount * discountPercentage;
-      const newFinalAmount = Math.max(0, amount - discountAmount);
+      const baseAmount = programTitle === "ManyChat Automation" ? 299 : initialAmount;
+      const discountAmount = baseAmount * discountPercentage;
+      const newFinalAmount = Math.max(0, baseAmount - discountAmount);
       
       setFinalAmount(newFinalAmount);
       setReferralApplied(true);
