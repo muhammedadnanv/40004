@@ -10,25 +10,25 @@ export const initializeAIModels = async () => {
   try {
     console.log("Initializing AI models...");
     
-    // Text classification pipeline
+    // Text classification pipeline using a smaller, ONNX-compatible model
     textClassifier = await pipeline(
       "text-classification",
-      "SamLowe/roberta-base-go_emotions",
-      { device: "wasm" }  // Changed from "cpu" to "wasm"
+      "Xenova/distilbert-base-uncased-emotion",
+      { device: "wasm" }
     );
 
     // Image classification pipeline
     imageClassifier = await pipeline(
       "image-classification",
-      "microsoft/resnet-50",
-      { device: "wasm" }  // Changed from "cpu" to "wasm"
+      "Xenova/vit-base-patch16-224",
+      { device: "wasm" }
     );
 
     // Text generation pipeline
     textGenerator = await pipeline(
       "text-generation",
-      "distilgpt2",
-      { device: "wasm" }  // Changed from "cpu" to "wasm"
+      "Xenova/distilgpt2",
+      { device: "wasm" }
     );
 
     console.log("AI models initialized successfully");
