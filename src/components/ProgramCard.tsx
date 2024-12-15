@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Share } from "lucide-react";
+import { Share, ExternalLink } from "lucide-react";
 import { ShareProgramCard } from "./ShareProgramCard";
 import { EnrollmentForm } from "./EnrollmentForm";
 import { showRandomJoinNotification } from "@/utils/mockNotifications";
@@ -72,12 +72,30 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
               ))}
             </div>
           </div>
+          {program.title === "ManyChat Automation" && (
+            <div className="text-sm text-gray-600 mt-2 p-3 bg-purple-50 rounded-md">
+              <p>Note: You need to sign up for a ManyChat account separately. Use our partner link to get started:</p>
+              <a 
+                href="https://manychat.partnerlinks.io/ezwv4iv4rwb5" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-purple-600 hover:text-purple-700 flex items-center gap-1 mt-1"
+              >
+                Sign up for ManyChat <ExternalLink className="w-4 h-4" />
+              </a>
+            </div>
+          )}
         </CardContent>
 
         <CardFooter className="flex flex-col gap-3 p-6 bg-gray-50/50">
           <p className="text-lg font-semibold premium-gradient">
-            ₹{program.title === "ManyChat Automation" ? "299" : "199"}
+            ₹{program.title === "ManyChat Automation" ? "4,999" : "199"}
           </p>
+          {program.title === "ManyChat Automation" && (
+            <p className="text-xs text-gray-500">
+              *Additional ManyChat platform fees apply. Check pricing on ManyChat website.
+            </p>
+          )}
           <Button 
             className="w-full bg-primary hover:bg-primary-600 text-sm font-medium shadow-lg hover:shadow-xl transition-all duration-300"
             onClick={handleEnrollClick}
@@ -96,7 +114,7 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
           isOpen={showEnrollmentForm}
           onClose={() => setShowEnrollmentForm(false)}
           programTitle={program.title}
-          amount={program.title === "ManyChat Automation" ? 299 : 199}
+          amount={program.title === "ManyChat Automation" ? 4999 : 199}
         />
         <ShareProgramCard program={program} />
       </Card>
