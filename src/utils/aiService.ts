@@ -14,21 +14,21 @@ export const initializeAIModels = async () => {
     textClassifier = await pipeline(
       "text-classification",
       "SamLowe/roberta-base-go_emotions",
-      { device: "cpu" } // Use CPU by default, can be changed to "webgpu" if available
+      { device: "wasm" }  // Changed from "cpu" to "wasm"
     );
 
     // Image classification pipeline
     imageClassifier = await pipeline(
       "image-classification",
       "microsoft/resnet-50",
-      { device: "cpu" }
+      { device: "wasm" }  // Changed from "cpu" to "wasm"
     );
 
     // Text generation pipeline
     textGenerator = await pipeline(
       "text-generation",
       "distilgpt2",
-      { device: "cpu" }
+      { device: "wasm" }  // Changed from "cpu" to "wasm"
     );
 
     console.log("AI models initialized successfully");
