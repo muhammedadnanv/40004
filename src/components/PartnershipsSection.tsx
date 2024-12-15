@@ -12,7 +12,12 @@ export const PartnershipsSection = () => {
     { name: "Community Developer Community", description: "Global network of developers and mentors" },
     { name: "Dev Connect", description: "Professional development and networking platform" },
     { name: "Dev2 Developers Community", description: "Innovative learning and certification provider" },
-    { name: "Bugver Developer", description: "Expert community specializing in software quality and debugging" }
+    { name: "Bugver Developer", description: "Expert community specializing in software quality and debugging" },
+    { 
+      name: "ManyChat Community", 
+      description: "Official ManyChat community for chatbot developers and automation experts",
+      link: "https://community.manychat.com/"
+    }
   ];
 
   return (
@@ -32,7 +37,7 @@ export const PartnershipsSection = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
           {partners.map((partner, index) => (
             <motion.div
               key={partner.name}
@@ -42,7 +47,13 @@ export const PartnershipsSection = () => {
             >
               <Card 
                 className="h-full border-0 shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer"
-                onClick={() => setSelectedPartner(partner.name)}
+                onClick={() => {
+                  if (partner.link) {
+                    window.open(partner.link, '_blank');
+                  } else {
+                    setSelectedPartner(partner.name);
+                  }
+                }}
               >
                 <CardHeader className="space-y-1">
                   <Building2 className="w-8 h-8 text-purple-600 group-hover:scale-110 transition-transform duration-300" />
