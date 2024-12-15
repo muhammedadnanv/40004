@@ -1,7 +1,7 @@
 import { toast } from "@/components/ui/use-toast";
 
 interface ValidationResult {
-  status: 'success' | 'error';
+  status: 'success' | 'error' | 'warning';
   message: string;
 }
 
