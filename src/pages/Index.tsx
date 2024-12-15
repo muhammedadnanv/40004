@@ -82,15 +82,15 @@ const Index = () => {
           <CategoryTopper />
         </section>
 
-        <section aria-label="hero" className="py-24">
+        <section aria-label="hero" className="py-16 md:py-24 lg:py-32">
           <HeroSection />
         </section>
 
-        <section aria-label="learning-paths" className="py-24 bg-gradient-to-r from-purple-50 via-white to-purple-50">
+        <section aria-label="learning-paths" className="py-16 md:py-24 lg:py-32 bg-gradient-to-r from-purple-50 via-white to-purple-50">
           <LearningPathSection />
         </section>
 
-        <section aria-label="features" className="py-24 px-4 relative">
+        <section aria-label="features" className="py-16 md:py-24 lg:py-32 px-4 relative">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-50/30 to-transparent"></div>
           <div className="container mx-auto max-w-5xl relative">
             <motion.h2 
@@ -126,7 +126,7 @@ const Index = () => {
           </div>
         </section>
 
-        <section id="programs-section" aria-label="programs" className="py-24 px-4 bg-gradient-to-b from-white via-purple-50/30 to-white relative">
+        <section id="programs-section" aria-label="programs" className="py-16 md:py-24 lg:py-32 px-4 bg-gradient-to-b from-white via-purple-50/30 to-white relative">
           <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1498050108023-c5249f4df085')] bg-cover bg-fixed opacity-[0.02] pointer-events-none"></div>
           <div className="container mx-auto max-w-6xl relative">
             <motion.h2 
@@ -149,35 +149,35 @@ const Index = () => {
           </div>
         </section>
 
-        <section aria-label="partnerships" className="py-24">
+        <section aria-label="partnerships" className="py-16 md:py-24 lg:py-32">
           <PartnershipsSection />
         </section>
 
-        <section aria-label="success-stories" className="py-24 bg-gradient-to-r from-purple-50 via-white to-purple-50">
+        <section aria-label="success-stories" className="py-16 md:py-24 lg:py-32 bg-gradient-to-r from-purple-50 via-white to-purple-50">
           <SuccessStoriesSection />
         </section>
 
-        <section aria-label="project-ideas" className="py-24">
+        <section aria-label="project-ideas" className="py-16 md:py-24 lg:py-32">
           <ProjectIdeasSection />
         </section>
 
-        <section aria-label="certification" className="py-24">
+        <section aria-label="certification" className="py-16 md:py-24 lg:py-32">
           <CertificationSection />
         </section>
 
-        <section aria-label="reviews" className="py-24">
+        <section aria-label="reviews" className="py-16 md:py-24 lg:py-32">
           <ReviewSection />
         </section>
 
-        <section aria-label="faq" className="py-24">
+        <section aria-label="faq" className="py-16 md:py-24 lg:py-32">
           <FAQSection />
         </section>
 
-        <section aria-label="whatsapp" className="py-24">
+        <section aria-label="whatsapp" className="py-16 md:py-24 lg:py-32">
           <WhatsAppSection />
         </section>
 
-        <footer className="py-24">
+        <footer className="py-16 md:py-24 lg:py-32">
           <SocialMediaFooter />
         </footer>
       </div>
