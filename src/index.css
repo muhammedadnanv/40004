@@ -31,9 +31,7 @@
     --ring: 250 60% 45%;
     --radius: 0.5rem;
   }
-}
 
-@layer base {
   * {
     @apply border-border font-sans;
   }
