@@ -5,39 +5,34 @@ import { Quote } from "lucide-react";
 // Separate stories data into its own constant
 const successStories = [
     {
-      name: "Aysha Fathima",
-      program: "Frontend Development",
-      quote: "Thanks to the structured learning approach and real-world projects, I was able to land my dream job. The mentorship in React and TypeScript was exactly what I needed."
+      name: "Sarah Johnson",
+      program: "ManyChat Automation",
+      quote: "The 3-day ManyChat program was transformative! I learned how to create engaging chatbots and automated flows that increased my business engagement by 300%. The ROI was immediate."
     },
     {
-      name: "David Park",
-      program: "No-Code Development",
-      quote: "As a non-technical founder, this program was a game-changer. I built and launched my MVP in weeks, securing seed funding shortly after."
+      name: "Michael Chen",
+      program: "ManyChat Automation",
+      quote: "Thanks to this program, I mastered ManyChat's advanced features in just 3 days. I've automated my entire customer service workflow, saving 20+ hours weekly. The mentor's guidance was invaluable."
     },
     {
-      name: "Lisa Thompson",
-      program: "AI for Business Analytics",
-      quote: "The program revolutionized how I approach data analysis. I've implemented AI solutions that saved my company millions in operational costs. The ROI was immediate and substantial."
+      name: "Emma Rodriguez",
+      program: "ManyChat Automation",
+      quote: "The hands-on approach was perfect. Within days of completing the program, I implemented complex automation flows that boosted our sales conversions by 150%. Best investment for my business!"
     },
     {
-      name: "Marcus Johnson",
-      program: "Enterprise AI Solutions",
-      quote: "This mentorship helped me transition from traditional IT to AI architecture. I now lead AI initiatives across multiple Fortune 500 companies, thanks to the practical skills gained."
+      name: "Alex Kumar",
+      program: "ManyChat Automation",
+      quote: "This program helped me understand ManyChat's full potential. I've created sophisticated marketing campaigns that run on autopilot. My client base has grown exponentially."
     },
     {
-      name: "Sophia Zhang",
-      program: "AI Product Management",
-      quote: "The program's focus on both technical and business aspects was perfect. I successfully launched three AI products that are now market leaders in their respective categories."
+      name: "Jessica Lee",
+      program: "ManyChat Automation",
+      quote: "The practical exercises and real-time feedback were game-changing. I now confidently build advanced chatbot sequences that have revolutionized our lead generation process."
     },
     {
-      name: "Rafael Santos",
-      program: "Computer Vision AI",
-      quote: "The mentorship in computer vision AI was exceptional. I've developed solutions that are now used in major manufacturing plants, improving quality control by 85%."
-    },
-    {
-      name: "Nina Patel",
-      program: "NLP Engineering",
-      quote: "The natural language processing expertise I gained was transformative. My team now develops cutting-edge language models that serve millions of users globally."
+      name: "Tom Wilson",
+      program: "ManyChat Automation",
+      quote: "In just 3 days, I learned to create complex automation workflows that would have taken months to figure out on my own. The ROI has been incredible - our engagement rates are up 250%."
     }
 ];
 
