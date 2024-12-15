@@ -2,42 +2,77 @@ import { motion } from "framer-motion";
 import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
 import { Quote } from "lucide-react";
 
-// Separate stories data into its own constant
-const successStories = [
+// Separate stories data by program
+const successStoriesByProgram = {
+  "Frontend Development": [
+    {
+      name: "David Chen",
+      program: "Frontend Development",
+      quote: "The weekly assignments in React and TypeScript helped me build a strong portfolio. Within 3 months of completing the program, I landed my first developer role!"
+    },
+    {
+      name: "Sarah Miller",
+      program: "Frontend Development",
+      quote: "The mentor's feedback on my code was invaluable. I learned best practices in modern frontend development that I wouldn't have discovered on my own."
+    }
+  ],
+  "Low-Code Development": [
+    {
+      name: "James Wilson",
+      program: "Low-Code Development",
+      quote: "This program helped me transition from traditional coding to low-code development. I'm now building applications 3x faster for my clients."
+    },
+    {
+      name: "Lisa Thompson",
+      program: "Low-Code Development",
+      quote: "The practical assignments taught me how to leverage low-code platforms effectively. I've automated numerous business processes for my company."
+    }
+  ],
+  "No-Code Development": [
+    {
+      name: "Mark Rodriguez",
+      program: "No-Code Development",
+      quote: "As a business owner, this program was perfect. I can now create custom applications without writing code. The ROI has been incredible!"
+    },
+    {
+      name: "Emily Chang",
+      program: "No-Code Development",
+      quote: "The hands-on approach helped me master no-code tools quickly. I'm now running a successful agency building solutions for small businesses."
+    }
+  ],
+  "Full Stack API Development": [
+    {
+      name: "Alex Kumar",
+      program: "Full Stack API Development",
+      quote: "The comprehensive coverage of API design and implementation was excellent. The real-world projects helped me understand enterprise-level development."
+    },
+    {
+      name: "Maria Garcia",
+      program: "Full Stack API Development",
+      quote: "From database design to deployment, this program covered everything. The weekly feedback sessions helped me write more efficient and secure code."
+    }
+  ],
+  "ManyChat Automation": [
     {
       name: "Sarah Johnson",
       program: "ManyChat Automation",
-      quote: "The 3-day ManyChat program was transformative! I learned how to create engaging chatbots and automated flows that increased my business engagement by 300%. The ROI was immediate."
+      quote: "The 3-day ManyChat program was transformative! I learned how to create engaging chatbots and automated flows that increased my business engagement by 300%."
     },
     {
       name: "Michael Chen",
       program: "ManyChat Automation",
-      quote: "Thanks to this program, I mastered ManyChat's advanced features in just 3 days. I've automated my entire customer service workflow, saving 20+ hours weekly. The mentor's guidance was invaluable."
+      quote: "Thanks to this program, I mastered ManyChat's advanced features in just 3 days. I've automated my entire customer service workflow, saving 20+ hours weekly."
     },
     {
       name: "Emma Rodriguez",
       program: "ManyChat Automation",
-      quote: "The hands-on approach was perfect. Within days of completing the program, I implemented complex automation flows that boosted our sales conversions by 150%. Best investment for my business!"
-    },
-    {
-      name: "Alex Kumar",
-      program: "ManyChat Automation",
-      quote: "This program helped me understand ManyChat's full potential. I've created sophisticated marketing campaigns that run on autopilot. My client base has grown exponentially."
-    },
-    {
-      name: "Jessica Lee",
-      program: "ManyChat Automation",
-      quote: "The practical exercises and real-time feedback were game-changing. I now confidently build advanced chatbot sequences that have revolutionized our lead generation process."
-    },
-    {
-      name: "Tom Wilson",
-      program: "ManyChat Automation",
-      quote: "In just 3 days, I learned to create complex automation workflows that would have taken months to figure out on my own. The ROI has been incredible - our engagement rates are up 250%."
+      quote: "The hands-on approach was perfect. Within days of completing the program, I implemented complex automation flows that boosted our sales conversions by 150%!"
     }
-];
+  ]
+};
 
 // Separate Story component for better organization
-const StoryCard = ({ story, index }: { story: typeof successStories[0], index: number }) => (
+const StoryCard = ({ story, index }: { story: { name: string; program: string; quote: string }, index: number }) => (
   <motion.div
     key={`${story.name}-${index}`}
     initial={{ opacity: 0, y: 20 }}
@@ -70,11 +105,23 @@ export const SuccessStoriesSection = () => {
         Success Stories
       </motion.h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {successStories.map((story, index) => (
-          <StoryCard key={index} story={story} index={index} />
-        ))}
-      </div>
+      {Object.entries(successStoriesByProgram).map(([program, stories]) => (
+        <div key={program} className="mb-16 last:mb-0">
+          <motion.h3
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-2xl font-light text-center mb-8 text-purple-600"
+          >
+            {program}
+          </motion.h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {stories.map((story, index) => (
+              <StoryCard key={index} story={story} index={index} />
+            ))}
+          </div>
+        </div>
+      ))}
     </div>
   );
 };
