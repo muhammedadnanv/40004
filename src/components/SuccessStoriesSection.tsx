@@ -6,67 +6,67 @@ import { Quote } from "lucide-react";
 const successStoriesByProgram = {
   "Frontend Development": [
     {
-      name: "David Chen",
+      name: "Arun Kumar",
       program: "Frontend Development",
-      quote: "The weekly assignments in React and TypeScript helped me build a strong portfolio. Within 3 months of completing the program, I landed my first developer role!"
+      quote: "Coming from Trivandrum, I was looking for structured guidance in frontend development. The weekly React and TypeScript assignments helped me secure a position at a leading tech company in Technopark!"
     },
     {
-      name: "Sarah Miller",
+      name: "Lakshmi Menon",
       program: "Frontend Development",
-      quote: "The mentor's feedback on my code was invaluable. I learned best practices in modern frontend development that I wouldn't have discovered on my own."
+      quote: "As a self-taught developer from Kochi, this program gave me the confidence to build complex web applications. The mentor's feedback was invaluable in improving my coding practices."
     }
   ],
   "Low-Code Development": [
     {
-      name: "James Wilson",
+      name: "Vishnu Prasad",
       program: "Low-Code Development",
-      quote: "This program helped me transition from traditional coding to low-code development. I'm now building applications 3x faster for my clients."
+      quote: "After completing my studies in Calicut University, this program helped me transition into low-code development. Now I'm building applications efficiently for clients across Kerala."
     },
     {
-      name: "Lisa Thompson",
+      name: "Anjali Nair",
       program: "Low-Code Development",
-      quote: "The practical assignments taught me how to leverage low-code platforms effectively. I've automated numerous business processes for my company."
+      quote: "Being from Thrissur, I needed a flexible learning approach. The practical assignments taught me how to leverage low-code platforms effectively for local businesses."
     }
   ],
   "No-Code Development": [
     {
-      name: "Mark Rodriguez",
+      name: "Mohammed Ashiq",
       program: "No-Code Development",
-      quote: "As a business owner, this program was perfect. I can now create custom applications without writing code. The ROI has been incredible!"
+      quote: "As a business owner from Malappuram, this program was exactly what I needed. I can now create custom applications for my retail business without writing code!"
     },
     {
-      name: "Emily Chang",
+      name: "Priya Raj",
       program: "No-Code Development",
-      quote: "The hands-on approach helped me master no-code tools quickly. I'm now running a successful agency building solutions for small businesses."
+      quote: "Coming from Kollam, I was skeptical about no-code development. Now I'm successfully running a consultancy helping local businesses automate their processes."
     }
   ],
   "Full Stack API Development": [
     {
-      name: "Alex Kumar",
+      name: "Anoop Krishnan",
       program: "Full Stack API Development",
-      quote: "The comprehensive coverage of API design and implementation was excellent. The real-world projects helped me understand enterprise-level development."
+      quote: "The comprehensive coverage of API design helped me land a job at an IT park in Kochi. The real-world projects were particularly relevant to Kerala's growing tech ecosystem."
     },
     {
-      name: "Maria Garcia",
+      name: "Sreelakshmi K",
       program: "Full Stack API Development",
-      quote: "From database design to deployment, this program covered everything. The weekly feedback sessions helped me write more efficient and secure code."
+      quote: "Being from Kannur, remote learning was crucial for me. This program's practical approach helped me master full-stack development while staying connected with Kerala's tech community."
     }
   ],
   "ManyChat Automation": [
     {
-      name: "Sarah Johnson",
+      name: "Rajesh Menon",
       program: "ManyChat Automation",
-      quote: "The 3-day ManyChat program was transformative! I learned how to create engaging chatbots and automated flows that increased my business engagement by 300%."
+      quote: "As a business owner from Kozhikode, the 3-day ManyChat program transformed how I handle customer service. My restaurant's engagement increased by 200% through automated messaging!"
     },
     {
-      name: "Michael Chen",
+      name: "Divya Krishnan",
       program: "ManyChat Automation",
-      quote: "Thanks to this program, I mastered ManyChat's advanced features in just 3 days. I've automated my entire customer service workflow, saving 20+ hours weekly."
+      quote: "Coming from Palakkad, I implemented the ManyChat strategies for my textile business. The automated customer service has helped me reach customers across Kerala efficiently."
     },
     {
-      name: "Emma Rodriguez",
+      name: "Sujith Kumar",
       program: "ManyChat Automation",
-      quote: "The hands-on approach was perfect. Within days of completing the program, I implemented complex automation flows that boosted our sales conversions by 150%!"
+      quote: "Being from Alappuzha, I used ManyChat automation to boost my tourism business. The program helped me create engaging automated responses that increased bookings by 150%!"
     }
   ]
 };
