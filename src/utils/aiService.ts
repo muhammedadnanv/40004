@@ -10,24 +10,24 @@ export const initializeAIModels = async () => {
   try {
     console.log("Initializing AI models...");
     
-    // Text classification pipeline using a smaller, ONNX-compatible model
+    // Text classification pipeline using a public model
     textClassifier = await pipeline(
       "text-classification",
-      "Xenova/distilbert-base-uncased-emotion",
+      "Xenova/bert-base-multilingual-uncased-sentiment",
       { device: "wasm" }
     );
 
-    // Image classification pipeline
+    // Image classification pipeline using a public model
     imageClassifier = await pipeline(
       "image-classification",
-      "Xenova/vit-base-patch16-224",
+      "Xenova/mobilenet_v2",
       { device: "wasm" }
     );
 
-    // Text generation pipeline
+    // Text generation pipeline using a public model
     textGenerator = await pipeline(
       "text-generation",
-      "Xenova/distilgpt2",
+      "Xenova/tiny-random-gpt2",
       { device: "wasm" }
     );
 
