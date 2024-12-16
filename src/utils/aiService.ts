@@ -1,5 +1,5 @@
 import { pipeline } from "@huggingface/transformers";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "@/hooks/use-toast";
 
 type PipelineType = "text-classification" | "image-classification" | "text-generation";
 
@@ -43,24 +43,24 @@ export const initializeAIModels = async (): Promise<boolean> => {
   try {
     console.log("Initializing AI models...");
 
-    // Using public models with correct organization prefixes
+    // Using public models from the community space
     textClassifier = await initializePipeline(
       "text-classification",
-      "huggingface/distilbert-base-uncased-finetuned-sst-2-english",
+      "distilbert-base-uncased-sentiment",
       { device: "cpu" }
     ) as TextClassificationPipeline;
     console.log("Text classification model initialized");
 
     imageClassifier = await initializePipeline(
       "image-classification",
-      "microsoft/resnet-50",
+      "Xenova/vit-base-patch16-224",
       { device: "cpu" }
     ) as ImageClassificationPipeline;
     console.log("Image classification model initialized");
 
     textGenerator = await initializePipeline(
       "text-generation",
-      "huggingface/distilgpt2",
+      "Xenova/gpt2",
       { device: "cpu" }
     ) as TextGenerationPipeline;
     console.log("Text generation model initialized");
