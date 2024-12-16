@@ -43,24 +43,24 @@ export const initializeAIModels = async (): Promise<boolean> => {
   try {
     console.log("Initializing AI models...");
 
-    // Using public models that don't require authentication
+    // Using public models with correct organization prefixes
     textClassifier = await initializePipeline(
       "text-classification",
-      "distilbert-base-uncased-finetuned-sst-2-english",
+      "huggingface/distilbert-base-uncased-finetuned-sst-2-english",
       { device: "cpu" }
     ) as TextClassificationPipeline;
     console.log("Text classification model initialized");
 
     imageClassifier = await initializePipeline(
       "image-classification",
-      "google/vit-base-patch16-224",
+      "microsoft/resnet-50",
       { device: "cpu" }
     ) as ImageClassificationPipeline;
     console.log("Image classification model initialized");
 
     textGenerator = await initializePipeline(
       "text-generation",
-      "distilgpt2",
+      "huggingface/distilgpt2",
       { device: "cpu" }
     ) as TextGenerationPipeline;
     console.log("Text generation model initialized");
