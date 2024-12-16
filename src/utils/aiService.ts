@@ -1,9 +1,11 @@
-import { pipeline } from "@huggingface/transformers";
+import { pipeline, Pipeline } from "@huggingface/transformers";
 import { toast } from "@/components/ui/use-toast";
 
-let textClassifier: any;
-let imageClassifier: any;
-let textGenerator: any;
+type PipelineType = "text-classification" | "image-classification" | "text-generation";
+
+let textClassifier: Pipeline;
+let imageClassifier: Pipeline;
+let textGenerator: Pipeline;
 
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 1000; // 1 second
@@ -11,11 +13,11 @@ const RETRY_DELAY = 1000; // 1 second
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 const initializePipeline = async (
-  task: string,
+  task: PipelineType,
   model: string,
   options: any,
   retries = 0
-): Promise<any> => {
+): Promise<Pipeline> => {
   try {
     return await pipeline(task, model, options);
   } catch (error: any) {
