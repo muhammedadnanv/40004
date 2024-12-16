@@ -1,7 +1,12 @@
-import { pipeline, TextClassificationPipeline, ImageClassificationPipeline, TextGenerationPipeline } from "@huggingface/transformers";
+import { pipeline } from "@huggingface/transformers";
 import { toast } from "@/components/ui/use-toast";
 
 type PipelineType = "text-classification" | "image-classification" | "text-generation";
+
+// Define specific pipeline types
+type TextClassificationPipeline = Awaited<ReturnType<typeof pipeline>> & { task: "text-classification" };
+type ImageClassificationPipeline = Awaited<ReturnType<typeof pipeline>> & { task: "image-classification" };
+type TextGenerationPipeline = Awaited<ReturnType<typeof pipeline>> & { task: "text-generation" };
 type AnyPipeline = TextClassificationPipeline | ImageClassificationPipeline | TextGenerationPipeline;
 
 let textClassifier: TextClassificationPipeline;
@@ -9,7 +14,7 @@ let imageClassifier: ImageClassificationPipeline;
 let textGenerator: TextGenerationPipeline;
 
 const MAX_RETRIES = 3;
-const RETRY_DELAY = 1000; // 1 second
+const RETRY_DELAY = 1000;
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -20,7 +25,7 @@ const initializePipeline = async (
   retries = 0
 ): Promise<AnyPipeline> => {
   try {
-    return await pipeline(task, model, options);
+    return await pipeline(task, model, options) as AnyPipeline;
   } catch (error: any) {
     console.error(`Error initializing ${task} pipeline:`, error);
     
@@ -38,27 +43,25 @@ export const initializeAIModels = async (): Promise<boolean> => {
   try {
     console.log("Initializing AI models...");
 
-    // Text classification pipeline using a public model
+    // Using public models that don't require authentication
     textClassifier = await initializePipeline(
       "text-classification",
-      "Xenova/distilbert-base-uncased-finetuned-sst-2-english",
-      { device: "wasm" }
+      "distilbert-base-uncased-finetuned-sst-2-english",
+      { device: "cpu" }
     ) as TextClassificationPipeline;
     console.log("Text classification model initialized");
 
-    // Image classification pipeline using a public model
     imageClassifier = await initializePipeline(
       "image-classification",
-      "Xenova/resnet-18",
-      { device: "wasm" }
+      "google/vit-base-patch16-224",
+      { device: "cpu" }
     ) as ImageClassificationPipeline;
     console.log("Image classification model initialized");
 
-    // Text generation pipeline using a public model
     textGenerator = await initializePipeline(
       "text-generation",
-      "Xenova/gpt2-tiny-random",
-      { device: "wasm" }
+      "distilgpt2",
+      { device: "cpu" }
     ) as TextGenerationPipeline;
     console.log("Text generation model initialized");
 
@@ -95,7 +98,9 @@ export const classifyText = async (text: string): Promise<any> => {
   }
 };
 
-export const classifyImage = async (image: string | { src: string } | HTMLImageElement): Promise<any> => {
+type ImageInput = string | { src: string } | HTMLImageElement;
+
+export const classifyImage = async (image: ImageInput): Promise<any> => {
   if (!imageClassifier) {
     throw new Error("Image classifier not initialized");
   }
