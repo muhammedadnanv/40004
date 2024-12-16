@@ -11,7 +11,7 @@ export const formSchema = z.object({
 
 export type FormData = z.infer<typeof formSchema>;
 
-const RAZORPAY_KEY_ID = "rzp_test_1234567890"; // Replace with your test key for development
+const RAZORPAY_KEY_ID = "rzp_live_5JYQnqKRnKhB5y"; // Updated Razorpay key
 
 export const createRazorpayOptions = (
   data: FormData,
