@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { verifyPayment } from "@/utils/razorpayService";
+import type { RazorpayOptions } from "@/utils/razorpayService";
 
 export const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -17,7 +18,7 @@ export const createRazorpayOptions = (
   programTitle: string,
   onSuccess: () => void,
   onError: (error: any) => void
-) => ({
+): RazorpayOptions => ({
   key: "rzp_live_5JYQnqKRnKhB5y",
   amount: amount * 100,
   currency: "INR",
