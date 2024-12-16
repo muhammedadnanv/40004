@@ -13,21 +13,21 @@ export const initializeAIModels = async () => {
     // Text classification pipeline using a public model
     textClassifier = await pipeline(
       "text-classification",
-      "Xenova/bert-base-multilingual-uncased-sentiment",
+      "Xenova/distilbert-base-uncased-finetuned-sst-2-english",
       { device: "wasm" }
     );
 
     // Image classification pipeline using a public model
     imageClassifier = await pipeline(
       "image-classification",
-      "Xenova/mobilenet_v2",
+      "Xenova/resnet-18",
       { device: "wasm" }
     );
 
     // Text generation pipeline using a public model
     textGenerator = await pipeline(
       "text-generation",
-      "Xenova/tiny-random-gpt2",
+      "Xenova/gpt2-tiny-random",
       { device: "wasm" }
     );
 
