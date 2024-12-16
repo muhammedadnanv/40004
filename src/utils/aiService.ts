@@ -1,4 +1,4 @@
-import { pipeline, Pipeline, TextClassificationPipeline, ImageClassificationPipeline, TextGenerationPipeline } from "@huggingface/transformers";
+import { pipeline, TextClassificationPipeline, ImageClassificationPipeline, TextGenerationPipeline } from "@huggingface/transformers";
 import { toast } from "@/components/ui/use-toast";
 
 type PipelineType = "text-classification" | "image-classification" | "text-generation";
@@ -95,7 +95,7 @@ export const classifyText = async (text: string): Promise<any> => {
   }
 };
 
-export const classifyImage = async (image: string | ArrayBuffer): Promise<any> => {
+export const classifyImage = async (image: string | { src: string } | HTMLImageElement): Promise<any> => {
   if (!imageClassifier) {
     throw new Error("Image classifier not initialized");
   }
