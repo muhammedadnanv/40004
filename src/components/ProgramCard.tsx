@@ -89,7 +89,7 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
 
         <CardFooter className="flex flex-col gap-3 p-6 bg-gray-50/50">
           <p className="text-lg font-semibold premium-gradient">
-            ₹{program.title === "ManyChat Automation" ? "4,999" : "199"}
+            ₹{program.title === "ManyChat Automation" ? "599" : "199"}
           </p>
           {program.title === "ManyChat Automation" && (
             <p className="text-xs text-gray-500">
@@ -114,7 +114,7 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
           isOpen={showEnrollmentForm}
           onClose={() => setShowEnrollmentForm(false)}
           programTitle={program.title}
-          amount={program.title === "ManyChat Automation" ? 4999 : 199}
+          amount={program.title === "ManyChat Automation" ? 599 : 199}
         />
         <ShareProgramCard program={program} />
       </Card>

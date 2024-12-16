@@ -19,8 +19,8 @@ export const createRazorpayOptions = (
   onSuccess: () => void,
   onError: (error: any) => void
 ): RazorpayOptions => ({
-  key: "rzp_live_5JYQnqKRnKhB5y",
-  amount: amount * 100,
+  key: "rzp_live_5JYQnqKRnKhB5y", // Replace with your actual Razorpay key
+  amount: amount * 100, // Razorpay expects amount in paise
   currency: "INR",
   name: "Dev Mentor Hub",
   description: `Enrollment for ${programTitle}`,
