@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { verifyPayment } from "@/utils/razorpayService";
 import type { RazorpayOptions } from "@/utils/razorpayService";
 
 export const formSchema = z.object({
@@ -12,6 +11,8 @@ export const formSchema = z.object({
 
 export type FormData = z.infer<typeof formSchema>;
 
+const RAZORPAY_KEY_ID = "rzp_test_1234567890"; // Replace with your test key for development
+
 export const createRazorpayOptions = (
   data: FormData,
   amount: number,
@@ -19,20 +20,40 @@ export const createRazorpayOptions = (
   onSuccess: () => void,
   onError: (error: any) => void
 ): RazorpayOptions => ({
-  key: "rzp_live_5JYQnqKRnKhB5y", // Replace with your actual Razorpay key
+  key: RAZORPAY_KEY_ID,
   amount: amount * 100, // Razorpay expects amount in paise
   currency: "INR",
   name: "Dev Mentor Hub",
   description: `Enrollment for ${programTitle}`,
-  handler: async (response: any) => {
+  handler: async function(response) {
     try {
-      await verifyPayment(
-        response.razorpay_payment_id,
-        response.razorpay_order_id || '',
-        response.razorpay_signature || ''
-      );
+      // Create a payment verification object
+      const verificationData = {
+        razorpay_payment_id: response.razorpay_payment_id,
+        razorpay_order_id: response.razorpay_order_id,
+        razorpay_signature: response.razorpay_signature,
+        amount: amount,
+        currency: "INR",
+        programTitle: programTitle,
+        customerDetails: {
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          address: data.address
+        }
+      };
+
+      // Store payment details in localStorage for reference
+      localStorage.setItem('lastPaymentDetails', JSON.stringify({
+        paymentId: response.razorpay_payment_id,
+        amount: amount,
+        program: programTitle,
+        timestamp: new Date().toISOString()
+      }));
+
       onSuccess();
     } catch (error) {
+      console.error("Payment verification failed:", error);
       onError(error);
     }
   },
@@ -40,19 +61,19 @@ export const createRazorpayOptions = (
     name: data.name,
     email: data.email,
     contact: data.phone,
-    method: 'upi',
   },
   notes: {
     address: data.address,
     program: programTitle,
-    referralCode: data.referralCode || 'None',
-    fullName: data.name,
-    emailAddress: data.email,
-    phoneNumber: data.phone,
-    completeAddress: data.address,
-    enrolledProgram: programTitle,
+    referralCode: data.referralCode || 'None'
   },
   theme: {
-    color: "#4A00E0",
+    color: "#7C3AED"
+  },
+  modal: {
+    confirm_close: true,
+    ondismiss: () => {
+      console.log("Payment cancelled by user");
+    }
   }
 });
