@@ -1,11 +1,12 @@
-import { pipeline, Pipeline } from "@huggingface/transformers";
+import { pipeline, Pipeline, TextClassificationPipeline, ImageClassificationPipeline, TextGenerationPipeline } from "@huggingface/transformers";
 import { toast } from "@/components/ui/use-toast";
 
 type PipelineType = "text-classification" | "image-classification" | "text-generation";
+type AnyPipeline = TextClassificationPipeline | ImageClassificationPipeline | TextGenerationPipeline;
 
-let textClassifier: Pipeline;
-let imageClassifier: Pipeline;
-let textGenerator: Pipeline;
+let textClassifier: TextClassificationPipeline;
+let imageClassifier: ImageClassificationPipeline;
+let textGenerator: TextGenerationPipeline;
 
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 1000; // 1 second
@@ -17,7 +18,7 @@ const initializePipeline = async (
   model: string,
   options: any,
   retries = 0
-): Promise<Pipeline> => {
+): Promise<AnyPipeline> => {
   try {
     return await pipeline(task, model, options);
   } catch (error: any) {
@@ -42,7 +43,7 @@ export const initializeAIModels = async (): Promise<boolean> => {
       "text-classification",
       "Xenova/distilbert-base-uncased-finetuned-sst-2-english",
       { device: "wasm" }
-    );
+    ) as TextClassificationPipeline;
     console.log("Text classification model initialized");
 
     // Image classification pipeline using a public model
@@ -50,7 +51,7 @@ export const initializeAIModels = async (): Promise<boolean> => {
       "image-classification",
       "Xenova/resnet-18",
       { device: "wasm" }
-    );
+    ) as ImageClassificationPipeline;
     console.log("Image classification model initialized");
 
     // Text generation pipeline using a public model
@@ -58,7 +59,7 @@ export const initializeAIModels = async (): Promise<boolean> => {
       "text-generation",
       "Xenova/gpt2-tiny-random",
       { device: "wasm" }
-    );
+    ) as TextGenerationPipeline;
     console.log("Text generation model initialized");
 
     toast({
