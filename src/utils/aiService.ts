@@ -1,67 +1,117 @@
 import { pipeline } from "@huggingface/transformers";
+import { toast } from "@/components/ui/use-toast";
 
-// Initialize pipelines
-let textClassifier: any = null;
-let imageClassifier: any = null;
-let textGenerator: any = null;
+let textClassifier: any;
+let imageClassifier: any;
+let textGenerator: any;
 
-// Initialize models
-export const initializeAIModels = async () => {
+const MAX_RETRIES = 3;
+const RETRY_DELAY = 1000; // 1 second
+
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+const initializePipeline = async (
+  task: string,
+  model: string,
+  options: any,
+  retries = 0
+): Promise<any> => {
+  try {
+    return await pipeline(task, model, options);
+  } catch (error: any) {
+    console.error(`Error initializing ${task} pipeline:`, error);
+    
+    if (retries < MAX_RETRIES) {
+      console.log(`Retrying ${task} pipeline initialization... (Attempt ${retries + 1}/${MAX_RETRIES})`);
+      await sleep(RETRY_DELAY);
+      return initializePipeline(task, model, options, retries + 1);
+    }
+    
+    throw error;
+  }
+};
+
+export const initializeAIModels = async (): Promise<boolean> => {
   try {
     console.log("Initializing AI models...");
-    
+
     // Text classification pipeline using a public model
-    textClassifier = await pipeline(
+    textClassifier = await initializePipeline(
       "text-classification",
       "Xenova/distilbert-base-uncased-finetuned-sst-2-english",
       { device: "wasm" }
     );
+    console.log("Text classification model initialized");
 
     // Image classification pipeline using a public model
-    imageClassifier = await pipeline(
+    imageClassifier = await initializePipeline(
       "image-classification",
       "Xenova/resnet-18",
       { device: "wasm" }
     );
+    console.log("Image classification model initialized");
 
     // Text generation pipeline using a public model
-    textGenerator = await pipeline(
+    textGenerator = await initializePipeline(
       "text-generation",
       "Xenova/gpt2-tiny-random",
       { device: "wasm" }
     );
+    console.log("Text generation model initialized");
 
-    console.log("AI models initialized successfully");
+    toast({
+      title: "AI Models Ready",
+      description: "All AI models have been initialized successfully.",
+      duration: 3000,
+    });
+
     return true;
-  } catch (error) {
-    console.error("Error initializing AI models:", error);
+  } catch (error: any) {
+    console.error("Failed to initialize AI models:", error);
+    
+    toast({
+      title: "AI Models Initialization Failed",
+      description: "There was an error loading the AI models. Some features might be limited.",
+      variant: "destructive",
+      duration: 5000,
+    });
+    
     return false;
   }
 };
 
-// Text classification
-export const classifyText = async (text: string) => {
+export const classifyText = async (text: string): Promise<any> => {
   if (!textClassifier) {
     throw new Error("Text classifier not initialized");
   }
-  return await textClassifier(text);
+  try {
+    return await textClassifier(text);
+  } catch (error: any) {
+    console.error("Text classification error:", error);
+    throw error;
+  }
 };
 
-// Image classification
-export const classifyImage = async (imageUrl: string) => {
+export const classifyImage = async (image: string | ArrayBuffer): Promise<any> => {
   if (!imageClassifier) {
     throw new Error("Image classifier not initialized");
   }
-  return await imageClassifier(imageUrl);
+  try {
+    return await imageClassifier(image);
+  } catch (error: any) {
+    console.error("Image classification error:", error);
+    throw error;
+  }
 };
 
-// Text generation
-export const generateText = async (prompt: string, maxLength: number = 100) => {
+export const generateText = async (prompt: string, options = {}): Promise<any> => {
   if (!textGenerator) {
     throw new Error("Text generator not initialized");
   }
-  return await textGenerator(prompt, {
-    max_length: maxLength,
-    num_return_sequences: 1,
-  });
+  try {
+    return await textGenerator(prompt, options);
+  } catch (error: any) {
+    console.error("Text generation error:", error);
+    throw error;
+  }
 };
