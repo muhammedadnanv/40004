@@ -1,8 +1,10 @@
-import { pipeline } from '@huggingface/transformers';
+import { pipeline, Pipeline } from '@huggingface/transformers';
 import { toast } from '@/components/ui/use-toast';
 
+type TaskType = 'text-classification' | 'image-classification' | 'text2text-generation';
+
 interface BasePipeline {
-  task: string;
+  task: TaskType;
 }
 
 interface TextClassificationPipeline extends BasePipeline {
@@ -17,17 +19,17 @@ interface Text2TextGenerationPipeline extends BasePipeline {
   task: 'text2text-generation';
 }
 
-type Pipeline = TextClassificationPipeline | ImageClassificationPipeline | Text2TextGenerationPipeline;
+type PipelineType = TextClassificationPipeline | ImageClassificationPipeline | Text2TextGenerationPipeline;
 
-async function initializePipeline<T extends Pipeline>(task: T['task'], model: string): Promise<T> {
+async function initializePipeline<T extends PipelineType>(task: T['task'], model: string): Promise<T> {
   console.info(`Initializing ${task} pipeline with model ${model}...`);
   const startTime = performance.now();
   
   try {
-    const pipe = await pipeline(task, model) as T;
+    const pipe = await pipeline(task, model);
     const duration = (performance.now() - startTime).toFixed(2);
     console.info(`${task} pipeline initialized in ${duration}ms`);
-    return pipe;
+    return pipe as T;
   } catch (error) {
     console.error(`Failed to initialize ${task} pipeline:`, error);
     throw error;
