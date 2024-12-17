@@ -21,11 +21,12 @@ interface ProgramCardProps {
 export const ProgramCard = ({ program }: ProgramCardProps) => {
   const [showEnrollmentForm, setShowEnrollmentForm] = useState(false);
   
-  // Calculate if offer is still valid
+  // Calculate if offer is still valid - 10 days from now
   const offerEndDate = new Date();
   offerEndDate.setDate(offerEndDate.getDate() + 10);
   const isOfferValid = new Date() < offerEndDate;
   
+  // Set current price to ₹10 if offer is valid, otherwise use regular price
   const currentPrice = isOfferValid ? 10 : program.regularPrice;
 
   return (
