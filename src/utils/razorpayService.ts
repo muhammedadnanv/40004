@@ -26,6 +26,12 @@ export type RazorpayOptions = {
   modal?: {
     ondismiss?: () => void;
     confirm_close?: boolean;
+    escape?: boolean;
+    animation?: boolean;
+  };
+  retry?: {
+    enabled: boolean;
+    max_count: number;
   };
 };
 
@@ -52,6 +58,9 @@ export const initializeRazorpay = (options: RazorpayOptions): Promise<void> => {
                 description: "You cancelled the payment process. Try again when you're ready.",
                 variant: "destructive",
               });
+              if (options.modal?.ondismiss) {
+                options.modal.ondismiss();
+              }
               reject(new Error("Payment cancelled by user"));
             },
           },
@@ -71,6 +80,11 @@ export const initializeRazorpay = (options: RazorpayOptions): Promise<void> => {
         resolve();
       } catch (error) {
         console.error("Razorpay initialization error:", error);
+        toast({
+          title: "Error",
+          description: "Failed to initialize payment gateway. Please try again.",
+          variant: "destructive"
+        });
         reject(error);
       }
     };
@@ -88,8 +102,6 @@ export const initializeRazorpay = (options: RazorpayOptions): Promise<void> => {
   });
 };
 
-// This function would typically make an API call to your backend
-// For now, we'll simulate the verification process
 export const verifyPayment = async (
   paymentId: string,
   orderId: string,

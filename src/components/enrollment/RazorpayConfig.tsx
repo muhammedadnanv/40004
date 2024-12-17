@@ -66,9 +66,10 @@ export const createRazorpayOptions = (
     modal: {
       ondismiss: function() {
         console.log("Payment modal dismissed");
+        onError({ message: "Payment cancelled by user" });
       },
       confirm_close: true,
-      escape: false,
+      escape: true,
       animation: true,
     },
     retry: {
