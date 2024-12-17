@@ -1,9 +1,9 @@
-import { pipeline, Pipeline, env } from '@xenova/transformers';
+import { pipeline, Pipeline, env } from '@huggingface/transformers';
 import type {
   TextClassificationPipeline,
   ImageClassificationPipeline,
   TextGenerationPipeline,
-} from '@xenova/transformers';
+} from '@huggingface/transformers';
 
 // Configure environment
 env.allowLocalModels = false;
@@ -39,25 +39,21 @@ export const initializeAIModels = async (): Promise<boolean> => {
   try {
     console.log("Initializing AI models...");
 
-    // Using optimized models from Xenova's community space
     textClassifier = await initializePipeline(
       "text-classification",
-      "Xenova/distilbert-base-uncased-finetuned-sst-2-english",
-      { quantized: true }
+      "Xenova/distilbert-base-uncased-finetuned-sst-2-english"
     ) as TextClassificationPipeline;
     console.log("Text classification model initialized");
 
     imageClassifier = await initializePipeline(
       "image-classification",
-      "Xenova/vit-base-patch16-224",
-      { quantized: true }
+      "Xenova/vit-base-patch16-224"
     ) as ImageClassificationPipeline;
     console.log("Image classification model initialized");
 
     textGenerator = await initializePipeline(
       "text-generation",
-      "Xenova/gpt2",
-      { quantized: true }
+      "Xenova/gpt2"
     ) as TextGenerationPipeline;
     console.log("Text generation model initialized");
 
