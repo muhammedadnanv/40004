@@ -1,27 +1,20 @@
 import { pipeline, Pipeline } from '@huggingface/transformers';
 import { toast } from '@/components/ui/use-toast';
 
+// Define the allowed task types
 type TaskType = 'text-classification' | 'image-classification' | 'text2text-generation';
 
-interface BasePipeline {
-  task: TaskType;
-}
+// Define the mapping between task types and their corresponding pipeline types
+type TaskPipelineMap = {
+  'text-classification': Pipeline['text-classification'];
+  'image-classification': Pipeline['image-classification'];
+  'text2text-generation': Pipeline['text2text-generation'];
+};
 
-interface TextClassificationPipeline extends BasePipeline {
-  task: 'text-classification';
-}
-
-interface ImageClassificationPipeline extends BasePipeline {
-  task: 'image-classification';
-}
-
-interface Text2TextGenerationPipeline extends BasePipeline {
-  task: 'text2text-generation';
-}
-
-type PipelineType = TextClassificationPipeline | ImageClassificationPipeline | Text2TextGenerationPipeline;
-
-async function initializePipeline<T extends PipelineType>(task: T['task'], model: string): Promise<T> {
+async function initializePipeline<T extends TaskType>(
+  task: T,
+  model: string
+): Promise<TaskPipelineMap[T]> {
   console.info(`Initializing ${task} pipeline with model ${model}...`);
   const startTime = performance.now();
   
@@ -29,7 +22,7 @@ async function initializePipeline<T extends PipelineType>(task: T['task'], model
     const pipe = await pipeline(task, model);
     const duration = (performance.now() - startTime).toFixed(2);
     console.info(`${task} pipeline initialized in ${duration}ms`);
-    return pipe as T;
+    return pipe as TaskPipelineMap[T];
   } catch (error) {
     console.error(`Failed to initialize ${task} pipeline:`, error);
     throw error;
@@ -46,9 +39,9 @@ export async function initializeAIModels(): Promise<boolean> {
       text2textPipeline,
       textClassificationPipeline
     ] = await Promise.all([
-      initializePipeline<ImageClassificationPipeline>('image-classification', 'Xenova/vit-base-patch16-224'),
-      initializePipeline<Text2TextGenerationPipeline>('text2text-generation', 'Xenova/t5-small'),
-      initializePipeline<TextClassificationPipeline>('text-classification', 'Xenova/bert-base-multilingual-uncased-sentiment')
+      initializePipeline('image-classification', 'Xenova/vit-base-patch16-224'),
+      initializePipeline('text2text-generation', 'Xenova/t5-small'),
+      initializePipeline('text-classification', 'Xenova/bert-base-multilingual-uncased-sentiment')
     ]);
 
     const duration = (performance.now() - startTime).toFixed(2);
