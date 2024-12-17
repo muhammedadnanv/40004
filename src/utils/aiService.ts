@@ -1,27 +1,32 @@
-import { pipeline, Pipeline, env } from '@huggingface/transformers';
+import { pipeline, env } from '@huggingface/transformers';
 import type {
   TextClassificationPipeline,
   ImageClassificationPipeline,
   TextGenerationPipeline,
+  TextClassificationOutput,
+  ImageClassificationOutput,
+  ImagePipelineInputs
 } from '@huggingface/transformers';
 
 // Configure environment
 env.allowLocalModels = false;
 env.useBrowserCache = true;
 
-type PipelineType = 'text-classification' | 'image-classification' | 'text-generation';
-type AnyPipeline = TextClassificationPipeline | ImageClassificationPipeline | TextGenerationPipeline;
+interface ClassificationResult {
+  label: string;
+  score: number;
+}
 
 let textClassifier: TextClassificationPipeline | null = null;
 let imageClassifier: ImageClassificationPipeline | null = null;
 let textGenerator: TextGenerationPipeline | null = null;
 
 const initializePipeline = async (
-  task: PipelineType,
+  task: string,
   model: string,
-  options: any = { quantized: true },
+  options: any = {},
   retries = 0
-): Promise<AnyPipeline> => {
+) => {
   try {
     console.log(`Initializing ${task} pipeline with model ${model}...`);
     return await pipeline(task, model, options);
@@ -64,38 +69,39 @@ export const initializeAIModels = async (): Promise<boolean> => {
   }
 };
 
-interface ClassificationResult {
-  label: string;
-  score: number;
-}
-
 export const classifyText = async (text: string): Promise<ClassificationResult[]> => {
   if (!textClassifier) {
     throw new Error("Text classifier not initialized");
   }
   try {
     const result = await textClassifier(text, {
-      topk: 5,
+      top_k: 5,
       truncation: true
     });
-    return Array.isArray(result) ? result : [result];
+    const output = Array.isArray(result) ? result : [result];
+    return output.map(item => ({
+      label: item.label,
+      score: item.score
+    }));
   } catch (error: any) {
     console.error("Text classification error:", error);
     throw error;
   }
 };
 
-type ImageInput = string | { src: string } | HTMLImageElement;
-
-export const classifyImage = async (image: ImageInput): Promise<ClassificationResult[]> => {
+export const classifyImage = async (image: ImagePipelineInputs): Promise<ClassificationResult[]> => {
   if (!imageClassifier) {
     throw new Error("Image classifier not initialized");
   }
   try {
     const result = await imageClassifier(image, {
-      topk: 5
+      top_k: 5
     });
-    return Array.isArray(result) ? result : [result];
+    const output = Array.isArray(result) ? result : [result];
+    return output.map(item => ({
+      label: item.label,
+      score: item.score
+    }));
   } catch (error: any) {
     console.error("Image classification error:", error);
     throw error;
@@ -121,20 +127,19 @@ export const generateText = async (
   }
   try {
     const defaultOptions = {
-      maxLength: 100,
-      minLength: 10,
+      max_length: 100,
+      min_length: 10,
       temperature: 0.7,
-      topK: 50,
-      topP: 0.9,
-      repetitionPenalty: 1.0,
-      numReturnSequences: 1,
+      top_k: 50,
+      top_p: 0.9,
+      repetition_penalty: 1.0,
+      num_return_sequences: 1,
       ...options
     };
     
     const result = await textGenerator(prompt, defaultOptions);
-    return Array.isArray(result) ? 
-      result.map(r => r.generated_text) : 
-      [result.generated_text];
+    const outputs = Array.isArray(result) ? result : [result];
+    return outputs.map(output => output.text);
   } catch (error: any) {
     console.error("Text generation error:", error);
     throw error;
