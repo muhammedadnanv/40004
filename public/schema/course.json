@@ -1,12 +1,17 @@
 {
   "@context": "https://schema.org",
   "@type": "Course",
-  "name": "Professional Developer Mentorship Program",
-  "description": "Accelerate your development career with personalized mentorship, hands-on projects, and expert guidance. Master modern technologies through real-world experience and direct feedback from industry experts.",
+  "name": "Professional Developer Career Acceleration Program",
+  "description": "Transform your development career with personalized mentorship, hands-on projects, and expert guidance. Master modern technologies through real-world experience and direct feedback from industry experts.",
   "provider": {
     "@type": "Organization",
     "name": "Dev Mentor Hub",
-    "sameAs": "https://devmentorhub.com"
+    "sameAs": [
+      "https://github.com/devmentorhub",
+      "https://dev.to/devmentorhub",
+      "https://medium.com/@devmentorhub",
+      "https://hashnode.com/@devmentorhub"
+    ]
   },
   "hasCourseInstance": {
     "@type": "CourseInstance",
@@ -21,15 +26,30 @@
       "priceCurrency": "INR"
     }
   },
-  "coursePrerequisites": "Basic programming knowledge",
-  "educationalLevel": "Advanced",
+  "coursePrerequisites": "Basic programming knowledge in any language",
+  "educationalLevel": "Intermediate to Advanced",
   "learningResourceType": "Mentorship Program",
   "teaches": [
     "Modern Development Practices",
-    "System Architecture",
+    "System Architecture & Design Patterns",
     "Code Quality & Testing",
     "Technical Leadership",
     "Project Management",
-    "Industry Best Practices"
+    "Industry Best Practices",
+    "Full Stack Development",
+    "AI Integration",
+    "Frontend Development",
+    "Low-Code Development"
+  ],
+  "occupationalCredentialAwarded": "Professional Developer Certificate",
+  "skills": [
+    "React",
+    "TypeScript",
+    "Node.js",
+    "AI Development",
+    "System Design",
+    "Code Review",
+    "Technical Architecture",
+    "Project Management"
   ]
 }

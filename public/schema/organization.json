@@ -2,13 +2,17 @@
   "@context": "https://schema.org",
   "@type": "EducationalOrganization",
   "name": "Dev Mentor Hub",
-  "description": "Premier developer mentorship platform offering personalized guidance, real-world projects, and expert mentoring in AI, Frontend, Full Stack, and Low-Code development. Transform your career with hands-on experience and industry-leading mentors.",
+  "description": "Premier developer mentorship platform offering personalized guidance and real-world projects in AI, Frontend, Full Stack, and Low-Code development. Transform your tech career with hands-on experience and industry-leading mentors.",
   "url": "https://devmentorhub.com",
   "logo": "https://devmentorhub.com/logo.png",
   "sameAs": [
     "https://twitter.com/devmentorhub",
     "https://linkedin.com/company/devmentorhub",
-    "https://github.com/devmentorhub"
+    "https://github.com/devmentorhub",
+    "https://dev.to/devmentorhub",
+    "https://medium.com/@devmentorhub",
+    "https://hashnode.com/@devmentorhub",
+    "https://stackoverflow.com/c/devmentorhub"
   ],
   "aggregateRating": {
     "@type": "AggregateRating",
@@ -28,26 +32,40 @@
         "@type": "Offer",
         "name": "AI Development Program",
         "price": "599",
-        "priceCurrency": "INR"
+        "priceCurrency": "INR",
+        "description": "Master AI development with hands-on projects and expert mentorship"
       },
       {
         "@type": "Offer",
         "name": "Frontend Development Program",
         "price": "599",
-        "priceCurrency": "INR"
+        "priceCurrency": "INR",
+        "description": "Build modern web applications with React and TypeScript"
       },
       {
         "@type": "Offer",
         "name": "Full Stack Development Program",
         "price": "599",
-        "priceCurrency": "INR"
+        "priceCurrency": "INR",
+        "description": "Master full stack development with real-world projects"
       },
       {
         "@type": "Offer",
         "name": "Low-Code Development Program",
         "price": "599",
-        "priceCurrency": "INR"
+        "priceCurrency": "INR",
+        "description": "Learn rapid application development with low-code platforms"
       }
     ]
-  }
+  },
+  "knowsAbout": [
+    "Software Development",
+    "Web Development",
+    "AI Development",
+    "Frontend Development",
+    "Full Stack Development",
+    "Low-Code Development",
+    "Technical Mentorship",
+    "Career Development"
+  ]
 }
