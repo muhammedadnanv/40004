@@ -1,8 +1,8 @@
 {
   "@context": "https://schema.org",
   "@type": "Course",
-  "name": "Professional Developer Career Acceleration Program",
-  "description": "Transform your development career with personalized mentorship, hands-on projects, and expert guidance. Master modern technologies through real-world experience and direct feedback from industry experts.",
+  "name": "Professional Developer Career Certification Program",
+  "description": "Earn your Professional Developer Certification while transforming your development career with personalized mentorship, hands-on projects, and expert guidance. Master modern technologies through real-world experience and direct feedback from industry experts.",
   "provider": {
     "@type": "Organization",
     "name": "Dev Mentor Hub",
@@ -20,28 +20,29 @@
     "inLanguage": "en",
     "offers": {
       "@type": "Offer",
-      "category": "Developer Education",
+      "category": "Professional Developer Certification",
       "availability": "http://schema.org/InStock",
       "price": "599",
       "priceCurrency": "INR"
     }
   },
   "coursePrerequisites": "Basic programming knowledge in any language",
-  "educationalLevel": "Intermediate to Advanced",
-  "learningResourceType": "Mentorship Program",
+  "educationalLevel": "Professional Certification",
+  "learningResourceType": "Professional Certification Program",
   "teaches": [
+    "Professional Development Standards",
+    "Industry Best Practices",
     "Modern Development Practices",
     "System Architecture & Design Patterns",
     "Code Quality & Testing",
     "Technical Leadership",
     "Project Management",
-    "Industry Best Practices",
     "Full Stack Development",
     "AI Integration",
     "Frontend Development",
     "Low-Code Development"
   ],
-  "occupationalCredentialAwarded": "Professional Developer Certificate",
+  "occupationalCredentialAwarded": "Professional Developer Certificate with Digital Verification",
   "skills": [
     "React",
     "TypeScript",
@@ -51,5 +52,15 @@
     "Code Review",
     "Technical Architecture",
     "Project Management"
-  ]
+  ],
+  "certification": {
+    "@type": "EducationalOccupationalCredential",
+    "credentialCategory": "Professional Developer Certificate",
+    "validFor": "Lifetime",
+    "recognizedBy": [
+      "Industry Professionals",
+      "Tech Companies",
+      "Development Community"
+    ]
+  }
 }

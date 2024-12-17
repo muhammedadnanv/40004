@@ -2,7 +2,7 @@
   "@context": "https://schema.org",
   "@type": "EducationalOrganization",
   "name": "Dev Mentor Hub",
-  "description": "Premier developer mentorship platform offering personalized guidance and real-world projects in AI, Frontend, Full Stack, and Low-Code development. Transform your tech career with hands-on experience and industry-leading mentors.",
+  "description": "Premier developer certification and mentorship platform offering Professional Developer Certification through personalized guidance and real-world projects in AI, Frontend, Full Stack, and Low-Code development. Transform your tech career with hands-on experience and industry-leading mentors.",
   "url": "https://devmentorhub.com",
   "logo": "https://devmentorhub.com/logo.png",
   "sameAs": [
@@ -12,7 +12,10 @@
     "https://dev.to/devmentorhub",
     "https://medium.com/@devmentorhub",
     "https://hashnode.com/@devmentorhub",
-    "https://stackoverflow.com/c/devmentorhub"
+    "https://stackoverflow.com/c/devmentorhub",
+    "https://freecodecamp.org/devmentorhub",
+    "https://codecademy.com/devmentorhub",
+    "https://pluralsight.com/devmentorhub"
   ],
   "aggregateRating": {
     "@type": "AggregateRating",
@@ -30,42 +33,50 @@
     "offers": [
       {
         "@type": "Offer",
-        "name": "AI Development Program",
+        "name": "AI Development Certification Program",
         "price": "599",
         "priceCurrency": "INR",
-        "description": "Master AI development with hands-on projects and expert mentorship"
+        "description": "Master AI development with certification, hands-on projects and expert mentorship"
       },
       {
         "@type": "Offer",
-        "name": "Frontend Development Program",
+        "name": "Frontend Development Certification Program",
         "price": "599",
         "priceCurrency": "INR",
-        "description": "Build modern web applications with React and TypeScript"
+        "description": "Build modern web applications with React and TypeScript, earn professional certification"
       },
       {
         "@type": "Offer",
-        "name": "Full Stack Development Program",
+        "name": "Full Stack Development Certification Program",
         "price": "599",
         "priceCurrency": "INR",
-        "description": "Master full stack development with real-world projects"
+        "description": "Master full stack development with certification and real-world projects"
       },
       {
         "@type": "Offer",
-        "name": "Low-Code Development Program",
+        "name": "Low-Code Development Certification Program",
         "price": "599",
         "priceCurrency": "INR",
-        "description": "Learn rapid application development with low-code platforms"
+        "description": "Learn rapid application development with low-code platforms and get certified"
       }
     ]
   },
   "knowsAbout": [
-    "Software Development",
-    "Web Development",
-    "AI Development",
-    "Frontend Development",
-    "Full Stack Development",
-    "Low-Code Development",
+    "Professional Developer Certification",
+    "Software Development Certification",
+    "Web Development Certification",
+    "AI Development Certification",
+    "Frontend Development Certification",
+    "Full Stack Development Certification",
+    "Low-Code Development Certification",
     "Technical Mentorship",
     "Career Development"
-  ]
+  ],
+  "hasCredential": {
+    "@type": "EducationalOccupationalCredential",
+    "name": "Professional Developer Certificate",
+    "credentialCategory": "Professional Certification",
+    "validFor": "Lifetime",
+    "recognizedBy": "Industry Professionals"
+  }
 }
