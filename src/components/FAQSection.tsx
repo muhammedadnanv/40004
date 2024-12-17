@@ -1,13 +1,17 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 // Define the current program fee as a constant that can be easily updated
-const CURRENT_PROGRAM_FEE = 199;
+const CURRENT_PROGRAM_FEE = 10;
 
 export const FAQSection = () => {
   return (
     <section className="py-12 md:py-16 px-4 md:px-6 lg:px-8 bg-white">
       <div className="container mx-auto max-w-3xl">
         <h2 className="text-2xl md:text-3xl font-bold text-center mb-6 md:mb-8">Frequently Asked Questions</h2>
+        <div className="text-center mb-8 p-4 bg-purple-50 rounded-lg">
+          <p className="text-purple-600 font-medium">🎉 Limited Time Offer: All programs at ₹{CURRENT_PROGRAM_FEE} only!</p>
+          <p className="text-sm text-purple-500">Offer valid for 10 days</p>
+        </div>
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1">
             <AccordionTrigger>What makes this mentorship program unique?</AccordionTrigger>

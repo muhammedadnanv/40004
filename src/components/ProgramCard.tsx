@@ -50,7 +50,7 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
           isOpen={showEnrollmentForm}
           onClose={() => setShowEnrollmentForm(false)}
           programTitle={program.title}
-          amount={program.title === "ManyChat Automation" ? 599 : 199}
+          amount={10} // Set fixed amount to 10 for all programs
         />
         <ShareProgramCard program={program} />
       </Card>
