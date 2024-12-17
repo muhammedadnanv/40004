@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { supabase } from "@/integrations/supabase/client";
 
 export const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -39,29 +40,35 @@ export const createRazorpayOptions = (
     theme: {
       color: "#7c3aed",
     },
-    handler: function (response: any) {
+    handler: async function (response: any) {
       console.log("Payment successful, response:", response);
       
-      // Store payment details in localStorage
-      const paymentDetails = {
-        paymentId: response.razorpay_payment_id,
-        orderId: response.razorpay_order_id,
-        signature: response.razorpay_signature,
-        programTitle,
-        amount,
-        timestamp: new Date().toISOString(),
-        user: {
-          name: data.name,
-          email: data.email,
-          phone: data.phone,
-        },
-      };
-      
-      const existingPayments = JSON.parse(localStorage.getItem('payments') || '[]');
-      existingPayments.push(paymentDetails);
-      localStorage.setItem('payments', JSON.stringify(existingPayments));
-      
-      onSuccess();
+      try {
+        // Store payment details in Supabase
+        const { error } = await supabase
+          .from('payments')
+          .insert([{
+            payment_id: response.razorpay_payment_id,
+            order_id: response.razorpay_order_id,
+            signature: response.razorpay_signature,
+            program_title: programTitle,
+            amount,
+            user_name: data.name,
+            user_email: data.email,
+            user_phone: data.phone,
+          }]);
+
+        if (error) {
+          console.error("Error storing payment:", error);
+          onError({ message: "Payment successful but failed to store details" });
+          return;
+        }
+        
+        onSuccess();
+      } catch (error: any) {
+        console.error("Error processing payment:", error);
+        onError({ message: error.message || "Error processing payment" });
+      }
     },
     modal: {
       ondismiss: function() {

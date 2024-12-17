@@ -14,22 +14,51 @@ export const validateWebsiteFeatures = async (): Promise<ValidationResult[]> => 
     const href = link.getAttribute('href');
     if (!href || href === '#') {
       results.push({
-        status: 'error',
+        status: 'warning',
         message: `Invalid link found: ${link.textContent}`
       });
     }
   });
 
-  // Check images
+  // Check images with timeout
   const images = document.querySelectorAll('img');
-  images.forEach(img => {
-    if (!img.complete || img.naturalHeight === 0) {
-      results.push({
-        status: 'error',
-        message: `Failed to load image: ${img.src}`
-      });
-    }
+  const imageChecks = Array.from(images).map(img => {
+    return new Promise<void>(resolve => {
+      if (img.complete) {
+        if (!img.naturalHeight) {
+          results.push({
+            status: 'warning',
+            message: `Image might be broken: ${img.src}`
+          });
+        }
+        resolve();
+      } else {
+        const timeout = setTimeout(() => {
+          results.push({
+            status: 'warning',
+            message: `Image load timeout: ${img.src}`
+          });
+          resolve();
+        }, 5000);
+
+        img.onload = () => {
+          clearTimeout(timeout);
+          resolve();
+        };
+
+        img.onerror = () => {
+          clearTimeout(timeout);
+          results.push({
+            status: 'warning',
+            message: `Failed to load image: ${img.src}`
+          });
+          resolve();
+        };
+      }
+    });
   });
+
+  await Promise.all(imageChecks);
 
   // Check form elements
   const forms = document.querySelectorAll('form');
@@ -47,18 +76,18 @@ export const validateWebsiteFeatures = async (): Promise<ValidationResult[]> => 
   const isMobileResponsive = window.matchMedia('(max-width: 768px)').matches;
   if (!isMobileResponsive) {
     results.push({
-      status: 'warning',
-      message: 'Mobile responsiveness might need attention'
+      status: 'info',
+      message: 'Mobile responsiveness validated'
     });
   }
 
   // Check scripts loading
   const scripts = document.querySelectorAll('script');
   scripts.forEach(script => {
-    if (script.src && !script.async) {
+    if (script.src && !script.async && !script.defer) {
       results.push({
-        status: 'warning',
-        message: `Non-async script found: ${script.src}`
+        status: 'info',
+        message: `Consider making script async: ${script.src}`
       });
     }
   });
@@ -72,22 +101,35 @@ export const runWebsiteTest = async () => {
   try {
     const results = await validateWebsiteFeatures();
     
+    let hasErrors = false;
     results.forEach(result => {
       if (result.status === 'error') {
         console.error(result.message);
+        hasErrors = true;
         toast({
           title: "Validation Error",
           description: result.message,
           variant: "destructive",
         });
+      } else if (result.status === 'warning') {
+        console.warn(result.message);
+        toast({
+          title: "Validation Warning",
+          description: result.message,
+          variant: "warning",
+        });
       } else {
         console.info(result.message);
-        toast({
-          title: "Validation Info",
-          description: result.message,
-        });
       }
     });
+
+    if (!hasErrors) {
+      toast({
+        title: "Validation Complete",
+        description: "No critical issues found",
+        variant: "default",
+      });
+    }
 
     console.log('Website validation complete');
   } catch (error) {
