@@ -25,6 +25,9 @@ export function MainNav() {
         <NavigationMenuItem>
           <NavigationMenuLink to="/partnerships">Partnerships</NavigationMenuLink>
         </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuLink to="/cms">CMS</NavigationMenuLink>
+        </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
   );
