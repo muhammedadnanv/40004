@@ -1,0 +1,53 @@
+{
+  "@context": "https://schema.org",
+  "@type": "EducationalOrganization",
+  "name": "Dev Mentor Hub",
+  "description": "Premier developer mentorship platform offering personalized guidance, real-world projects, and expert mentoring in AI, Frontend, Full Stack, and Low-Code development. Transform your career with hands-on experience and industry-leading mentors.",
+  "url": "https://devmentorhub.com",
+  "logo": "https://devmentorhub.com/logo.png",
+  "sameAs": [
+    "https://twitter.com/devmentorhub",
+    "https://linkedin.com/company/devmentorhub",
+    "https://github.com/devmentorhub"
+  ],
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "reviewCount": "250",
+    "bestRating": "5",
+    "worstRating": "1"
+  },
+  "offers": {
+    "@type": "AggregateOffer",
+    "highPrice": "599",
+    "lowPrice": "10",
+    "priceCurrency": "INR",
+    "offerCount": "4",
+    "offers": [
+      {
+        "@type": "Offer",
+        "name": "AI Development Program",
+        "price": "599",
+        "priceCurrency": "INR"
+      },
+      {
+        "@type": "Offer",
+        "name": "Frontend Development Program",
+        "price": "599",
+        "priceCurrency": "INR"
+      },
+      {
+        "@type": "Offer",
+        "name": "Full Stack Development Program",
+        "price": "599",
+        "priceCurrency": "INR"
+      },
+      {
+        "@type": "Offer",
+        "name": "Low-Code Development Program",
+        "price": "599",
+        "priceCurrency": "INR"
+      }
+    ]
+  }
+}

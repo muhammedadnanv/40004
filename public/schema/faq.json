@@ -1,0 +1,30 @@
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How is this mentorship program different from traditional courses?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Our program focuses on pure project-based learning with real-world applications. You'll work directly with experienced mentors on practical projects, receiving personalized feedback and guidance. Unlike traditional courses, we emphasize hands-on experience and industry-relevant skills."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What career advancement opportunities does the program provide?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Our program includes comprehensive career support with AI-powered resume optimization, interview preparation, portfolio development, and networking opportunities within our developer community. Many graduates have secured positions at leading tech companies."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do you ensure the quality of mentorship?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "All our mentors are experienced industry professionals with proven track records. They undergo a rigorous selection process and are regularly evaluated based on mentee feedback and success metrics."
+      }
+    }
+  ]
+}

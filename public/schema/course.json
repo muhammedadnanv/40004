@@ -1,0 +1,35 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "Professional Developer Mentorship Program",
+  "description": "Accelerate your development career with personalized mentorship, hands-on projects, and expert guidance. Master modern technologies through real-world experience and direct feedback from industry experts.",
+  "provider": {
+    "@type": "Organization",
+    "name": "Dev Mentor Hub",
+    "sameAs": "https://devmentorhub.com"
+  },
+  "hasCourseInstance": {
+    "@type": "CourseInstance",
+    "courseMode": "online",
+    "duration": "P10W",
+    "inLanguage": "en",
+    "offers": {
+      "@type": "Offer",
+      "category": "Developer Education",
+      "availability": "http://schema.org/InStock",
+      "price": "599",
+      "priceCurrency": "INR"
+    }
+  },
+  "coursePrerequisites": "Basic programming knowledge",
+  "educationalLevel": "Advanced",
+  "learningResourceType": "Mentorship Program",
+  "teaches": [
+    "Modern Development Practices",
+    "System Architecture",
+    "Code Quality & Testing",
+    "Technical Leadership",
+    "Project Management",
+    "Industry Best Practices"
+  ]
+}
