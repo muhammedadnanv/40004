@@ -130,6 +130,34 @@ export const FAQSection = () => {
               Of course! Feel free to share this opportunity with anyone who would benefit from it.
             </AccordionContent>
           </AccordionItem>
+
+          <AccordionItem value="item-11">
+            <AccordionTrigger>Why should I refer my friends to this program?</AccordionTrigger>
+            <AccordionContent>
+              Referring friends benefits everyone:
+              <ul className="list-disc list-inside space-y-2 mt-2">
+                <li>Your friends get 10% off their program fee using your referral code</li>
+                <li>You earn rewards for successful referrals</li>
+                <li>Learning together enhances the experience through peer support</li>
+                <li>Build a stronger tech community with like-minded individuals</li>
+              </ul>
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="item-12">
+            <AccordionTrigger>What makes this platform unique compared to other learning options?</AccordionTrigger>
+            <AccordionContent>
+              Our platform stands out because:
+              <ul className="list-disc list-inside space-y-2 mt-2">
+                <li>Pure project-based mentorship instead of traditional courses</li>
+                <li>Direct access to experienced mentors who understand your local context</li>
+                <li>Flexible learning path adapted to your schedule and needs</li>
+                <li>Focus on practical skills through real-world projects</li>
+                <li>Active WhatsApp community for instant support and networking</li>
+                <li>Affordable pricing with special offers and referral benefits</li>
+              </ul>
+            </AccordionContent>
+          </AccordionItem>
         </Accordion>
       </div>
     </section>
