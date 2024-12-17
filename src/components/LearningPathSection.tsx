@@ -7,28 +7,28 @@ export const LearningPathSection = () => {
     {
       icon: Sparkles,
       title: "AI Development",
-      description: "Master prompt engineering and AI integration",
+      description: "Build AI projects with expert mentorship",
       skills: ["Prompt Design", "AI Systems", "NLP", "Integration"],
       color: "from-blue-500 to-purple-500"
     },
     {
       icon: Database,
       title: "Full Stack AI",
-      description: "Build complete AI-powered applications",
+      description: "Create AI apps with mentor guidance",
       skills: ["Supabase", "APIs", "Databases", "AI Integration"],
       color: "from-green-500 to-teal-500"
     },
     {
       icon: Code,
       title: "Frontend Development",
-      description: "Create modern web interfaces",
+      description: "Build real frontend projects with mentors",
       skills: ["React", "TypeScript", "UI/UX", "Performance"],
       color: "from-orange-500 to-pink-500"
     },
     {
       icon: Palette,
       title: "Low-Code Development",
-      description: "Build applications efficiently",
+      description: "Develop apps with mentor-guided projects",
       skills: ["Visual Dev", "Automation", "Integration", "Design"],
       color: "from-purple-500 to-indigo-500"
     }

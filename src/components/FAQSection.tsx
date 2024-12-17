@@ -54,7 +54,7 @@ export const FAQSection = () => {
           <AccordionItem value="item-1">
             <AccordionTrigger>What makes this mentorship program unique?</AccordionTrigger>
             <AccordionContent>
-              Our program focuses purely on task-based mentorship without traditional courses or videos. You'll receive weekly assignments with clear objectives and get personalized feedback from dedicated mentors, all at an accessible price point of ₹{isOfferValid ? OFFER_PRICE : REGULAR_PRICE}.
+              Unlike traditional courses, we offer pure project-based mentorship. You'll work on real projects with weekly guidance and personalized feedback from dedicated mentors, all at an accessible price point of ₹{isOfferValid ? OFFER_PRICE : REGULAR_PRICE}. No courses, just hands-on project experience with expert support.
             </AccordionContent>
           </AccordionItem>
 

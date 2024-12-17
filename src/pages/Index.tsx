@@ -32,7 +32,7 @@ const Index = () => {
   const programs = [
     {
       title: "Frontend Development",
-      description: "Practical weekly assignments in modern frontend development. Get direct mentorship and feedback on each task you complete. Focus on building real projects with expert guidance - no traditional courses.",
+      description: "Build real frontend projects with expert mentorship. Get personalized guidance and feedback as you develop practical applications. No courses - just hands-on project experience with mentor support.",
       duration: "10 weeks", 
       skills: ["React", "Angular", "Vue.js", "TypeScript"],
       category: "Frontend Development",
@@ -40,7 +40,7 @@ const Index = () => {
     },
     {
       title: "Low-Code Development",
-      description: "Weekly hands-on assignments in low-code development platforms. Your mentor provides personalized feedback on each practical task. Pure mentorship program focused on building applications efficiently.",
+      description: "Create efficient applications using low-code platforms with expert mentorship. Get personalized guidance on your projects. No courses - pure project-based learning with mentor support.",
       duration: "8 weeks",
       skills: ["Low-Code Platforms", "Visual Development", "Rapid Prototyping", "App Design"],
       category: "Low-Code Development",
@@ -48,7 +48,7 @@ const Index = () => {
     },
     {
       title: "No-Code Development",
-      description: "Weekly hands-on assignments in no-code development. Your mentor provides personalized feedback on each practical task. Pure mentorship program focused on building real applications - no courses included.",
+      description: "Build real applications using no-code tools with expert mentorship. Get personalized guidance on your projects. No courses - just hands-on development with dedicated mentor support.",
       duration: "10 weeks",
       skills: ["No-Code Tools", "Visual Development", "Automation", "App Design"],
       category: "No-Code Development",
@@ -56,7 +56,7 @@ const Index = () => {
     },
     {
       title: "Full Stack API Development",
-      description: "Comprehensive mentorship in building scalable APIs and full stack applications. Learn best practices in API design, authentication, database modeling, and deployment. Get hands-on experience with real-world projects and weekly feedback.",
+      description: "Build complete full-stack applications with expert mentorship. Work on real API projects while learning best practices. No courses - pure hands-on development with personalized mentor guidance.",
       duration: "14 weeks",
       skills: ["RESTful APIs", "Node.js", "Database Design", "Authentication", "Cloud Deployment"],
       category: "Full Stack Development",
@@ -64,7 +64,7 @@ const Index = () => {
     },
     {
       title: "ManyChat Automation",
-      description: "Master ManyChat automation in just 3 days! Learn interface basics, workflow automation, chatbot creation, and customer engagement best practices. Hands-on training with expert guidance.",
+      description: "Build a complete ManyChat automation project in 3 days with expert mentorship. Create real workflows and chatbots with personalized guidance. No courses - pure hands-on implementation.",
       duration: "3 days",
       skills: ["ManyChat", "Automation", "Chatbots", "Customer Engagement"],
       category: "Automation",
