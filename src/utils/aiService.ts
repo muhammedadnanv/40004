@@ -1,149 +1,94 @@
-import { pipeline, env } from '@huggingface/transformers';
-import type {
-  TextClassificationPipeline,
-  ImageClassificationPipeline,
-  TextGenerationPipeline,
-  TextClassificationOutput,
-  ImageClassificationOutput,
-  ImagePipelineInputs,
-  PipelineType
-} from '@huggingface/transformers';
+import { pipeline, Pipeline } from '@huggingface/transformers';
+import { toast } from "@/components/ui/use-toast";
 
-// Configure environment
-env.allowLocalModels = false;
-env.useBrowserCache = true;
+type PipelineType = 'text-classification' | 'image-classification' | 'text2text-generation';
+type ModelPipeline = Pipeline;
 
-interface ClassificationResult {
-  label: string;
-  score: number;
-}
+let textClassifier: ModelPipeline | null = null;
+let imageClassifier: ModelPipeline | null = null;
+let textGenerator: ModelPipeline | null = null;
 
-let textClassifier: TextClassificationPipeline | null = null;
-let imageClassifier: ImageClassificationPipeline | null = null;
-let textGenerator: TextGenerationPipeline | null = null;
+const INITIALIZATION_TIMEOUT = 30000; // 30 seconds timeout
 
 const initializePipeline = async (
   task: PipelineType,
   model: string,
-  options: any = {},
+  options = {},
   retries = 0
-) => {
+): Promise<ModelPipeline> => {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), INITIALIZATION_TIMEOUT);
+
   try {
     console.log(`Initializing ${task} pipeline with model ${model}...`);
-    return await pipeline(task, model, options);
+    const startTime = performance.now();
+    
+    const instance = await pipeline(task, model, {
+      ...options,
+      signal: controller.signal
+    });
+    
+    const endTime = performance.now();
+    console.log(`${task} pipeline initialized in ${(endTime - startTime).toFixed(2)}ms`);
+    
+    return instance;
   } catch (error: any) {
     console.error(`Error initializing ${task} pipeline:`, error);
+    
+    if (error.name === 'AbortError') {
+      throw new Error(`${task} pipeline initialization timed out after ${INITIALIZATION_TIMEOUT}ms`);
+    }
+    
     if (retries < 3) {
-      console.log(`Retrying... (${retries + 1}/3)`);
-      await new Promise(resolve => setTimeout(resolve, 1000 * (retries + 1))); // Exponential backoff
+      const delay = Math.min(1000 * Math.pow(2, retries), 8000); // Exponential backoff with 8s max
+      console.log(`Retrying... (${retries + 1}/3) after ${delay}ms`);
+      await new Promise(resolve => setTimeout(resolve, delay));
       return initializePipeline(task, model, options, retries + 1);
     }
+    
     throw error;
+  } finally {
+    clearTimeout(timeoutId);
   }
 };
 
 export const initializeAIModels = async (): Promise<boolean> => {
   try {
     console.log("Initializing AI models...");
+    const startTime = performance.now();
 
     // Using browser-optimized models from Xenova
-    textClassifier = await initializePipeline(
-      "text-classification",
-      "Xenova/bert-base-multilingual-uncased-sentiment"
-    ) as TextClassificationPipeline;
-    console.log("Text classification model initialized");
+    [textClassifier, imageClassifier, textGenerator] = await Promise.all([
+      initializePipeline(
+        "text-classification",
+        "Xenova/bert-base-multilingual-uncased-sentiment"
+      ),
+      initializePipeline(
+        "image-classification",
+        "Xenova/vit-base-patch16-224"
+      ),
+      initializePipeline(
+        "text2text-generation",
+        "Xenova/t5-small"
+      )
+    ]);
 
-    imageClassifier = await initializePipeline(
-      "image-classification",
-      "Xenova/vit-base-patch16-224"
-    ) as ImageClassificationPipeline;
-    console.log("Image classification model initialized");
-
-    textGenerator = await initializePipeline(
-      "text2text-generation", // Changed from text-generation to text2text-generation
-      "Xenova/t5-small" // Using T5 instead of GPT-2 as it's more reliable in browsers
-    ) as TextGenerationPipeline;
-    console.log("Text generation model initialized");
-
+    const endTime = performance.now();
+    console.log(`All AI models initialized in ${(endTime - startTime).toFixed(2)}ms`);
+    
     return true;
-  } catch (error: any) {
-    console.error("Error initializing AI models:", error);
+  } catch (error) {
+    console.error("Failed to initialize AI models:", error);
+    toast({
+      title: "AI Model Initialization Failed",
+      description: "Some features might be limited. Please refresh the page to try again.",
+      variant: "destructive",
+      duration: 5000,
+    });
     return false;
   }
 };
 
-export const classifyText = async (text: string): Promise<ClassificationResult[]> => {
-  if (!textClassifier) {
-    throw new Error("Text classifier not initialized");
-  }
-  try {
-    const result = await textClassifier(text, {
-      top_k: 5
-    });
-    const output = Array.isArray(result) ? result : [result];
-    return output.map(item => ({
-      label: item.label,
-      score: item.score
-    }));
-  } catch (error: any) {
-    console.error("Text classification error:", error);
-    throw error;
-  }
-};
-
-export const classifyImage = async (image: ImagePipelineInputs): Promise<ClassificationResult[]> => {
-  if (!imageClassifier) {
-    throw new Error("Image classifier not initialized");
-  }
-  try {
-    const result = await imageClassifier(image, {
-      top_k: 5
-    });
-    const output = Array.isArray(result) ? result : [result];
-    return output.map(item => ({
-      label: item.label,
-      score: item.score
-    }));
-  } catch (error: any) {
-    console.error("Image classification error:", error);
-    throw error;
-  }
-};
-
-interface GenerationOptions {
-  maxLength?: number;
-  minLength?: number;
-  temperature?: number;
-  topK?: number;
-  topP?: number;
-  repetitionPenalty?: number;
-  numReturnSequences?: number;
-}
-
-export const generateText = async (
-  prompt: string, 
-  options: GenerationOptions = {}
-): Promise<string[]> => {
-  if (!textGenerator) {
-    throw new Error("Text generator not initialized");
-  }
-  try {
-    const defaultOptions = {
-      max_length: 100,
-      min_length: 10,
-      temperature: 0.7,
-      top_k: 50,
-      top_p: 0.9,
-      repetition_penalty: 1.0,
-      num_return_sequences: 1,
-      ...options
-    };
-    
-    const result = await textGenerator(prompt, defaultOptions);
-    const outputs = Array.isArray(result) ? result : [result];
-    return outputs.map(output => output.text);
-  } catch (error: any) {
-    console.error("Text generation error:", error);
-    throw error;
-  }
-};
+export const getTextClassifier = () => textClassifier;
+export const getImageClassifier = () => imageClassifier;
+export const getTextGenerator = () => textGenerator;

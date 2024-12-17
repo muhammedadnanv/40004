@@ -10,14 +10,20 @@ export const HeroSection = () => {
 
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center py-8 sm:py-12 md:py-16 lg:py-20 xl:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
-      <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1498050108023-c5249f4df085')] bg-cover bg-center opacity-[0.02] pointer-events-none"></div>
-      <div className="absolute inset-0 bg-gradient-to-b from-white via-purple-50/30 to-white"></div>
+      <div 
+        className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1498050108023-c5249f4df085')] bg-cover bg-center opacity-[0.02] pointer-events-none"
+        style={{ willChange: 'transform' }} // Optimize for GPU acceleration
+        loading="lazy"
+        role="presentation"
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-white via-purple-50/30 to-white" />
       
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         className="container mx-auto max-w-4xl text-center relative"
+        style={{ willChange: 'transform' }} // Optimize animations
       >
         <div className="space-y-8">
           <motion.div
