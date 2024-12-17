@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { SantaHat } from "lucide-react";
+import { Gift } from "lucide-react";
 
 interface ProgramHeaderProps {
   title: string;
@@ -18,7 +18,7 @@ export const ProgramHeader = ({ title, description, category }: ProgramHeaderPro
         >
           {category}
         </Badge>
-        <SantaHat className="w-6 h-6 text-red-500 animate-bounce" />
+        <Gift className="w-6 h-6 text-red-500 animate-bounce" />
       </div>
       
       <CardTitle className="text-lg sm:text-xl font-semibold group-hover:premium-gradient transition-colors">
