@@ -10,8 +10,8 @@ export const formSchema = z.object({
 
 export type FormData = z.infer<typeof formSchema>;
 
-// Using test key for development - replace with your actual key in production
-const RAZORPAY_KEY = "rzp_test_1DP5mmOlF5G5ag";
+// Using live key for production
+const RAZORPAY_KEY = "rzp_live_YOUR_LIVE_KEY_HERE";
 
 export const createRazorpayOptions = (
   data: FormData,
