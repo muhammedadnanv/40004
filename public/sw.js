@@ -13,17 +13,28 @@ self.addEventListener('install', event => {
     caches.open(CACHE_NAME)
       .then(cache => cache.addAll(urlsToCache))
   );
+  self.skipWaiting();
 });
 
-// Fetch event - handle offline scenarios
+// Fetch event - handle offline scenarios with network-first strategy
 self.addEventListener('fetch', event => {
   event.respondWith(
-    // Try network first
     fetch(event.request)
+      .then(response => {
+        // Clone the response before using it
+        const responseClone = response.clone();
+        
+        // Open cache and store the new response
+        caches.open(CACHE_NAME)
+          .then(cache => {
+            cache.put(event.request, responseClone);
+          });
+
+        return response;
+      })
       .catch(() => {
         return caches.match(event.request)
           .then(response => {
-            // If we have a cached response, return it
             if (response) {
               return response;
             }
@@ -38,7 +49,6 @@ self.addEventListener('fetch', event => {
               return caches.match('https://i.ibb.co/wy6KYyT/DALL-E-2024-11-07-14-58-28-A-professional-and-modern-logo-for-Dev-Mentor-a-mentorship-platform-in-te.webp');
             }
             
-            // Return offline page as last resort
             return caches.match('/offline.html');
           });
       })
@@ -58,5 +68,21 @@ self.addEventListener('activate', event => {
           })
         );
       })
+  );
+  // Immediately claim any new clients
+  self.clients.claim();
+});
+
+// Handle push notifications
+self.addEventListener('push', event => {
+  const options = {
+    body: event.data.text(),
+    icon: 'https://i.ibb.co/wy6KYyT/DALL-E-2024-11-07-14-58-28-A-professional-and-modern-logo-for-Dev-Mentor-a-mentorship-platform-in-te.webp',
+    badge: 'https://i.ibb.co/wy6KYyT/DALL-E-2024-11-07-14-58-28-A-professional-and-modern-logo-for-Dev-Mentor-a-mentorship-platform-in-te.webp',
+    vibrate: [100, 50, 100]
+  };
+
+  event.waitUntil(
+    self.registration.showNotification('Dev Mentor Hub', options)
   );
 });
