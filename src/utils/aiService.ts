@@ -1,40 +1,36 @@
-import { pipeline } from "@huggingface/transformers";
-import { toast } from "@/hooks/use-toast";
+import { pipeline, Pipeline, env } from '@xenova/transformers';
+import type {
+  TextClassificationPipeline,
+  ImageClassificationPipeline,
+  TextGenerationPipeline,
+} from '@xenova/transformers';
 
-type PipelineType = "text-classification" | "image-classification" | "text-generation";
+// Configure environment
+env.allowLocalModels = false;
+env.useBrowserCache = true;
 
-// Define specific pipeline types
-type TextClassificationPipeline = Awaited<ReturnType<typeof pipeline>> & { task: "text-classification" };
-type ImageClassificationPipeline = Awaited<ReturnType<typeof pipeline>> & { task: "image-classification" };
-type TextGenerationPipeline = Awaited<ReturnType<typeof pipeline>> & { task: "text-generation" };
+type PipelineType = 'text-classification' | 'image-classification' | 'text-generation';
 type AnyPipeline = TextClassificationPipeline | ImageClassificationPipeline | TextGenerationPipeline;
 
-let textClassifier: TextClassificationPipeline;
-let imageClassifier: ImageClassificationPipeline;
-let textGenerator: TextGenerationPipeline;
-
-const MAX_RETRIES = 3;
-const RETRY_DELAY = 1000;
-
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+let textClassifier: TextClassificationPipeline | null = null;
+let imageClassifier: ImageClassificationPipeline | null = null;
+let textGenerator: TextGenerationPipeline | null = null;
 
 const initializePipeline = async (
   task: PipelineType,
   model: string,
-  options: any = { quantized: false },
+  options: any = { quantized: true },
   retries = 0
 ): Promise<AnyPipeline> => {
   try {
-    return await pipeline(task, model, options) as AnyPipeline;
+    console.log(`Initializing ${task} pipeline with model ${model}...`);
+    return await pipeline(task, model, options);
   } catch (error: any) {
     console.error(`Error initializing ${task} pipeline:`, error);
-    
-    if (retries < MAX_RETRIES) {
-      console.log(`Retrying ${task} pipeline initialization... (Attempt ${retries + 1}/${MAX_RETRIES})`);
-      await sleep(RETRY_DELAY);
+    if (retries < 3) {
+      console.log(`Retrying... (${retries + 1}/3)`);
       return initializePipeline(task, model, options, retries + 1);
     }
-    
     throw error;
   }
 };
@@ -43,7 +39,7 @@ export const initializeAIModels = async (): Promise<boolean> => {
   try {
     console.log("Initializing AI models...");
 
-    // Using public models from the Xenova community space
+    // Using optimized models from Xenova's community space
     textClassifier = await initializePipeline(
       "text-classification",
       "Xenova/distilbert-base-uncased-finetuned-sst-2-english",
@@ -65,23 +61,9 @@ export const initializeAIModels = async (): Promise<boolean> => {
     ) as TextGenerationPipeline;
     console.log("Text generation model initialized");
 
-    toast({
-      title: "AI Models Ready",
-      description: "All AI models have been initialized successfully.",
-      duration: 3000,
-    });
-
     return true;
   } catch (error: any) {
-    console.error("Failed to initialize AI models:", error);
-    
-    toast({
-      title: "AI Models Initialization Failed",
-      description: "There was an error loading the AI models. Some features might be limited.",
-      variant: "destructive",
-      duration: 5000,
-    });
-    
+    console.error("Error initializing AI models:", error);
     return false;
   }
 };
@@ -134,7 +116,10 @@ interface GenerationOptions {
   numReturnSequences?: number;
 }
 
-export const generateText = async (prompt: string, options: GenerationOptions = {}): Promise<string[]> => {
+export const generateText = async (
+  prompt: string, 
+  options: GenerationOptions = {}
+): Promise<string[]> => {
   if (!textGenerator) {
     throw new Error("Text generator not initialized");
   }
@@ -151,7 +136,9 @@ export const generateText = async (prompt: string, options: GenerationOptions = 
     };
     
     const result = await textGenerator(prompt, defaultOptions);
-    return Array.isArray(result) ? result.map(r => r.generated_text) : [result.generated_text];
+    return Array.isArray(result) ? 
+      result.map(r => r.generated_text) : 
+      [result.generated_text];
   } catch (error: any) {
     console.error("Text generation error:", error);
     throw error;
