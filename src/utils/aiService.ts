@@ -1,10 +1,22 @@
 import { pipeline, Pipeline } from '@huggingface/transformers';
 import { toast } from "@/components/ui/use-toast";
 
-// Define more specific types for our pipelines
-type TextClassificationPipeline = Pipeline & { task: 'text-classification' };
-type ImageClassificationPipeline = Pipeline & { task: 'image-classification' };
-type Text2TextGenerationPipeline = Pipeline & { task: 'text2text-generation' };
+// Define specific types for each pipeline task
+interface BaseTaskPipeline {
+  task: string;
+}
+
+interface TextClassificationPipeline extends BaseTaskPipeline {
+  task: 'text-classification';
+}
+
+interface ImageClassificationPipeline extends BaseTaskPipeline {
+  task: 'image-classification';
+}
+
+interface Text2TextGenerationPipeline extends BaseTaskPipeline {
+  task: 'text2text-generation';
+}
 
 type ModelPipeline = TextClassificationPipeline | ImageClassificationPipeline | Text2TextGenerationPipeline;
 
@@ -14,12 +26,12 @@ let textGenerator: Text2TextGenerationPipeline | null = null;
 
 const INITIALIZATION_TIMEOUT = 30000; // 30 seconds timeout
 
-const initializePipeline = async (
-  task: 'text-classification' | 'image-classification' | 'text2text-generation',
+const initializePipeline = async <T extends ModelPipeline>(
+  task: T['task'],
   model: string,
   options = {},
   retries = 0
-): Promise<ModelPipeline> => {
+): Promise<T> => {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), INITIALIZATION_TIMEOUT);
 
@@ -29,8 +41,7 @@ const initializePipeline = async (
     
     const instance = await pipeline(task, model, {
       ...options,
-      // Remove the signal option as it's not part of PretrainedModelOptions
-    }) as ModelPipeline;
+    }) as T;
     
     const endTime = performance.now();
     console.log(`${task} pipeline initialized in ${(endTime - startTime).toFixed(2)}ms`);
@@ -61,21 +72,30 @@ export const initializeAIModels = async (): Promise<boolean> => {
     console.log("Initializing AI models...");
     const startTime = performance.now();
 
-    // Using browser-optimized models from Xenova
-    [textClassifier, imageClassifier, textGenerator] = await Promise.all([
-      initializePipeline(
+    // Initialize each pipeline with its specific type
+    const [
+      textClassifierResult,
+      imageClassifierResult,
+      textGeneratorResult
+    ] = await Promise.all([
+      initializePipeline<TextClassificationPipeline>(
         "text-classification",
         "Xenova/bert-base-multilingual-uncased-sentiment"
       ),
-      initializePipeline(
+      initializePipeline<ImageClassificationPipeline>(
         "image-classification",
         "Xenova/vit-base-patch16-224"
       ),
-      initializePipeline(
+      initializePipeline<Text2TextGenerationPipeline>(
         "text2text-generation",
         "Xenova/t5-small"
       )
     ]);
+
+    // Assign the results to their respective variables
+    textClassifier = textClassifierResult;
+    imageClassifier = imageClassifierResult;
+    textGenerator = textGeneratorResult;
 
     const endTime = performance.now();
     console.log(`All AI models initialized in ${(endTime - startTime).toFixed(2)}ms`);
