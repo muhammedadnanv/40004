@@ -28,6 +28,7 @@
         p { 
             margin-bottom: 2rem;
             opacity: 0.9;
+            line-height: 1.6;
         }
         button {
             background: white;
@@ -37,27 +38,56 @@
             border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
-            transition: transform 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         button:hover {
-            transform: scale(1.05);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
         .icon {
             font-size: 4rem;
             margin-bottom: 1rem;
         }
+        .cached-content {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+        .status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #ff4444;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.5; }
+            100% { transform: scale(1); opacity: 1; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="icon">📡</div>
-        <h1>You're Offline</h1>
-        <p>It seems you've lost your internet connection. Don't worry - some features of Dev Mentor Hub are still available offline!</p>
+        <h1>You're Currently Offline</h1>
+        <p>Don't worry! Dev Mentor Hub works offline. You can still access previously viewed content and continue your learning journey.</p>
         <button onclick="window.location.reload()">Try Reconnecting</button>
+        
+        <div class="cached-content">
+            <span class="status-dot"></span>
+            <span>Offline Mode Active</span>
+            <p>Some features might be limited while you're offline. We'll automatically sync your progress when you're back online.</p>
+        </div>
     </div>
     <script>
         // Check connection status periodically
@@ -66,6 +96,22 @@
                 window.location.reload();
             }
         }, 5000);
+
+        // Listen for online status changes
+        window.addEventListener('online', () => {
+            window.location.reload();
+        });
+
+        // Register service worker if not already registered
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => {
+                    console.log('Service Worker registered with scope:', registration.scope);
+                })
+                .catch(error => {
+                    console.error('Service Worker registration failed:', error);
+                });
+        }
     </script>
 </body>
 </html>

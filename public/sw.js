@@ -1,23 +1,49 @@
 const CACHE_NAME = 'dev-mentor-hub-v1';
+const OFFLINE_URL = '/offline.html';
+const OFFLINE_IMG = 'https://i.ibb.co/wy6KYyT/DALL-E-2024-11-07-14-58-28-A-professional-and-modern-logo-for-Dev-Mentor-a-mentorship-platform-in-te.webp';
+
 const urlsToCache = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/offline.html',
-  'https://i.ibb.co/wy6KYyT/DALL-E-2024-11-07-14-58-28-A-professional-and-modern-logo-for-Dev-Mentor-a-mentorship-platform-in-te.webp'
+  OFFLINE_URL,
+  OFFLINE_IMG,
+  // Add CSS and JS files
+  '/src/index.css',
+  '/src/main.tsx',
+  // Add other static assets
+  'https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap'
 ];
 
 // Install event - cache initial resources
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(urlsToCache))
+      .then(cache => {
+        console.log('Opened cache');
+        return cache.addAll(urlsToCache);
+      })
+      .catch(error => {
+        console.error('Pre-caching failed:', error);
+      })
   );
   self.skipWaiting();
 });
 
 // Fetch event - handle offline scenarios with network-first strategy
 self.addEventListener('fetch', event => {
+  // Handle navigation requests differently
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request)
+        .catch(() => {
+          return caches.match(OFFLINE_URL);
+        })
+    );
+    return;
+  }
+
+  // Handle other requests with network-first strategy
   event.respondWith(
     fetch(event.request)
       .then(response => {
@@ -39,17 +65,20 @@ self.addEventListener('fetch', event => {
               return response;
             }
             
-            // If it's a navigation request, return offline page
-            if (event.request.mode === 'navigate') {
-              return caches.match('/offline.html');
-            }
-            
             // For image requests, return a default image
             if (event.request.destination === 'image') {
-              return caches.match('https://i.ibb.co/wy6KYyT/DALL-E-2024-11-07-14-58-28-A-professional-and-modern-logo-for-Dev-Mentor-a-mentorship-platform-in-te.webp');
+              return caches.match(OFFLINE_IMG);
             }
             
-            return caches.match('/offline.html');
+            // For API requests, return a custom response
+            if (event.request.url.includes('/api/')) {
+              return new Response(
+                JSON.stringify({ error: 'You are offline' }),
+                {
+                  headers: { 'Content-Type': 'application/json' }
+                }
+              );
+            }
           });
       })
   );
@@ -63,6 +92,7 @@ self.addEventListener('activate', event => {
         return Promise.all(
           cacheNames.map(cacheName => {
             if (cacheName !== CACHE_NAME) {
+              console.log('Deleting old cache:', cacheName);
               return caches.delete(cacheName);
             }
           })
@@ -77,12 +107,59 @@ self.addEventListener('activate', event => {
 self.addEventListener('push', event => {
   const options = {
     body: event.data.text(),
-    icon: 'https://i.ibb.co/wy6KYyT/DALL-E-2024-11-07-14-58-28-A-professional-and-modern-logo-for-Dev-Mentor-a-mentorship-platform-in-te.webp',
-    badge: 'https://i.ibb.co/wy6KYyT/DALL-E-2024-11-07-14-58-28-A-professional-and-modern-logo-for-Dev-Mentor-a-mentorship-platform-in-te.webp',
-    vibrate: [100, 50, 100]
+    icon: OFFLINE_IMG,
+    badge: OFFLINE_IMG,
+    vibrate: [100, 50, 100],
+    data: {
+      dateOfArrival: Date.now(),
+      primaryKey: 1
+    },
+    actions: [
+      {
+        action: 'explore',
+        title: 'View Programs',
+        icon: OFFLINE_IMG
+      },
+      {
+        action: 'close',
+        title: 'Close',
+        icon: OFFLINE_IMG
+      }
+    ]
   };
 
   event.waitUntil(
     self.registration.showNotification('Dev Mentor Hub', options)
   );
+});
+
+// Handle notification clicks
+self.addEventListener('notificationclick', event => {
+  event.notification.close();
+
+  if (event.action === 'explore') {
+    event.waitUntil(
+      clients.openWindow('/#programs-section')
+    );
+  }
+});
+
+// Handle background sync
+self.addEventListener('sync', event => {
+  if (event.tag === 'sync-forms') {
+    event.waitUntil(
+      // Implement form data sync when online
+      Promise.resolve()
+    );
+  }
+});
+
+// Handle periodic sync
+self.addEventListener('periodicsync', event => {
+  if (event.tag === 'update-content') {
+    event.waitUntil(
+      // Implement periodic content updates
+      Promise.resolve()
+    );
+  }
 });

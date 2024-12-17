@@ -1,7 +1,7 @@
 {
-  "name": "Dev Mentor Hub",
+  "name": "Dev Mentor Hub - Professional Developer Certification",
   "short_name": "DevMentor",
-  "description": "AI-Powered Development Mentorship Platform",
+  "description": "Professional Developer Certification & Career Growth Platform with Expert Mentorship",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#4A00E0",
@@ -28,10 +28,22 @@
       "name": "Programs",
       "url": "/#programs-section",
       "description": "View our mentorship programs"
+    },
+    {
+      "name": "Certification",
+      "url": "/#certification-section",
+      "description": "Learn about our certification process"
     }
   ],
-  "categories": ["education", "development", "productivity"],
-  "screenshots": [],
+  "categories": ["education", "development", "productivity", "professional training"],
+  "screenshots": [
+    {
+      "src": "https://i.ibb.co/wy6KYyT/DALL-E-2024-11-07-14-58-28-A-professional-and-modern-logo-for-Dev-Mentor-a-mentorship-platform-in-te.webp",
+      "sizes": "1280x720",
+      "type": "image/webp",
+      "platform": "wide"
+    }
+  ],
   "share_target": {
     "action": "/share-target",
     "method": "GET",
@@ -40,5 +52,11 @@
       "text": "text",
       "url": "url"
     }
+  },
+  "launch_handler": {
+    "client_mode": ["focus-existing", "auto"]
+  },
+  "edge_side_panel": {
+    "preferred_width": 400
   }
 }
