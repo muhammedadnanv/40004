@@ -5,7 +5,8 @@ import type {
   TextGenerationPipeline,
   TextClassificationOutput,
   ImageClassificationOutput,
-  ImagePipelineInputs
+  ImagePipelineInputs,
+  PipelineType
 } from '@huggingface/transformers';
 
 // Configure environment
@@ -22,7 +23,7 @@ let imageClassifier: ImageClassificationPipeline | null = null;
 let textGenerator: TextGenerationPipeline | null = null;
 
 const initializePipeline = async (
-  task: string,
+  task: PipelineType,
   model: string,
   options: any = {},
   retries = 0
@@ -75,8 +76,7 @@ export const classifyText = async (text: string): Promise<ClassificationResult[]
   }
   try {
     const result = await textClassifier(text, {
-      top_k: 5,
-      truncation: true
+      top_k: 5
     });
     const output = Array.isArray(result) ? result : [result];
     return output.map(item => ({
