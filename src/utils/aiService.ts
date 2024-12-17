@@ -47,19 +47,19 @@ export const initializeAIModels = async (): Promise<boolean> => {
 
     textClassifier = await initializePipeline(
       "text-classification",
-      "distilbert-base-uncased-finetuned-sst-2-english"
+      "onnx-community/distilbert-base-uncased-finetuned-sst-2-english"
     ) as TextClassificationPipeline;
     console.log("Text classification model initialized");
 
     imageClassifier = await initializePipeline(
       "image-classification",
-      "google/vit-base-patch16-224"
+      "onnx-community/mobilenetv4_conv_small.e2400_r224_in1k"
     ) as ImageClassificationPipeline;
     console.log("Image classification model initialized");
 
     textGenerator = await initializePipeline(
       "text-generation",
-      "gpt2"
+      "onnx-community/gpt2"
     ) as TextGenerationPipeline;
     console.log("Text generation model initialized");
 
