@@ -10,8 +10,8 @@ export const formSchema = z.object({
 
 export type FormData = z.infer<typeof formSchema>;
 
-// Using live key from secure storage
-const RAZORPAY_KEY = process.env.RAZORPAY_LIVE_KEY || "rzp_live_YOUR_LIVE_KEY_HERE";
+// Using live key from Supabase secrets
+const RAZORPAY_KEY = import.meta.env.VITE_RAZORPAY_LIVE_KEY || "rzp_live_YOUR_LIVE_KEY_HERE";
 
 export const createRazorpayOptions = (
   data: FormData,
