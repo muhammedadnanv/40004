@@ -14,11 +14,19 @@ interface ProgramCardProps {
     duration: string;
     skills: string[];
     category: string;
+    regularPrice: number;
   };
 }
 
 export const ProgramCard = ({ program }: ProgramCardProps) => {
   const [showEnrollmentForm, setShowEnrollmentForm] = useState(false);
+  
+  // Calculate if offer is still valid
+  const offerEndDate = new Date();
+  offerEndDate.setDate(offerEndDate.getDate() + 10);
+  const isOfferValid = new Date() < offerEndDate;
+  
+  const currentPrice = isOfferValid ? 10 : program.regularPrice;
 
   return (
     <motion.div
@@ -43,14 +51,18 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
         <ProgramFooter 
           title={program.title}
           onEnrollClick={() => setShowEnrollmentForm(true)}
-          onShareClick={() => {}} // ShareProgramCard handles this internally
+          onShareClick={() => {}}
+          currentPrice={currentPrice}
+          regularPrice={program.regularPrice}
+          isOfferValid={isOfferValid}
+          offerEndDate={offerEndDate}
         />
 
         <EnrollmentForm 
           isOpen={showEnrollmentForm}
           onClose={() => setShowEnrollmentForm(false)}
           programTitle={program.title}
-          amount={10} // Set fixed amount to 10 for all programs
+          amount={currentPrice}
         />
         <ShareProgramCard program={program} />
       </Card>

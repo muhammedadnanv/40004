@@ -1,22 +1,60 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { useEffect, useState } from "react";
 
 // Define the current program fee as a constant that can be easily updated
-const CURRENT_PROGRAM_FEE = 10;
+const OFFER_PRICE = 10;
+const REGULAR_PRICE = 599; // Regular price after offer expires
 
 export const FAQSection = () => {
+  const [isOfferValid, setIsOfferValid] = useState(true);
+  const [timeLeft, setTimeLeft] = useState("");
+
+  useEffect(() => {
+    const offerEndDate = new Date();
+    offerEndDate.setDate(offerEndDate.getDate() + 10);
+
+    const calculateTimeLeft = () => {
+      const now = new Date();
+      const difference = offerEndDate.getTime() - now.getTime();
+      
+      if (difference <= 0) {
+        setIsOfferValid(false);
+        setTimeLeft("Offer expired");
+        return;
+      }
+
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      setTimeLeft(`${days} days`);
+    };
+
+    const timer = setInterval(calculateTimeLeft, 60000); // Update every minute
+    calculateTimeLeft(); // Initial calculation
+
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <section className="py-12 md:py-16 px-4 md:px-6 lg:px-8 bg-white">
       <div className="container mx-auto max-w-3xl">
         <h2 className="text-2xl md:text-3xl font-bold text-center mb-6 md:mb-8">Frequently Asked Questions</h2>
-        <div className="text-center mb-8 p-4 bg-purple-50 rounded-lg">
-          <p className="text-purple-600 font-medium">🎉 Limited Time Offer: All programs at ₹{CURRENT_PROGRAM_FEE} only!</p>
-          <p className="text-sm text-purple-500">Offer valid for 10 days</p>
-        </div>
+        {isOfferValid && (
+          <div className="text-center mb-8 p-4 bg-purple-50 rounded-lg">
+            <p className="text-purple-600 font-medium">
+              🎉 Limited Time Offer: All programs at ₹{OFFER_PRICE} only!
+              <span className="text-sm text-purple-500 block">
+                Offer valid for {timeLeft}
+              </span>
+            </p>
+            <p className="text-sm text-purple-500 mt-1">
+              Regular price: ₹{REGULAR_PRICE}
+            </p>
+          </div>
+        )}
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1">
             <AccordionTrigger>What makes this mentorship program unique?</AccordionTrigger>
             <AccordionContent>
-              Our program focuses purely on task-based mentorship without traditional courses or videos. You'll receive weekly assignments with clear objectives and get personalized feedback from dedicated mentors, all at an accessible price point of ₹{CURRENT_PROGRAM_FEE}.
+              Our program focuses purely on task-based mentorship without traditional courses or videos. You'll receive weekly assignments with clear objectives and get personalized feedback from dedicated mentors, all at an accessible price point of ₹{isOfferValid ? OFFER_PRICE : REGULAR_PRICE}.
             </AccordionContent>
           </AccordionItem>
 
@@ -82,7 +120,7 @@ export const FAQSection = () => {
           <AccordionItem value="item-9">
             <AccordionTrigger>What if I want more sessions or 1:1 mentorship?</AccordionTrigger>
             <AccordionContent>
-              After the program, you can choose to enroll in advanced mentorship options, including 1:1 sessions, starting at ₹{CURRENT_PROGRAM_FEE + 400}.
+              After the program, you can choose to enroll in advanced mentorship options, including 1:1 sessions, starting at ₹{(isOfferValid ? OFFER_PRICE : REGULAR_PRICE) + 400}.
             </AccordionContent>
           </AccordionItem>
 
