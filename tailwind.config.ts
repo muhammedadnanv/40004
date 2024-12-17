@@ -11,27 +11,37 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-        display: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
+        sans: ['Poppins', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        display: ['Poppins', 'system-ui', 'sans-serif'],
       },
       colors: {
         border: "hsl(220 13% 91%)",
         input: "hsl(220 13% 91%)",
-        ring: "hsl(250 60% 45%)",
+        ring: "hsl(210 100% 85%)",
         background: "hsl(0 0% 100%)",
         foreground: "hsl(224 71% 4%)",
         primary: {
-          DEFAULT: "hsl(250 60% 45%)",
-          foreground: "hsl(0 0% 100%)",
-          muted: "hsl(250 60% 97%)",
-          hover: "hsl(250 60% 40%)",
-          light: "hsl(250 60% 97%)",
-          dark: "hsl(250 60% 35%)",
-          600: "hsl(250 60% 40%)",
+          DEFAULT: "hsl(210 100% 85%)",
+          foreground: "hsl(210 40% 30%)",
+          muted: "hsl(210 100% 95%)",
+          hover: "hsl(210 100% 80%)",
+          light: "hsl(210 100% 95%)",
+          dark: "hsl(210 100% 75%)",
         },
-        secondary: { DEFAULT: "hsl(0 0% 98%)", foreground: "hsl(224 71% 4%)", hover: "hsl(0 0% 96%)" },
-        muted: { DEFAULT: "hsl(220 14% 96%)", foreground: "hsl(220 9% 46%)" },
-        accent: { DEFAULT: "hsl(220 14% 96%)", foreground: "hsl(224 71% 4%)", hover: "hsl(220 14% 94%)" },
+        secondary: { 
+          DEFAULT: "hsl(0 0% 98%)", 
+          foreground: "hsl(224 71% 4%)", 
+          hover: "hsl(0 0% 96%)" 
+        },
+        muted: { 
+          DEFAULT: "hsl(220 14% 96%)", 
+          foreground: "hsl(220 9% 46%)" 
+        },
+        accent: { 
+          DEFAULT: "hsl(210 100% 90%)", 
+          foreground: "hsl(224 71% 4%)", 
+          hover: "hsl(210 100% 85%)" 
+        },
         glass: {
           DEFAULT: "rgba(255, 255, 255, 0.8)",
           dark: "rgba(255, 255, 255, 0.1)",
@@ -40,7 +50,7 @@ export default {
       },
       boxShadow: {
         'soft': '0 2px 15px rgba(0,0,0,0.03)',
-        'glow': '0 0 15px rgba(101,93,255,0.1)',
+        'glow': '0 0 15px rgba(211,228,253,0.2)',
         'card': '0 1px 3px rgba(0,0,0,0.05)',
         'premium': '0 8px 32px rgba(0, 0, 0, 0.1)',
         'glass': '0 8px 32px rgba(31, 38, 135, 0.15)',

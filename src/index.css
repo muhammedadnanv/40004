@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -12,34 +12,36 @@
     --card-foreground: 224 71% 4%;
     --popover: 0 0% 100%;
     --popover-foreground: 224 71% 4%;
-    --primary: 250 60% 45%;
-    --primary-foreground: 0 0% 100%;
-    --primary-muted: 250 60% 97%;
-    --primary-hover: 250 60% 40%;
+    --primary: 210 100% 85%;
+    --primary-foreground: 210 40% 30%;
+    --primary-muted: 210 100% 95%;
+    --primary-hover: 210 100% 80%;
     --secondary: 0 0% 98%;
     --secondary-foreground: 224 71% 4%;
     --secondary-hover: 0 0% 96%;
     --muted: 220 14% 96%;
     --muted-foreground: 220 9% 46%;
-    --accent: 220 14% 96%;
+    --accent: 210 100% 90%;
     --accent-foreground: 224 71% 4%;
-    --accent-hover: 220 14% 94%;
+    --accent-hover: 210 100% 85%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
     --border: 220 13% 91%;
     --input: 220 13% 91%;
-    --ring: 250 60% 45%;
+    --ring: 210 100% 85%;
     --radius: 0.5rem;
   }
 
   * {
     @apply border-border font-sans;
   }
+
   body {
     @apply bg-background text-foreground antialiased min-h-screen overflow-x-hidden;
-    font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
-    background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(249,250,251,1) 100%);
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(109.6deg, rgba(223,234,247,1) 11.2%, rgba(244,248,252,1) 91.1%);
   }
+
   h1, h2, h3, h4, h5, h6 {
     @apply font-display tracking-tight;
   }
@@ -47,15 +49,15 @@
 
 @layer utilities {
   .glass-effect {
-    @apply bg-glass backdrop-blur-md border border-white/20 shadow-glass;
+    @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-lg;
   }
   
   .premium-card {
-    @apply glass-effect shadow-premium hover:shadow-xl transition-all duration-300 rounded-xl;
+    @apply glass-effect shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl;
   }
   
   .premium-gradient {
-    @apply bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-[#D3E4FD] to-[#C8C8C9] bg-clip-text text-transparent;
   }
   
   .hover-scale {
@@ -63,39 +65,23 @@
   }
 
   .premium-border {
-    @apply border border-white/20 shadow-premium;
+    @apply border border-white/20 shadow-lg;
   }
 
   .premium-button {
-    @apply glass-effect hover:bg-glass-hover transition-all duration-300 shadow-premium hover:shadow-xl;
+    @apply glass-effect hover:bg-white/90 transition-all duration-300 shadow-lg hover:shadow-xl;
   }
 
   .premium-section {
-    @apply relative overflow-hidden bg-gradient-to-br from-white via-purple-50/30 to-white;
-  }
-
-  .premium-text {
-    @apply bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent;
-  }
-
-  .premium-hover {
-    @apply hover:bg-purple-50/50 transition-colors duration-300;
+    @apply relative overflow-hidden bg-gradient-to-br from-white via-[#D3E4FD]/30 to-white;
   }
 
   .section-spacing {
-    @apply py-16 md:py-24 lg:py-32;
+    @apply py-12 md:py-16 lg:py-20;
   }
 
   .container-padding {
     @apply px-4 sm:px-6 lg:px-8;
-  }
-
-  .glass-morphism {
-    @apply bg-white/80 backdrop-blur-sm border border-white/20 shadow-lg;
-  }
-
-  .hover-lift {
-    @apply hover:-translate-y-1 transition-transform duration-300;
   }
 
   .flex-center {
@@ -103,7 +89,7 @@
   }
 
   .grid-responsive {
-    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8;
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8;
   }
 }
 
