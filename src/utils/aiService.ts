@@ -45,21 +45,22 @@ export const initializeAIModels = async (): Promise<boolean> => {
   try {
     console.log("Initializing AI models...");
 
+    // Using models that are publicly accessible and optimized for browsers
     textClassifier = await initializePipeline(
       "text-classification",
-      "onnx-community/distilbert-base-uncased-finetuned-sst-2-english"
+      "Xenova/distilbert-base-uncased-finetuned-sst-2-english"
     ) as TextClassificationPipeline;
     console.log("Text classification model initialized");
 
     imageClassifier = await initializePipeline(
       "image-classification",
-      "onnx-community/mobilenetv4_conv_small.e2400_r224_in1k"
+      "Xenova/vit-base-patch16-224"
     ) as ImageClassificationPipeline;
     console.log("Image classification model initialized");
 
     textGenerator = await initializePipeline(
       "text-generation",
-      "onnx-community/gpt2"
+      "Xenova/gpt2"
     ) as TextGenerationPipeline;
     console.log("Text generation model initialized");
 
