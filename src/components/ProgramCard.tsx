@@ -39,8 +39,9 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
+      className="h-full" // Added to ensure consistent height
     >
-      <Card className="premium-card overflow-hidden group">
+      <Card className="premium-card overflow-hidden group h-full flex flex-col"> {/* Added flex and h-full */}
         <CardHeader className="space-y-2 p-6">
           <Badge 
             variant="secondary" 
@@ -57,7 +58,7 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
           </CardDescription>
         </CardHeader>
         
-        <CardContent className="space-y-4 p-6">
+        <CardContent className="space-y-4 p-6 flex-grow"> {/* Added flex-grow */}
           <div>
             <p className="text-sm text-gray-600 mb-3">Duration: {program.duration}</p>
             <div className="flex flex-wrap gap-2">
@@ -87,7 +88,7 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
           )}
         </CardContent>
 
-        <CardFooter className="flex flex-col gap-3 p-6 bg-gray-50/50">
+        <CardFooter className="flex flex-col gap-3 p-6 bg-gray-50/50 mt-auto"> {/* Added mt-auto */}
           <p className="text-lg font-semibold premium-gradient">
             ₹{program.title === "ManyChat Automation" ? "599" : "199"}
           </p>

@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-// Form validation schema
 export const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
@@ -11,7 +10,7 @@ export const formSchema = z.object({
 
 export type FormData = z.infer<typeof formSchema>;
 
-// Using test key for development
+// Using test key for development - replace with your actual key in production
 const RAZORPAY_KEY = "rzp_test_1DP5mmOlF5G5ag";
 
 export const createRazorpayOptions = (
@@ -23,7 +22,7 @@ export const createRazorpayOptions = (
 ) => {
   const options = {
     key: RAZORPAY_KEY,
-    amount: amount * 100, // Amount in smallest currency unit
+    amount: amount * 100, // Amount in smallest currency unit (paise)
     currency: "INR",
     name: "Dev Mentor Hub",
     description: `Enrollment for ${programTitle}`,
@@ -41,9 +40,13 @@ export const createRazorpayOptions = (
       color: "#7c3aed",
     },
     handler: function (response: any) {
+      console.log("Payment successful, response:", response);
+      
       // Store payment details in localStorage
       const paymentDetails = {
         paymentId: response.razorpay_payment_id,
+        orderId: response.razorpay_order_id,
+        signature: response.razorpay_signature,
         programTitle,
         amount,
         timestamp: new Date().toISOString(),
@@ -58,15 +61,19 @@ export const createRazorpayOptions = (
       existingPayments.push(paymentDetails);
       localStorage.setItem('payments', JSON.stringify(existingPayments));
       
-      console.log("Payment successful:", response);
       onSuccess();
     },
     modal: {
       ondismiss: function() {
         console.log("Payment modal dismissed");
       },
-      escape: true,
+      confirm_close: true,
+      escape: false,
       animation: true,
+    },
+    retry: {
+      enabled: true,
+      max_count: 3,
     },
   };
 
