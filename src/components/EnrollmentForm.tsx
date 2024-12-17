@@ -9,7 +9,7 @@ import { useState } from "react";
 import { FormFields } from "./enrollment/FormFields";
 import { SuccessCard } from "./enrollment/SuccessCard";
 import { initializeRazorpay } from "@/utils/razorpayService";
-import { validateReferralCode } from "@/utils/referralUtils";
+import { validateReferralCode, getReferralSuccessMessage } from "@/utils/referralUtils";
 import { formSchema, createRazorpayOptions } from "./enrollment/RazorpayConfig";
 import type { FormData } from "./enrollment/RazorpayConfig";
 
