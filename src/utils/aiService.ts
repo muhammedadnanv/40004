@@ -1,28 +1,26 @@
-import { pipeline } from '@huggingface/transformers';
+import { pipeline, Pipeline } from '@huggingface/transformers';
 import { toast } from '@/components/ui/use-toast';
 
 // Define the allowed task types
 type TaskType = 'text-classification' | 'image-classification' | 'text2text-generation';
 
-// Define the pipeline output types
-type TaskPipelineMap = {
-  'text-classification': Awaited<ReturnType<typeof pipeline<'text-classification'>>>;
-  'image-classification': Awaited<ReturnType<typeof pipeline<'image-classification'>>>;
-  'text2text-generation': Awaited<ReturnType<typeof pipeline<'text2text-generation'>>>;
+// Define a more specific type for the pipeline output
+type CustomPipeline = Pipeline & {
+  processor?: unknown;
 };
 
 async function initializePipeline<T extends TaskType>(
   task: T,
   model: string
-): Promise<TaskPipelineMap[T]> {
+): Promise<CustomPipeline> {
   console.info(`Initializing ${task} pipeline with model ${model}...`);
   const startTime = performance.now();
   
   try {
-    const pipe = await pipeline(task, model);
+    const pipe = await pipeline(task, model) as CustomPipeline;
     const duration = (performance.now() - startTime).toFixed(2);
     console.info(`${task} pipeline initialized in ${duration}ms`);
-    return pipe as TaskPipelineMap[T];
+    return pipe;
   } catch (error) {
     console.error(`Failed to initialize ${task} pipeline:`, error);
     throw error;
