@@ -76,7 +76,7 @@ export const validateWebsiteFeatures = async (): Promise<ValidationResult[]> => 
   const isMobileResponsive = window.matchMedia('(max-width: 768px)').matches;
   if (!isMobileResponsive) {
     results.push({
-      status: 'info',
+      status: 'success',
       message: 'Mobile responsiveness validated'
     });
   }
@@ -86,7 +86,7 @@ export const validateWebsiteFeatures = async (): Promise<ValidationResult[]> => 
   scripts.forEach(script => {
     if (script.src && !script.async && !script.defer) {
       results.push({
-        status: 'info',
+        status: 'warning',
         message: `Consider making script async: ${script.src}`
       });
     }
@@ -116,10 +116,15 @@ export const runWebsiteTest = async () => {
         toast({
           title: "Validation Warning",
           description: result.message,
-          variant: "warning",
+          variant: "destructive",
         });
       } else {
         console.info(result.message);
+        toast({
+          title: "Validation Success",
+          description: result.message,
+          variant: "default",
+        });
       }
     });
 

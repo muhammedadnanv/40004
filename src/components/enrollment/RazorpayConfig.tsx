@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
+import type { Database } from "@/integrations/supabase/types";
 
 export const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -11,7 +12,6 @@ export const formSchema = z.object({
 
 export type FormData = z.infer<typeof formSchema>;
 
-// Using live key from Supabase secrets
 const RAZORPAY_KEY = import.meta.env.VITE_RAZORPAY_LIVE_KEY || "rzp_live_YOUR_LIVE_KEY_HERE";
 
 export const createRazorpayOptions = (
@@ -23,7 +23,7 @@ export const createRazorpayOptions = (
 ) => {
   const options = {
     key: RAZORPAY_KEY,
-    amount: amount * 100, // Amount in smallest currency unit (paise)
+    amount: amount * 100,
     currency: "INR",
     name: "Dev Mentor Hub",
     description: `Enrollment for ${programTitle}`,
@@ -44,7 +44,6 @@ export const createRazorpayOptions = (
       console.log("Payment successful, response:", response);
       
       try {
-        // Store payment details in Supabase
         const { error } = await supabase
           .from('payments')
           .insert([{
