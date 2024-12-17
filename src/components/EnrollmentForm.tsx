@@ -57,7 +57,7 @@ export const EnrollmentForm = ({
       
       toast({
         title: "Referral Code Applied! 🎉",
-        description: `${(discountPercentage * 100).toFixed(0)}% discount applied.`,
+        description: getReferralSuccessMessage(discountPercentage),
       });
     } else if (referralApplied) {
       toast({

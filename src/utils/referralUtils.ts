@@ -15,6 +15,20 @@ const generateRandomCode = (): string => {
   ).join('');
 };
 
+// Check if it's December
+const isChristmasSeason = (): boolean => {
+  const currentMonth = new Date().getMonth();
+  return currentMonth === 11; // December is 11 (0-based index)
+};
+
+// Generate Christmas-themed or regular messages
+const getReferralMessage = (discountPercentage: number): string => {
+  if (isChristmasSeason()) {
+    return `🎄 Ho Ho Ho! ${(discountPercentage * 100).toFixed(0)}% Christmas discount applied! 🎅`;
+  }
+  return `${(discountPercentage * 100).toFixed(0)}% discount applied.`;
+};
+
 // Generate additional random codes
 const generateAdditionalCodes = (count: number): Record<string, number> => {
   const additionalCodes: Record<string, number> = {};
@@ -43,4 +57,9 @@ export const validateReferralCode = (code: string): { isValid: boolean; discount
     isValid: code in VALID_REFERRAL_CODES,
     discountPercentage: VALID_REFERRAL_CODES[code] || 0
   };
+};
+
+// Export the message generator for use in components
+export const getReferralSuccessMessage = (discountPercentage: number): string => {
+  return getReferralMessage(discountPercentage);
 };
