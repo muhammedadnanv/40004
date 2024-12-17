@@ -7,6 +7,7 @@ import { WhatsAppWidget } from "./components/WhatsAppWidget";
 import { runWebsiteTest } from "./utils/websiteValidator";
 import { initializeAIModels } from "./utils/aiService";
 import { toast } from "./components/ui/use-toast";
+import { NewYearMessage } from "./components/NewYearMessage";
 
 function App() {
   useEffect(() => {
@@ -40,6 +41,7 @@ function App() {
         <Route path="/" element={<Index />} />
       </Routes>
       <WhatsAppWidget />
+      <NewYearMessage />
       <Toaster />
     </Router>
   );
