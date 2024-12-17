@@ -35,6 +35,7 @@ const initializePipeline = async (
     console.error(`Error initializing ${task} pipeline:`, error);
     if (retries < 3) {
       console.log(`Retrying... (${retries + 1}/3)`);
+      await new Promise(resolve => setTimeout(resolve, 1000 * (retries + 1))); // Exponential backoff
       return initializePipeline(task, model, options, retries + 1);
     }
     throw error;
@@ -45,10 +46,10 @@ export const initializeAIModels = async (): Promise<boolean> => {
   try {
     console.log("Initializing AI models...");
 
-    // Using models that are publicly accessible and optimized for browsers
+    // Using browser-optimized models from Xenova
     textClassifier = await initializePipeline(
       "text-classification",
-      "Xenova/distilbert-base-uncased-finetuned-sst-2-english"
+      "Xenova/bert-base-multilingual-uncased-sentiment"
     ) as TextClassificationPipeline;
     console.log("Text classification model initialized");
 
@@ -59,8 +60,8 @@ export const initializeAIModels = async (): Promise<boolean> => {
     console.log("Image classification model initialized");
 
     textGenerator = await initializePipeline(
-      "text-generation",
-      "Xenova/gpt2"
+      "text2text-generation", // Changed from text-generation to text2text-generation
+      "Xenova/t5-small" // Using T5 instead of GPT-2 as it's more reliable in browsers
     ) as TextGenerationPipeline;
     console.log("Text generation model initialized");
 
