@@ -1,14 +1,14 @@
-import { pipeline, Pipeline } from '@huggingface/transformers';
+import { pipeline } from '@huggingface/transformers';
 import { toast } from '@/components/ui/use-toast';
 
 // Define the allowed task types
 type TaskType = 'text-classification' | 'image-classification' | 'text2text-generation';
 
-// Define the mapping between task types and their corresponding pipeline types
+// Define the pipeline output types
 type TaskPipelineMap = {
-  'text-classification': Pipeline['text-classification'];
-  'image-classification': Pipeline['image-classification'];
-  'text2text-generation': Pipeline['text2text-generation'];
+  'text-classification': Awaited<ReturnType<typeof pipeline<'text-classification'>>>;
+  'image-classification': Awaited<ReturnType<typeof pipeline<'image-classification'>>>;
+  'text2text-generation': Awaited<ReturnType<typeof pipeline<'text2text-generation'>>>;
 };
 
 async function initializePipeline<T extends TaskType>(
