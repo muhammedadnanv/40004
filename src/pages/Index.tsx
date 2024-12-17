@@ -35,35 +35,40 @@ const Index = () => {
       description: "Practical weekly assignments in modern frontend development. Get direct mentorship and feedback on each task you complete. Focus on building real projects with expert guidance - no traditional courses.",
       duration: "10 weeks", 
       skills: ["React", "Angular", "Vue.js", "TypeScript"],
-      category: "Frontend Development"
+      category: "Frontend Development",
+      regularPrice: 999
     },
     {
       title: "Low-Code Development",
       description: "Weekly hands-on assignments in low-code development platforms. Your mentor provides personalized feedback on each practical task. Pure mentorship program focused on building applications efficiently.",
       duration: "8 weeks",
       skills: ["Low-Code Platforms", "Visual Development", "Rapid Prototyping", "App Design"],
-      category: "Low-Code Development"
+      category: "Low-Code Development",
+      regularPrice: 799
     },
     {
       title: "No-Code Development",
       description: "Weekly hands-on assignments in no-code development. Your mentor provides personalized feedback on each practical task. Pure mentorship program focused on building real applications - no courses included.",
       duration: "10 weeks",
       skills: ["No-Code Tools", "Visual Development", "Automation", "App Design"],
-      category: "No-Code Development"
+      category: "No-Code Development",
+      regularPrice: 899
     },
     {
       title: "Full Stack API Development",
       description: "Comprehensive mentorship in building scalable APIs and full stack applications. Learn best practices in API design, authentication, database modeling, and deployment. Get hands-on experience with real-world projects and weekly feedback.",
       duration: "14 weeks",
       skills: ["RESTful APIs", "Node.js", "Database Design", "Authentication", "Cloud Deployment"],
-      category: "Full Stack Development"
+      category: "Full Stack Development",
+      regularPrice: 1299
     },
     {
       title: "ManyChat Automation",
       description: "Master ManyChat automation in just 3 days! Learn interface basics, workflow automation, chatbot creation, and customer engagement best practices. Hands-on training with expert guidance.",
       duration: "3 days",
       skills: ["ManyChat", "Automation", "Chatbots", "Customer Engagement"],
-      category: "Automation"
+      category: "Automation",
+      regularPrice: 599
     }
   ];
 
