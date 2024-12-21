@@ -4,37 +4,34 @@ import { motion } from "framer-motion";
 
 export const SocialMediaFooter = () => {
   return (
-    <footer className="bg-white py-12 sm:py-16">
-      <div className="container mx-auto px-4">
-        <div className="max-w-2xl mx-auto text-center">
-          <h3 className="text-xl sm:text-2xl font-light text-gray-800 mb-6">
-            Connect With Us
-          </h3>
-          
-          <div className="flex justify-center items-center gap-4 mb-8">
-            <a 
-              href="https://www.facebook.com/comicfix.in/" 
-              target="_blank" 
+    <footer className="bg-white border-t border-purple-100">
+      <div className="container mx-auto px-4 py-12">
+        <div className="max-w-4xl mx-auto">
+          {/* Social Media Links */}
+          <div className="flex justify-center space-x-6 mb-8">
+            <a
+              href="https://facebook.com"
+              target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-600 hover:text-[#4A00E0] transition-colors p-1.5 sm:p-2 hover:bg-[#4A00E0]/5 rounded-full"
+              className="text-purple-600 hover:text-purple-700 transition-colors"
             >
-              <Facebook className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
+              <Facebook className="w-6 h-6" />
             </a>
-            <a 
-              href="https://www.linkedin.com/company/comicfix/" 
-              target="_blank" 
+            <a
+              href="https://twitter.com"
+              target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-600 hover:text-[#4A00E0] transition-colors p-1.5 sm:p-2 hover:bg-[#4A00E0]/5 rounded-full"
+              className="text-purple-600 hover:text-purple-700 transition-colors"
             >
-              <Linkedin className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
+              <Twitter className="w-6 h-6" />
             </a>
-            <a 
-              href="https://x.com/comicfixin" 
-              target="_blank" 
+            <a
+              href="https://linkedin.com"
+              target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-600 hover:text-[#4A00E0] transition-colors p-1.5 sm:p-2 hover:bg-[#4A00E0]/5 rounded-full"
+              className="text-purple-600 hover:text-purple-700 transition-colors"
             >
-              <Twitter className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
+              <Linkedin className="w-6 h-6" />
             </a>
           </div>
 
@@ -56,14 +53,19 @@ export const SocialMediaFooter = () => {
               Try our resume builder featured on Product Hunt!
             </p>
             
-            <Button 
-              variant="default"
-              className="bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white font-medium px-6 py-5 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 group"
-              onClick={() => window.open('https://www.producthunt.com/products/705762', '_blank')}
+            <a 
+              href="https://www.producthunt.com/products/705762"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              Start Building Your Resume
-              <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-0.5 transition-transform" />
-            </Button>
+              <Button 
+                variant="default"
+                className="bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white font-medium px-6 py-5 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 group"
+              >
+                Start Building Your Resume
+                <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-0.5 transition-transform" />
+              </Button>
+            </a>
           </motion.div>
         </div>
       </div>
