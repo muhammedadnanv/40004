@@ -24,8 +24,10 @@ async function initializePipeline(
   
   try {
     const pipe = await pipeline(task, model, {
-      progress_callback: (progress: number) => {
-        console.log(`Loading ${task} model: ${Math.round(progress * 100)}%`);
+      progress_callback: (progressInfo) => {
+        if ('progress' in progressInfo) {
+          console.log(`Loading ${task} model: ${Math.round(progressInfo.progress * 100)}%`);
+        }
       }
     });
     const duration = (performance.now() - startTime).toFixed(2);
