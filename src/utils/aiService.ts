@@ -1,22 +1,28 @@
-import { pipeline, env, type PipelineType } from '@huggingface/transformers';
+import { pipeline, env } from '@huggingface/transformers';
+import type { PipelineType } from '@huggingface/transformers';
 import { toast } from '@/hooks/use-toast';
 
 // Configure the transformers.js environment
 env.useBrowserCache = true;
 env.allowLocalModels = true;
 
-const models = {
+type ModelConfig = {
+  task: PipelineType;
+  model: string;
+};
+
+const models: Record<string, ModelConfig> = {
   textClassification: {
-    task: 'text-classification' as PipelineType,
-    model: 'Xenova/t5-small'
+    task: 'text-classification',
+    model: 'Xenova/distilbert-base-uncased'  // Changed from t5-small which was causing issues
   },
   questionAnswering: {
-    task: 'question-answering' as PipelineType,
-    model: 'Xenova/t5-small'
+    task: 'question-answering',
+    model: 'Xenova/distilbert-base-uncased'
   },
   textGeneration: {
-    task: 'text-generation' as PipelineType,
-    model: 'Xenova/t5-small'
+    task: 'text2text-generation',
+    model: 'Xenova/distilbert-base-uncased'
   }
 };
 
@@ -29,8 +35,8 @@ export const initializeAIModels = async () => {
 
     try {
       const pipe = await pipeline(task, model, {
-        progress_callback: (progressInfo: any) => {
-          if ('progress' in progressInfo) {
+        progress_callback: (progressInfo: { progress?: number }) => {
+          if (progressInfo.progress !== undefined) {
             console.log(`Loading ${task} model: ${Math.round(progressInfo.progress * 100)}%`);
           }
         }
