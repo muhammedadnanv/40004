@@ -24,8 +24,7 @@ async function initializePipeline(
   
   try {
     const pipe = await pipeline(task, model, {
-      quantized: true,
-      progress_callback: (progress) => {
+      progress_callback: (progress: number) => {
         console.log(`Loading ${task} model: ${Math.round(progress * 100)}%`);
       }
     });
