@@ -1,93 +1,109 @@
 import { pipeline, env } from '@huggingface/transformers';
-import { toast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 
-// Configure transformers.js to use browser cache and local models
-env.allowLocalModels = false;
+// Configure the transformers.js environment
 env.useBrowserCache = true;
-env.backends.onnx.wasm.numThreads = 1;
+env.allowLocalModels = true;
 
-// Define the allowed task types
-type TaskType = 'text-classification' | 'image-classification' | 'text2text-generation';
-
-// Define pipeline types
-type PipelineType = {
-  processor?: unknown;
-  [key: string]: any;
+const models = {
+  'text-classification': 'Xenova/t5-small',
+  'question-answering': 'Xenova/t5-small',
+  'text-generation': 'Xenova/t5-small'
 };
 
-async function initializePipeline(
-  task: TaskType,
-  model: string
-): Promise<PipelineType> {
-  console.info(`Initializing ${task} pipeline with model ${model}...`);
-  const startTime = performance.now();
-  
-  try {
-    const pipe = await pipeline(task, model, {
-      progress_callback: (progressInfo) => {
-        if ('progress' in progressInfo) {
-          console.log(`Loading ${task} model: ${Math.round(progressInfo.progress * 100)}%`);
+export const initializeAIModels = async () => {
+  const toast = useToast();
+  const results = [];
+
+  for (const [task, model] of Object.entries(models)) {
+    const startTime = performance.now();
+    console.log(`Initializing ${task} model...`);
+
+    try {
+      const pipe = await pipeline(task, model, {
+        progress_callback: (progressInfo) => {
+          if ('progress' in progressInfo) {
+            console.log(`Loading ${task} model: ${Math.round(progressInfo.progress * 100)}%`);
+          }
         }
-      }
+      });
+      const duration = (performance.now() - startTime).toFixed(2);
+      console.log(`${task} model loaded in ${duration}ms`);
+      results.push({ task, pipe });
+    } catch (error) {
+      console.error(`Error loading ${task} model:`, error);
+      toast({
+        title: "Model Loading Error",
+        description: `Failed to load ${task} model. Please try refreshing the page.`,
+        variant: "destructive"
+      });
+    }
+  }
+
+  return results;
+};
+
+export const classifyText = async (text: string) => {
+  try {
+    const models = await initializeAIModels();
+    const classifier = models.find(m => m.task === 'text-classification')?.pipe;
+    
+    if (!classifier) {
+      throw new Error('Text classification model not initialized');
+    }
+
+    const result = await classifier(text, {
+      max_length: 128,
+      truncation: true
     });
-    const duration = (performance.now() - startTime).toFixed(2);
-    console.info(`${task} pipeline initialized in ${duration}ms`);
-    return pipe as PipelineType;
+
+    return result;
   } catch (error) {
-    console.error(`Failed to initialize ${task} pipeline:`, error);
+    console.error('Text classification error:', error);
     throw error;
   }
-}
+};
 
-export async function initializeAIModels(): Promise<boolean> {
-  console.info('Initializing AI models...');
-  const startTime = performance.now();
-
+export const generateText = async (prompt: string) => {
   try {
-    // Initialize models sequentially to avoid overwhelming the browser
-    const imageClassificationPipeline = await initializePipeline(
-      'image-classification',
-      'Xenova/vit-base-patch16-224'
-    );
-    console.log('Image classification model loaded');
+    const models = await initializeAIModels();
+    const generator = models.find(m => m.task === 'text-generation')?.pipe;
+    
+    if (!generator) {
+      throw new Error('Text generation model not initialized');
+    }
 
-    const text2textPipeline = await initializePipeline(
-      'text2text-generation',
-      'Xenova/t5-small'
-    );
-    console.log('Text2text model loaded');
-
-    const textClassificationPipeline = await initializePipeline(
-      'text-classification',
-      'Xenova/bert-base-multilingual-uncased-sentiment'
-    );
-    console.log('Text classification model loaded');
-
-    const duration = (performance.now() - startTime).toFixed(2);
-    console.info(`All AI models initialized in ${duration}ms`);
-
-    // Store pipelines in global scope for later use if needed
-    (window as any).aiPipelines = {
-      imageClassification: imageClassificationPipeline,
-      text2text: text2textPipeline,
-      textClassification: textClassificationPipeline
-    };
-
-    toast({
-      title: "AI Models Ready",
-      description: "All AI models have been loaded successfully.",
-      duration: 3000,
+    const result = await generator(prompt, {
+      max_length: 128,
+      num_return_sequences: 1
     });
 
-    return true;
+    return result;
   } catch (error) {
-    console.error('Failed to initialize AI models:', error);
-    toast({
-      title: "AI Model Initialization Failed",
-      description: "There was an error loading one or more AI models. Some features might be limited.",
-      variant: "destructive",
-      duration: 5000,
-    });
-    return false;
+    console.error('Text generation error:', error);
+    throw error;
   }
-}
+};
+
+export const answerQuestion = async (question: string, context: string) => {
+  try {
+    const models = await initializeAIModels();
+    const qa = models.find(m => m.task === 'question-answering')?.pipe;
+    
+    if (!qa) {
+      throw new Error('Question answering model not initialized');
+    }
+
+    const result = await qa({
+      question,
+      context,
+      max_length: 128,
+      truncation: true
+    });
+
+    return result;
+  } catch (error) {
+    console.error('Question answering error:', error);
+    throw error;
+  }
+};
