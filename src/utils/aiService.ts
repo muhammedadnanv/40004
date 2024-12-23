@@ -1,5 +1,5 @@
 import { pipeline, env } from '@huggingface/transformers';
-import type { PipelineType } from '@huggingface/transformers';
+import type { PipelineType, ProgressCallback } from '@huggingface/transformers';
 import { toast } from '@/hooks/use-toast';
 
 // Configure the transformers.js environment
@@ -14,7 +14,7 @@ type ModelConfig = {
 const models: Record<string, ModelConfig> = {
   textClassification: {
     task: 'text-classification',
-    model: 'Xenova/distilbert-base-uncased'  // Changed from t5-small which was causing issues
+    model: 'Xenova/distilbert-base-uncased'
   },
   questionAnswering: {
     task: 'question-answering',
@@ -35,11 +35,12 @@ export const initializeAIModels = async () => {
 
     try {
       const pipe = await pipeline(task, model, {
-        progress_callback: (progressInfo: { progress?: number }) => {
-          if (progressInfo.progress !== undefined) {
-            console.log(`Loading ${task} model: ${Math.round(progressInfo.progress * 100)}%`);
+        progress_callback: ((progressInfo: any) => {
+          if (typeof progressInfo === 'object' && progressInfo !== null && 'progress' in progressInfo) {
+            const progress = progressInfo.progress as number;
+            console.log(`Loading ${task} model: ${Math.round(progress * 100)}%`);
           }
-        }
+        }) as ProgressCallback
       });
       const duration = (performance.now() - startTime).toFixed(2);
       console.log(`${task} model loaded in ${duration}ms`);
