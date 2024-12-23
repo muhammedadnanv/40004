@@ -1,27 +1,35 @@
-import { pipeline, env } from '@huggingface/transformers';
-import { useToast } from '@/hooks/use-toast';
+import { pipeline, env, type PipelineType } from '@huggingface/transformers';
+import { toast } from '@/hooks/use-toast';
 
 // Configure the transformers.js environment
 env.useBrowserCache = true;
 env.allowLocalModels = true;
 
 const models = {
-  'text-classification': 'Xenova/t5-small',
-  'question-answering': 'Xenova/t5-small',
-  'text-generation': 'Xenova/t5-small'
+  textClassification: {
+    task: 'text-classification' as PipelineType,
+    model: 'Xenova/t5-small'
+  },
+  questionAnswering: {
+    task: 'question-answering' as PipelineType,
+    model: 'Xenova/t5-small'
+  },
+  textGeneration: {
+    task: 'text-generation' as PipelineType,
+    model: 'Xenova/t5-small'
+  }
 };
 
 export const initializeAIModels = async () => {
-  const toast = useToast();
   const results = [];
 
-  for (const [task, model] of Object.entries(models)) {
+  for (const [key, { task, model }] of Object.entries(models)) {
     const startTime = performance.now();
     console.log(`Initializing ${task} model...`);
 
     try {
       const pipe = await pipeline(task, model, {
-        progress_callback: (progressInfo) => {
+        progress_callback: (progressInfo: any) => {
           if ('progress' in progressInfo) {
             console.log(`Loading ${task} model: ${Math.round(progressInfo.progress * 100)}%`);
           }
@@ -40,19 +48,17 @@ export const initializeAIModels = async () => {
     }
   }
 
-  return results;
+  return results.length > 0;
 };
 
 export const classifyText = async (text: string) => {
   try {
     const models = await initializeAIModels();
-    const classifier = models.find(m => m.task === 'text-classification')?.pipe;
-    
-    if (!classifier) {
+    if (!models) {
       throw new Error('Text classification model not initialized');
     }
 
-    const result = await classifier(text, {
+    const result = await models[0].pipe(text, {
       max_length: 128,
       truncation: true
     });
@@ -67,13 +73,11 @@ export const classifyText = async (text: string) => {
 export const generateText = async (prompt: string) => {
   try {
     const models = await initializeAIModels();
-    const generator = models.find(m => m.task === 'text-generation')?.pipe;
-    
-    if (!generator) {
+    if (!models) {
       throw new Error('Text generation model not initialized');
     }
 
-    const result = await generator(prompt, {
+    const result = await models[0].pipe(prompt, {
       max_length: 128,
       num_return_sequences: 1
     });
@@ -88,13 +92,11 @@ export const generateText = async (prompt: string) => {
 export const answerQuestion = async (question: string, context: string) => {
   try {
     const models = await initializeAIModels();
-    const qa = models.find(m => m.task === 'question-answering')?.pipe;
-    
-    if (!qa) {
+    if (!models) {
       throw new Error('Question answering model not initialized');
     }
 
-    const result = await qa({
+    const result = await models[0].pipe({
       question,
       context,
       max_length: 128,
