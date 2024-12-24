@@ -1,118 +1,84 @@
-import { pipeline, env } from '@huggingface/transformers';
-import type { PipelineType, ProgressCallback, ProgressInfo } from '@huggingface/transformers';
+import { pipeline, Pipeline } from '@huggingface/transformers';
+import type { ProgressCallback, ProgressInfo } from '@huggingface/transformers';
 
-// Configure the transformers.js environment
-env.useBrowserCache = true;
-env.allowLocalModels = true;
-
-type ModelConfig = {
-  task: PipelineType;
+interface ModelConfig {
+  task: string;
   model: string;
-};
+  quantized?: boolean;
+}
 
-const models: Record<string, ModelConfig> = {
-  textClassification: {
-    task: 'text-classification' as PipelineType,
-    model: 'Xenova/distilbert-base-uncased'
+const SUPPORTED_MODELS: ModelConfig[] = [
+  {
+    task: 'text-generation',
+    model: 'gpt2',
   },
-  questionAnswering: {
-    task: 'question-answering' as PipelineType,
-    model: 'Xenova/distilbert-base-uncased'
-  },
-  textGeneration: {
-    task: 'text2text-generation' as PipelineType,
-    model: 'Xenova/distilbert-base-uncased'
+  {
+    task: 'sentiment-analysis',
+    model: 'nlptown/bert-base-multilingual-uncased-sentiment',
   }
-};
+];
 
-export const initializeAIModels = async () => {
-  const results = [];
+export const loadModel = async (task: string): Promise<Pipeline> => {
+  const startTime = performance.now();
+  const modelConfig = SUPPORTED_MODELS.find(m => m.task === task);
 
-  for (const [key, { task, model }] of Object.entries(models)) {
-    const startTime = performance.now();
-    console.log(`Initializing ${task} model...`);
-
-    try {
-      const pipe = await pipeline(task, model, {
-        progress_callback: ((progressInfo: ProgressInfo) => {
-          // Handle both DownloadProgressInfo and InitiateProgressInfo types
-          let progressValue = 0;
-          if ('progress' in progressInfo) {
-            progressValue = Number(progressInfo.progress);
-          } else if ('status' in progressInfo) {
-            // For InitiateProgressInfo, we'll show indeterminate progress
-            progressValue = 0;
-          }
-          console.log(`Loading ${task} model: ${Math.round(progressValue * 100)}%`);
-        }) as ProgressCallback
-      });
-      const duration = (performance.now() - startTime).toFixed(2);
-      console.log(`${task} model loaded in ${duration}ms`);
-      results.push({ task, pipe });
-    } catch (error) {
-      console.error(`Error loading ${task} model:`, error);
-      console.error(`Failed to load ${task} model. Please try refreshing the page.`);
-    }
+  if (!modelConfig) {
+    throw new Error(`Unsupported task: ${task}`);
   }
 
-  return results.length > 0;
-};
-
-export const classifyText = async (text: string) => {
   try {
-    const models = await initializeAIModels();
-    if (!models) {
-      throw new Error('Text classification model not initialized');
-    }
-
-    const result = await models[0].pipe(text, {
-      max_length: 128,
-      truncation: true
+    const model = modelConfig.model;
+    const pipe = await pipeline(task, model, {
+      progress_callback: ((progressInfo: ProgressInfo) => {
+        // Handle both DownloadProgressInfo and InitiateProgressInfo types
+        let progressValue = 0;
+        
+        if ('progress' in progressInfo && typeof progressInfo.progress === 'number') {
+          progressValue = progressInfo.progress;
+        }
+        
+        console.log(`Loading ${task} model: ${Math.round(progressValue * 100)}%`);
+      }) as ProgressCallback
     });
 
-    return result;
+    const duration = (performance.now() - startTime).toFixed(2);
+    console.log(`Model ${task} loaded in ${duration}ms`);
+    return pipe;
   } catch (error) {
-    console.error('Text classification error:', error);
+    console.error(`Failed to load model for task ${task}:`, error);
     throw error;
   }
 };
 
-export const generateText = async (prompt: string) => {
+export const generateText = async (pipe: Pipeline, prompt: string): Promise<string> => {
   try {
-    const models = await initializeAIModels();
-    if (!models) {
-      throw new Error('Text generation model not initialized');
-    }
-
-    const result = await models[0].pipe(prompt, {
-      max_length: 128,
-      num_return_sequences: 1
+    const result = await pipe(prompt, {
+      max_length: 100,
+      num_return_sequences: 1,
     });
-
-    return result;
+    
+    if (Array.isArray(result) && result.length > 0) {
+      return result[0].generated_text || '';
+    }
+    
+    return '';
   } catch (error) {
-    console.error('Text generation error:', error);
+    console.error('Text generation failed:', error);
     throw error;
   }
 };
 
-export const answerQuestion = async (question: string, context: string) => {
+export const analyzeSentiment = async (pipe: Pipeline, text: string): Promise<number> => {
   try {
-    const models = await initializeAIModels();
-    if (!models) {
-      throw new Error('Question answering model not initialized');
+    const result = await pipe(text);
+    
+    if (Array.isArray(result) && result.length > 0) {
+      return result[0].score || 0;
     }
-
-    const result = await models[0].pipe({
-      question,
-      context,
-      max_length: 128,
-      truncation: true
-    });
-
-    return result;
+    
+    return 0;
   } catch (error) {
-    console.error('Question answering error:', error);
+    console.error('Sentiment analysis failed:', error);
     throw error;
   }
 };
