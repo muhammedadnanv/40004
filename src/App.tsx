@@ -5,7 +5,6 @@ import { startMarketingRecommendations } from "./utils/marketingRecommendations"
 import { useEffect } from "react";
 import { WhatsAppWidget } from "./components/WhatsAppWidget";
 import { runWebsiteTest } from "./utils/websiteValidator";
-import { initializeAIModels } from "./utils/aiService";
 import { toast } from "./hooks/use-toast";
 import { NewYearMessage } from "./components/NewYearMessage";
 
@@ -15,26 +14,17 @@ function App() {
     // Run website validation on initial load
     runWebsiteTest();
     
-    // Initialize AI models
-    const initAI = async () => {
-      const success = await initializeAIModels();
-      if (success) {
-        toast({
-          title: "AI Models Initialized",
-          description: "The AI models have been loaded successfully.",
-          duration: 3000,
-        });
-      } else {
-        toast({
-          title: "AI Models Initialization Failed",
-          description: "There was an error loading the AI models. Some features might not work.",
-          variant: "destructive",
-          duration: 5000,
-        });
+    // Initialize marketing features
+    const initMarketing = async () => {
+      try {
+        await startMarketingRecommendations();
+        console.log("Marketing recommendations started successfully");
+      } catch (error) {
+        console.error("Error starting marketing recommendations:", error);
       }
     };
 
-    initAI();
+    initMarketing();
   }, []);
 
   return (
