@@ -1,10 +1,9 @@
-import { pipeline, Pipeline } from '@huggingface/transformers';
+import { pipeline, Pipeline, PipelineType } from '@huggingface/transformers';
 import type { ProgressCallback, ProgressInfo } from '@huggingface/transformers';
 
 interface ModelConfig {
-  task: string;
+  task: PipelineType;
   model: string;
-  quantized?: boolean;
 }
 
 const SUPPORTED_MODELS: ModelConfig[] = [
@@ -18,7 +17,7 @@ const SUPPORTED_MODELS: ModelConfig[] = [
   }
 ];
 
-export const loadModel = async (task: string): Promise<Pipeline> => {
+export const loadModel = async (task: PipelineType) => {
   const startTime = performance.now();
   const modelConfig = SUPPORTED_MODELS.find(m => m.task === task);
 
@@ -30,7 +29,6 @@ export const loadModel = async (task: string): Promise<Pipeline> => {
     const model = modelConfig.model;
     const pipe = await pipeline(task, model, {
       progress_callback: ((progressInfo: ProgressInfo) => {
-        // Handle both DownloadProgressInfo and InitiateProgressInfo types
         let progressValue = 0;
         
         if ('progress' in progressInfo && typeof progressInfo.progress === 'number') {
@@ -50,7 +48,7 @@ export const loadModel = async (task: string): Promise<Pipeline> => {
   }
 };
 
-export const generateText = async (pipe: Pipeline, prompt: string): Promise<string> => {
+export const generateText = async (pipe: ReturnType<typeof pipeline>, prompt: string): Promise<string> => {
   try {
     const result = await pipe(prompt, {
       max_length: 100,
@@ -68,7 +66,7 @@ export const generateText = async (pipe: Pipeline, prompt: string): Promise<stri
   }
 };
 
-export const analyzeSentiment = async (pipe: Pipeline, text: string): Promise<number> => {
+export const analyzeSentiment = async (pipe: ReturnType<typeof pipeline>, text: string): Promise<number> => {
   try {
     const result = await pipe(text);
     
