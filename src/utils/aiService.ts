@@ -35,7 +35,8 @@ export const initializeAIModels = async () => {
     try {
       const pipe = await pipeline(task, model, {
         progress_callback: ((progressInfo: ProgressInfo) => {
-          console.log(`Loading ${task} model: ${Math.round((progressInfo as any).progress * 100)}%`);
+          const progress = typeof (progressInfo as any).progress === 'number' ? (progressInfo as any).progress : 0;
+          console.log(`Loading ${task} model: ${Math.round(progress * 100)}%`);
         }) as ProgressCallback
       });
       const duration = (performance.now() - startTime).toFixed(2);
