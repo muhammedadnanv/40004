@@ -1,5 +1,5 @@
 import { pipeline, env } from '@huggingface/transformers';
-import type { PipelineType, ProgressCallback } from '@huggingface/transformers';
+import type { PipelineType, ProgressCallback, ProgressInfo } from '@huggingface/transformers';
 
 // Configure the transformers.js environment
 env.useBrowserCache = true;
@@ -34,11 +34,8 @@ export const initializeAIModels = async () => {
 
     try {
       const pipe = await pipeline(task, model, {
-        progress_callback: ((progressInfo: any) => {
-          if (typeof progressInfo === 'object' && progressInfo !== null && 'progress' in progressInfo) {
-            const progress = progressInfo.progress as number;
-            console.log(`Loading ${task} model: ${Math.round(progress * 100)}%`);
-          }
+        progress_callback: ((progressInfo: ProgressInfo) => {
+          console.log(`Loading ${task} model: ${Math.round((progressInfo as any).progress * 100)}%`);
         }) as ProgressCallback
       });
       const duration = (performance.now() - startTime).toFixed(2);
