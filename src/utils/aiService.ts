@@ -1,6 +1,5 @@
 import { pipeline, env } from '@huggingface/transformers';
 import type { PipelineType, ProgressCallback } from '@huggingface/transformers';
-import { toast } from '@/hooks/use-toast';
 
 // Configure the transformers.js environment
 env.useBrowserCache = true;
@@ -13,15 +12,15 @@ type ModelConfig = {
 
 const models: Record<string, ModelConfig> = {
   textClassification: {
-    task: 'text-classification',
+    task: 'text-classification' as PipelineType,
     model: 'Xenova/distilbert-base-uncased'
   },
   questionAnswering: {
-    task: 'question-answering',
+    task: 'question-answering' as PipelineType,
     model: 'Xenova/distilbert-base-uncased'
   },
   textGeneration: {
-    task: 'text2text-generation',
+    task: 'text2text-generation' as PipelineType,
     model: 'Xenova/distilbert-base-uncased'
   }
 };
@@ -47,11 +46,7 @@ export const initializeAIModels = async () => {
       results.push({ task, pipe });
     } catch (error) {
       console.error(`Error loading ${task} model:`, error);
-      toast({
-        title: "Model Loading Error",
-        description: `Failed to load ${task} model. Please try refreshing the page.`,
-        variant: "destructive"
-      });
+      console.error(`Failed to load ${task} model. Please try refreshing the page.`);
     }
   }
 
