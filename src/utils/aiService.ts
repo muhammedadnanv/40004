@@ -1,6 +1,5 @@
 import { pipeline, PipelineType } from '@huggingface/transformers';
 import type { ProgressCallback, ProgressInfo } from '@huggingface/transformers';
-import type { TextGenerationOutput, TextClassificationOutput } from '@huggingface/transformers';
 
 interface ModelConfig {
   task: PipelineType;
@@ -55,9 +54,9 @@ export const generateText = async (pipe: Awaited<ReturnType<typeof pipeline>>, p
       max_length: 100,
       do_sample: true,
       temperature: 0.7,
-    }) as { generated_text: string }[];
+    } as any); // Using type assertion to bypass strict type checking
     
-    if (Array.isArray(result) && result.length > 0 && 'generated_text' in result[0]) {
+    if (Array.isArray(result) && result.length > 0 && typeof result[0] === 'object' && 'generated_text' in result[0]) {
       return result[0].generated_text;
     }
     
@@ -70,9 +69,7 @@ export const generateText = async (pipe: Awaited<ReturnType<typeof pipeline>>, p
 
 export const analyzeSentiment = async (pipe: Awaited<ReturnType<typeof pipeline>>, text: string): Promise<number> => {
   try {
-    const result = await pipe(text, {
-      topk: null,
-    }) as { score: number }[];
+    const result = await pipe(text) as Array<{ score: number }>;
     
     if (Array.isArray(result) && result.length > 0 && 'score' in result[0]) {
       return result[0].score;
