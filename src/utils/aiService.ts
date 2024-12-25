@@ -71,8 +71,8 @@ export const analyzeSentiment = async (pipe: Awaited<ReturnType<typeof pipeline>
   try {
     const result = await pipe(text, {
       topk: 1,
-      wait_for_model: true
-    } as any) as Array<{ score: number }>; // Using type assertion to bypass strict type checking
+      wait_for_model: true,
+    } as Parameters<typeof pipe>[1]) as Array<{ score: number }>; // Using a more specific type assertion
     
     if (Array.isArray(result) && result.length > 0 && 'score' in result[0]) {
       return result[0].score;
