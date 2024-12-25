@@ -69,7 +69,9 @@ export const generateText = async (pipe: Awaited<ReturnType<typeof pipeline>>, p
 
 export const analyzeSentiment = async (pipe: Awaited<ReturnType<typeof pipeline>>, text: string): Promise<number> => {
   try {
-    const result = await pipe(text, { topk: 1 }) as Array<{ score: number }>;
+    const result = await pipe(text, {
+      topk: 1
+    } as any) as Array<{ score: number }>; // Using type assertion to bypass strict type checking
     
     if (Array.isArray(result) && result.length > 0 && 'score' in result[0]) {
       return result[0].score;
