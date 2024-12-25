@@ -1,5 +1,6 @@
 import { pipeline, PipelineType } from '@huggingface/transformers';
 import type { ProgressCallback, ProgressInfo } from '@huggingface/transformers';
+import type { TextGenerationOutput, TextClassificationOutput } from '@huggingface/transformers';
 
 interface ModelConfig {
   task: PipelineType;
@@ -51,12 +52,13 @@ export const loadModel = async (task: PipelineType) => {
 export const generateText = async (pipe: Awaited<ReturnType<typeof pipeline>>, prompt: string): Promise<string> => {
   try {
     const result = await pipe(prompt, {
-      max_length: 100,
-      num_return_sequences: 1,
-    });
+      max_new_tokens: 100,
+      do_sample: true,
+      temperature: 0.7,
+    }) as TextGenerationOutput[];
     
-    if (Array.isArray(result) && result.length > 0) {
-      return result[0].generated_text || '';
+    if (Array.isArray(result) && result.length > 0 && result[0].generated_text) {
+      return result[0].generated_text;
     }
     
     return '';
@@ -68,10 +70,12 @@ export const generateText = async (pipe: Awaited<ReturnType<typeof pipeline>>, p
 
 export const analyzeSentiment = async (pipe: Awaited<ReturnType<typeof pipeline>>, text: string): Promise<number> => {
   try {
-    const result = await pipe(text);
+    const result = await pipe(text, {
+      return_all_scores: false
+    }) as TextClassificationOutput[];
     
-    if (Array.isArray(result) && result.length > 0) {
-      return result[0].score || 0;
+    if (Array.isArray(result) && result.length > 0 && 'score' in result[0]) {
+      return result[0].score;
     }
     
     return 0;
