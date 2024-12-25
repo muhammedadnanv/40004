@@ -52,12 +52,12 @@ export const loadModel = async (task: PipelineType) => {
 export const generateText = async (pipe: Awaited<ReturnType<typeof pipeline>>, prompt: string): Promise<string> => {
   try {
     const result = await pipe(prompt, {
-      max_new_tokens: 100,
+      max_length: 100,
       do_sample: true,
       temperature: 0.7,
-    }) as TextGenerationOutput[];
+    }) as { generated_text: string }[];
     
-    if (Array.isArray(result) && result.length > 0 && result[0].generated_text) {
+    if (Array.isArray(result) && result.length > 0 && 'generated_text' in result[0]) {
       return result[0].generated_text;
     }
     
@@ -71,8 +71,8 @@ export const generateText = async (pipe: Awaited<ReturnType<typeof pipeline>>, p
 export const analyzeSentiment = async (pipe: Awaited<ReturnType<typeof pipeline>>, text: string): Promise<number> => {
   try {
     const result = await pipe(text, {
-      return_all_scores: false
-    }) as TextClassificationOutput[];
+      topk: null,
+    }) as { score: number }[];
     
     if (Array.isArray(result) && result.length > 0 && 'score' in result[0]) {
       return result[0].score;
