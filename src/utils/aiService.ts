@@ -57,7 +57,7 @@ export const generateText = async (pipe: Awaited<ReturnType<typeof pipeline>>, p
     } as any); // Using type assertion to bypass strict type checking
     
     if (Array.isArray(result) && result.length > 0 && typeof result[0] === 'object' && 'generated_text' in result[0]) {
-      return result[0].generated_text as string;
+      return (result[0].generated_text as string).toString(); // Ensure string type
     }
     
     return '';
