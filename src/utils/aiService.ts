@@ -1,4 +1,4 @@
-import { pipeline, Pipeline, PipelineType } from '@huggingface/transformers';
+import { pipeline, PipelineType } from '@huggingface/transformers';
 import type { ProgressCallback, ProgressInfo } from '@huggingface/transformers';
 
 interface ModelConfig {
@@ -48,7 +48,7 @@ export const loadModel = async (task: PipelineType) => {
   }
 };
 
-export const generateText = async (pipe: ReturnType<typeof pipeline>, prompt: string): Promise<string> => {
+export const generateText = async (pipe: Awaited<ReturnType<typeof pipeline>>, prompt: string): Promise<string> => {
   try {
     const result = await pipe(prompt, {
       max_length: 100,
@@ -66,7 +66,7 @@ export const generateText = async (pipe: ReturnType<typeof pipeline>, prompt: st
   }
 };
 
-export const analyzeSentiment = async (pipe: ReturnType<typeof pipeline>, text: string): Promise<number> => {
+export const analyzeSentiment = async (pipe: Awaited<ReturnType<typeof pipeline>>, text: string): Promise<number> => {
   try {
     const result = await pipe(text);
     
