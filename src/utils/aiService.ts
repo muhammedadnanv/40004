@@ -54,10 +54,10 @@ export const generateText = async (pipe: Awaited<ReturnType<typeof pipeline>>, p
       max_length: 100,
       do_sample: true,
       temperature: 0.7,
-    } as any); // Using type assertion to bypass strict type checking
+    } as any);
     
     if (Array.isArray(result) && result.length > 0 && typeof result[0] === 'object' && 'generated_text' in result[0]) {
-      return (result[0].generated_text as string).toString(); // Ensure string type
+      return String(result[0].generated_text); // Ensure string type
     }
     
     return '';
@@ -72,7 +72,7 @@ export const analyzeSentiment = async (pipe: Awaited<ReturnType<typeof pipeline>
     const result = await pipe(text, {
       topk: 1,
       wait_for_model: true,
-    } as any) as Array<{ score: number }>; // Using type assertion to bypass strict type checking
+    } as any) as Array<{ score: number }>;
     
     if (Array.isArray(result) && result.length > 0 && 'score' in result[0]) {
       return result[0].score;
