@@ -48,15 +48,19 @@ export const loadModel = async (task: PipelineType) => {
   }
 };
 
-export const generateText = async (pipe: Awaited<ReturnType<typeof pipeline>>, prompt: string): Promise<string> => {
+type TextGenerationPipeline = Awaited<ReturnType<typeof pipeline>>;
+type GenerationResult = Array<{ generated_text: string }>;
+type SentimentResult = Array<{ score: number }>;
+
+export const generateText = async (pipe: TextGenerationPipeline, prompt: string): Promise<string> => {
   try {
     const result = await pipe([prompt], {
       max_length: 100,
       do_sample: true,
       temperature: 0.7,
-    });
+    }) as GenerationResult;
     
-    if (Array.isArray(result) && result.length > 0 && typeof result[0] === 'object' && 'generated_text' in result[0]) {
+    if (Array.isArray(result) && result.length > 0 && 'generated_text' in result[0]) {
       return String(result[0].generated_text);
     }
     
@@ -67,9 +71,9 @@ export const generateText = async (pipe: Awaited<ReturnType<typeof pipeline>>, p
   }
 };
 
-export const analyzeSentiment = async (pipe: Awaited<ReturnType<typeof pipeline>>, text: string): Promise<number> => {
+export const analyzeSentiment = async (pipe: TextGenerationPipeline, text: string): Promise<number> => {
   try {
-    const result = await pipe([text]);
+    const result = await pipe([text]) as SentimentResult;
     
     if (Array.isArray(result) && result.length > 0 && 'score' in result[0]) {
       return result[0].score;
