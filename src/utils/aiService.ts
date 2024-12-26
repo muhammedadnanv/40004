@@ -54,7 +54,7 @@ export const generateText = async (pipe: Awaited<ReturnType<typeof pipeline>>, p
       max_length: 100,
       do_sample: true,
       temperature: 0.7,
-    });
+    } as Parameters<typeof pipe>[1]);
     
     if (Array.isArray(result) && result.length > 0 && typeof result[0] === 'object' && 'generated_text' in result[0]) {
       return String(result[0].generated_text);
