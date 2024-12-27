@@ -23,7 +23,7 @@ interface SentimentResult {
 }
 
 // Define pipeline type
-type Pipeline = Awaited<ReturnType<typeof pipeline>>;
+type Pipeline = any; // Using any for pipeline type to avoid complex type intersections
 
 // Initialize AI services
 let textGenerator: Pipeline | null = null;
@@ -33,10 +33,10 @@ export const initializeAI = async () => {
   try {
     console.log('Initializing AI services...');
     
-    textGenerator = await pipeline('text-generation', 'gpt2') as Pipeline;
+    textGenerator = await pipeline('text-generation', 'gpt2');
     console.log('Text generator initialized successfully');
     
-    sentimentAnalyzer = await pipeline('sentiment-analysis') as Pipeline;
+    sentimentAnalyzer = await pipeline('sentiment-analysis');
     console.log('Sentiment analyzer initialized successfully');
     
     return { textGenerator, sentimentAnalyzer };
@@ -50,16 +50,14 @@ export const generateText = async (pipe: Pipeline, prompt: string): Promise<stri
   try {
     console.log('Generating text for prompt:', prompt);
     
-    const options: GenerationOptions = {
+    const result = await pipe(prompt, {
       max_length: 100,
       do_sample: true,
       temperature: 0.7,
       return_full_text: false
-    };
-
-    const result = await pipe(prompt, options) as GenerationResult[];
-    console.log('Generated text result:', result);
+    }) as GenerationResult[];
     
+    console.log('Generated text result:', result);
     return result[0].generated_text;
   } catch (error) {
     console.error('Error generating text:', error);
@@ -71,14 +69,11 @@ export const analyzeSentiment = async (pipe: Pipeline, text: string): Promise<nu
   try {
     console.log('Analyzing sentiment for text:', text);
     
-    const options: SentimentOptions = {
-      return_all_scores: true,
+    const result = await pipe(text, {
       wait_for_model: true
-    };
-
-    const result = await pipe(text, options) as SentimentResult[];
-    console.log('Sentiment analysis result:', result);
+    }) as SentimentResult[];
     
+    console.log('Sentiment analysis result:', result);
     return result[0].score;
   } catch (error) {
     console.error('Error analyzing sentiment:', error);
