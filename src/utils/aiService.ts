@@ -52,17 +52,17 @@ type Pipeline = Awaited<ReturnType<typeof pipeline>>;
 type GenerationResult = { generated_text: string }[];
 type SentimentResult = { score: number }[];
 
-interface GenerationOptions {
+type GenerationConfig = {
   max_length: number;
   do_sample: boolean;
   temperature: number;
   return_full_text: boolean;
-}
+};
 
-interface SentimentOptions {
+type SentimentConfig = {
   return_all_scores: boolean;
   wait_for_model: boolean;
-}
+};
 
 export const generateText = async (pipe: Pipeline, prompt: string): Promise<string> => {
   try {
@@ -71,7 +71,7 @@ export const generateText = async (pipe: Pipeline, prompt: string): Promise<stri
       do_sample: true,
       temperature: 0.7,
       return_full_text: false
-    } as GenerationOptions) as GenerationResult;
+    } as any) as GenerationResult;
     
     if (Array.isArray(result) && result.length > 0 && 'generated_text' in result[0]) {
       return result[0].generated_text;
@@ -89,7 +89,7 @@ export const analyzeSentiment = async (pipe: Pipeline, text: string): Promise<nu
     const result = await pipe(text, {
       return_all_scores: false,
       wait_for_model: true
-    } as SentimentOptions) as SentimentResult;
+    } as any) as SentimentResult;
     
     if (Array.isArray(result) && result.length > 0 && 'score' in result[0]) {
       return result[0].score;
