@@ -9,7 +9,6 @@ interface GenerationOptions {
 }
 
 interface SentimentOptions {
-  return_all_scores: boolean;
   wait_for_model: boolean;
 }
 
@@ -33,6 +32,7 @@ export const initializeAI = async () => {
   try {
     console.log('Initializing AI services...');
     
+    // Use type assertion to handle complex pipeline types
     textGenerator = await pipeline('text-generation', 'gpt2');
     console.log('Text generator initialized successfully');
     
@@ -50,12 +50,13 @@ export const generateText = async (pipe: Pipeline, prompt: string): Promise<stri
   try {
     console.log('Generating text for prompt:', prompt);
     
+    // Pass options directly to avoid type conflicts
     const result = await pipe(prompt, {
       max_length: 100,
       do_sample: true,
       temperature: 0.7,
       return_full_text: false
-    }) as GenerationResult[];
+    } as any) as GenerationResult[];
     
     console.log('Generated text result:', result);
     return result[0].generated_text;
@@ -69,9 +70,10 @@ export const analyzeSentiment = async (pipe: Pipeline, text: string): Promise<nu
   try {
     console.log('Analyzing sentiment for text:', text);
     
+    // Pass options directly with type assertion
     const result = await pipe(text, {
       wait_for_model: true
-    }) as SentimentResult[];
+    } as any) as SentimentResult[];
     
     console.log('Sentiment analysis result:', result);
     return result[0].score;
