@@ -66,8 +66,10 @@ export const generateText = async (pipe: Pipeline, prompt: string): Promise<stri
       temperature: 0.7,
     };
     
-    const inputs = Array.isArray(prompt) ? prompt : [prompt];
-    const result = (await pipe(inputs, options)) as GenerationResult;
+    const result = await pipe(prompt, {
+      ...options,
+      return_full_text: false,
+    }) as GenerationResult;
     
     if (Array.isArray(result) && result.length > 0 && 'generated_text' in result[0]) {
       return result[0].generated_text;
@@ -82,8 +84,10 @@ export const generateText = async (pipe: Pipeline, prompt: string): Promise<stri
 
 export const analyzeSentiment = async (pipe: Pipeline, text: string): Promise<number> => {
   try {
-    const inputs = Array.isArray(text) ? text : [text];
-    const result = (await pipe(inputs)) as SentimentResult;
+    const result = await pipe(text, {
+      return_all_scores: false,
+      wait_for_model: true
+    }) as SentimentResult;
     
     if (Array.isArray(result) && result.length > 0 && 'score' in result[0]) {
       return result[0].score;
