@@ -59,7 +59,7 @@ export const generateText = async (prompt: string): Promise<string> => {
       return_full_text: false
     };
     
-    const result = await pipe(prompt, options) as GenerationResult[];
+    const result = await (pipe(prompt, options as any) as Promise<GenerationResult[]>);
     console.log('Generated text result:', result);
     return result[0].generated_text;
   } catch (error) {
@@ -79,7 +79,7 @@ export const analyzeSentiment = async (text: string): Promise<number> => {
       wait_for_model: true
     };
     
-    const result = await pipe(text, options) as SentimentResult[];
+    const result = await (pipe(text, options as any) as Promise<SentimentResult[]>);
     console.log('Sentiment analysis result:', result);
     return result[0].score;
   } catch (error) {
