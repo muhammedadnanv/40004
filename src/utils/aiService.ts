@@ -1,6 +1,5 @@
-import { pipeline } from '@huggingface/transformers';
+import { pipeline, Pipeline } from '@huggingface/transformers';
 
-// Define interfaces for type safety
 interface GenerationOptions {
   max_length: number;
   do_sample: boolean;
@@ -17,74 +16,74 @@ interface GenerationResult {
 }
 
 interface SentimentResult {
-  label: string;
   score: number;
+  label: string;
 }
 
-// Define pipeline type
-type Pipeline = any; // Using any for pipeline type to avoid complex type intersections
-
-// Initialize AI services
 let textGenerator: Pipeline | null = null;
 let sentimentAnalyzer: Pipeline | null = null;
 
-export const initializeAI = async () => {
+const getInitializedServices = async () => {
+  if (!textGenerator || !sentimentAnalyzer) {
+    await initializeServices();
+  }
+  return { textGenerator, sentimentAnalyzer };
+};
+
+const initializeServices = async () => {
   try {
     console.log('Initializing AI services...');
     
-    // Use type assertion to handle complex pipeline types
-    textGenerator = await pipeline('text-generation', 'gpt2');
+    textGenerator = await pipeline('text-generation', 'gpt2') as Pipeline;
     console.log('Text generator initialized successfully');
     
-    sentimentAnalyzer = await pipeline('sentiment-analysis');
+    sentimentAnalyzer = await pipeline('sentiment-analysis') as Pipeline;
     console.log('Sentiment analyzer initialized successfully');
-    
-    return { textGenerator, sentimentAnalyzer };
   } catch (error) {
     console.error('Error initializing AI services:', error);
     throw new Error('Failed to initialize AI services');
   }
 };
 
-export const generateText = async (pipe: Pipeline, prompt: string): Promise<string> => {
+export const generateText = async (prompt: string): Promise<string> => {
   try {
+    const { textGenerator: pipe } = await getInitializedServices();
+    if (!pipe) throw new Error('Text generator not initialized');
+    
     console.log('Generating text for prompt:', prompt);
     
-    // Pass options directly to avoid type conflicts
-    const result = await pipe(prompt, {
+    const options: GenerationOptions = {
       max_length: 100,
       do_sample: true,
       temperature: 0.7,
       return_full_text: false
-    } as any) as GenerationResult[];
+    };
     
+    const result = await (pipe(prompt, options as any) as Promise<GenerationResult[]>);
     console.log('Generated text result:', result);
     return result[0].generated_text;
   } catch (error) {
     console.error('Error generating text:', error);
-    throw new Error('Failed to generate text');
+    throw error;
   }
 };
 
-export const analyzeSentiment = async (pipe: Pipeline, text: string): Promise<number> => {
+export const analyzeSentiment = async (text: string): Promise<number> => {
   try {
+    const { sentimentAnalyzer: pipe } = await getInitializedServices();
+    if (!pipe) throw new Error('Sentiment analyzer not initialized');
+    
     console.log('Analyzing sentiment for text:', text);
     
-    // Pass options directly with type assertion
-    const result = await pipe(text, {
+    const options: SentimentOptions = {
       wait_for_model: true
-    } as any) as SentimentResult[];
+    };
     
+    const result = await (pipe(text, options as any) as Promise<SentimentResult[]>);
     console.log('Sentiment analysis result:', result);
     return result[0].score;
   } catch (error) {
     console.error('Error analyzing sentiment:', error);
-    throw new Error('Failed to analyze sentiment');
+    throw error;
   }
 };
-
-// Export initialized services
-export const getInitializedServices = () => ({
-  textGenerator,
-  sentimentAnalyzer
-});
