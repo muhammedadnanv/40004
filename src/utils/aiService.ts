@@ -52,28 +52,28 @@ type Pipeline = Awaited<ReturnType<typeof pipeline>>;
 type GenerationResult = { generated_text: string }[];
 type SentimentResult = { score: number }[];
 
-interface GenerationConfig {
+interface TextGenerationOptions {
   max_length: number;
   do_sample: boolean;
   temperature: number;
-  return_full_text?: boolean;
+  return_full_text: boolean;
 }
 
-interface SentimentConfig {
-  return_all_scores?: boolean;
-  wait_for_model?: boolean;
+interface SentimentAnalysisOptions {
+  return_all_scores: boolean;
+  wait_for_model: boolean;
 }
 
 export const generateText = async (pipe: Pipeline, prompt: string): Promise<string> => {
   try {
-    const config: GenerationConfig = {
+    const options: TextGenerationOptions = {
       max_length: 100,
       do_sample: true,
       temperature: 0.7,
       return_full_text: false
     };
     
-    const result = await pipe(prompt, config) as GenerationResult;
+    const result = await pipe([prompt], options) as GenerationResult;
     
     if (Array.isArray(result) && result.length > 0 && 'generated_text' in result[0]) {
       return result[0].generated_text;
@@ -88,12 +88,12 @@ export const generateText = async (pipe: Pipeline, prompt: string): Promise<stri
 
 export const analyzeSentiment = async (pipe: Pipeline, text: string): Promise<number> => {
   try {
-    const config: SentimentConfig = {
+    const options: SentimentAnalysisOptions = {
       return_all_scores: false,
       wait_for_model: true
     };
     
-    const result = await pipe(text, config) as SentimentResult;
+    const result = await pipe([text], options) as SentimentResult;
     
     if (Array.isArray(result) && result.length > 0 && 'score' in result[0]) {
       return result[0].score;
