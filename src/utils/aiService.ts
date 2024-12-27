@@ -1,5 +1,27 @@
 import { pipeline } from '@huggingface/transformers';
 
+interface GenerationOptions {
+  max_length: number;
+  do_sample: boolean;
+  temperature: number;
+  return_full_text: boolean;
+}
+
+interface SentimentOptions {
+  return_all_scores: boolean;
+  wait_for_model: boolean;
+}
+
+interface GenerationResult {
+  generated_text: string;
+}
+
+interface SentimentResult {
+  score: number;
+}
+
+type Pipeline = Awaited<ReturnType<typeof pipeline>>;
+
 export const initializeAI = async () => {
   try {
     const [generationPipe, sentimentPipe] = await Promise.all([
@@ -16,28 +38,6 @@ export const initializeAI = async () => {
     throw new Error('Failed to initialize AI services');
   }
 };
-
-interface GenerationResult {
-  generated_text: string;
-}
-
-interface SentimentResult {
-  score: number;
-}
-
-type Pipeline = Awaited<ReturnType<typeof pipeline>>;
-
-interface GenerationOptions {
-  max_length: number;
-  do_sample: boolean;
-  temperature: number;
-  return_full_text: boolean;
-}
-
-interface SentimentOptions {
-  return_all_scores: boolean;
-  wait_for_model: boolean;
-}
 
 export const generateText = async (pipe: Pipeline, prompt: string): Promise<string> => {
   try {
