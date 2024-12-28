@@ -1,14 +1,14 @@
-import { pipeline, Pipeline } from '@huggingface/transformers';
+import { pipeline } from '@huggingface/transformers';
 
-interface GenerationOptions {
-  max_length: number;
-  do_sample: boolean;
-  temperature: number;
-  return_full_text: boolean;
+interface GenerationConfig {
+  max_new_tokens?: number;
+  temperature?: number;
+  top_p?: number;
+  return_full_text?: boolean;
 }
 
-interface SentimentOptions {
-  wait_for_model: boolean;
+interface SentimentConfig {
+  wait_for_model?: boolean;
 }
 
 interface GenerationResult {
@@ -17,49 +17,56 @@ interface GenerationResult {
 
 interface SentimentResult {
   score: number;
-  label: string;
 }
 
-let textGenerator: Pipeline | null = null;
-let sentimentAnalyzer: Pipeline | null = null;
+let textGenerationPipeline: any = null;
+let sentimentPipeline: any = null;
 
-const getInitializedServices = async () => {
-  if (!textGenerator || !sentimentAnalyzer) {
-    await initializeServices();
-  }
-  return { textGenerator, sentimentAnalyzer };
+const getBaseUrl = () => {
+  // Remove any trailing slashes and ensure proper URL formatting
+  const baseUrl = window.location.origin.replace(/\/$/, '');
+  return baseUrl;
 };
 
-const initializeServices = async () => {
+export const initializeAIService = async () => {
   try {
-    console.log('Initializing AI services...');
+    console.log('Initializing AI service...');
     
-    textGenerator = await pipeline('text-generation', 'gpt2') as Pipeline;
-    console.log('Text generator initialized successfully');
+    if (!textGenerationPipeline) {
+      console.log('Initializing text generation pipeline...');
+      textGenerationPipeline = await pipeline('text-generation', 'gpt2');
+    }
     
-    sentimentAnalyzer = await pipeline('sentiment-analysis') as Pipeline;
-    console.log('Sentiment analyzer initialized successfully');
+    if (!sentimentPipeline) {
+      console.log('Initializing sentiment analysis pipeline...');
+      sentimentPipeline = await pipeline('sentiment-analysis');
+    }
+    
+    console.log('AI service initialized successfully');
+    return true;
   } catch (error) {
-    console.error('Error initializing AI services:', error);
-    throw new Error('Failed to initialize AI services');
+    console.error('Error initializing AI service:', error);
+    return false;
   }
 };
 
 export const generateText = async (prompt: string): Promise<string> => {
   try {
-    const { textGenerator: pipe } = await getInitializedServices();
-    if (!pipe) throw new Error('Text generator not initialized');
-    
+    if (!textGenerationPipeline) {
+      console.error('Text generation pipeline not initialized');
+      throw new Error('Text generation pipeline not initialized');
+    }
+
     console.log('Generating text for prompt:', prompt);
     
-    const options: GenerationOptions = {
-      max_length: 100,
-      do_sample: true,
+    const options: GenerationConfig = {
+      max_new_tokens: 50,
       temperature: 0.7,
+      top_p: 0.9,
       return_full_text: false
     };
     
-    const result = await (pipe(prompt, options as any) as Promise<GenerationResult[]>);
+    const result = await (textGenerationPipeline(prompt, options as any) as Promise<GenerationResult[]>);
     console.log('Generated text result:', result);
     return result[0].generated_text;
   } catch (error) {
@@ -70,16 +77,18 @@ export const generateText = async (prompt: string): Promise<string> => {
 
 export const analyzeSentiment = async (text: string): Promise<number> => {
   try {
-    const { sentimentAnalyzer: pipe } = await getInitializedServices();
-    if (!pipe) throw new Error('Sentiment analyzer not initialized');
-    
+    if (!sentimentPipeline) {
+      console.error('Sentiment pipeline not initialized');
+      throw new Error('Sentiment pipeline not initialized');
+    }
+
     console.log('Analyzing sentiment for text:', text);
     
-    const options: SentimentOptions = {
+    const options: SentimentConfig = {
       wait_for_model: true
     };
     
-    const result = await (pipe(text, options as any) as Promise<SentimentResult[]>);
+    const result = await (sentimentPipeline(text, options as any) as Promise<SentimentResult[]>);
     console.log('Sentiment analysis result:', result);
     return result[0].score;
   } catch (error) {
