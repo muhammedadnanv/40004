@@ -32,15 +32,9 @@ export const initializeAIService = async () => {
   try {
     console.log('Initializing AI service with endpoint:', getModelEndpoint());
     
-    textGenerationPipeline = await pipeline('text-generation', {
-      model: 'gpt2',
-      endpoint: getModelEndpoint(),
-    });
-    
-    sentimentPipeline = await pipeline('sentiment-analysis', {
-      model: 'distilbert-base-uncased-finetuned-sst-2-english',
-      endpoint: getModelEndpoint(),
-    });
+    // Initialize with model name strings instead of configuration objects
+    textGenerationPipeline = await pipeline('text-generation', 'gpt2');
+    sentimentPipeline = await pipeline('sentiment-analysis', 'distilbert-base-uncased-finetuned-sst-2-english');
     
     console.log('AI service initialized successfully');
     return true;
