@@ -32,16 +32,9 @@ export const initializeAIService = async () => {
   try {
     console.log('Initializing AI service with endpoint:', getModelEndpoint());
     
-    // Initialize pipelines with direct model references
-    textGenerationPipeline = await pipeline('text-generation', {
-      model: 'gpt2',
-      task: 'text-generation'
-    });
-    
-    sentimentPipeline = await pipeline('sentiment-analysis', {
-      model: 'distilbert-base-uncased-finetuned-sst-2-english',
-      task: 'sentiment-analysis'
-    });
+    // Initialize pipelines with model names as strings
+    textGenerationPipeline = await pipeline('text-generation', 'gpt2');
+    sentimentPipeline = await pipeline('sentiment-analysis', 'distilbert-base-uncased-finetuned-sst-2-english');
     
     console.log('AI service initialized successfully');
     return true;
