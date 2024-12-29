@@ -32,7 +32,7 @@ export const initializeAIService = async () => {
   try {
     console.log('Initializing AI service with endpoint:', getModelEndpoint());
     
-    // Initialize with model name strings instead of configuration objects
+    // Initialize pipelines with model names as strings
     textGenerationPipeline = await pipeline('text-generation', 'gpt2');
     sentimentPipeline = await pipeline('sentiment-analysis', 'distilbert-base-uncased-finetuned-sst-2-english');
     
