@@ -1,19 +1,22 @@
 import { pipeline, TextGenerationPipeline, TextClassificationPipeline } from "@huggingface/transformers";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "@/hooks/use-toast";
 
 interface GenerationResult {
   text: string;
   sentiment: string;
 }
 
-interface TextGenerationOutput {
+interface TextGenerationSingle {
   generated_text: string;
 }
 
-interface TextClassificationOutput {
+interface TextClassificationSingle {
   label: string;
   score: number;
 }
+
+type TextGenerationOutput = TextGenerationSingle[];
+type TextClassificationOutput = TextClassificationSingle[];
 
 let textGenerator: TextGenerationPipeline | null = null;
 let sentimentAnalyzer: TextClassificationPipeline | null = null;
@@ -62,12 +65,12 @@ export const generateText = async (prompt: string): Promise<GenerationResult | n
       pad_token_id: 50256
     });
 
-    const output = Array.isArray(generatedOutput) ? generatedOutput[0] : generatedOutput;
-    const generatedText = (output as TextGenerationOutput).generated_text;
+    const output = Array.isArray(generatedOutput) ? generatedOutput[0] : generatedOutput as TextGenerationSingle;
+    const generatedText = output.generated_text;
 
     const sentimentOutput = await sentimentAnalyzer(generatedText);
-    const sentimentResult = Array.isArray(sentimentOutput) ? sentimentOutput[0] : sentimentOutput;
-    const sentiment = (sentimentResult as TextClassificationOutput).label;
+    const sentimentResult = Array.isArray(sentimentOutput) ? sentimentOutput[0] : sentimentOutput as TextClassificationSingle;
+    const sentiment = sentimentResult.label;
     
     console.log("Generated text:", generatedText);
     console.log("Sentiment:", sentiment);
