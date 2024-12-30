@@ -6,6 +6,14 @@ interface GenerationResult {
   sentiment: string;
 }
 
+type TextGenerationResult = {
+  generated_text: string;
+};
+
+type SentimentResult = {
+  label: string;
+};
+
 let textGenerator: TextGenerationPipeline | null = null;
 let sentimentAnalyzer: TextClassificationPipeline | null = null;
 
@@ -54,13 +62,13 @@ export const generateText = async (prompt: string): Promise<GenerationResult | n
     });
 
     const generatedText = Array.isArray(generatedOutput) 
-      ? generatedOutput[0]?.generated_text 
-      : generatedOutput.generated_text || "";
+      ? (generatedOutput[0] as TextGenerationResult)?.generated_text 
+      : (generatedOutput as TextGenerationResult).generated_text || "";
 
     const sentimentOutput = await sentimentAnalyzer(generatedText);
     const sentiment = Array.isArray(sentimentOutput)
-      ? sentimentOutput[0]?.label
-      : sentimentOutput.label || "NEUTRAL";
+      ? (sentimentOutput[0] as SentimentResult)?.label
+      : (sentimentOutput as SentimentResult).label || "NEUTRAL";
     
     console.log("Generated text:", generatedText);
     console.log("Sentiment:", sentiment);
