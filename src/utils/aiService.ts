@@ -1,23 +1,20 @@
-import { pipeline } from "@huggingface/transformers";
-import { toast } from "@/hooks/use-toast";
+import { pipeline, TextGenerationPipeline, TextClassificationPipeline } from "@huggingface/transformers";
+import { toast } from "@/components/ui/use-toast";
 
 interface GenerationResult {
   text: string;
   sentiment: string;
 }
 
-let textGenerator: any = null;
-let sentimentAnalyzer: any = null;
+let textGenerator: TextGenerationPipeline | null = null;
+let sentimentAnalyzer: TextClassificationPipeline | null = null;
 
 const initializePipelines = async () => {
   try {
     console.log("Initializing AI pipelines...");
     
     if (!textGenerator) {
-      textGenerator = await pipeline(
-        "text-generation",
-        "gpt2"
-      );
+      textGenerator = await pipeline("text-generation", "gpt2") as TextGenerationPipeline;
       console.log("Text generation pipeline initialized");
     }
     
@@ -25,7 +22,7 @@ const initializePipelines = async () => {
       sentimentAnalyzer = await pipeline(
         "sentiment-analysis",
         "distilbert-base-uncased-finetuned-sst-2-english"
-      );
+      ) as TextClassificationPipeline;
       console.log("Sentiment analysis pipeline initialized");
     }
     
@@ -49,19 +46,22 @@ export const generateText = async (prompt: string): Promise<GenerationResult | n
     }
 
     console.log("Generating text for prompt:", prompt);
-    const generatedText = await textGenerator(prompt, {
+    const generatedOutput = await textGenerator(prompt, {
       max_length: 100,
       num_return_sequences: 1,
+      temperature: 0.7,
+      pad_token_id: 50256
     });
 
-    const sentiment = await sentimentAnalyzer(generatedText[0].generated_text);
+    const generatedText = generatedOutput[0]?.text || "";
+    const sentimentOutput = await sentimentAnalyzer(generatedText);
     
-    console.log("Generated text:", generatedText[0].generated_text);
-    console.log("Sentiment:", sentiment[0].label);
+    console.log("Generated text:", generatedText);
+    console.log("Sentiment:", sentimentOutput[0]?.label);
 
     return {
-      text: generatedText[0].generated_text,
-      sentiment: sentiment[0].label
+      text: generatedText,
+      sentiment: sentimentOutput[0]?.label || "NEUTRAL"
     };
   } catch (error) {
     console.error("Error in text generation:", error);
