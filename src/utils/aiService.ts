@@ -53,15 +53,21 @@ export const generateText = async (prompt: string): Promise<GenerationResult | n
       pad_token_id: 50256
     });
 
-    const generatedText = generatedOutput[0]?.text || "";
+    const generatedText = Array.isArray(generatedOutput) 
+      ? generatedOutput[0]?.generated_text 
+      : generatedOutput.generated_text || "";
+
     const sentimentOutput = await sentimentAnalyzer(generatedText);
+    const sentiment = Array.isArray(sentimentOutput)
+      ? sentimentOutput[0]?.label
+      : sentimentOutput.label || "NEUTRAL";
     
     console.log("Generated text:", generatedText);
-    console.log("Sentiment:", sentimentOutput[0]?.label);
+    console.log("Sentiment:", sentiment);
 
     return {
       text: generatedText,
-      sentiment: sentimentOutput[0]?.label || "NEUTRAL"
+      sentiment: sentiment
     };
   } catch (error) {
     console.error("Error in text generation:", error);
