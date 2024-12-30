@@ -13,19 +13,25 @@ function App() {
     // Run website validation on initial load
     runWebsiteTest();
     
-    // Initialize marketing features
+    // Initialize marketing features with better error handling
     const initMarketing = async () => {
       try {
-        await startMarketingRecommendations();
-        console.log("Marketing recommendations started successfully");
-      } catch (error) {
+        // Only attempt to start marketing recommendations if the function exists
+        if (typeof startMarketingRecommendations === 'function') {
+          await startMarketingRecommendations();
+          console.log("Marketing recommendations started successfully");
+        }
+      } catch (error: any) {
         console.error("Error starting marketing recommendations:", error);
-        toast({
-          title: "Marketing Features",
-          description: "Some marketing features might be temporarily unavailable.",
-          variant: "destructive",
-          duration: 5000,
-        });
+        // Only show toast for non-404 errors to avoid confusing users
+        if (error?.status !== 404) {
+          toast({
+            title: "Marketing Features",
+            description: "Some marketing features might be temporarily unavailable.",
+            variant: "destructive",
+            duration: 5000,
+          });
+        }
       }
     };
 
