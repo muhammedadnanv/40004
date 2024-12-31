@@ -25,10 +25,10 @@ let sentimentPipeline: Pipeline | null = null;
 
 const initializePipelines = async () => {
   if (!textGenerationPipeline) {
-    textGenerationPipeline = await pipeline('text-generation', 'gpt2') as Pipeline;
+    textGenerationPipeline = await pipeline('text-generation', 'gpt2');
   }
   if (!sentimentPipeline) {
-    sentimentPipeline = await pipeline('sentiment-analysis') as Pipeline;
+    sentimentPipeline = await pipeline('sentiment-analysis');
   }
 };
 
