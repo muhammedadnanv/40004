@@ -15,8 +15,8 @@ interface TextClassificationSingle {
   score: number;
 }
 
-type TextGenerationOutput = TextGenerationSingle[];
-type TextClassificationOutput = TextClassificationSingle[];
+type TextGenerationOutput = Array<{ generated_text: string }>;
+type TextClassificationOutput = Array<{ label: string; score: number }>;
 
 let textGenerator: TextGenerationPipeline | null = null;
 let sentimentAnalyzer: TextClassificationPipeline | null = null;
@@ -65,15 +65,13 @@ export const generateText = async (prompt: string): Promise<GenerationResult | n
       pad_token_id: 50256
     });
 
-    // Handle both array and single result cases
     const generatedText = Array.isArray(generatedOutput) 
-      ? generatedOutput[0].generated_text 
+      ? (generatedOutput as TextGenerationOutput)[0].generated_text 
       : (generatedOutput as TextGenerationSingle).generated_text;
 
     const sentimentOutput = await sentimentAnalyzer(generatedText);
-    // Handle both array and single result cases
     const sentiment = Array.isArray(sentimentOutput)
-      ? sentimentOutput[0].label
+      ? (sentimentOutput as TextClassificationOutput)[0].label
       : (sentimentOutput as TextClassificationSingle).label;
     
     console.log("Generated text:", generatedText);
