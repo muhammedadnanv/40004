@@ -20,10 +20,8 @@ interface TextClassificationOutput {
 type TextGenerationResult = TextGenerationOutput | TextGenerationSingle;
 type TextClassificationResult = TextClassificationOutput | TextClassificationSingle;
 
-// Create a type that combines Pipeline with our custom properties
-type CustomPipeline = Pipeline & {
-  processor: Processor;
-};
+// Define CustomPipeline as a type alias that includes all Pipeline properties
+type CustomPipeline = Pipeline;
 
 let textGenerationPipeline: CustomPipeline | null = null;
 let sentimentPipeline: CustomPipeline | null = null;
