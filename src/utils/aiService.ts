@@ -1,4 +1,4 @@
-import { pipeline, Pipeline } from '@huggingface/transformers';
+import { pipeline } from '@huggingface/transformers';
 
 interface TextGenerationSingle {
   generated_text: string;
@@ -20,8 +20,11 @@ interface TextClassificationOutput {
 type TextGenerationResult = TextGenerationOutput | TextGenerationSingle;
 type TextClassificationResult = TextClassificationOutput | TextClassificationSingle;
 
-let textGenerationPipeline: any | null = null;
-let sentimentPipeline: any | null = null;
+// Define specific pipeline types
+type HuggingFacePipeline = Awaited<ReturnType<typeof pipeline>>;
+
+let textGenerationPipeline: HuggingFacePipeline | null = null;
+let sentimentPipeline: HuggingFacePipeline | null = null;
 
 const initializePipelines = async () => {
   if (!textGenerationPipeline) {
