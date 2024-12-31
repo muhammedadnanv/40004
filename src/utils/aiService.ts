@@ -63,31 +63,35 @@ export const generateText = async (prompt: string): Promise<GenerationResult | n
       num_return_sequences: 1,
       temperature: 0.7,
       pad_token_id: 50256
-    });
+    }) as TextGenerationOutput | TextGenerationSingle;
 
-    // Ensure we have a single result with generated_text
-    const generatedResult = Array.isArray(generatedOutput) 
-      ? generatedOutput[0] 
-      : generatedOutput as TextGenerationSingle;
+    let generatedText: string;
 
-    if (!('generated_text' in generatedResult)) {
+    if (Array.isArray(generatedOutput)) {
+      if (generatedOutput.length === 0) {
+        throw new Error("No text generated");
+      }
+      generatedText = generatedOutput[0].generated_text;
+    } else if ('generated_text' in generatedOutput) {
+      generatedText = generatedOutput.generated_text;
+    } else {
       throw new Error("Invalid generation result format");
     }
 
-    const generatedText = generatedResult.generated_text;
-
-    const sentimentOutput = await sentimentAnalyzer(generatedText);
+    const sentimentOutput = await sentimentAnalyzer(generatedText) as TextClassificationOutput | TextClassificationSingle;
     
-    // Ensure we have a single result with label
-    const sentimentResult = Array.isArray(sentimentOutput)
-      ? sentimentOutput[0]
-      : sentimentOutput as TextClassificationSingle;
+    let sentiment: string;
 
-    if (!('label' in sentimentResult)) {
+    if (Array.isArray(sentimentOutput)) {
+      if (sentimentOutput.length === 0) {
+        throw new Error("No sentiment analysis result");
+      }
+      sentiment = sentimentOutput[0].label;
+    } else if ('label' in sentimentOutput) {
+      sentiment = sentimentOutput.label;
+    } else {
       throw new Error("Invalid sentiment result format");
     }
-
-    const sentiment = sentimentResult.label;
     
     console.log("Generated text:", generatedText);
     console.log("Sentiment:", sentiment);
