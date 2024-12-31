@@ -1,4 +1,4 @@
-import { pipeline, Pipeline } from '@huggingface/transformers';
+import { pipeline, Pipeline, Processor } from '@huggingface/transformers';
 
 interface TextGenerationSingle {
   generated_text: string;
@@ -21,7 +21,7 @@ type TextGenerationResult = TextGenerationOutput | TextGenerationSingle;
 type TextClassificationResult = TextClassificationOutput | TextClassificationSingle;
 
 interface CustomPipeline extends Pipeline {
-  processor?: unknown;
+  processor?: Processor;
 }
 
 let textGenerationPipeline: CustomPipeline | null = null;
