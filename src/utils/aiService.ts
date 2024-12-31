@@ -1,4 +1,4 @@
-import { Pipeline, pipeline } from '@huggingface/transformers';
+import { Pipeline, pipeline, TextGenerationPipeline, TextClassificationPipeline } from '@huggingface/transformers';
 
 interface Message {
   role: string;
@@ -24,8 +24,8 @@ interface TextClassificationOutput {
   results: TextClassificationSingle[];
 }
 
-let textGenerationPipeline: Pipeline | null = null;
-let sentimentPipeline: Pipeline | null = null;
+let textGenerationPipeline: TextGenerationPipeline | null = null;
+let sentimentPipeline: TextClassificationPipeline | null = null;
 
 const initializePipelines = async () => {
   if (!textGenerationPipeline) {
