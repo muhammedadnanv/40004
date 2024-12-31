@@ -24,15 +24,19 @@ interface TextClassificationOutput {
   results: TextClassificationSingle[];
 }
 
-let textGenerationPipeline: Pipeline | null = null;
-let sentimentPipeline: Pipeline | null = null;
+type AnyPipeline = Pipeline & {
+  processor?: unknown;
+};
+
+let textGenerationPipeline: AnyPipeline | null = null;
+let sentimentPipeline: AnyPipeline | null = null;
 
 const initializePipelines = async () => {
   if (!textGenerationPipeline) {
-    textGenerationPipeline = await pipeline('text-generation', 'gpt2');
+    textGenerationPipeline = await pipeline('text-generation', 'gpt2') as AnyPipeline;
   }
   if (!sentimentPipeline) {
-    sentimentPipeline = await pipeline('sentiment-analysis');
+    sentimentPipeline = await pipeline('sentiment-analysis') as AnyPipeline;
   }
 };
 
@@ -62,7 +66,7 @@ export const generateText = async (prompt: string | Chat): Promise<string> => {
       return output.results[0]?.generated_text || '';
     }
     
-    return (output as TextGenerationSingle).generated_text || '';
+    return output.generated_text || '';
   } catch (error) {
     console.error('Error generating text:', error);
     throw error;
@@ -86,7 +90,7 @@ export const analyzeSentiment = async (text: string): Promise<string> => {
       return output.results[0]?.label || 'NEUTRAL';
     }
     
-    return (output as TextClassificationSingle).label || 'NEUTRAL';
+    return output.label || 'NEUTRAL';
   } catch (error) {
     console.error('Error analyzing sentiment:', error);
     throw error;
