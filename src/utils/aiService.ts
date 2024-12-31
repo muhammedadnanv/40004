@@ -1,4 +1,4 @@
-import { pipeline, Pipeline, Processor } from '@huggingface/transformers';
+import { pipeline, Pipeline } from '@huggingface/transformers';
 
 interface TextGenerationSingle {
   generated_text: string;
@@ -20,7 +20,6 @@ interface TextClassificationOutput {
 type TextGenerationResult = TextGenerationOutput | TextGenerationSingle;
 type TextClassificationResult = TextClassificationOutput | TextClassificationSingle;
 
-// Use Pipeline type directly since it already has all the properties we need
 let textGenerationPipeline: Pipeline | null = null;
 let sentimentPipeline: Pipeline | null = null;
 
