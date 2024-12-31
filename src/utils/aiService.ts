@@ -1,4 +1,4 @@
-import { Pipeline } from '@huggingface/transformers';
+import { Pipeline, pipeline } from '@huggingface/transformers';
 
 interface Message {
   role: string;
@@ -29,10 +29,10 @@ let sentimentPipeline: Pipeline | null = null;
 
 const initializePipelines = async () => {
   if (!textGenerationPipeline) {
-    textGenerationPipeline = await Pipeline.fromPretrained('gpt2');
+    textGenerationPipeline = await pipeline('text-generation', 'gpt2');
   }
   if (!sentimentPipeline) {
-    sentimentPipeline = await Pipeline.fromPretrained('sentiment-analysis');
+    sentimentPipeline = await pipeline('sentiment-analysis');
   }
 };
 
