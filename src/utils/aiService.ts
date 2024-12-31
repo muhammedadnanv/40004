@@ -20,9 +20,10 @@ interface TextClassificationOutput {
 type TextGenerationResult = TextGenerationOutput | TextGenerationSingle;
 type TextClassificationResult = TextClassificationOutput | TextClassificationSingle;
 
-interface CustomPipeline extends Pipeline {
-  processor?: Processor;
-}
+// Create a type that combines Pipeline with our custom properties
+type CustomPipeline = Pipeline & {
+  processor: Processor;
+};
 
 let textGenerationPipeline: CustomPipeline | null = null;
 let sentimentPipeline: CustomPipeline | null = null;
