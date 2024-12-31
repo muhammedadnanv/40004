@@ -58,7 +58,11 @@ export const generateText = async (prompt: string | Chat): Promise<string> => {
       return output[0]?.generated_text || '';
     }
     
-    return (output as TextGenerationSingle).generated_text || '';
+    if ('results' in output) {
+      return output.results[0]?.generated_text || '';
+    }
+    
+    return output.generated_text || '';
   } catch (error) {
     console.error('Error generating text:', error);
     throw error;
@@ -78,7 +82,11 @@ export const analyzeSentiment = async (text: string): Promise<string> => {
       return output[0]?.label || 'NEUTRAL';
     }
     
-    return (output as TextClassificationSingle).label || 'NEUTRAL';
+    if ('results' in output) {
+      return output.results[0]?.label || 'NEUTRAL';
+    }
+    
+    return output.label || 'NEUTRAL';
   } catch (error) {
     console.error('Error analyzing sentiment:', error);
     throw error;
