@@ -20,18 +20,16 @@ interface TextClassificationOutput {
 type TextGenerationResult = TextGenerationOutput | TextGenerationSingle;
 type TextClassificationResult = TextClassificationOutput | TextClassificationSingle;
 
-// Define CustomPipeline as a type alias that includes all Pipeline properties
-type CustomPipeline = Pipeline;
-
-let textGenerationPipeline: CustomPipeline | null = null;
-let sentimentPipeline: CustomPipeline | null = null;
+// Use Pipeline type directly since it already has all the properties we need
+let textGenerationPipeline: Pipeline | null = null;
+let sentimentPipeline: Pipeline | null = null;
 
 const initializePipelines = async () => {
   if (!textGenerationPipeline) {
-    textGenerationPipeline = await pipeline('text-generation', 'gpt2') as CustomPipeline;
+    textGenerationPipeline = await pipeline('text-generation', 'gpt2') as Pipeline;
   }
   if (!sentimentPipeline) {
-    sentimentPipeline = await pipeline('sentiment-analysis') as CustomPipeline;
+    sentimentPipeline = await pipeline('sentiment-analysis') as Pipeline;
   }
 };
 
