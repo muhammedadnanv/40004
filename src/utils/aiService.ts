@@ -65,12 +65,16 @@ export const generateText = async (prompt: string): Promise<GenerationResult | n
       pad_token_id: 50256
     });
 
-    const output = Array.isArray(generatedOutput) ? generatedOutput[0] : generatedOutput as TextGenerationSingle;
-    const generatedText = output.generated_text;
+    // Handle both array and single result cases
+    const generatedText = Array.isArray(generatedOutput) 
+      ? generatedOutput[0].generated_text 
+      : (generatedOutput as TextGenerationSingle).generated_text;
 
     const sentimentOutput = await sentimentAnalyzer(generatedText);
-    const sentimentResult = Array.isArray(sentimentOutput) ? sentimentOutput[0] : sentimentOutput as TextClassificationSingle;
-    const sentiment = sentimentResult.label;
+    // Handle both array and single result cases
+    const sentiment = Array.isArray(sentimentOutput)
+      ? sentimentOutput[0].label
+      : (sentimentOutput as TextClassificationSingle).label;
     
     console.log("Generated text:", generatedText);
     console.log("Sentiment:", sentiment);
