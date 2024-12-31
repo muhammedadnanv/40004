@@ -1,4 +1,4 @@
-import { Pipeline, pipeline, TextGenerationPipeline, TextClassificationPipeline } from '@huggingface/transformers';
+import { Pipeline, pipeline } from '@huggingface/transformers';
 
 interface Message {
   role: string;
@@ -24,8 +24,8 @@ interface TextClassificationOutput {
   results: TextClassificationSingle[];
 }
 
-let textGenerationPipeline: TextGenerationPipeline | null = null;
-let sentimentPipeline: TextClassificationPipeline | null = null;
+let textGenerationPipeline: Pipeline | null = null;
+let sentimentPipeline: Pipeline | null = null;
 
 const initializePipelines = async () => {
   if (!textGenerationPipeline) {
@@ -52,7 +52,7 @@ export const generateText = async (prompt: string | Chat): Promise<string> => {
     }
 
     const processedPrompt = isChat(prompt) ? chatToString(prompt) : prompt;
-    const output = await textGenerationPipeline(processedPrompt);
+    const output = await textGenerationPipeline(processedPrompt) as TextGenerationOutput | TextGenerationSingle | TextGenerationSingle[];
 
     if (Array.isArray(output)) {
       return output[0]?.generated_text || '';
@@ -62,7 +62,7 @@ export const generateText = async (prompt: string | Chat): Promise<string> => {
       return output.results[0]?.generated_text || '';
     }
     
-    return output.generated_text || '';
+    return (output as TextGenerationSingle).generated_text || '';
   } catch (error) {
     console.error('Error generating text:', error);
     throw error;
@@ -76,7 +76,7 @@ export const analyzeSentiment = async (text: string): Promise<string> => {
       throw new Error('Sentiment pipeline not initialized');
     }
 
-    const output = await sentimentPipeline(text);
+    const output = await sentimentPipeline(text) as TextClassificationOutput | TextClassificationSingle | TextClassificationSingle[];
     
     if (Array.isArray(output)) {
       return output[0]?.label || 'NEUTRAL';
@@ -86,7 +86,7 @@ export const analyzeSentiment = async (text: string): Promise<string> => {
       return output.results[0]?.label || 'NEUTRAL';
     }
     
-    return output.label || 'NEUTRAL';
+    return (output as TextClassificationSingle).label || 'NEUTRAL';
   } catch (error) {
     console.error('Error analyzing sentiment:', error);
     throw error;
