@@ -1,6 +1,15 @@
 import { pipeline, TextGenerationPipeline, TextClassificationPipeline } from "@huggingface/transformers";
 import { toast } from "@/hooks/use-toast";
 
+interface Message {
+  role: 'user' | 'assistant';
+  content: string;
+}
+
+interface Chat {
+  messages: Message[];
+}
+
 interface GenerationResult {
   text: string;
   sentiment: string;
@@ -50,15 +59,20 @@ const initializePipelines = async () => {
   }
 };
 
-export const generateText = async (prompt: string): Promise<GenerationResult | null> => {
+export const generateText = async (prompt: string | Chat): Promise<GenerationResult | null> => {
   try {
     const isInitialized = await initializePipelines();
     if (!isInitialized || !textGenerator || !sentimentAnalyzer) {
       throw new Error("AI pipelines not initialized");
     }
 
-    console.log("Generating text for prompt:", prompt);
-    const generatedOutput = await textGenerator(prompt, {
+    // Convert Chat object to string if needed
+    const promptText = typeof prompt === 'string' 
+      ? prompt 
+      : prompt.messages.map(msg => msg.content).join('\n');
+
+    console.log("Generating text for prompt:", promptText);
+    const generatedOutput = await textGenerator(promptText, {
       max_length: 100,
       num_return_sequences: 1,
       temperature: 0.7,
