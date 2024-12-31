@@ -1,11 +1,4 @@
-import { Pipeline, pipeline } from '@huggingface/transformers';
-
-interface Message {
-  role: string;
-  content: string;
-}
-
-type Chat = Message[];
+import { pipeline, Pipeline } from '@huggingface/transformers';
 
 interface TextGenerationSingle {
   generated_text: string;
@@ -24,44 +17,38 @@ interface TextClassificationOutput {
   results: TextClassificationSingle[];
 }
 
-type AnyPipeline = Pipeline & {
-  processor?: unknown;
-};
+type TextGenerationResult = TextGenerationOutput | TextGenerationSingle;
+type TextClassificationResult = TextClassificationOutput | TextClassificationSingle;
 
-let textGenerationPipeline: AnyPipeline | null = null;
-let sentimentPipeline: AnyPipeline | null = null;
+interface CustomPipeline extends Pipeline {
+  processor?: unknown;
+}
+
+let textGenerationPipeline: CustomPipeline | null = null;
+let sentimentPipeline: CustomPipeline | null = null;
 
 const initializePipelines = async () => {
   if (!textGenerationPipeline) {
-    textGenerationPipeline = await pipeline('text-generation', 'gpt2') as AnyPipeline;
+    textGenerationPipeline = await pipeline('text-generation', 'gpt2') as CustomPipeline;
   }
   if (!sentimentPipeline) {
-    sentimentPipeline = await pipeline('sentiment-analysis') as AnyPipeline;
+    sentimentPipeline = await pipeline('sentiment-analysis') as CustomPipeline;
   }
 };
 
-const isChat = (prompt: string | Chat): prompt is Chat => {
-  return Array.isArray(prompt) && prompt.length > 0 && 'role' in prompt[0];
-};
-
-const chatToString = (chat: Chat): string => {
-  return chat.map(message => `${message.role}: ${message.content}`).join('\n');
-};
-
-export const generateText = async (prompt: string | Chat): Promise<string> => {
+export const generateText = async (prompt: string): Promise<string> => {
   try {
     await initializePipelines();
+    
     if (!textGenerationPipeline) {
       throw new Error('Text generation pipeline not initialized');
     }
 
-    const processedPrompt = isChat(prompt) ? chatToString(prompt) : prompt;
-    const output = await textGenerationPipeline(processedPrompt) as TextGenerationOutput | TextGenerationSingle | TextGenerationSingle[];
+    const output = await textGenerationPipeline(prompt, {
+      max_length: 100,
+      num_return_sequences: 1,
+    }) as TextGenerationResult;
 
-    if (Array.isArray(output)) {
-      return output[0]?.generated_text || '';
-    }
-    
     if ('results' in output) {
       return output.results[0]?.generated_text || '';
     }
@@ -76,16 +63,13 @@ export const generateText = async (prompt: string | Chat): Promise<string> => {
 export const analyzeSentiment = async (text: string): Promise<string> => {
   try {
     await initializePipelines();
+    
     if (!sentimentPipeline) {
       throw new Error('Sentiment pipeline not initialized');
     }
 
-    const output = await sentimentPipeline(text) as TextClassificationOutput | TextClassificationSingle | TextClassificationSingle[];
-    
-    if (Array.isArray(output)) {
-      return output[0]?.label || 'NEUTRAL';
-    }
-    
+    const output = await sentimentPipeline(text) as TextClassificationResult;
+
     if ('results' in output) {
       return output.results[0]?.label || 'NEUTRAL';
     }
