@@ -65,13 +65,28 @@ export const generateText = async (prompt: string): Promise<GenerationResult | n
       pad_token_id: 50256
     });
 
-    // Type guard to ensure proper type inference
-    const output = Array.isArray(generatedOutput) ? generatedOutput[0] : generatedOutput;
-    const generatedText = output.generated_text;
+    // Ensure we have a single result with generated_text
+    const generatedResult = Array.isArray(generatedOutput) 
+      ? generatedOutput[0] 
+      : generatedOutput as TextGenerationSingle;
+
+    if (!('generated_text' in generatedResult)) {
+      throw new Error("Invalid generation result format");
+    }
+
+    const generatedText = generatedResult.generated_text;
 
     const sentimentOutput = await sentimentAnalyzer(generatedText);
-    // Type guard to ensure proper type inference
-    const sentimentResult = Array.isArray(sentimentOutput) ? sentimentOutput[0] : sentimentOutput;
+    
+    // Ensure we have a single result with label
+    const sentimentResult = Array.isArray(sentimentOutput)
+      ? sentimentOutput[0]
+      : sentimentOutput as TextClassificationSingle;
+
+    if (!('label' in sentimentResult)) {
+      throw new Error("Invalid sentiment result format");
+    }
+
     const sentiment = sentimentResult.label;
     
     console.log("Generated text:", generatedText);
