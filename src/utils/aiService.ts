@@ -20,8 +20,8 @@ interface TextClassificationOutput {
 type TextGenerationResult = TextGenerationOutput | TextGenerationSingle;
 type TextClassificationResult = TextClassificationOutput | TextClassificationSingle;
 
-let textGenerationPipeline: Pipeline | null = null;
-let sentimentPipeline: Pipeline | null = null;
+let textGenerationPipeline: any | null = null;
+let sentimentPipeline: any | null = null;
 
 const initializePipelines = async () => {
   if (!textGenerationPipeline) {
