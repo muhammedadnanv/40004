@@ -117,12 +117,14 @@ export const EnrollmentForm = ({
       <DialogContent className="w-[95%] max-w-[425px] mx-auto rounded-lg p-4 sm:p-6">
         {!paymentSuccess ? (
           <>
-            <DialogTitle className="text-lg sm:text-xl font-semibold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">
-              Enroll in {programTitle}
-            </DialogTitle>
-            <DialogDescription className="text-gray-600">
-              Complete the form below to enroll in the program and proceed with payment.
-            </DialogDescription>
+            <DialogHeader>
+              <DialogTitle className="text-lg sm:text-xl font-semibold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">
+                Enroll in {programTitle}
+              </DialogTitle>
+              <DialogDescription className="text-gray-600">
+                Complete the form below to enroll in the program and proceed with payment.
+              </DialogDescription>
+            </DialogHeader>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3 sm:space-y-4">
                 <FormFields form={form} />
