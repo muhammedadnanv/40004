@@ -44,9 +44,10 @@ export const generateText = async (prompt: string): Promise<string> => {
     }
 
     const output = await textGenerationPipeline(prompt, {
-      max_new_tokens: 100,
-      num_return_sequences: 1,
-    }) as unknown as TextGenerationResult;
+      max_length: 100,
+      do_sample: true,
+      temperature: 0.7,
+    } as any) as unknown as TextGenerationResult;
 
     if ('results' in output) {
       return output.results[0]?.generated_text || '';
@@ -68,8 +69,8 @@ export const analyzeSentiment = async (text: string): Promise<string> => {
     }
 
     const output = await sentimentPipeline(text, {
-      wait_for_model: true
-    }) as unknown as TextClassificationResult;
+      truncation: true,
+    } as any) as unknown as TextClassificationResult;
 
     if ('results' in output) {
       return output.results[0]?.label || 'NEUTRAL';
