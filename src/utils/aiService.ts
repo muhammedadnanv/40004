@@ -44,15 +44,15 @@ export const generateText = async (prompt: string): Promise<string> => {
     }
 
     const output = await textGenerationPipeline(prompt, {
-      max_length: 100,
+      max_new_tokens: 100,
       num_return_sequences: 1,
-    }) as TextGenerationResult;
+    }) as unknown as TextGenerationResult;
 
     if ('results' in output) {
       return output.results[0]?.generated_text || '';
     }
     
-    return output.generated_text || '';
+    return (output as TextGenerationSingle).generated_text || '';
   } catch (error) {
     console.error('Error generating text:', error);
     throw error;
@@ -67,13 +67,15 @@ export const analyzeSentiment = async (text: string): Promise<string> => {
       throw new Error('Sentiment pipeline not initialized');
     }
 
-    const output = await sentimentPipeline(text) as TextClassificationResult;
+    const output = await sentimentPipeline(text, {
+      wait_for_model: true
+    }) as unknown as TextClassificationResult;
 
     if ('results' in output) {
       return output.results[0]?.label || 'NEUTRAL';
     }
     
-    return output.label || 'NEUTRAL';
+    return (output as TextClassificationSingle).label || 'NEUTRAL';
   } catch (error) {
     console.error('Error analyzing sentiment:', error);
     throw error;
