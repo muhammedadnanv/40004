@@ -10,7 +10,7 @@ export const SocialMediaFooter = () => {
           {/* Social Media Links */}
           <div className="flex justify-center space-x-6 mb-8">
             <a
-              href="https://facebook.com"
+              href="https://www.facebook.com/profile.php?id=61566845016229"
               target="_blank"
               rel="noopener noreferrer"
               className="text-purple-600 hover:text-purple-700 transition-colors"
@@ -18,7 +18,7 @@ export const SocialMediaFooter = () => {
               <Facebook className="w-6 h-6" />
             </a>
             <a
-              href="https://twitter.com"
+              href="https://x.com/comicfixin"
               target="_blank"
               rel="noopener noreferrer"
               className="text-purple-600 hover:text-purple-700 transition-colors"
@@ -26,7 +26,7 @@ export const SocialMediaFooter = () => {
               <Twitter className="w-6 h-6" />
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/company/comicfix/posts/?feedView=all"
               target="_blank"
               rel="noopener noreferrer"
               className="text-purple-600 hover:text-purple-700 transition-colors"
