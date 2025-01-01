@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form } from "@/components/ui/form";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@/hooks/use-toast";
@@ -92,11 +92,12 @@ export const PartnershipForm = ({ isOpen, onClose, partnerName }: PartnershipFor
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="w-[95%] max-w-[425px] mx-auto rounded-lg">
-        <DialogHeader>
-          <DialogTitle className="text-xl font-semibold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">
-            Join {partnerName} Community
-          </DialogTitle>
-        </DialogHeader>
+        <DialogTitle className="text-xl font-semibold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">
+          Join {partnerName} Community
+        </DialogTitle>
+        <DialogDescription className="text-gray-600">
+          Fill out the form below to join our community and get access to exclusive resources.
+        </DialogDescription>
 
         {!isSubmitted ? (
           <Form {...form}>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { motion } from "framer-motion";
 import { Sparkles, PartyPopper } from "lucide-react";
 
@@ -19,6 +19,8 @@ export const NewYearMessage = () => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent className="sm:max-w-md bg-gradient-to-br from-purple-50 via-white to-purple-50 border-2 border-purple-200">
+        <DialogTitle className="sr-only">New Year Message</DialogTitle>
+        <DialogDescription className="sr-only">New Year celebration message and invitation</DialogDescription>
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
