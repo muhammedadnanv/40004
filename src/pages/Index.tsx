@@ -36,7 +36,7 @@ const Index = () => {
       duration: "10 weeks", 
       skills: ["React", "Angular", "Vue.js", "TypeScript"],
       category: "Frontend Development",
-      regularPrice: 999
+      regularPrice: 199
     },
     {
       title: "Low-Code Development",
@@ -44,7 +44,7 @@ const Index = () => {
       duration: "8 weeks",
       skills: ["Low-Code Platforms", "Visual Development", "Rapid Prototyping", "App Design"],
       category: "Low-Code Development",
-      regularPrice: 799
+      regularPrice: 199
     },
     {
       title: "No-Code Development",
@@ -52,7 +52,7 @@ const Index = () => {
       duration: "10 weeks",
       skills: ["No-Code Tools", "Visual Development", "Automation", "App Design"],
       category: "No-Code Development",
-      regularPrice: 899
+      regularPrice: 199
     },
     {
       title: "Full Stack API Development",
@@ -60,7 +60,7 @@ const Index = () => {
       duration: "14 weeks",
       skills: ["RESTful APIs", "Node.js", "Database Design", "Authentication", "Cloud Deployment"],
       category: "Full Stack Development",
-      regularPrice: 1299
+      regularPrice: 199
     },
     {
       title: "ManyChat Automation",
@@ -68,7 +68,7 @@ const Index = () => {
       duration: "3 days",
       skills: ["ManyChat", "Automation", "Chatbots", "Customer Engagement"],
       category: "Automation",
-      regularPrice: 599
+      regularPrice: 199
     }
   ];
 
