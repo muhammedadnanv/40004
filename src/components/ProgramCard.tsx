@@ -6,6 +6,13 @@ import { motion } from "framer-motion";
 import { ProgramHeader } from "./program/ProgramHeader";
 import { ProgramContent } from "./program/ProgramContent";
 import { ProgramFooter } from "./program/ProgramFooter";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { InfoIcon } from "lucide-react";
 
 interface ProgramCardProps {
   program: {
@@ -29,7 +36,20 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
       transition={{ duration: 0.5 }}
       className="h-full"
     >
-      <Card className="premium-card overflow-hidden group h-full flex flex-col">
+      <Card className="premium-card overflow-hidden group h-full flex flex-col relative">
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button className="absolute top-2 right-2 z-10 p-2 rounded-full hover:bg-gray-100 transition-colors">
+                <InfoIcon className="w-4 h-4 text-gray-500" />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>The program, {program.title}, is designed for beginners and intermediate-level developers.</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+        
         <ProgramHeader 
           title={program.title}
           description={program.description}
