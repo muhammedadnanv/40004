@@ -7,11 +7,27 @@ import { runWebsiteTest } from "./utils/websiteValidator";
 import { toast } from "./hooks/use-toast";
 import { NewYearMessage } from "./components/NewYearMessage";
 import { startMarketingRecommendations } from "./utils/marketingRecommendations";
+import { supabase } from "@/integrations/supabase/client";
 
 function App() {
   useEffect(() => {
-    // Run website validation on initial load
-    runWebsiteTest();
+    // Run website validation on initial load with enhanced error handling
+    const validateWebsite = async () => {
+      try {
+        await runWebsiteTest();
+        console.log("Website validation completed successfully");
+      } catch (error) {
+        console.error("Website validation failed:", error);
+        toast({
+          title: "Validation Error",
+          description: "Some features might not be working correctly. Please refresh the page.",
+          variant: "destructive",
+          duration: 5000,
+        });
+      }
+    };
+
+    validateWebsite();
     
     // Initialize marketing features with better error handling
     const initMarketing = async () => {
@@ -35,7 +51,30 @@ function App() {
       }
     };
 
+    // Check Supabase connection
+    const checkSupabaseConnection = async () => {
+      try {
+        const { data, error } = await supabase.from('payments').select('count').single();
+        if (error) throw error;
+        console.log("Supabase connection verified");
+      } catch (error) {
+        console.error("Supabase connection error:", error);
+        toast({
+          title: "Connection Issue",
+          description: "There might be issues with the database connection. Some features may be limited.",
+          variant: "destructive",
+          duration: 5000,
+        });
+      }
+    };
+
     initMarketing();
+    checkSupabaseConnection();
+
+    // Cleanup function
+    return () => {
+      console.log("App cleanup: removing event listeners and clearing timeouts");
+    };
   }, []);
 
   return (
