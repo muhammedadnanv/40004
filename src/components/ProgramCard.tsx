@@ -40,11 +40,14 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <button className="absolute top-2 right-2 z-10 p-2 rounded-full hover:bg-gray-100 transition-colors">
+              <button 
+                className="absolute top-2 right-2 z-10 p-2 rounded-full hover:bg-gray-100 transition-colors"
+                aria-label="Program Information"
+              >
                 <InfoIcon className="w-4 h-4 text-gray-500" />
               </button>
             </TooltipTrigger>
-            <TooltipContent>
+            <TooltipContent side="right" className="max-w-[200px]">
               <p>The program, {program.title}, is designed for beginners and intermediate-level developers.</p>
             </TooltipContent>
           </Tooltip>
