@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form } from "@/components/ui/form";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@/hooks/use-toast";
@@ -12,6 +13,7 @@ import { initializeRazorpay } from "@/utils/razorpayService";
 import { validateReferralCode, getReferralSuccessMessage } from "@/utils/referralUtils";
 import { formSchema, createRazorpayOptions } from "./enrollment/RazorpayConfig";
 import type { FormData } from "./enrollment/RazorpayConfig";
+import { AlertCircle } from "lucide-react";
 
 interface EnrollmentFormProps {
   isOpen: boolean;
@@ -31,6 +33,7 @@ export const EnrollmentForm = ({
   const [finalAmount, setFinalAmount] = useState(initialAmount);
   const [referralApplied, setReferralApplied] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [showPaymentAlert, setShowPaymentAlert] = useState(false);
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -77,7 +80,21 @@ export const EnrollmentForm = ({
   const onSubmit = async (data: FormData) => {
     try {
       setIsProcessing(true);
+      setShowPaymentAlert(true);
+    } catch (error: any) {
+      console.error("Razorpay initialization error:", error);
+      toast({
+        title: "Error",
+        description: error.message || "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+      setIsProcessing(false);
+    }
+  };
 
+  const handlePaymentProceed = async () => {
+    const data = form.getValues();
+    try {
       const options = createRazorpayOptions(
         data,
         finalAmount,
@@ -102,66 +119,88 @@ export const EnrollmentForm = ({
 
       await initializeRazorpay(options);
     } catch (error: any) {
-      console.error("Razorpay initialization error:", error);
-      toast({
-        title: "Error",
-        description: error.message || "Something went wrong. Please try again.",
-        variant: "destructive",
-      });
+      console.error("Payment processing error:", error);
       setIsProcessing(false);
     }
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="w-[95%] max-w-[425px] mx-auto rounded-lg p-4 sm:p-6">
-        {!paymentSuccess ? (
-          <>
-            <DialogHeader>
-              <DialogTitle className="text-lg sm:text-xl font-semibold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">
-                Enroll in {programTitle}
-              </DialogTitle>
-              <DialogDescription className="text-gray-600">
-                Complete the form below to enroll in the program and proceed with payment.
-              </DialogDescription>
-            </DialogHeader>
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3 sm:space-y-4">
-                <FormFields form={form} />
-                <div className="flex flex-col sm:flex-row gap-2">
-                  <div className="flex-1">
-                    <Input 
-                      placeholder="Enter referral code" 
-                      {...form.register("referralCode")}
-                      className="border-purple-200 focus:border-purple-400 transition-colors w-full text-sm sm:text-base"
-                    />
+    <>
+      <Dialog open={isOpen} onOpenChange={onClose}>
+        <DialogContent className="w-[95%] max-w-[425px] mx-auto rounded-lg p-4 sm:p-6">
+          {!paymentSuccess ? (
+            <>
+              <DialogHeader>
+                <DialogTitle className="text-lg sm:text-xl font-semibold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">
+                  Enroll in {programTitle}
+                </DialogTitle>
+                <DialogDescription className="text-gray-600">
+                  Complete the form below to enroll in the program and proceed with payment.
+                </DialogDescription>
+              </DialogHeader>
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3 sm:space-y-4">
+                  <FormFields form={form} />
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <div className="flex-1">
+                      <Input 
+                        placeholder="Enter referral code" 
+                        {...form.register("referralCode")}
+                        className="border-purple-200 focus:border-purple-400 transition-colors w-full text-sm sm:text-base"
+                      />
+                    </div>
+                    <Button 
+                      type="button" 
+                      variant="outline" 
+                      onClick={handleReferralCode}
+                      className="border-purple-200 hover:bg-purple-50 text-purple-600 hover:text-purple-700 w-full sm:w-auto text-sm sm:text-base whitespace-nowrap"
+                    >
+                      Apply Code
+                    </Button>
+                  </div>
+                  <div className="text-right font-semibold text-purple-600 text-sm sm:text-base">
+                    Total Amount: ₹{finalAmount}
                   </div>
                   <Button 
-                    type="button" 
-                    variant="outline" 
-                    onClick={handleReferralCode}
-                    className="border-purple-200 hover:bg-purple-50 text-purple-600 hover:text-purple-700 w-full sm:w-auto text-sm sm:text-base whitespace-nowrap"
+                    type="submit" 
+                    className="w-full bg-purple-600 hover:bg-purple-700 text-white transition-all duration-300 text-sm sm:text-base py-2 sm:py-3"
+                    disabled={isProcessing}
                   >
-                    Apply Code
+                    {isProcessing ? "Processing..." : "Proceed to Payment"}
                   </Button>
-                </div>
-                <div className="text-right font-semibold text-purple-600 text-sm sm:text-base">
-                  Total Amount: ₹{finalAmount}
-                </div>
-                <Button 
-                  type="submit" 
-                  className="w-full bg-purple-600 hover:bg-purple-700 text-white transition-all duration-300 text-sm sm:text-base py-2 sm:py-3"
-                  disabled={isProcessing}
-                >
-                  {isProcessing ? "Processing..." : "Proceed to Payment"}
-                </Button>
-              </form>
-            </Form>
-          </>
-        ) : (
-          <SuccessCard onClose={onClose} />
-        )}
-      </DialogContent>
-    </Dialog>
+                </form>
+              </Form>
+            </>
+          ) : (
+            <SuccessCard onClose={onClose} />
+          )}
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={showPaymentAlert} onOpenChange={setShowPaymentAlert}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Important Payment Information</DialogTitle>
+          </DialogHeader>
+          <Alert variant="destructive" className="mt-4">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>
+              Please ensure that you have made the payment through your UPI ID or number. Do not scan the QR code.
+            </AlertDescription>
+          </Alert>
+          <DialogFooter className="mt-4">
+            <Button 
+              onClick={() => {
+                setShowPaymentAlert(false);
+                handlePaymentProceed();
+              }}
+              className="w-full"
+            >
+              I Understand
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };

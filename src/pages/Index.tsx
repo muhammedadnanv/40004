@@ -35,42 +35,42 @@ const Index = () => {
     {
       title: "Frontend Development",
       description: "Build real frontend projects with expert mentorship. Get personalized guidance and feedback as you develop practical applications. No courses - just hands-on project experience with mentor support.",
-      duration: "10 weeks", 
+      duration: "1 year", 
       skills: ["React", "Angular", "Vue.js", "TypeScript"],
       category: "Frontend Development",
-      regularPrice: 199
+      regularPrice: 15000
     },
     {
       title: "Low-Code Development",
       description: "Create efficient applications using low-code platforms with expert mentorship. Get personalized guidance on your projects. No courses - pure project-based learning with mentor support.",
-      duration: "8 weeks",
+      duration: "1 year",
       skills: ["Low-Code Platforms", "Visual Development", "Rapid Prototyping", "App Design"],
       category: "Low-Code Development",
-      regularPrice: 199
+      regularPrice: 15000
     },
     {
       title: "No-Code Development",
       description: "Build real applications using no-code tools with expert mentorship. Get personalized guidance on your projects. No courses - just hands-on development with dedicated mentor support.",
-      duration: "10 weeks",
+      duration: "1 year",
       skills: ["No-Code Tools", "Visual Development", "Automation", "App Design"],
       category: "No-Code Development",
-      regularPrice: 199
+      regularPrice: 15000
     },
     {
       title: "Full Stack API Development",
       description: "Build complete full-stack applications with expert mentorship. Work on real API projects while learning best practices. No courses - pure hands-on development with personalized mentor guidance.",
-      duration: "14 weeks",
+      duration: "1 year",
       skills: ["RESTful APIs", "Node.js", "Database Design", "Authentication", "Cloud Deployment"],
       category: "Full Stack Development",
-      regularPrice: 199
+      regularPrice: 15000
     },
     {
       title: "ManyChat Automation",
       description: "Build a complete ManyChat automation project in 3 days with expert mentorship. Create real workflows and chatbots with personalized guidance. No courses - pure hands-on implementation.",
-      duration: "3 days",
+      duration: "1 year",
       skills: ["ManyChat", "Automation", "Chatbots", "Customer Engagement"],
       category: "Automation",
-      regularPrice: 199
+      regularPrice: 15000
     }
   ];
 
