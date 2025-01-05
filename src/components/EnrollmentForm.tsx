@@ -1,8 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Form } from "@/components/ui/form";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@/hooks/use-toast";
@@ -13,7 +10,9 @@ import { initializeRazorpay } from "@/utils/razorpayService";
 import { validateReferralCode, getReferralSuccessMessage } from "@/utils/referralUtils";
 import { formSchema, createRazorpayOptions } from "./enrollment/RazorpayConfig";
 import type { FormData } from "./enrollment/RazorpayConfig";
-import { AlertCircle } from "lucide-react";
+import { PaymentAlert } from "./enrollment/PaymentAlert";
+import { ReferralSection } from "./enrollment/ReferralSection";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 interface EnrollmentFormProps {
   isOpen: boolean;
@@ -77,21 +76,6 @@ export const EnrollmentForm = ({
     }
   };
 
-  const onSubmit = async (data: FormData) => {
-    try {
-      setIsProcessing(true);
-      setShowPaymentAlert(true);
-    } catch (error: any) {
-      console.error("Razorpay initialization error:", error);
-      toast({
-        title: "Error",
-        description: error.message || "Something went wrong. Please try again.",
-        variant: "destructive",
-      });
-      setIsProcessing(false);
-    }
-  };
-
   const handlePaymentProceed = async () => {
     const data = form.getValues();
     try {
@@ -124,6 +108,21 @@ export const EnrollmentForm = ({
     }
   };
 
+  const onSubmit = async (data: FormData) => {
+    try {
+      setIsProcessing(true);
+      setShowPaymentAlert(true);
+    } catch (error: any) {
+      console.error("Razorpay initialization error:", error);
+      toast({
+        title: "Error",
+        description: error.message || "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+      setIsProcessing(false);
+    }
+  };
+
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
@@ -141,26 +140,12 @@ export const EnrollmentForm = ({
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3 sm:space-y-4">
                   <FormFields form={form} />
-                  <div className="flex flex-col sm:flex-row gap-2">
-                    <div className="flex-1">
-                      <Input 
-                        placeholder="Enter referral code" 
-                        {...form.register("referralCode")}
-                        className="border-purple-200 focus:border-purple-400 transition-colors w-full text-sm sm:text-base"
-                      />
-                    </div>
-                    <Button 
-                      type="button" 
-                      variant="outline" 
-                      onClick={handleReferralCode}
-                      className="border-purple-200 hover:bg-purple-50 text-purple-600 hover:text-purple-700 w-full sm:w-auto text-sm sm:text-base whitespace-nowrap"
-                    >
-                      Apply Code
-                    </Button>
-                  </div>
-                  <div className="text-right font-semibold text-purple-600 text-sm sm:text-base">
-                    Total Amount: ₹{finalAmount}
-                  </div>
+                  <ReferralSection 
+                    form={form}
+                    onApplyReferral={handleReferralCode}
+                    finalAmount={finalAmount}
+                    referralApplied={referralApplied}
+                  />
                   <Button 
                     type="submit" 
                     className="w-full bg-purple-600 hover:bg-purple-700 text-white transition-all duration-300 text-sm sm:text-base py-2 sm:py-3"
@@ -177,30 +162,11 @@ export const EnrollmentForm = ({
         </DialogContent>
       </Dialog>
 
-      <Dialog open={showPaymentAlert} onOpenChange={setShowPaymentAlert}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Important Payment Information</DialogTitle>
-          </DialogHeader>
-          <Alert variant="destructive" className="mt-4">
-            <AlertCircle className="h-4 w-4" />
-            <AlertDescription>
-              Please ensure that you have made the payment through your UPI ID or number. Do not scan the QR code.
-            </AlertDescription>
-          </Alert>
-          <DialogFooter className="mt-4">
-            <Button 
-              onClick={() => {
-                setShowPaymentAlert(false);
-                handlePaymentProceed();
-              }}
-              className="w-full"
-            >
-              I Understand
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <PaymentAlert 
+        isOpen={showPaymentAlert}
+        onClose={() => setShowPaymentAlert(false)}
+        onProceed={handlePaymentProceed}
+      />
     </>
   );
 };
