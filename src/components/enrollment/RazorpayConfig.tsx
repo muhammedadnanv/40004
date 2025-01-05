@@ -23,10 +23,10 @@ export const createRazorpayOptions = (
 ) => {
   const options = {
     key: RAZORPAY_KEY,
-    amount: amount * 100,
+    amount: amount * 100, // Convert to paise (Razorpay expects amount in paise)
     currency: "INR",
     name: "Dev Mentor Hub",
-    description: `Enrollment for ${programTitle}`,
+    description: `Enrollment for ${programTitle} - ₹${amount}`,
     image: "https://your-logo-url.com/logo.png",
     prefill: {
       name: data.name,
@@ -36,6 +36,7 @@ export const createRazorpayOptions = (
     notes: {
       address: data.address,
       program: programTitle,
+      amount: `₹${amount}`,
     },
     theme: {
       color: "#7c3aed",
