@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Sparkles, BookOpen } from "lucide-react";
+import { ExternalLink, BookOpen } from "lucide-react";
 import { motion } from "framer-motion";
 
 export const HeroSection = () => {
@@ -31,9 +31,8 @@ export const HeroSection = () => {
             transition={{ delay: 0.2, duration: 0.5 }}
             className="space-y-4"
           >
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight premium-gradient flex items-center justify-center gap-4">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight premium-gradient">
               Dev Mentor Hub 
-              <Sparkles className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-purple-600 animate-pulse" />
             </h1>
             
             <p className="text-lg sm:text-xl md:text-2xl text-gray-600 font-light max-w-2xl mx-auto">
