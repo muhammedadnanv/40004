@@ -14,6 +14,12 @@ export type FormData = z.infer<typeof formSchema>;
 
 const RAZORPAY_KEY = import.meta.env.VITE_RAZORPAY_LIVE_KEY || "rzp_live_YOUR_LIVE_KEY_HERE";
 
+const calculateTotalAmount = (baseAmount: number) => {
+  const platformFeePercentage = 20;
+  const platformFee = (baseAmount * platformFeePercentage) / 100;
+  return baseAmount + platformFee;
+};
+
 export const createRazorpayOptions = (
   data: FormData,
   amount: number,
@@ -21,12 +27,14 @@ export const createRazorpayOptions = (
   onSuccess: () => void,
   onError: (error: { message: string }) => void
 ) => {
+  const totalAmount = calculateTotalAmount(amount);
+  
   const options = {
     key: RAZORPAY_KEY,
-    amount: amount * 100, // Convert to paise (Razorpay expects amount in paise)
+    amount: totalAmount * 100, // Convert to paise (Razorpay expects amount in paise)
     currency: "INR",
     name: "Dev Mentor Hub",
-    description: `Enrollment for ${programTitle} - ₹${amount}`,
+    description: `Enrollment for ${programTitle} - Base: ₹${amount} + Platform Fee (20%): ₹${totalAmount - amount}`,
     image: "https://your-logo-url.com/logo.png",
     prefill: {
       name: data.name,
@@ -36,7 +44,9 @@ export const createRazorpayOptions = (
     notes: {
       address: data.address,
       program: programTitle,
-      amount: `₹${amount}`,
+      baseAmount: `₹${amount}`,
+      platformFee: `₹${totalAmount - amount}`,
+      totalAmount: `₹${totalAmount}`,
     },
     theme: {
       color: "#7c3aed",
@@ -52,7 +62,7 @@ export const createRazorpayOptions = (
             order_id: response.razorpay_order_id,
             signature: response.razorpay_signature,
             program_title: programTitle,
-            amount,
+            amount: totalAmount,
             user_name: data.name,
             user_email: data.email,
             user_phone: data.phone,

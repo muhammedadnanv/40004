@@ -31,6 +31,11 @@ const Index = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const baseProgramPrice = 1500;
+  const platformFeePercentage = 20;
+  const platformFee = (baseProgramPrice * platformFeePercentage) / 100;
+  const totalPrice = baseProgramPrice + platformFee;
+
   const programs = [
     {
       title: "Frontend Development",
@@ -38,7 +43,7 @@ const Index = () => {
       duration: "1 year", 
       skills: ["React", "Angular", "Vue.js", "TypeScript"],
       category: "Frontend Development",
-      regularPrice: 1500
+      regularPrice: totalPrice
     },
     {
       title: "Low-Code Development",
@@ -46,7 +51,7 @@ const Index = () => {
       duration: "1 year",
       skills: ["Low-Code Platforms", "Visual Development", "Rapid Prototyping", "App Design"],
       category: "Low-Code Development",
-      regularPrice: 1500
+      regularPrice: totalPrice
     },
     {
       title: "No-Code Development",
@@ -54,7 +59,7 @@ const Index = () => {
       duration: "1 year",
       skills: ["No-Code Tools", "Visual Development", "Automation", "App Design"],
       category: "No-Code Development",
-      regularPrice: 1500
+      regularPrice: totalPrice
     },
     {
       title: "Full Stack API Development",
@@ -62,7 +67,7 @@ const Index = () => {
       duration: "1 year",
       skills: ["RESTful APIs", "Node.js", "Database Design", "Authentication", "Cloud Deployment"],
       category: "Full Stack Development",
-      regularPrice: 1500
+      regularPrice: totalPrice
     },
     {
       title: "ManyChat Automation",
@@ -70,7 +75,7 @@ const Index = () => {
       duration: "1 year",
       skills: ["ManyChat", "Automation", "Chatbots", "Customer Engagement"],
       category: "Automation",
-      regularPrice: 1500
+      regularPrice: totalPrice
     }
   ];
 
