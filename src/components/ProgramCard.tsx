@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { ProgramHeader } from "./program/ProgramHeader";
 import { ProgramContent } from "./program/ProgramContent";
 import { ProgramFooter } from "./program/ProgramFooter";
+import { MentorInfoDialog } from "./mentor/MentorInfoDialog";
 import {
   Tooltip,
   TooltipContent,
@@ -80,6 +81,9 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
           amount={currentPrice}
         />
         <ShareProgramCard program={program} />
+        <div className="mt-4">
+          <MentorInfoDialog programFee={currentPrice} />
+        </div>
       </Card>
     </motion.div>
   );

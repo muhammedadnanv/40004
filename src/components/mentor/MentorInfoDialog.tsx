@@ -9,7 +9,15 @@ import {
 import { Button } from "@/components/ui/button";
 import { Info } from "lucide-react";
 
-export const MentorInfoDialog = () => {
+interface MentorInfoDialogProps {
+  programFee?: number;
+}
+
+export const MentorInfoDialog = ({ programFee = 499 }: MentorInfoDialogProps) => {
+  const platformFee = (programFee * 0.10).toFixed(2); // 10% platform fee
+  const razorpayFee = (programFee * 0.02).toFixed(2); // 2% Razorpay fee
+  const mentorEarnings = (programFee - Number(platformFee) - Number(razorpayFee)).toFixed(2);
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -30,10 +38,10 @@ export const MentorInfoDialog = () => {
             <div className="bg-purple-50 p-4 rounded-lg">
               <p className="font-medium mb-2">Example Earnings:</p>
               <ul className="space-y-1">
-                <li>Client fee: ₹499</li>
-                <li>Platform cut (10%): ₹49.90</li>
-                <li>Razorpay fee (2%): ₹9.98</li>
-                <li className="font-medium">Your Lickesalary: ₹439.12</li>
+                <li>Client fee: ₹{programFee}</li>
+                <li>Platform cut (10%): ₹{platformFee}</li>
+                <li>Razorpay fee (2%): ₹{razorpayFee}</li>
+                <li className="font-medium">Your Lickesalary: ₹{mentorEarnings}</li>
               </ul>
             </div>
             <p>
