@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
-import type { Database } from "@/integrations/supabase/types";
+import { toast } from "@/hooks/use-toast";
 
 export const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -20,6 +20,34 @@ const calculateTotalAmount = (baseAmount: number) => {
   return baseAmount + platformFee;
 };
 
+const sendEnrollmentEmail = async (email: string, name: string, programTitle: string) => {
+  try {
+    const response = await fetch('https://zbnwztqwkusdurqllgzc.supabase.co/functions/v1/send-enrollment-email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        to: email,
+        userName: name,
+        programTitle: programTitle,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to send enrollment email');
+    }
+  } catch (error) {
+    console.error('Error sending enrollment email:', error);
+    // Don't throw here - we don't want to break the enrollment flow if email fails
+    toast({
+      title: "Note",
+      description: "Enrollment successful, but we couldn't send you a confirmation email. Please check your spam folder.",
+      variant: "default",
+    });
+  }
+};
+
 export const createRazorpayOptions = (
   data: FormData,
   amount: number,
@@ -31,7 +59,7 @@ export const createRazorpayOptions = (
   
   const options = {
     key: RAZORPAY_KEY,
-    amount: totalAmount * 100, // Convert to paise (Razorpay expects amount in paise)
+    amount: totalAmount * 100,
     currency: "INR",
     name: "Dev Mentor Hub",
     description: `Enrollment for ${programTitle} - Base: ₹${amount} + Platform Fee (20%): ₹${totalAmount - amount}`,
@@ -73,8 +101,16 @@ export const createRazorpayOptions = (
           onError({ message: "Payment successful but failed to store details" });
           return;
         }
+
+        // Send enrollment confirmation email
+        await sendEnrollmentEmail(data.email, data.name, programTitle);
         
         onSuccess();
+        
+        toast({
+          title: "Payment Successful! 🎉",
+          description: "Check your email for enrollment confirmation and next steps.",
+        });
       } catch (error: any) {
         console.error("Error processing payment:", error);
         onError({ message: error.message || "Error processing payment" });
