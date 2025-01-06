@@ -8,15 +8,24 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Info } from "lucide-react";
+import { useMemo } from "react";
 
 interface MentorInfoDialogProps {
   programFee?: number;
 }
 
 export const MentorInfoDialog = ({ programFee = 499 }: MentorInfoDialogProps) => {
-  const platformFee = (programFee * 0.10).toFixed(2); // 10% platform fee
-  const razorpayFee = (programFee * 0.02).toFixed(2); // 2% Razorpay fee
-  const mentorEarnings = (programFee - Number(platformFee) - Number(razorpayFee)).toFixed(2);
+  const calculations = useMemo(() => {
+    const platformFee = (programFee * 0.10).toFixed(2); // 10% platform fee
+    const razorpayFee = (programFee * 0.02).toFixed(2); // 2% Razorpay fee
+    const mentorEarnings = (programFee - Number(platformFee) - Number(razorpayFee)).toFixed(2);
+    
+    return {
+      platformFee,
+      razorpayFee,
+      mentorEarnings
+    };
+  }, [programFee]);
 
   return (
     <Dialog>
@@ -39,9 +48,9 @@ export const MentorInfoDialog = ({ programFee = 499 }: MentorInfoDialogProps) =>
               <p className="font-medium mb-2">Example Earnings:</p>
               <ul className="space-y-1">
                 <li>Client fee: ₹{programFee}</li>
-                <li>Platform cut (10%): ₹{platformFee}</li>
-                <li>Razorpay fee (2%): ₹{razorpayFee}</li>
-                <li className="font-medium">Your Lickesalary: ₹{mentorEarnings}</li>
+                <li>Platform cut (10%): ₹{calculations.platformFee}</li>
+                <li>Razorpay fee (2%): ₹{calculations.razorpayFee}</li>
+                <li className="font-medium">Your Lickesalary: ₹{calculations.mentorEarnings}</li>
               </ul>
             </div>
             <p>
