@@ -59,10 +59,8 @@
     padding-right: 1rem;
     padding-left: 1rem;
   }
-}
 
-/* Enhanced touch targets for mobile */
-@media (max-width: 768px) {
+  /* Improved touch targets for mobile */
   button, 
   [role="button"],
   a {
@@ -75,6 +73,32 @@
   select,
   textarea {
     font-size: 16px; /* Prevents iOS zoom on focus */
+    padding: 0.75rem;
+  }
+
+  /* Better spacing for mobile forms */
+  form {
+    gap: 1.25rem;
+  }
+
+  /* Improved mobile card layouts */
+  .card {
+    margin-bottom: 1rem;
+  }
+
+  /* Better mobile navigation */
+  nav {
+    padding: 0.75rem 1rem;
+  }
+}
+
+/* Enhanced touch targets for tablets */
+@media (max-width: 768px) {
+  button, 
+  [role="button"],
+  a {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
   }
 }
 
@@ -145,5 +169,25 @@ html {
   }
   100% {
     background-position: 0 50%;
+  }
+}
+
+/* Safe area insets for modern mobile devices */
+@supports (padding: max(0px)) {
+  .safe-bottom {
+    padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+  }
+  
+  .safe-top {
+    padding-top: max(1.5rem, env(safe-area-inset-top));
+  }
+}
+
+/* Better form controls for touch devices */
+@media (hover: none) {
+  input[type="checkbox"],
+  input[type="radio"] {
+    min-width: 20px;
+    min-height: 20px;
   }
 }
