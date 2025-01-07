@@ -37,18 +37,25 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
       className="h-full"
     >
       <Card className="premium-card overflow-hidden group h-full flex flex-col relative">
-        <TooltipProvider>
+        <TooltipProvider delayDuration={300}>
           <Tooltip>
             <TooltipTrigger asChild>
               <button 
-                className="absolute top-2 right-2 z-10 p-2 rounded-full hover:bg-gray-100 transition-colors"
-                aria-label="Program Information"
+                className="absolute top-3 right-3 z-10 p-2 rounded-full bg-white/80 hover:bg-white transition-colors shadow-sm"
+                aria-label={`Information about ${program.title}`}
               >
-                <InfoIcon className="w-4 h-4 text-gray-500" />
+                <InfoIcon className="w-4 h-4 text-purple-600" />
               </button>
             </TooltipTrigger>
-            <TooltipContent side="right" className="max-w-[200px]">
-              <p>The program, {program.title}, is designed for beginners and intermediate-level developers.</p>
+            <TooltipContent 
+              side="right" 
+              className="max-w-[250px] p-3 bg-white shadow-lg rounded-lg border border-purple-100"
+              sideOffset={5}
+            >
+              <p className="text-sm text-gray-600">
+                {program.title} is designed for both beginners and intermediate-level developers. 
+                Get personalized mentorship and hands-on project experience.
+              </p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>

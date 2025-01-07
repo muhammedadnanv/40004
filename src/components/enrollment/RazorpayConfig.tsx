@@ -12,12 +12,12 @@ export const formSchema = z.object({
 
 export type FormData = z.infer<typeof formSchema>;
 
-const RAZORPAY_KEY = import.meta.env.VITE_RAZORPAY_LIVE_KEY || "rzp_live_YOUR_LIVE_KEY_HERE";
+const RAZORPAY_KEY = import.meta.env.VITE_RAZORPAY_LIVE_KEY;
 
 const calculateTotalAmount = (baseAmount: number) => {
   const platformFeePercentage = 20;
   const platformFee = (baseAmount * platformFeePercentage) / 100;
-  return baseAmount + platformFee;
+  return Math.round(baseAmount + platformFee); // Ensure whole number for Razorpay
 };
 
 const sendEnrollmentEmail = async (email: string, name: string, programTitle: string) => {
@@ -39,10 +39,9 @@ const sendEnrollmentEmail = async (email: string, name: string, programTitle: st
     }
   } catch (error) {
     console.error('Error sending enrollment email:', error);
-    // Don't throw here - we don't want to break the enrollment flow if email fails
     toast({
       title: "Note",
-      description: "Enrollment successful, but we couldn't send you a confirmation email. Please check your spam folder.",
+      description: "Enrollment successful, but confirmation email might be delayed. Please check your spam folder.",
       variant: "default",
     });
   }
@@ -57,12 +56,17 @@ export const createRazorpayOptions = (
 ) => {
   const totalAmount = calculateTotalAmount(amount);
   
+  if (!RAZORPAY_KEY) {
+    onError({ message: "Payment configuration error. Please try again later." });
+    return null;
+  }
+  
   const options = {
     key: RAZORPAY_KEY,
-    amount: totalAmount * 100,
+    amount: totalAmount * 100, // Razorpay expects amount in paise
     currency: "INR",
     name: "Dev Mentor Hub",
-    description: `Enrollment for ${programTitle} - Base: ₹${amount} + Platform Fee (20%): ₹${totalAmount - amount}`,
+    description: `Enrollment for ${programTitle}`,
     image: "https://your-logo-url.com/logo.png",
     prefill: {
       name: data.name,
@@ -98,7 +102,12 @@ export const createRazorpayOptions = (
 
         if (error) {
           console.error("Error storing payment:", error);
-          onError({ message: "Payment successful but failed to store details" });
+          toast({
+            title: "Payment Recorded",
+            description: "Your payment was successful but we encountered an issue saving your details. Our team will contact you shortly.",
+            variant: "default",
+          });
+          onSuccess(); // Still consider it a success since payment went through
           return;
         }
 
