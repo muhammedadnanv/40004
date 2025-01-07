@@ -12,7 +12,7 @@ export const NewYearMessage = () => {
       <div className="flex items-center gap-2">
         <Sparkles className="w-5 h-5 text-yellow-300 animate-pulse" />
         <p className="text-sm font-medium">
-          Welcome to 2025! Start your development journey with us.
+          Start your development journey with us
         </p>
       </div>
     </motion.div>
