@@ -30,34 +30,49 @@ export const MentorInfoDialog = ({ programFee = 499 }: MentorInfoDialogProps) =>
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" className="gap-2">
-          <Info className="w-4 h-4" />
-          Learn More About Mentorship
+        <Button 
+          variant="outline" 
+          className="w-full sm:w-auto text-sm sm:text-base px-4 py-2 sm:px-6 sm:py-3"
+        >
+          Learn More About Mentorship <Info className="w-4 h-4 ml-2" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className="w-[95vw] max-w-[500px] p-4 sm:p-6">
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold mb-4">
-            Mentor Information
+          <DialogTitle className="text-lg sm:text-xl font-semibold mb-2">
+            Become a Mentor
           </DialogTitle>
-          <DialogDescription className="text-gray-600 space-y-4">
-            <p>
-              As a mentor, you'll receive a "Lickesalary" for each client who joins through your mentorship. Your earnings will be a portion of the client fee after platform and Razorpay cuts (10% platform fee + 2% Razorpay fee).
-            </p>
-            <div className="bg-purple-50 p-4 rounded-lg">
-              <p className="font-medium mb-2">Example Earnings:</p>
-              <ul className="space-y-1">
-                <li>Client fee: ₹{programFee}</li>
-                <li>Platform cut (10%): ₹{calculations.platformFee}</li>
-                <li>Razorpay fee (2%): ₹{calculations.razorpayFee}</li>
-                <li className="font-medium">Your Lickesalary: ₹{calculations.mentorEarnings}</li>
-              </ul>
-            </div>
-            <p>
-              You'll guide mentees through projects, code reviews, and best practices while collaborating with our community. We offer a flexible schedule, compensation based on clients mentored, and a platform to showcase your expertise and expand your professional network.
-            </p>
+          <DialogDescription className="text-sm sm:text-base">
+            Join our platform as a mentor and share your expertise while earning.
           </DialogDescription>
         </DialogHeader>
+        <div className="space-y-4 mt-4">
+          <div className="bg-gray-50 p-4 rounded-lg">
+            <p className="font-medium mb-2 text-sm sm:text-base">Example Earnings:</p>
+            <ul className="space-y-2 text-sm sm:text-base">
+              <li className="flex justify-between">
+                <span>Client fee:</span>
+                <span>₹{programFee}</span>
+              </li>
+              <li className="flex justify-between">
+                <span>Platform cut (10%):</span>
+                <span>₹{calculations.platformFee}</span>
+              </li>
+              <li className="flex justify-between">
+                <span>Razorpay fee (2%):</span>
+                <span>₹{calculations.razorpayFee}</span>
+              </li>
+              <li className="flex justify-between font-medium">
+                <span>Your earnings:</span>
+                <span>₹{calculations.mentorEarnings}</span>
+              </li>
+            </ul>
+          </div>
+          <p className="text-sm sm:text-base text-gray-600">
+            Start mentoring students and earn while helping others grow in their careers.
+            Our platform handles all the logistics, payments, and student matching.
+          </p>
+        </div>
       </DialogContent>
     </Dialog>
   );
