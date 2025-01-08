@@ -10,7 +10,11 @@ import { NewYearMessage } from "./components/NewYearMessage";
 import { startMarketingRecommendations } from "./utils/marketingRecommendations";
 import { supabase } from "@/integrations/supabase/client";
 
-const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY || '';
+const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+
+if (!clerkPubKey) {
+  console.error('Missing Clerk Publishable Key');
+}
 
 function App() {
   useEffect(() => {
