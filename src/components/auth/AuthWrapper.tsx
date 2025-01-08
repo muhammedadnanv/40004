@@ -8,18 +8,19 @@ interface AuthWrapperProps {
 }
 
 export const AuthWrapper = ({ children }: AuthWrapperProps) => {
-  const { isLoaded, isSignedIn, error } = useAuth();
+  const { isLoaded, isSignedIn } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (error) {
+    // Handle any authentication-related side effects here
+    if (isLoaded && !isSignedIn) {
       toast({
-        title: "Authentication Error",
-        description: error.message,
+        title: "Authentication Required",
+        description: "Please sign in to continue",
         variant: "destructive",
       });
     }
-  }, [error]);
+  }, [isLoaded, isSignedIn]);
 
   if (!isLoaded) {
     return (
