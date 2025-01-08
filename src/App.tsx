@@ -1,7 +1,6 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { ClerkProvider, useAuth } from "@clerk/clerk-react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ClerkProvider } from "@clerk/clerk-react";
 import Index from "./pages/Index";
-import AuthSplash from "./pages/AuthSplash";
 import { Toaster } from "./components/ui/toaster";
 import { useEffect } from "react";
 import { WhatsAppWidget } from "./components/WhatsAppWidget";
@@ -16,23 +15,6 @@ const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 if (!clerkPubKey) {
   console.error('Missing Clerk Publishable Key');
 }
-
-// Protected Route Component
-const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const { isSignedIn, isLoaded } = useAuth();
-
-  if (!isLoaded) {
-    return <div className="flex items-center justify-center min-h-screen">
-      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-    </div>;
-  }
-
-  if (!isSignedIn) {
-    return <Navigate to="/auth" replace />;
-  }
-
-  return <>{children}</>;
-};
 
 function App() {
   useEffect(() => {
@@ -57,12 +39,14 @@ function App() {
     // Initialize marketing features with better error handling
     const initMarketing = async () => {
       try {
+        // Only attempt to start marketing recommendations if the function exists
         if (typeof startMarketingRecommendations === 'function') {
           await startMarketingRecommendations();
           console.log("Marketing recommendations started successfully");
         }
       } catch (error: any) {
         console.error("Error starting marketing recommendations:", error);
+        // Only show toast for non-404 errors to avoid confusing users
         if (error?.status !== 404) {
           toast({
             title: "Marketing Features",
@@ -94,6 +78,7 @@ function App() {
     initMarketing();
     checkSupabaseConnection();
 
+    // Cleanup function
     return () => {
       console.log("App cleanup: removing event listeners and clearing timeouts");
     };
@@ -104,12 +89,7 @@ function App() {
       <Router>
         <div className="min-h-screen">
           <Routes>
-            <Route path="/auth" element={<AuthSplash />} />
-            <Route path="/" element={
-              <ProtectedRoute>
-                <Index />
-              </ProtectedRoute>
-            } />
+            <Route path="/" element={<Index />} />
           </Routes>
           <WhatsAppWidget />
           <NewYearMessage />
