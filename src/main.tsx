@@ -2,7 +2,7 @@ import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 
-// Register Service Worker
+// Register Service Worker with better error handling and updates
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js')
@@ -37,11 +37,6 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('offline', () => {
     console.log('Application is offline');
   });
-}
-
-// Ensure Clerk key is available
-if (!import.meta.env.VITE_CLERK_PUBLISHABLE_KEY) {
-  console.error('Missing Clerk Publishable Key');
 }
 
 createRoot(document.getElementById("root")!).render(

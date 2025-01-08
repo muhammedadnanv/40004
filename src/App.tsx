@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { ClerkProvider } from "@clerk/clerk-react";
 import Index from "./pages/Index";
 import { Toaster } from "./components/ui/toaster";
 import { useEffect } from "react";
@@ -9,12 +8,6 @@ import { toast } from "./hooks/use-toast";
 import { NewYearMessage } from "./components/NewYearMessage";
 import { startMarketingRecommendations } from "./utils/marketingRecommendations";
 import { supabase } from "@/integrations/supabase/client";
-
-const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
-
-if (!clerkPubKey) {
-  console.error('Missing Clerk Publishable Key');
-}
 
 function App() {
   useEffect(() => {
@@ -85,18 +78,16 @@ function App() {
   }, []);
 
   return (
-    <ClerkProvider publishableKey={clerkPubKey}>
-      <Router>
-        <div className="min-h-screen">
-          <Routes>
-            <Route path="/" element={<Index />} />
-          </Routes>
-          <WhatsAppWidget />
-          <NewYearMessage />
-          <Toaster />
-        </div>
-      </Router>
-    </ClerkProvider>
+    <Router>
+      <div className="min-h-screen">
+        <Routes>
+          <Route path="/" element={<Index />} />
+        </Routes>
+        <WhatsAppWidget />
+        <NewYearMessage />
+        <Toaster />
+      </div>
+    </Router>
   );
 }
 
