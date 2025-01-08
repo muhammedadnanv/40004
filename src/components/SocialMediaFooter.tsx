@@ -44,7 +44,7 @@ export const SocialMediaFooter = () => {
           >
             <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1498050108023-c5249f4df085')] bg-cover bg-center opacity-[0.02]" />
             
-            <h4 className="text-xl sm:text-2xl font-medium bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent mb-3">
+            <h4 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent mb-3">
               Build Your Professional Resume
             </h4>
             
@@ -54,7 +54,7 @@ export const SocialMediaFooter = () => {
             </p>
             
             <a 
-              href="https://www.producthunt.com/products/705762"
+              href="https://sxoresumebulider.vercel.app/"
               target="_blank"
               rel="noopener noreferrer"
             >
