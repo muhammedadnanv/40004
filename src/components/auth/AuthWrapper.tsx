@@ -1,5 +1,6 @@
 import { useAuth } from "@clerk/clerk-react";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
 
 interface AuthWrapperProps {
@@ -8,16 +9,18 @@ interface AuthWrapperProps {
 
 export const AuthWrapper = ({ children }: AuthWrapperProps) => {
   const { isLoaded, isSignedIn } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isLoaded && !isSignedIn) {
+      navigate("/auth");
       toast({
         title: "Authentication Required",
         description: "Please sign in to continue",
         variant: "destructive",
       });
     }
-  }, [isLoaded, isSignedIn]);
+  }, [isLoaded, isSignedIn, navigate]);
 
   if (!isLoaded) {
     return (
