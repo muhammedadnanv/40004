@@ -74,6 +74,14 @@ const Index = () => {
       skills: ["ManyChat", "Automation", "Chatbots", "Customer Engagement"],
       category: "Automation",
       regularPrice: totalPrice
+    },
+    {
+      title: "Community Automation on Skool.com",
+      description: "Enhance and streamline your Skool.com community with cutting-edge automation techniques. Learn to optimize onboarding, boost engagement, and implement scalable growth strategies with ease.",
+      duration: "8 Weeks",
+      skills: ["Automated Onboarding", "Engagement Triggers", "App Integrations", "Analytics Automation", "Growth Systems"],
+      category: "Community Management",
+      regularPrice: totalPrice
     }
   ];
 
