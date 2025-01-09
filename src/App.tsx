@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import { Toaster } from "./components/ui/toaster";
 import { useEffect } from "react";
-import { WhatsAppWidget } from "./components/WhatsAppWidget";
 import { runWebsiteTest } from "./utils/websiteValidator";
 import { toast } from "./hooks/use-toast";
 import { NewYearMessage } from "./components/NewYearMessage";
@@ -83,7 +82,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Index />} />
         </Routes>
-        <WhatsAppWidget />
         <NewYearMessage />
         <Toaster />
       </div>
