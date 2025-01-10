@@ -14,6 +14,7 @@ import { ShareSection } from "@/components/ShareSection";
 import { MentorSection } from "@/components/MentorSection";
 import { SuccessStoriesSection } from "@/components/SuccessStoriesSection";
 import { CodeOfConductSection } from "@/components/CodeOfConductSection";
+import { AlbatoAdPopup } from "@/components/AlbatoAdPopup";
 import { useEffect } from "react";
 import { showRandomJoinNotification } from "@/utils/mockNotifications";
 import { getContentEngagementStats } from "@/utils/contentAdaptation";
@@ -91,6 +92,7 @@ const Index = () => {
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1485827404703-89b55fcc595e')] bg-cover bg-center opacity-5 pointer-events-none" />
       
       <div className="relative">
+        <AlbatoAdPopup />
         <section aria-label="category-notice" className="container mx-auto px-4 pt-8">
           <CategoryTopper />
         </section>
