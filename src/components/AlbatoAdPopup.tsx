@@ -1,46 +1,38 @@
-import { useEffect, useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { useEffect } from "react";
 
 export function AlbatoAdPopup() {
-  const [isOpen, setIsOpen] = useState(false);
-
   useEffect(() => {
-    // Show popup after 3 seconds
-    const timer = setTimeout(() => {
-      setIsOpen(true);
-    }, 3000);
+    // Show popup after user interacts with the page
+    const handleInteraction = () => {
+      // Create pop-under window
+      const width = 800;
+      const height = 600;
+      const left = window.screen.width - width;
+      const top = window.screen.height - height;
 
-    return () => clearTimeout(timer);
+      const popUnder = window.open(
+        "https://albato.com?fpr=muhammad51",
+        "albato_offer",
+        `width=${width},height=${height},left=${left},top=${top}`
+      );
+
+      // Bring main window to front
+      if (popUnder) {
+        window.focus();
+        
+        // Remove event listener after first interaction
+        document.removeEventListener('click', handleInteraction);
+      }
+    };
+
+    // Add event listener for user interaction
+    document.addEventListener('click', handleInteraction, { once: true });
+
+    // Cleanup
+    return () => {
+      document.removeEventListener('click', handleInteraction);
+    };
   }, []);
 
-  return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="sm:max-w-[600px]">
-        <DialogHeader>
-          <DialogTitle className="text-xl font-semibold mb-4">
-            Special Offer
-          </DialogTitle>
-        </DialogHeader>
-        <div className="flex justify-center items-center p-4">
-          <a 
-            href="https://albato.com?fpr=muhammad51" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="hover:opacity-90 transition-opacity"
-          >
-            <img 
-              src="https://d2gdx5nv84sdx2.cloudfront.net/uploads/k8rbl7fp/marketing_asset/banner/13697/7_Albato_vs_Zapier_-_purple.png" 
-              alt="Albato vs Zapier Comparison" 
-              className="max-w-full h-auto rounded-lg shadow-lg"
-            />
-          </a>
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
+  return null; // Component doesn't render anything visually
 }
