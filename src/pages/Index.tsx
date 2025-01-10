@@ -14,7 +14,6 @@ import { ShareSection } from "@/components/ShareSection";
 import { MentorSection } from "@/components/MentorSection";
 import { SuccessStoriesSection } from "@/components/SuccessStoriesSection";
 import { CodeOfConductSection } from "@/components/CodeOfConductSection";
-import { InteractiveElementsSection } from "@/components/InteractiveElementsSection";
 import { useEffect } from "react";
 import { showRandomJoinNotification } from "@/utils/mockNotifications";
 import { getContentEngagementStats } from "@/utils/contentAdaptation";
@@ -100,7 +99,6 @@ const Index = () => {
         <LearningPathSection />
         <FeaturesSection />
         <ProgramsSection programs={programs} />
-        <InteractiveElementsSection />
         <PartnershipsSection />
         <SuccessStoriesSection />
         <ProjectIdeasSection />
