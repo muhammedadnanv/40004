@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { InputWithIcon } from "@/components/ui/input-with-icon";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -163,12 +163,13 @@ export const InteractiveElementsSection = () => {
             <Card className="p-4 space-y-4">
               <h3 className="text-lg font-medium">Search and Filter</h3>
               <form onSubmit={handleSearch} className="flex gap-2">
-                <Input
+                <InputWithIcon
                   type="search"
                   placeholder="Search..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="flex-1"
+                  icon={<Search className="w-4 h-4" />}
                 />
                 <Button type="submit" size="sm" disabled={isLoading}>
                   <Search className="w-4 h-4 mr-2" />
@@ -210,10 +211,10 @@ export const InteractiveElementsSection = () => {
             <Card className="p-4 space-y-4">
               <h3 className="text-lg font-medium">Form Elements</h3>
               <div className="space-y-2">
-                <Input placeholder="Username" icon={<User className="w-4 h-4" />} />
-                <Input placeholder="Email" icon={<Mail className="w-4 h-4" />} />
+                <InputWithIcon placeholder="Username" icon={<User className="w-4 h-4" />} />
+                <InputWithIcon placeholder="Email" icon={<Mail className="w-4 h-4" />} />
                 <div className="relative">
-                  <Input
+                  <InputWithIcon
                     type={showPassword ? "text" : "password"}
                     placeholder="Password"
                     icon={<Lock className="w-4 h-4" />}
