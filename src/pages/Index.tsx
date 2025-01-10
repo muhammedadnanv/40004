@@ -13,6 +13,7 @@ import { ReviewSection } from "@/components/ReviewSection";
 import { ShareSection } from "@/components/ShareSection";
 import { MentorSection } from "@/components/MentorSection";
 import { SuccessStoriesSection } from "@/components/SuccessStoriesSection";
+import { CodeOfConductSection } from "@/components/CodeOfConductSection";
 import { useEffect } from "react";
 import { showRandomJoinNotification } from "@/utils/mockNotifications";
 import { getContentEngagementStats } from "@/utils/contentAdaptation";
@@ -102,6 +103,7 @@ const Index = () => {
         <SuccessStoriesSection />
         <ProjectIdeasSection />
         <CertificationSection />
+        <CodeOfConductSection />
         <ReviewSection />
         <ShareSection />
         <MentorSection />
