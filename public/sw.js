@@ -1,6 +1,7 @@
 const CACHE_NAME = 'dev-mentor-hub-v1';
 const OFFLINE_URL = '/offline.html';
 const OFFLINE_IMG = 'https://i.ibb.co/wy6KYyT/DALL-E-2024-11-07-14-58-28-A-professional-and-modern-logo-for-Dev-Mentor-a-mentorship-platform-in-te.webp';
+const ALBATO_IMG = 'https://d2gdx5nv84sdx2.cloudfront.net/uploads/k8rbl7fp/marketing_asset/banner/13697/7_Albato_vs._Zapier_-_purple.png';
 
 const urlsToCache = [
   '/',
@@ -106,30 +107,31 @@ self.addEventListener('activate', event => {
 // Handle push notifications
 self.addEventListener('push', event => {
   const options = {
-    body: event.data.text(),
-    icon: OFFLINE_IMG,
-    badge: OFFLINE_IMG,
+    body: event.data ? event.data.text() : 'Connect your favorite apps and automate your workflow',
+    icon: ALBATO_IMG,
+    badge: ALBATO_IMG,
     vibrate: [100, 50, 100],
     data: {
       dateOfArrival: Date.now(),
-      primaryKey: 1
+      primaryKey: 1,
+      url: 'https://albato.com?fpr=muhammad51'
     },
     actions: [
       {
         action: 'explore',
-        title: 'View Programs',
-        icon: OFFLINE_IMG
+        title: 'Learn More',
+        icon: ALBATO_IMG
       },
       {
         action: 'close',
         title: 'Close',
-        icon: OFFLINE_IMG
+        icon: ALBATO_IMG
       }
     ]
   };
 
   event.waitUntil(
-    self.registration.showNotification('Dev Mentor Hub', options)
+    self.registration.showNotification('Discover Albato Integration Platform', options)
   );
 });
 
@@ -137,14 +139,13 @@ self.addEventListener('push', event => {
 self.addEventListener('notificationclick', event => {
   event.notification.close();
 
-  if (event.action === 'explore') {
+  if (event.action === 'explore' || !event.action) {
     event.waitUntil(
-      clients.openWindow('/#programs-section')
+      clients.openWindow(event.notification.data.url || 'https://albato.com?fpr=muhammad51')
     );
   }
 });
 
-// Handle background sync
 self.addEventListener('sync', event => {
   if (event.tag === 'sync-forms') {
     event.waitUntil(
