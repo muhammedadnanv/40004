@@ -8,31 +8,42 @@ export const SocialMediaFooter = () => {
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
           {/* Social Media Links */}
-          <div className="flex justify-center space-x-6 mb-8">
-            <a
+          <div className="flex justify-center space-x-8 mb-8">
+            <motion.a
               href="https://www.facebook.com/profile.php?id=61566845016229"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-purple-600 hover:text-purple-700 transition-colors"
+              className="group relative p-3 rounded-full bg-gradient-to-br from-purple-50 to-white shadow-premium hover:shadow-lg transition-all duration-300"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <Facebook className="w-6 h-6" />
-            </a>
-            <a
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#9b87f5] to-[#7E69AB] opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
+              <Facebook className="w-6 h-6 text-[#9b87f5] group-hover:text-[#7E69AB] transition-colors" />
+            </motion.a>
+            
+            <motion.a
               href="https://x.com/comicfixin"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-purple-600 hover:text-purple-700 transition-colors"
+              className="group relative p-3 rounded-full bg-gradient-to-br from-purple-50 to-white shadow-premium hover:shadow-lg transition-all duration-300"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <Twitter className="w-6 h-6" />
-            </a>
-            <a
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#9b87f5] to-[#7E69AB] opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
+              <Twitter className="w-6 h-6 text-[#9b87f5] group-hover:text-[#7E69AB] transition-colors" />
+            </motion.a>
+            
+            <motion.a
               href="https://www.linkedin.com/company/comicfix/posts/?feedView=all"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-purple-600 hover:text-purple-700 transition-colors"
+              className="group relative p-3 rounded-full bg-gradient-to-br from-purple-50 to-white shadow-premium hover:shadow-lg transition-all duration-300"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <Linkedin className="w-6 h-6" />
-            </a>
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#9b87f5] to-[#7E69AB] opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
+              <Linkedin className="w-6 h-6 text-[#9b87f5] group-hover:text-[#7E69AB] transition-colors" />
+            </motion.a>
           </div>
 
           {/* Resume Building Call-to-Action */}
