@@ -7,9 +7,14 @@ import { toast } from "./hooks/use-toast";
 import { NewYearMessage } from "./components/NewYearMessage";
 import { startMarketingRecommendations } from "./utils/marketingRecommendations";
 import { supabase } from "@/integrations/supabase/client";
+import { dataProcessor } from "./utils/dataProcessor";
 
 function App() {
   useEffect(() => {
+    // Initialize data processor
+    console.log("Initializing centralized data processing...");
+    const processor = dataProcessor;
+    
     // Run website validation on initial load with enhanced error handling
     const validateWebsite = async () => {
       try {
@@ -31,14 +36,12 @@ function App() {
     // Initialize marketing features with better error handling
     const initMarketing = async () => {
       try {
-        // Only attempt to start marketing recommendations if the function exists
         if (typeof startMarketingRecommendations === 'function') {
           await startMarketingRecommendations();
           console.log("Marketing recommendations started successfully");
         }
       } catch (error: any) {
         console.error("Error starting marketing recommendations:", error);
-        // Only show toast for non-404 errors to avoid confusing users
         if (error?.status !== 404) {
           toast({
             title: "Marketing Features",
@@ -56,6 +59,10 @@ function App() {
         const { data, error } = await supabase.from('payments').select('count').single();
         if (error) throw error;
         console.log("Supabase connection verified");
+        
+        // Log initial data processing metrics
+        const metrics = processor.getMetricsSummary();
+        console.log("Initial data processing metrics:", metrics);
       } catch (error) {
         console.error("Supabase connection error:", error);
         toast({
