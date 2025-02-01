@@ -28,10 +28,16 @@ let sentimentPipeline: HuggingFacePipeline | null = null;
 
 const initializePipelines = async () => {
   if (!textGenerationPipeline) {
-    textGenerationPipeline = await pipeline('text-generation', 'gpt2');
+    textGenerationPipeline = await pipeline('text-generation', 'gpt2', {
+      device: 'webgpu',
+      quantized: true // Enable quantization for better performance
+    });
   }
   if (!sentimentPipeline) {
-    sentimentPipeline = await pipeline('sentiment-analysis');
+    sentimentPipeline = await pipeline('sentiment-analysis', undefined, {
+      device: 'webgpu',
+      quantized: true
+    });
   }
 };
 
@@ -43,10 +49,13 @@ export const generateText = async (prompt: string): Promise<string> => {
       throw new Error('Text generation pipeline not initialized');
     }
 
+    console.log('Generating text using WebGPU acceleration...');
     const output = await textGenerationPipeline(prompt, {
       max_length: 100,
       do_sample: true,
       temperature: 0.7,
+      num_beams: 4, // Enable beam search for better quality
+      batch_size: 1
     } as any) as unknown as TextGenerationResult;
 
     if ('results' in output) {
@@ -68,8 +77,10 @@ export const analyzeSentiment = async (text: string): Promise<string> => {
       throw new Error('Sentiment pipeline not initialized');
     }
 
+    console.log('Analyzing sentiment using WebGPU acceleration...');
     const output = await sentimentPipeline(text, {
       truncation: true,
+      batch_size: 1
     } as any) as unknown as TextClassificationResult;
 
     if ('results' in output) {
