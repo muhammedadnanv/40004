@@ -13,6 +13,7 @@ import type { FormData } from "./enrollment/RazorpayConfig";
 import { PaymentAlert } from "./enrollment/PaymentAlert";
 import { ReferralSection } from "./enrollment/ReferralSection";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { sendWelcomeNotification } from "@/utils/notificationService";
 
 interface EnrollmentFormProps {
   isOpen: boolean;
@@ -83,9 +84,17 @@ export const EnrollmentForm = ({
         data,
         finalAmount,
         programTitle,
-        () => {
+        async () => {
           setPaymentSuccess(true);
           setIsProcessing(false);
+          
+          // Send welcome notification
+          try {
+            await sendWelcomeNotification(data.email, data.name);
+          } catch (error) {
+            console.error("Error sending welcome notification:", error);
+          }
+          
           toast({
             title: "Payment Successful! 🎉",
             description: "Welcome to Dev Mentor Hub! You can now join our WhatsApp group.",
