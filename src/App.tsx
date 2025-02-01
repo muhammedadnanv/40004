@@ -7,7 +7,6 @@ import { toast } from "./hooks/use-toast";
 import { NewYearMessage } from "./components/NewYearMessage";
 import { startMarketingRecommendations } from "./utils/marketingRecommendations";
 import { supabase } from "@/integrations/supabase/client";
-import { MainNav } from "./components/MainNav";
 
 function App() {
   useEffect(() => {
@@ -79,13 +78,10 @@ function App() {
 
   return (
     <Router>
-      <div className="relative flex min-h-screen flex-col">
-        <MainNav />
-        <div className="flex-1">
-          <Routes>
-            <Route path="/" element={<Index />} />
-          </Routes>
-        </div>
+      <div className="min-h-screen">
+        <Routes>
+          <Route path="/" element={<Index />} />
+        </Routes>
         <NewYearMessage />
         <Toaster />
       </div>
