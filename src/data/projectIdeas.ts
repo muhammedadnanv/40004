@@ -304,5 +304,77 @@ export const projectIdeas = [
     description: "Create a document organization system using low-code tools",
     difficulty: "Intermediate",
     category: "Low-Code"
+  },
+  {
+    name: "Design System Creator",
+    description: "Build a comprehensive design system with components and guidelines",
+    difficulty: "Advanced",
+    category: "UX/UI"
+  },
+  {
+    name: "User Research Platform",
+    description: "Create a tool for conducting and analyzing user research",
+    difficulty: "Intermediate",
+    category: "UX/UI"
+  },
+  {
+    name: "Accessibility Checker",
+    description: "Develop a tool to evaluate and improve web accessibility",
+    difficulty: "Intermediate",
+    category: "UX/UI"
+  },
+  {
+    name: "Brand Identity Generator",
+    description: "Create a tool for generating consistent brand assets",
+    difficulty: "Intermediate",
+    category: "Graphic Design"
+  },
+  {
+    name: "Social Media Kit Creator",
+    description: "Build a platform for creating coordinated social media visuals",
+    difficulty: "Beginner",
+    category: "Graphic Design"
+  },
+  {
+    name: "Vector Art Generator",
+    description: "Develop a tool for creating and editing vector illustrations",
+    difficulty: "Advanced",
+    category: "Graphic Design"
+  },
+  {
+    name: "Auto Video Trimmer",
+    description: "Create an automated video editing and trimming tool",
+    difficulty: "Intermediate",
+    category: "Video Editing"
+  },
+  {
+    name: "Caption Generator",
+    description: "Build a tool for generating and styling video captions",
+    difficulty: "Beginner",
+    category: "Video Editing"
+  },
+  {
+    name: "Video Effects Library",
+    description: "Develop a collection of custom video effects and transitions",
+    difficulty: "Advanced",
+    category: "Video Editing"
+  },
+  {
+    name: "Prompt Template Builder",
+    description: "Create a system for building and testing AI prompts",
+    difficulty: "Intermediate",
+    category: "Prompt Engineering"
+  },
+  {
+    name: "Context Optimizer",
+    description: "Build a tool for optimizing prompt context and parameters",
+    difficulty: "Advanced",
+    category: "Prompt Engineering"
+  },
+  {
+    name: "Prompt Testing Suite",
+    description: "Develop a platform for testing and comparing prompt effectiveness",
+    difficulty: "Intermediate",
+    category: "Prompt Engineering"
   }
 ];

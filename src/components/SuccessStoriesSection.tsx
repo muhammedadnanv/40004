@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
 import { Quote } from "lucide-react";
 
-// Separate stories data by program
 const successStoriesByProgram = {
   "Frontend Development": [
     {
@@ -52,26 +51,57 @@ const successStoriesByProgram = {
       quote: "Being from Kannur, remote learning was crucial for me. This program's practical approach helped me master full-stack development while staying connected with Kerala's tech community."
     }
   ],
-  "ManyChat Automation": [
+  
+  "UX/UI Development": [
     {
-      name: "Rajesh Menon",
-      program: "ManyChat Automation",
-      quote: "As a business owner from Kozhikode, the 3-day ManyChat program transformed how I handle customer service. My restaurant's engagement increased by 200% through automated messaging!"
+      name: "Priya Thomas",
+      program: "UX/UI Development",
+      quote: "The mentorship program helped me transition from graphic design to UX/UI. Now I'm creating intuitive interfaces for leading tech companies in Kerala!"
     },
     {
-      name: "Divya Krishnan",
-      program: "ManyChat Automation",
-      quote: "Coming from Palakkad, I implemented the ManyChat strategies for my textile business. The automated customer service has helped me reach customers across Kerala efficiently."
+      name: "Rahul Menon",
+      program: "UX/UI Development",
+      quote: "Coming from Kochi, I learned how to create user-centered designs through real projects. The mentor feedback was invaluable for my portfolio."
+    }
+  ],
+  "Graphic Designing": [
+    {
+      name: "Sneha Krishnan",
+      program: "Graphic Designing",
+      quote: "As a freelancer from Thrissur, this program helped me master professional design tools and techniques. Now I work with clients worldwide!"
     },
     {
-      name: "Sujith Kumar",
-      program: "ManyChat Automation",
-      quote: "Being from Alappuzha, I used ManyChat automation to boost my tourism business. The program helped me create engaging automated responses that increased bookings by 150%!"
+      name: "Arun Nair",
+      program: "Graphic Designing",
+      quote: "The hands-on projects and mentor guidance helped me build a strong portfolio. I now run my own design studio in Trivandrum."
+    }
+  ],
+  "Video Editing": [
+    {
+      name: "Vishnu Raj",
+      program: "Video Editing",
+      quote: "From Kozhikode, I learned professional video editing through real projects. Now I create content for major YouTube channels!"
+    },
+    {
+      name: "Maya Menon",
+      program: "Video Editing",
+      quote: "The program helped me master video editing tools and storytelling. I now work with leading production houses in Kerala."
+    }
+  ],
+  "Prompt Engineering": [
+    {
+      name: "Arjun Kumar",
+      program: "Prompt Engineering",
+      quote: "Being from Palakkad, I learned how to create effective AI prompts. Now I help businesses implement AI solutions efficiently."
+    },
+    {
+      name: "Lakshmi Priya",
+      program: "Prompt Engineering",
+      quote: "The practical approach to prompt engineering helped me understand AI capabilities. I now consult for tech startups across India."
     }
   ]
 };
 
-// Separate Story component for better organization
 const StoryCard = ({ story, index }: { story: { name: string; program: string; quote: string }, index: number }) => (
   <motion.div
     key={`${story.name}-${index}`}
