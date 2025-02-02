@@ -70,19 +70,35 @@ const Index = () => {
       regularPrice: totalPrice
     },
     {
-      title: "ManyChat Automation",
-      description: "Build a complete ManyChat automation project in 3 days with expert mentorship. Create real workflows and chatbots with personalized guidance. No courses - pure hands-on implementation.",
+      title: "UX/UI Development",
+      description: "Master the art of creating intuitive and engaging user interfaces with expert mentorship. Learn design principles, user research, and prototyping through hands-on projects.",
       duration: "1 year",
-      skills: ["ManyChat", "Automation", "Chatbots", "Customer Engagement"],
-      category: "Automation",
+      skills: ["User Research", "Wireframing", "Prototyping", "Design Systems", "Usability Testing"],
+      category: "Design",
       regularPrice: totalPrice
     },
     {
-      title: "Community Automation on Skool.com",
-      description: "Enhance and streamline your Skool.com community with cutting-edge automation techniques. Learn to optimize onboarding, boost engagement, and implement scalable growth strategies with ease.",
-      duration: "8 Weeks",
-      skills: ["Automated Onboarding", "Engagement Triggers", "App Integrations", "Analytics Automation", "Growth Systems"],
-      category: "Community Management",
+      title: "Graphic Designing",
+      description: "Develop your graphic design skills with personalized mentorship. Create compelling visual content through practical projects and expert guidance.",
+      duration: "1 year",
+      skills: ["Adobe Creative Suite", "Typography", "Brand Design", "Digital Illustration", "Layout Design"],
+      category: "Design",
+      regularPrice: totalPrice
+    },
+    {
+      title: "Video Editing",
+      description: "Learn professional video editing techniques with expert mentorship. Master industry-standard tools and storytelling through hands-on video projects.",
+      duration: "1 year",
+      skills: ["Video Editing Software", "Color Grading", "Motion Graphics", "Sound Design", "Video Production"],
+      category: "Media",
+      regularPrice: totalPrice
+    },
+    {
+      title: "Prompt Engineering",
+      description: "Master the art of AI prompt engineering with expert guidance. Learn to create effective prompts for various AI models and applications.",
+      duration: "1 year",
+      skills: ["AI Models", "Natural Language Processing", "Context Design", "Output Optimization", "AI Integration"],
+      category: "AI Development",
       regularPrice: totalPrice
     }
   ];
