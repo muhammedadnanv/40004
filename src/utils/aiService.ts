@@ -29,14 +29,12 @@ let sentimentPipeline: HuggingFacePipeline | null = null;
 const initializePipelines = async () => {
   if (!textGenerationPipeline) {
     textGenerationPipeline = await pipeline('text-generation', 'gpt2', {
-      device: 'webgpu',
-      quantized: true // Enable quantization for better performance
+      device: 'webgpu'
     });
   }
   if (!sentimentPipeline) {
     sentimentPipeline = await pipeline('sentiment-analysis', undefined, {
-      device: 'webgpu',
-      quantized: true
+      device: 'webgpu'
     });
   }
 };
