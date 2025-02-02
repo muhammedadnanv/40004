@@ -49,24 +49,27 @@ export const MentorInfoDialog = ({ programFee = 499 }: MentorInfoDialogProps) =>
         <div className="space-y-4 mt-4">
           <div className="bg-gray-50 p-4 rounded-lg">
             <p className="font-medium mb-2 text-sm sm:text-base">Example Earnings:</p>
-            <ul className="space-y-2 text-sm sm:text-base">
-              <li className="flex justify-between">
-                <span>Client fee:</span>
-                <span>₹{programFee}</span>
-              </li>
-              <li className="flex justify-between">
-                <span>Platform cut (10%):</span>
+            <div className="space-y-2 text-sm sm:text-base">
+              <div className="mb-4">
+                <p className="font-medium">Program:</p>
+                <p className="text-xl font-bold text-purple-600">₹{programFee}</p>
+              </div>
+              
+              <div className="flex justify-between items-center border-t pt-2">
+                <span>Platform cut (10%) program fee:</span>
                 <span>₹{calculations.platformFee}</span>
-              </li>
-              <li className="flex justify-between">
-                <span>Razorpay fee (2%):</span>
+              </div>
+              
+              <div className="flex justify-between items-center border-t pt-2">
+                <span>Razorpay fee (2%) program fee:</span>
                 <span>₹{calculations.razorpayFee}</span>
-              </li>
-              <li className="flex justify-between font-medium">
+              </div>
+              
+              <div className="flex justify-between items-center border-t border-purple-200 pt-2 mt-2 font-medium text-purple-700">
                 <span>Your earnings:</span>
                 <span>₹{calculations.mentorEarnings}</span>
-              </li>
-            </ul>
+              </div>
+            </div>
           </div>
           <p className="text-sm sm:text-base text-gray-600">
             Start mentoring students and earn while helping others grow in their careers.
