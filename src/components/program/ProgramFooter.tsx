@@ -23,6 +23,7 @@ export const ProgramFooter = ({
           <p className="text-lg font-semibold premium-gradient">
             ₹{currentPrice}
           </p>
+          <p className="text-xs text-gray-500">Program fee + 200k SEO value included</p>
         </div>
       </div>
       <Button 
