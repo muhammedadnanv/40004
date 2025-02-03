@@ -9,11 +9,16 @@ interface MentorInfoDialogProps {
   mentorEarnings: number;
 }
 
-export const MentorInfoDialog = ({ isOpen, onClose, mentorEarnings }: MentorInfoDialogProps) => {
+export const MentorInfoDialog = ({ isOpen, onClose, mentorEarnings = 0 }: MentorInfoDialogProps) => {
   const [showForm, setShowForm] = useState(false);
 
+  const handleClose = () => {
+    setShowForm(false);
+    onClose();
+  };
+
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="max-w-[500px] p-6">
         {!showForm ? (
           <>
@@ -45,7 +50,7 @@ export const MentorInfoDialog = ({ isOpen, onClose, mentorEarnings }: MentorInfo
             </div>
           </>
         ) : (
-          <MentorFormFields onClose={onClose} />
+          <MentorFormFields onClose={handleClose} />
         )}
       </DialogContent>
     </Dialog>
