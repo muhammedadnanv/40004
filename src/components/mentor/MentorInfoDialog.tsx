@@ -14,7 +14,7 @@ interface MentorInfoDialogProps {
   programFee?: number;
 }
 
-export const MentorInfoDialog = ({ programFee = 499 }: MentorInfoDialogProps) => {
+export const MentorInfoDialog = ({ programFee = 2160 }: MentorInfoDialogProps) => {
   const calculations = useMemo(() => {
     const platformFee = (programFee * 0.10).toFixed(2); // 10% platform fee
     const razorpayFee = (programFee * 0.02).toFixed(2); // 2% Razorpay fee
