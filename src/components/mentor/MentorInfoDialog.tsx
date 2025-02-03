@@ -9,13 +9,16 @@ interface MentorInfoDialogProps {
   mentorEarnings: number;
 }
 
-export const MentorInfoDialog = ({ isOpen, onClose, mentorEarnings = 0 }: MentorInfoDialogProps) => {
+export const MentorInfoDialog = ({ isOpen, onClose, mentorEarnings }: MentorInfoDialogProps) => {
   const [showForm, setShowForm] = useState(false);
 
   const handleClose = () => {
     setShowForm(false);
     onClose();
   };
+
+  const platformFee = 2160 * 0.1; // 10% platform fee
+  const paymentGatewayFee = 2160 * 0.02; // 2% payment gateway fee
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
@@ -35,8 +38,8 @@ export const MentorInfoDialog = ({ isOpen, onClose, mentorEarnings = 0 }: Mentor
                 </p>
                 <div className="text-sm text-gray-500 space-y-2">
                   <p>Program Fee: ₹2160</p>
-                  <p>Platform Fee (10%): ₹{(2160 * 0.1).toFixed(2)}</p>
-                  <p>Payment Gateway Fee (2%): ₹{(2160 * 0.02).toFixed(2)}</p>
+                  <p>Platform Fee (10%): ₹{platformFee.toFixed(2)}</p>
+                  <p>Payment Gateway Fee (2%): ₹{paymentGatewayFee.toFixed(2)}</p>
                 </div>
               </DialogDescription>
             </DialogHeader>
