@@ -8,6 +8,17 @@ import { NewYearMessage } from "./components/NewYearMessage";
 import { startMarketingRecommendations } from "./utils/marketingRecommendations";
 import { supabase } from "@/integrations/supabase/client";
 import { dataProcessor } from "./utils/dataProcessor";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+// Create a client
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60000, // 1 minute
+      retry: 1,
+    },
+  },
+});
 
 function App() {
   useEffect(() => {
@@ -84,15 +95,17 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <div className="min-h-screen">
-        <Routes>
-          <Route path="/" element={<Index />} />
-        </Routes>
-        <NewYearMessage />
-        <Toaster />
-      </div>
-    </Router>
+    <QueryClientProvider client={queryClient}>
+      <Router>
+        <div className="min-h-screen">
+          <Routes>
+            <Route path="/" element={<Index />} />
+          </Routes>
+          <NewYearMessage />
+          <Toaster />
+        </div>
+      </Router>
+    </QueryClientProvider>
   );
 }
 
