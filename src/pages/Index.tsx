@@ -31,10 +31,10 @@ const Index = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const baseProgramPrice = 1500;
-  const platformFeePercentage = 20;
-  const platformFee = (baseProgramPrice * platformFeePercentage) / 100;
-  const totalPrice = baseProgramPrice + platformFee;
+  const programFee = 2160;
+  const platformFeePercentage = 10;
+  const platformFee = (programFee * platformFeePercentage) / 100;
+  const totalPrice = programFee;
 
   const programs = [
     {
