@@ -9,7 +9,7 @@ interface MentorInfoDialogProps {
   mentorEarnings: number;
 }
 
-export const MentorInfoDialog = ({ isOpen, onClose, mentorEarnings }: MentorInfoDialogProps) => {
+export const MentorInfoDialog = ({ isOpen, onClose, mentorEarnings = 0 }: MentorInfoDialogProps) => {
   const [showForm, setShowForm] = useState(false);
 
   const handleClose = () => {
