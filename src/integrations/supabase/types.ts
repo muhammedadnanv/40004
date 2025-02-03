@@ -90,36 +90,6 @@ export type Database = {
         }
         Relationships: []
       }
-      seo_keywords: {
-        Row: {
-          category: string
-          created_at: string
-          id: string
-          keyword: string
-          last_used_at: string | null
-          relevance_score: number
-          usage_count: number | null
-        }
-        Insert: {
-          category: string
-          created_at?: string
-          id?: string
-          keyword: string
-          last_used_at?: string | null
-          relevance_score?: number
-          usage_count?: number | null
-        }
-        Update: {
-          category?: string
-          created_at?: string
-          id?: string
-          keyword?: string
-          last_used_at?: string | null
-          relevance_score?: number
-          usage_count?: number | null
-        }
-        Relationships: []
-      }
     }
     Views: {
       [_ in never]: never
