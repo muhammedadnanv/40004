@@ -33,8 +33,12 @@ const Index = () => {
 
   const programFee = 2160;
   const platformFeePercentage = 10;
+  const razorpayFeePercentage = 2;
+  
+  // Calculate fees
   const platformFee = (programFee * platformFeePercentage) / 100;
-  const totalPrice = programFee;
+  const razorpayFee = (programFee * razorpayFeePercentage) / 100;
+  const mentorEarnings = programFee - platformFee - razorpayFee;
 
   const programs = [
     {
@@ -43,7 +47,7 @@ const Index = () => {
       duration: "1 year",
       skills: ["React", "Angular", "Vue.js", "TypeScript"],
       category: "Frontend Development",
-      regularPrice: totalPrice
+      regularPrice: programFee
     },
     {
       title: "Low-Code Development",
@@ -51,7 +55,7 @@ const Index = () => {
       duration: "1 year",
       skills: ["Low-Code Platforms", "Visual Development", "Rapid Prototyping", "App Design"],
       category: "Low-Code Development",
-      regularPrice: totalPrice
+      regularPrice: programFee
     },
     {
       title: "No-Code Development",
@@ -59,7 +63,7 @@ const Index = () => {
       duration: "1 year",
       skills: ["No-Code Tools", "Visual Development", "Automation", "App Design"],
       category: "No-Code Development",
-      regularPrice: totalPrice
+      regularPrice: programFee
     },
     {
       title: "Full Stack API Development",
@@ -67,7 +71,7 @@ const Index = () => {
       duration: "1 year",
       skills: ["RESTful APIs", "Node.js", "Database Design", "Authentication", "Cloud Deployment"],
       category: "Full Stack Development",
-      regularPrice: totalPrice
+      regularPrice: programFee
     },
     {
       title: "UX/UI Development",
@@ -75,7 +79,7 @@ const Index = () => {
       duration: "1 year",
       skills: ["User Research", "Wireframing", "Prototyping", "Design Systems", "Usability Testing"],
       category: "Design",
-      regularPrice: totalPrice
+      regularPrice: programFee
     },
     {
       title: "Graphic Designing",
@@ -83,7 +87,7 @@ const Index = () => {
       duration: "1 year",
       skills: ["Adobe Creative Suite", "Typography", "Brand Design", "Digital Illustration", "Layout Design"],
       category: "Design",
-      regularPrice: totalPrice
+      regularPrice: programFee
     },
     {
       title: "Video Editing",
@@ -91,7 +95,7 @@ const Index = () => {
       duration: "1 year",
       skills: ["Video Editing Software", "Color Grading", "Motion Graphics", "Sound Design", "Video Production"],
       category: "Media",
-      regularPrice: totalPrice
+      regularPrice: programFee
     },
     {
       title: "Prompt Engineering",
@@ -99,7 +103,7 @@ const Index = () => {
       duration: "1 year",
       skills: ["AI Models", "Natural Language Processing", "Context Design", "Output Optimization", "AI Integration"],
       category: "AI Development",
-      regularPrice: totalPrice
+      regularPrice: programFee
     }
   ];
 
@@ -124,7 +128,7 @@ const Index = () => {
         <CodeOfConductSection />
         <ReviewSection />
         <ShareSection />
-        <MentorSection />
+        <MentorSection mentorEarnings={mentorEarnings} />
         <FAQSection />
         <WhatsAppSection />
 
