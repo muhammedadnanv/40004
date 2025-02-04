@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { mentorFormSchema } from "./mentorFormSchema";
+import { mentorFormSchema, type MentorFormData } from "./mentorFormSchema";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -20,7 +20,7 @@ interface MentorFormFieldsProps {
 }
 
 export function MentorFormFields({ onClose, mentorEarnings = 0 }: MentorFormFieldsProps) {
-  const form = useForm({
+  const form = useForm<MentorFormData>({
     resolver: zodResolver(mentorFormSchema),
     defaultValues: {
       name: "",
@@ -35,7 +35,7 @@ export function MentorFormFields({ onClose, mentorEarnings = 0 }: MentorFormFiel
     },
   });
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: MentorFormData) => {
     try {
       console.log("Form data:", data);
       toast({
