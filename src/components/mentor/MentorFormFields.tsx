@@ -33,99 +33,105 @@ export const MentorFormFields = ({ onClose }: MentorFormFieldsProps) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Full Name</FormLabel>
-              <FormControl>
-                <Input placeholder="John Doe" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-full max-w-2xl mx-auto px-4 sm:px-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-gray-700">Full Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="John Doe" {...field} className="w-full" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email Address</FormLabel>
-              <FormControl>
-                <Input type="email" placeholder="john@example.com" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-gray-700">Email Address</FormLabel>
+                <FormControl>
+                  <Input type="email" placeholder="john@example.com" {...field} className="w-full" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
-        <FormField
-          control={form.control}
-          name="phone"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Phone Number</FormLabel>
-              <FormControl>
-                <Input type="tel" placeholder="1234567890" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <FormField
+            control={form.control}
+            name="phone"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-gray-700">Phone Number</FormLabel>
+                <FormControl>
+                  <Input type="tel" placeholder="1234567890" {...field} className="w-full" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="linkedin"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>LinkedIn Profile</FormLabel>
-              <FormControl>
-                <Input placeholder="https://linkedin.com/in/yourprofile" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name="linkedin"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-gray-700">LinkedIn Profile</FormLabel>
+                <FormControl>
+                  <Input placeholder="https://linkedin.com/in/yourprofile" {...field} className="w-full" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
-        <FormField
-          control={form.control}
-          name="instagram"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Instagram Handle (Optional)</FormLabel>
-              <FormControl>
-                <Input placeholder="@yourhandle" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <FormField
+            control={form.control}
+            name="instagram"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-gray-700">Instagram Handle (Optional)</FormLabel>
+                <FormControl>
+                  <Input placeholder="@yourhandle" {...field} className="w-full" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="twitter"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>X (Twitter) Handle (Optional)</FormLabel>
-              <FormControl>
-                <Input placeholder="@yourhandle" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name="twitter"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-gray-700">X (Twitter) Handle (Optional)</FormLabel>
+                <FormControl>
+                  <Input placeholder="@yourhandle" {...field} className="w-full" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
         <FormField
           control={form.control}
           name="portfolio"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Portfolio/Website</FormLabel>
+              <FormLabel className="text-gray-700">Portfolio/Website</FormLabel>
               <FormControl>
-                <Input placeholder="https://yourwebsite.com" {...field} />
+                <Input placeholder="https://yourwebsite.com" {...field} className="w-full" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -137,11 +143,11 @@ export const MentorFormFields = ({ onClose }: MentorFormFieldsProps) => {
           name="experience"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Experience</FormLabel>
+              <FormLabel className="text-gray-700">Experience</FormLabel>
               <FormControl>
                 <Textarea 
                   placeholder="Describe your relevant experience in tech, projects, and mentoring..."
-                  className="min-h-[150px]"
+                  className="min-h-[150px] w-full"
                   {...field}
                 />
               </FormControl>
@@ -150,11 +156,11 @@ export const MentorFormFields = ({ onClose }: MentorFormFieldsProps) => {
           )}
         />
 
-        <div className="flex justify-end space-x-4 mt-6">
-          <Button type="button" variant="outline" onClick={onClose}>
+        <div className="flex flex-col sm:flex-row justify-end gap-4 mt-8">
+          <Button type="button" variant="outline" onClick={onClose} className="w-full sm:w-auto">
             Cancel
           </Button>
-          <Button type="submit">Submit Application</Button>
+          <Button type="submit" className="w-full sm:w-auto">Submit Application</Button>
         </div>
       </form>
     </Form>
