@@ -1,46 +1,68 @@
-import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form } from "@/components/ui/form";
+import { mentorFormSchema } from "./mentorFormSchema";
 import { Button } from "@/components/ui/button";
-import { FormData, formSchema } from "./mentorFormSchema";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/hooks/use-toast";
 
 interface MentorFormFieldsProps {
   onClose: () => void;
+  mentorEarnings?: number;
 }
 
-export const MentorFormFields = ({ onClose }: MentorFormFieldsProps) => {
-  const form = useForm<FormData>({
-    resolver: zodResolver(formSchema),
+export function MentorFormFields({ onClose, mentorEarnings = 0 }: MentorFormFieldsProps) {
+  const form = useForm({
+    resolver: zodResolver(mentorFormSchema),
     defaultValues: {
       name: "",
       email: "",
       phone: "",
-      linkedin: "",
-      instagram: "",
-      twitter: "",
-      portfolio: "",
+      expertise: "",
       experience: "",
+      linkedin: "",
+      github: "",
+      portfolio: "",
+      motivation: "",
     },
   });
 
-  const onSubmit = (data: FormData) => {
-    console.log(data);
-    onClose();
+  const onSubmit = async (data: any) => {
+    try {
+      console.log("Form data:", data);
+      toast({
+        title: "Application submitted successfully!",
+        description: "We'll review your application and get back to you soon.",
+      });
+      onClose();
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast({
+        title: "Error submitting application",
+        description: "Please try again later.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-full max-w-2xl mx-auto px-4 sm:px-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <FormField
             control={form.control}
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-700">Full Name</FormLabel>
+                <FormLabel>Full Name</FormLabel>
                 <FormControl>
                   <Input placeholder="John Doe" {...field} className="w-full" />
                 </FormControl>
@@ -54,9 +76,9 @@ export const MentorFormFields = ({ onClose }: MentorFormFieldsProps) => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-700">Email Address</FormLabel>
+                <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input type="email" placeholder="john@example.com" {...field} className="w-full" />
+                  <Input placeholder="john@example.com" {...field} type="email" className="w-full" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -64,15 +86,15 @@ export const MentorFormFields = ({ onClose }: MentorFormFieldsProps) => {
           />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <FormField
             control={form.control}
             name="phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-700">Phone Number</FormLabel>
+                <FormLabel>Phone Number</FormLabel>
                 <FormControl>
-                  <Input type="tel" placeholder="1234567890" {...field} className="w-full" />
+                  <Input placeholder="+1 (555) 000-0000" {...field} type="tel" className="w-full" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -81,73 +103,87 @@ export const MentorFormFields = ({ onClose }: MentorFormFieldsProps) => {
 
           <FormField
             control={form.control}
-            name="linkedin"
+            name="expertise"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-700">LinkedIn Profile</FormLabel>
+                <FormLabel>Area of Expertise</FormLabel>
                 <FormControl>
-                  <Input placeholder="https://linkedin.com/in/yourprofile" {...field} className="w-full" />
+                  <Input placeholder="e.g., Frontend Development" {...field} className="w-full" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
         </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <FormField
-            control={form.control}
-            name="instagram"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-gray-700">Instagram Handle (Optional)</FormLabel>
-                <FormControl>
-                  <Input placeholder="@yourhandle" {...field} className="w-full" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="twitter"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-gray-700">X (Twitter) Handle (Optional)</FormLabel>
-                <FormControl>
-                  <Input placeholder="@yourhandle" {...field} className="w-full" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-
-        <FormField
-          control={form.control}
-          name="portfolio"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-gray-700">Portfolio/Website</FormLabel>
-              <FormControl>
-                <Input placeholder="https://yourwebsite.com" {...field} className="w-full" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
 
         <FormField
           control={form.control}
           name="experience"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-gray-700">Experience</FormLabel>
+              <FormLabel>Years of Experience</FormLabel>
               <FormControl>
-                <Textarea 
-                  placeholder="Describe your relevant experience in tech, projects, and mentoring..."
-                  className="min-h-[150px] w-full"
+                <Input placeholder="e.g., 5" {...field} type="number" className="w-full" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <FormField
+            control={form.control}
+            name="linkedin"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>LinkedIn Profile</FormLabel>
+                <FormControl>
+                  <Input placeholder="LinkedIn URL" {...field} type="url" className="w-full" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="github"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>GitHub Profile</FormLabel>
+                <FormControl>
+                  <Input placeholder="GitHub URL" {...field} type="url" className="w-full" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="portfolio"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Portfolio Website</FormLabel>
+                <FormControl>
+                  <Input placeholder="Portfolio URL" {...field} type="url" className="w-full" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <FormField
+          control={form.control}
+          name="motivation"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Why do you want to be a mentor?</FormLabel>
+              <FormControl>
+                <Textarea
+                  placeholder="Share your motivation and what you can bring to our community..."
+                  className="min-h-[100px] w-full"
                   {...field}
                 />
               </FormControl>
@@ -156,13 +192,28 @@ export const MentorFormFields = ({ onClose }: MentorFormFieldsProps) => {
           )}
         />
 
-        <div className="flex flex-col sm:flex-row justify-end gap-4 mt-8">
-          <Button type="button" variant="outline" onClick={onClose} className="w-full sm:w-auto">
+        {mentorEarnings > 0 && (
+          <div className="bg-primary/5 p-4 rounded-lg">
+            <p className="text-sm text-gray-600">
+              As a mentor, you can earn up to ₹{mentorEarnings.toLocaleString()} per student
+            </p>
+          </div>
+        )}
+
+        <div className="flex flex-col sm:flex-row gap-4 justify-end mt-6">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={onClose}
+            className="w-full sm:w-auto"
+          >
             Cancel
           </Button>
-          <Button type="submit" className="w-full sm:w-auto">Submit Application</Button>
+          <Button type="submit" className="w-full sm:w-auto">
+            Submit Application
+          </Button>
         </div>
       </form>
     </Form>
   );
-};
+}
