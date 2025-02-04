@@ -1,43 +1,38 @@
-interface Program {
-  title: string;
-  description: string;
-  duration: string;
-  skills: string[];
-  category: string;
-  regularPrice: number;
-}
-
-export const programs: Program[] = [
+export const programs = [
   {
-    title: "AI Development",
-    description: "Master AI development with hands-on projects and expert mentorship",
-    duration: "8 weeks",
-    skills: ["Prompt Engineering", "AI Integration", "LLM Development", "ChatGPT API"],
-    category: "AI",
-    regularPrice: 199
-  },
-  {
-    title: "Full Stack AI",
-    description: "Build complete AI applications with database integration",
+    title: "AI Prompt Engineering Mastery",
+    description: "Master the art of crafting effective prompts for AI models. Learn advanced techniques for better AI interactions.",
     duration: "12 weeks",
-    skills: ["Supabase", "APIs", "Databases", "AI Integration"],
-    category: "Development",
-    regularPrice: 199
+    skills: ["Prompt Engineering", "AI Models", "NLP", "Content Generation"],
+    category: "AI Development",
+    regularPrice: 14999,
+    currentPrice: 9999
   },
   {
-    title: "Frontend Development",
-    description: "Learn modern frontend development with React and TypeScript",
-    duration: "10 weeks",
-    skills: ["React", "TypeScript", "UI/UX", "Performance"],
-    category: "Development",
-    regularPrice: 199
+    title: "AI + Supabase Integration",
+    description: "Build powerful AI-driven applications with Supabase. Learn to integrate AI capabilities with secure database operations.",
+    duration: "16 weeks",
+    skills: ["Supabase", "AI Integration", "Database Design", "API Development"],
+    category: "Full Stack AI",
+    regularPrice: 19999,
+    currentPrice: 14999
   },
   {
-    title: "Low-Code Development",
-    description: "Build applications faster with low-code development",
+    title: "No-Code Development",
+    description: "Create sophisticated applications without writing code. Master modern no-code platforms and automation tools.",
+    duration: "8 weeks",
+    skills: ["No-Code Tools", "Automation", "Visual Development", "Integration"],
+    category: "No-Code",
+    regularPrice: 9999,
+    currentPrice: 7999
+  },
+  {
+    title: "Frontend Development with Low-Code",
+    description: "Accelerate frontend development using low-code platforms while maintaining professional quality.",
     duration: "10 weeks",
-    skills: ["Visual Development", "Automation", "Integration", "Design"],
-    category: "Development",
-    regularPrice: 199
+    skills: ["Low-Code Platforms", "UI/UX", "Frontend Design", "Component Development"],
+    category: "Low-Code",
+    regularPrice: 12999,
+    currentPrice: 9999
   }
 ];
