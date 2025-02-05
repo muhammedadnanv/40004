@@ -11,7 +11,7 @@ export const LeadCollectionPopup = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    // Show popup after 5 seconds
+    // Show popup after 5 seconds if not seen before
     const timer = setTimeout(() => {
       const hasSeenPopup = localStorage.getItem("hasSeenLeadPopup");
       if (!hasSeenPopup) {
@@ -59,48 +59,44 @@ export const LeadCollectionPopup = () => {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="sm:max-w-[425px] p-6">
-        <DialogHeader>
-          <DialogTitle className="text-2xl font-semibold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">
+      <DialogContent className="sm:max-w-[425px] w-[95vw] sm:w-full p-4 sm:p-6 mx-auto">
+        <DialogHeader className="space-y-3">
+          <DialogTitle className="text-xl sm:text-2xl font-semibold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">
             Get Exclusive Updates
           </DialogTitle>
-          <DialogDescription className="text-gray-600">
+          <DialogDescription className="text-sm sm:text-base text-gray-600">
             Join our community to receive the latest updates, tips, and special offers.
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4 mt-4">
-          <div className="space-y-2">
+          <div className="space-y-3">
             <div className="relative">
               <Input
                 placeholder="Your Name"
                 name="name"
                 required
-                className="pl-10 border-purple-200 focus:border-purple-400"
+                className="pl-10 h-12 sm:h-10 text-base sm:text-sm border-purple-200 focus:border-purple-400 rounded-lg"
               />
               <User className="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             </div>
-          </div>
 
-          <div className="space-y-2">
             <div className="relative">
               <Input
                 type="email"
                 placeholder="Email Address"
                 name="email"
                 required
-                className="pl-10 border-purple-200 focus:border-purple-400"
+                className="pl-10 h-12 sm:h-10 text-base sm:text-sm border-purple-200 focus:border-purple-400 rounded-lg"
               />
               <Mail className="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             </div>
-          </div>
 
-          <div className="space-y-2">
             <div className="relative">
               <Input
                 placeholder="Message (Optional)"
                 name="message"
-                className="pl-10 border-purple-200 focus:border-purple-400"
+                className="pl-10 h-12 sm:h-10 text-base sm:text-sm border-purple-200 focus:border-purple-400 rounded-lg"
               />
               <MessageSquare className="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             </div>
@@ -108,7 +104,7 @@ export const LeadCollectionPopup = () => {
 
           <Button 
             type="submit" 
-            className="w-full bg-purple-600 hover:bg-purple-700 text-white transition-all duration-300"
+            className="w-full bg-purple-600 hover:bg-purple-700 text-white transition-all duration-300 h-12 sm:h-10 text-base sm:text-sm rounded-lg"
             disabled={isSubmitting}
           >
             {isSubmitting ? "Submitting..." : "Stay Updated"}
