@@ -8,6 +8,7 @@ import { NewYearMessage } from "./components/NewYearMessage";
 import { startMarketingRecommendations } from "./utils/marketingRecommendations";
 import { supabase } from "@/integrations/supabase/client";
 import { dataProcessor } from "./utils/dataProcessor";
+import { LeadCollectionPopup } from "./components/LeadCollectionPopup";
 
 function App() {
   useEffect(() => {
@@ -90,6 +91,7 @@ function App() {
           <Route path="/" element={<Index />} />
         </Routes>
         <NewYearMessage />
+        <LeadCollectionPopup />
         <Toaster />
       </div>
     </Router>
