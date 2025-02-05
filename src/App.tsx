@@ -9,6 +9,7 @@ import { startMarketingRecommendations } from "./utils/marketingRecommendations"
 import { supabase } from "@/integrations/supabase/client";
 import { dataProcessor } from "./utils/dataProcessor";
 import { LeadCollectionPopup } from "./components/LeadCollectionPopup";
+import { EnrollmentAlert } from "./components/EnrollmentAlert";
 
 function App() {
   useEffect(() => {
@@ -92,6 +93,7 @@ function App() {
         </Routes>
         <NewYearMessage />
         <LeadCollectionPopup />
+        <EnrollmentAlert />
         <Toaster />
       </div>
     </Router>
