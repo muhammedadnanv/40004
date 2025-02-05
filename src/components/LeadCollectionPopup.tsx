@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { mail, user, messageSquare } from "lucide-react";
+import { Mail, User, MessageSquare } from "lucide-react";
 
 export const LeadCollectionPopup = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -78,7 +78,7 @@ export const LeadCollectionPopup = () => {
                 required
                 className="pl-10 border-purple-200 focus:border-purple-400"
               />
-              <user className="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <User className="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             </div>
           </div>
 
@@ -91,7 +91,7 @@ export const LeadCollectionPopup = () => {
                 required
                 className="pl-10 border-purple-200 focus:border-purple-400"
               />
-              <mail className="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <Mail className="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             </div>
           </div>
 
@@ -102,7 +102,7 @@ export const LeadCollectionPopup = () => {
                 name="message"
                 className="pl-10 border-purple-200 focus:border-purple-400"
               />
-              <messageSquare className="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <MessageSquare className="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             </div>
           </div>
 
