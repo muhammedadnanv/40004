@@ -120,6 +120,30 @@ export type Database = {
         }
         Relationships: []
       }
+      success_stories: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          program: string
+          quote: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          program: string
+          quote: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          program?: string
+          quote?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
