@@ -7,12 +7,18 @@ export const EnrollmentAlert = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // Show alert after a short delay
-    const timer = setTimeout(() => {
-      setIsVisible(true);
-    }, 1000);
+    // Check if it's the first day of the month
+    const today = new Date();
+    const isFirstDayOfMonth = today.getDate() === 1;
 
-    return () => clearTimeout(timer);
+    if (isFirstDayOfMonth) {
+      // Show alert after a short delay only if it's the first day of the month
+      const timer = setTimeout(() => {
+        setIsVisible(true);
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
   }, []);
 
   if (!isVisible) return null;
