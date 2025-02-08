@@ -59,7 +59,7 @@ function App() {
     // Check Supabase connection
     const checkSupabaseConnection = async () => {
       try {
-        const { data, error } = await supabase.from('payments').select('count').single();
+        const { data, error } = await supabase.from('payments').select('count').maybeSingle();
         if (error) throw error;
         console.log("Supabase connection verified");
         
@@ -88,7 +88,7 @@ function App() {
 
   return (
     <Router>
-      <div className="min-h-screen">
+      <div className="min-h-screen w-full">
         <Routes>
           <Route path="/" element={<Index />} />
         </Routes>
