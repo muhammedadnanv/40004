@@ -1,7 +1,6 @@
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
-import AuthPage from "./pages/auth/AuthPage";
 import { Toaster } from "./components/ui/toaster";
 import { useEffect } from "react";
 import { runWebsiteTest } from "./utils/websiteValidator";
@@ -12,8 +11,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { dataProcessor } from "./utils/dataProcessor";
 import { LeadCollectionPopup } from "./components/LeadCollectionPopup";
 import { EnrollmentAlert } from "./components/EnrollmentAlert";
-import { AuthProvider } from "./hooks/useAuth";
-import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 
 function App() {
   useEffect(() => {
@@ -90,27 +87,17 @@ function App() {
   }, []);
 
   return (
-    <AuthProvider>
-      <Router>
-        <div className="min-h-screen">
-          <Routes>
-            <Route path="/auth" element={<AuthPage />} />
-            <Route
-              path="/"
-              element={
-                <ProtectedRoute>
-                  <Index />
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
-          <NewYearMessage />
-          <LeadCollectionPopup />
-          <EnrollmentAlert />
-          <Toaster />
-        </div>
-      </Router>
-    </AuthProvider>
+    <Router>
+      <div className="min-h-screen">
+        <Routes>
+          <Route path="/" element={<Index />} />
+        </Routes>
+        <NewYearMessage />
+        <LeadCollectionPopup />
+        <EnrollmentAlert />
+        <Toaster />
+      </div>
+    </Router>
   );
 }
 
