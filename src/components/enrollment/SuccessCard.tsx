@@ -13,7 +13,7 @@ export const SuccessCard = ({ onClose }: SuccessCardProps) => {
   const unlockCode = "DMH2024";
 
   const handleJoinWhatsApp = () => {
-    window.open("https://chat.whatsapp.com/COaTqrI651TKlYTPrHOYDn", "_blank");
+    window.open("https://chat.whatsapp.com/HPHP2XcO44t9QkNrHwJilg", "_blank");
   };
 
   const handleCopyCode = () => {
