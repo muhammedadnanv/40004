@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap');
 
 @tailwind base;
@@ -38,7 +37,7 @@
   }
   
   body {
-    @apply bg-background text-foreground antialiased min-h-screen overflow-x-hidden touch-manipulation;
+    @apply bg-background text-foreground antialiased min-h-screen overflow-x-hidden touch-manipulation pt-8;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
     background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(249,250,251,1) 100%);
     text-rendering: optimizeLegibility;

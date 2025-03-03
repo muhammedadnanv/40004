@@ -11,6 +11,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { dataProcessor } from "./utils/dataProcessor";
 import { LeadCollectionPopup } from "./components/LeadCollectionPopup";
 import { EnrollmentAlert } from "./components/EnrollmentAlert";
+import { JusticeMessage } from "./components/JusticeMessage";
 
 function App() {
   useEffect(() => {
@@ -89,6 +90,7 @@ function App() {
   return (
     <Router>
       <div className="min-h-screen w-full">
+        <JusticeMessage />
         <Routes>
           <Route path="/" element={<Index />} />
         </Routes>
