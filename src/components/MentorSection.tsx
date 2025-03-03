@@ -11,7 +11,10 @@ export const MentorSection = ({ mentorEarnings }: MentorSectionProps) => {
   const [showDialog, setShowDialog] = useState(false);
 
   return (
-    <section className="py-16 sm:py-20 md:py-24 px-4 bg-gradient-to-b from-white via-purple-50/30 to-white">
+    <section 
+      className="py-16 sm:py-20 md:py-24 px-4 bg-gradient-to-b from-white via-purple-50/30 to-white"
+      id="become-mentor"
+    >
       <div className="container mx-auto max-w-4xl text-center">
         <h2 className="text-2xl sm:text-3xl font-light mb-6 sm:mb-8">Become a Mentor</h2>
         <p className="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8 max-w-2xl mx-auto">
@@ -20,6 +23,7 @@ export const MentorSection = ({ mentorEarnings }: MentorSectionProps) => {
         <Button 
           onClick={() => setShowDialog(true)}
           className="bg-primary hover:bg-primary/90 text-white px-6 sm:px-8 py-5 sm:py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 text-sm sm:text-base"
+          aria-haspopup="dialog"
         >
           Apply as Mentor
         </Button>
@@ -35,6 +39,7 @@ export const MentorSection = ({ mentorEarnings }: MentorSectionProps) => {
             target="_blank" 
             rel="noopener noreferrer"
             className="hover:opacity-90 transition-opacity"
+            aria-label="View us on Product Hunt"
           >
             <img 
               src="https://api.producthunt.com/widgets/embed-image/v1/product_review.svg?product_id=864570&theme=light" 
@@ -43,6 +48,7 @@ export const MentorSection = ({ mentorEarnings }: MentorSectionProps) => {
               width="250" 
               height="54" 
               loading="lazy"
+              fetchpriority="low"
             />
           </a>
         </div>

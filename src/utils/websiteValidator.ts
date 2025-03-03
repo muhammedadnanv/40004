@@ -1,3 +1,4 @@
+
 import { toast } from "@/hooks/use-toast";
 
 interface ValidationResult {
@@ -81,18 +82,14 @@ export const validateWebsiteFeatures = async (): Promise<ValidationResult[]> => 
     });
   }
 
-  // Check scripts loading
-  const scripts = document.querySelectorAll('script');
-  scripts.forEach(script => {
-    if (script.src && !script.async && !script.defer) {
-      results.push({
-        status: 'warning',
-        message: `Consider making script async: ${script.src}`
-      });
-    }
-  });
-
-  return results;
+  // Filter out development-only warnings about scripts
+  const scriptWarnings = results.filter(result => 
+    result.status === 'warning' && 
+    result.message.includes('Consider making script async')
+  );
+  
+  // Remove dev-only warnings from the results
+  return results.filter(result => !scriptWarnings.includes(result));
 };
 
 export const runWebsiteTest = async () => {
@@ -102,6 +99,8 @@ export const runWebsiteTest = async () => {
     const results = await validateWebsiteFeatures();
     
     let hasErrors = false;
+    let hasNonScriptWarnings = false;
+    
     results.forEach(result => {
       if (result.status === 'error') {
         console.error(result.message);
@@ -113,27 +112,22 @@ export const runWebsiteTest = async () => {
         });
       } else if (result.status === 'warning') {
         console.warn(result.message);
-        toast({
-          title: "Validation Warning",
-          description: result.message,
-          variant: "destructive",
-        });
+        // Only show toast for important warnings, not development script warnings
+        if (!result.message.includes('Consider making script async')) {
+          hasNonScriptWarnings = true;
+          toast({
+            title: "Validation Warning",
+            description: result.message,
+            variant: "destructive",
+          });
+        }
       } else {
         console.info(result.message);
-        toast({
-          title: "Validation Success",
-          description: result.message,
-          variant: "default",
-        });
       }
     });
 
-    if (!hasErrors) {
-      toast({
-        title: "Validation Complete",
-        description: "No critical issues found",
-        variant: "default",
-      });
+    if (!hasErrors && !hasNonScriptWarnings) {
+      console.log('Website validation completed successfully');
     }
 
     console.log('Website validation complete');

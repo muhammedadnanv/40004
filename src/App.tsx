@@ -26,12 +26,15 @@ function App() {
         console.log("Website validation completed successfully");
       } catch (error) {
         console.error("Website validation failed:", error);
-        toast({
-          title: "Validation Error",
-          description: "Some features might not be working correctly. Please refresh the page.",
-          variant: "destructive",
-          duration: 5000,
-        });
+        // Only show toast for critical errors
+        if (error instanceof Error && error.message !== "Script warning only") {
+          toast({
+            title: "Validation Error",
+            description: "Some features might not be working correctly. Please refresh the page.",
+            variant: "destructive",
+            duration: 5000,
+          });
+        }
       }
     };
 
@@ -46,6 +49,7 @@ function App() {
         }
       } catch (error: any) {
         console.error("Error starting marketing recommendations:", error);
+        // Only show toast for non-404 errors
         if (error?.status !== 404) {
           toast({
             title: "Marketing Features",
@@ -80,6 +84,17 @@ function App() {
 
     initMarketing();
     checkSupabaseConnection();
+
+    // Register service worker for offline capability
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js').then(function(registration) {
+          console.log('ServiceWorker registration successful: ', registration.scope);
+        }, function(err) {
+          console.log('ServiceWorker registration failed: ', err);
+        });
+      });
+    }
 
     // Cleanup function
     return () => {
