@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { projectIdeas } from "@/data/projectIdeas";
 import { Input } from "@/components/ui/input";
-import { Search, Filter } from "lucide-react";
+import { Search, Filter, Download } from "lucide-react";
 
 export function ProjectIdeasSection() {
   const [isUnlocked, setIsUnlocked] = useState(false);
@@ -58,13 +58,31 @@ export function ProjectIdeasSection() {
     setSelectedDifficulty(null);
   };
 
+  // Download project ideas as JSON
+  const downloadProjectIdeas = () => {
+    const dataStr = JSON.stringify(filteredProjects, null, 2);
+    const dataUri = `data:application/json;charset=utf-8,${encodeURIComponent(dataStr)}`;
+    
+    const exportFileDefaultName = 'project-ideas.json';
+    
+    const linkElement = document.createElement('a');
+    linkElement.setAttribute('href', dataUri);
+    linkElement.setAttribute('download', exportFileDefaultName);
+    linkElement.click();
+    
+    toast({
+      title: "Download Started",
+      description: "Your project ideas are being downloaded as JSON.",
+    });
+  };
+
   useEffect(() => {
     // For demo purposes - uncomment to enable auto-unlock
     // setIsUnlocked(true);
   }, []);
 
   return (
-    <section className="py-16 md:py-24 px-4 bg-gray-50">
+    <section className="py-16 md:py-24 px-4 bg-gray-50" id="project-ideas">
       <div className="container mx-auto max-w-6xl">
         <h2 className="text-2xl md:text-3xl font-light text-center mb-6">Project Ideas Gallery</h2>
         <p className="text-center text-gray-600 mb-8 md:mb-12 max-w-2xl mx-auto">
@@ -174,7 +192,7 @@ export function ProjectIdeasSection() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {filteredProjects.length > 0 ? (
                 filteredProjects.map((project, index) => (
-                  <Card key={index} className="hover:shadow-lg transition-shadow h-full">
+                  <Card key={index} className="hover:shadow-lg transition-shadow h-full" data-gpteng-selectable>
                     <CardHeader>
                       <div className="flex justify-between items-start">
                         <CardTitle className="text-lg font-medium">{project.name}</CardTitle>
@@ -206,8 +224,21 @@ export function ProjectIdeasSection() {
             </div>
           </ScrollArea>
           
-          <div className="mt-4 text-center text-sm text-gray-500">
-            <p>Showing {filteredProjects.length} of {projectIdeas.length} projects</p>
+          <div className="mt-4 flex justify-between items-center">
+            <p className="text-sm text-gray-500">
+              Showing {filteredProjects.length} of {projectIdeas.length} projects
+            </p>
+            {isUnlocked && (
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={downloadProjectIdeas}
+                className="flex items-center gap-2"
+              >
+                <Download size={16} />
+                Download Ideas
+              </Button>
+            )}
           </div>
         </div>
       </div>
