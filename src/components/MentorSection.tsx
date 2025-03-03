@@ -28,6 +28,24 @@ export const MentorSection = ({ mentorEarnings }: MentorSectionProps) => {
           onClose={() => setShowDialog(false)}
           mentorEarnings={mentorEarnings}
         />
+        
+        <div className="mt-10 flex justify-center" aria-label="Product Hunt Badge">
+          <a 
+            href="https://www.producthunt.com/products/dev-mentor-hub/reviews?utm_source=badge-product_review&utm_medium=badge&utm_souce=badge-dev&#0045;mentor&#0045;hub" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="hover:opacity-90 transition-opacity"
+          >
+            <img 
+              src="https://api.producthunt.com/widgets/embed-image/v1/product_review.svg?product_id=864570&theme=light" 
+              alt="Dev Mentor Hub - Your journey to mastering technology starts here | Product Hunt" 
+              style={{ width: "250px", height: "54px" }} 
+              width="250" 
+              height="54" 
+              loading="lazy"
+            />
+          </a>
+        </div>
       </div>
     </section>
   );
