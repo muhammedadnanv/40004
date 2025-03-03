@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -13,6 +14,7 @@ export default {
         xl: '4rem',
       },
       screens: {
+        xs: "475px",
         sm: "640px",
         md: "768px",
         lg: "1024px",
@@ -21,6 +23,9 @@ export default {
       },
     },
     extend: {
+      screens: {
+        'xs': '475px',
+      },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
         display: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
@@ -55,6 +60,7 @@ export default {
         'card': '0 1px 3px rgba(0,0,0,0.05)',
         'premium': '0 8px 32px rgba(0, 0, 0, 0.1)',
         'glass': '0 8px 32px rgba(31, 38, 135, 0.15)',
+        'mobile': '0 2px 8px rgba(0, 0, 0, 0.08)',
       },
       animation: {
         "fade-up": "fadeUp 0.5s ease-out",
@@ -88,5 +94,32 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    function({ addUtilities }) {
+      const newUtilities = {
+        '.no-scrollbar::-webkit-scrollbar': {
+          'display': 'none',
+        },
+        '.no-scrollbar': {
+          '-ms-overflow-style': 'none',
+          'scrollbar-width': 'none',
+        },
+        '.touch-improved': {
+          'touch-action': 'manipulation',
+          '-webkit-tap-highlight-color': 'transparent',
+        },
+        '.text-balance': {
+          'text-wrap': 'balance',
+        },
+        '.safe-area-padding': {
+          'padding-top': 'env(safe-area-inset-top)',
+          'padding-bottom': 'env(safe-area-inset-bottom)',
+          'padding-left': 'env(safe-area-inset-left)',
+          'padding-right': 'env(safe-area-inset-right)',
+        },
+      }
+      addUtilities(newUtilities)
+    }
+  ],
 } satisfies Config;

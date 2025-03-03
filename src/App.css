@@ -22,35 +22,52 @@
   }
   
   .container-fluid {
-    @apply px-4;
+    @apply px-3;
   }
 
-  /* Improved touch targets for mobile */
+  /* Enhanced touch targets for mobile */
   button, 
   [role="button"],
   a {
-    @apply min-h-[44px] min-w-[44px] px-4 py-2;
+    @apply min-h-[48px] min-w-[48px] px-4 py-2;
   }
   
   input,
   select,
   textarea {
-    @apply text-base min-h-[44px];
+    @apply text-base min-h-[48px];
   }
 
   /* Better spacing for mobile forms */
   form {
-    @apply space-y-5;
+    @apply space-y-6;
   }
 
   /* Improved mobile card layouts */
   .card {
-    @apply mb-4;
+    @apply mb-5 px-3;
   }
 
   /* Better mobile navigation */
   nav {
-    @apply px-4 py-3;
+    @apply px-3 py-3;
+  }
+  
+  /* Better spacing for text elements */
+  h1 {
+    @apply text-2xl sm:text-3xl md:text-4xl;
+  }
+  
+  h2 {
+    @apply text-xl sm:text-2xl md:text-3xl;
+  }
+  
+  h3 {
+    @apply text-lg sm:text-xl md:text-2xl;
+  }
+  
+  p {
+    @apply text-sm sm:text-base;
   }
 }
 
@@ -61,6 +78,16 @@
   a {
     @apply cursor-pointer;
     -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* Add spacing for better touch interactions */
+  .grid {
+    @apply gap-4;
+  }
+  
+  /* Improved sidebar components */
+  .sidebar {
+    @apply w-full max-w-[300px];
   }
 }
 
@@ -118,13 +145,26 @@ html {
   .safe-top {
     padding-top: max(1.5rem, env(safe-area-inset-top));
   }
+  
+  .safe-left {
+    padding-left: max(1rem, env(safe-area-inset-left));
+  }
+  
+  .safe-right {
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
 }
 
 /* Better form controls for touch devices */
 @media (hover: none) {
   input[type="checkbox"],
   input[type="radio"] {
-    @apply min-w-[20px] min-h-[20px];
+    @apply min-w-[24px] min-h-[24px];
+  }
+  
+  /* Improved touch feedback */
+  .touch-feedback:active {
+    @apply bg-gray-100;
   }
 }
 
@@ -159,4 +199,29 @@ button:active,
 /* Improved text selection */
 ::selection {
   @apply bg-primary/20 text-primary;
+}
+
+/* Sticky positioning for navigation */
+.sticky-nav {
+  @apply sticky top-0 z-50 bg-white/90 backdrop-blur-sm shadow-sm;
+}
+
+/* Optimizing images for mobile */
+img {
+  @apply max-w-full h-auto;
+}
+
+/* Flex column for mobile, row for desktop */
+.flex-responsive {
+  @apply flex flex-col sm:flex-row;
+}
+
+/* Mobile optimized grid view */
+.grid-responsive {
+  @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4;
+}
+
+/* Prevent overflow issues on mobile */
+.no-overflow {
+  @apply overflow-hidden;
 }
