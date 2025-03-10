@@ -36,7 +36,7 @@ export const ProgramsSection = ({ programs }: ProgramsSectionProps) => {
         >
           Choose Your Mentorship Path <Star className="inline-block w-5 h-5 sm:w-6 sm:h-6 text-purple-600 animate-pulse" aria-hidden="true" />
         </motion.h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
           {programs.map((program, index) => (
             <motion.div
               key={program.title}

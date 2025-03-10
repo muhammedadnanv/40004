@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { Code, Database, Palette, Sparkles } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -35,17 +36,17 @@ export const LearningPathSection = () => {
   ];
 
   return (
-    <div className="container mx-auto max-w-6xl px-4">
+    <div className="container mx-auto max-w-6xl px-4 py-8 sm:py-12 md:py-16">
       <motion.h2 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="text-3xl font-extralight text-center mb-16 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-purple-800"
+        className="text-xl sm:text-2xl md:text-3xl font-extralight text-center mb-8 sm:mb-12 md:mb-16 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-purple-800"
       >
         Choose Your Learning Path
       </motion.h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
         {paths.map((path, index) => (
           <motion.div
             key={path.title}
@@ -54,15 +55,15 @@ export const LearningPathSection = () => {
             transition={{ delay: index * 0.1, duration: 0.6 }}
             className="group"
           >
-            <Card className="relative overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300">
+            <Card className="relative overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 h-full">
               <div className={`absolute inset-0 bg-gradient-to-br ${path.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
-              <CardHeader>
-                <path.icon className="w-8 h-8 text-purple-600 group-hover:scale-110 transition-transform duration-300" />
-                <CardTitle className="text-xl font-light">{path.title}</CardTitle>
-                <CardDescription>{path.description}</CardDescription>
+              <CardHeader className="p-4 sm:p-6">
+                <path.icon className="w-6 h-6 sm:w-8 sm:h-8 text-purple-600 group-hover:scale-110 transition-transform duration-300" />
+                <CardTitle className="text-base sm:text-lg md:text-xl font-light">{path.title}</CardTitle>
+                <CardDescription className="text-xs sm:text-sm">{path.description}</CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2">
+              <CardContent className="p-4 sm:p-6 pt-0 sm:pt-0">
+                <div className="flex flex-wrap gap-1.5 sm:gap-2">
                   {path.skills.map((skill) => (
                     <span
                       key={skill}

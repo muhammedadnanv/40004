@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { EnrollmentForm } from "./EnrollmentForm";
@@ -48,9 +49,10 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
               </button>
             </TooltipTrigger>
             <TooltipContent 
-              side="right" 
-              className="max-w-[250px] p-3 bg-white shadow-lg rounded-lg border border-purple-100"
+              side="top" 
               sideOffset={5}
+              align="center"
+              className="max-w-[250px] p-3 bg-white shadow-lg rounded-lg border border-purple-100 z-50"
             >
               <p className="text-sm text-gray-600">
                 {program.title} is designed for both beginners and intermediate-level developers. 

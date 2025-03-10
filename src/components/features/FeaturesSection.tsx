@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Star, Brain, Target, Zap } from "lucide-react";
@@ -23,7 +24,7 @@ export const FeaturesSection = () => {
           Our Task-Based Mentorship Approach
         </motion.h2>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
           {features.map((feature, index) => (
             <motion.div 
               key={feature.title}
@@ -33,7 +34,7 @@ export const FeaturesSection = () => {
               className="group"
             >
               <Card className="border-0 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 bg-white/80 backdrop-blur-sm h-full">
-                <CardHeader className="space-y-3 sm:space-y-4 p-4 sm:p-6">
+                <CardHeader className="space-y-2 sm:space-y-3 md:space-y-4 p-4 sm:p-6">
                   <feature.icon className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-purple-600 group-hover:rotate-12 transition-transform duration-300" />
                   <CardTitle className="text-sm sm:text-base md:text-lg font-light">{feature.title}</CardTitle>
                   <CardDescription className="text-xs sm:text-sm">{feature.desc}</CardDescription>

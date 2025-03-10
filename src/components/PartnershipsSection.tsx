@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { Award, Building2 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -21,23 +22,23 @@ export const PartnershipsSection = () => {
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-br from-white via-purple-50 to-white relative">
+    <section className="py-12 sm:py-16 md:py-24 bg-gradient-to-br from-white via-purple-50 to-white relative">
       <div className="container mx-auto max-w-6xl px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-8 sm:mb-12 md:mb-16"
         >
-          <h2 className="text-3xl font-extralight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-purple-800">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-extralight mb-3 sm:mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-purple-800">
             Our Partner Communities
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-xs sm:text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
             This program is conducted in collaboration with leading tech communities. Upon completion, you'll receive valuable certificates from these respected organizations.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 md:gap-6">
           {partners.map((partner, index) => (
             <motion.div
               key={partner.name}
@@ -46,7 +47,7 @@ export const PartnershipsSection = () => {
               transition={{ delay: index * 0.1, duration: 0.6 }}
             >
               <Card 
-                className="h-full border-0 shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer"
+                className="h-full border-0 shadow-md hover:shadow-xl transition-all duration-300 group cursor-pointer"
                 onClick={() => {
                   if (partner.link) {
                     window.open(partner.link, '_blank');
@@ -55,14 +56,14 @@ export const PartnershipsSection = () => {
                   }
                 }}
               >
-                <CardHeader className="space-y-1">
-                  <Building2 className="w-8 h-8 text-purple-600 group-hover:scale-110 transition-transform duration-300" />
-                  <CardTitle className="text-lg font-medium">{partner.name}</CardTitle>
-                  <CardDescription>{partner.description}</CardDescription>
+                <CardHeader className="space-y-1 p-3 sm:p-4">
+                  <Building2 className="w-6 h-6 sm:w-8 sm:h-8 text-purple-600 group-hover:scale-110 transition-transform duration-300" />
+                  <CardTitle className="text-sm sm:text-base md:text-lg font-medium">{partner.name}</CardTitle>
+                  <CardDescription className="text-xs sm:text-sm">{partner.description}</CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <div className="flex items-center gap-2 text-sm text-purple-600">
-                    <Award className="w-4 h-4" />
+                <CardContent className="p-3 sm:p-4 pt-0 sm:pt-0">
+                  <div className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm text-purple-600">
+                    <Award className="w-3 h-3 sm:w-4 sm:h-4" />
                     <span>Certificate Provider</span>
                   </div>
                 </CardContent>

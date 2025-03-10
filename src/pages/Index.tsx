@@ -1,3 +1,4 @@
+
 import { CategoryTopper } from "@/components/CategoryTopper";
 import { HeroSection } from "@/components/HeroSection";
 import { LearningPathSection } from "@/components/LearningPathSection";
@@ -66,8 +67,8 @@ const Index = () => {
       regularPrice: programFee
     },
     {
-      title: "Full Stack API Development",
-      description: "Build complete full-stack applications with expert mentorship. Work on real API projects with industry best practices. No courses - pure hands-on development. Build projects with Mentor support.",
+      title: "Full Stack Development",
+      description: "Build complete full-stack applications with expert mentorship. Work on real projects with industry best practices. No courses - pure hands-on development. Build projects with Mentor support.",
       duration: "1 year",
       skills: ["RESTful APIs", "Node.js", "Database Design", "Authentication", "Cloud Deployment"],
       category: "Full Stack Development",

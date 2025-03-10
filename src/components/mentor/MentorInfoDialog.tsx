@@ -23,31 +23,31 @@ export const MentorInfoDialog = ({ isOpen, onClose, mentorEarnings = 0 }: Mentor
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-w-[800px] w-full p-6 sm:p-8">
+      <DialogContent className="max-w-[800px] w-[calc(100%-2rem)] p-4 sm:p-6 md:p-8 mx-auto">
         {!showForm ? (
           <>
             <DialogHeader>
-              <DialogTitle className="text-2xl font-light text-center mb-4">
+              <DialogTitle className="text-xl sm:text-2xl font-light text-center mb-3 sm:mb-4">
                 Mentor Earnings Overview
               </DialogTitle>
-              <div className="text-center space-y-6">
-                <p className="text-gray-600 text-lg">
+              <div className="text-center space-y-4 sm:space-y-6">
+                <p className="text-sm sm:text-base md:text-lg text-gray-600">
                   As a mentor on our platform, you'll earn approximately:
                 </p>
-                <p className="text-3xl sm:text-4xl font-semibold text-primary">
+                <p className="text-2xl sm:text-3xl md:text-4xl font-semibold text-primary">
                   ₹{mentorEarnings.toFixed(2)} per student
                 </p>
-                <div className="text-sm sm:text-base text-gray-500 space-y-2 max-w-md mx-auto">
+                <div className="text-xs sm:text-sm text-gray-500 space-y-1 sm:space-y-2 max-w-md mx-auto">
                   <p>Program Fee: ₹2160</p>
                   <p>Platform Fee (10%): ₹{platformFee.toFixed(2)}</p>
                   <p>Payment Gateway Fee (2%): ₹{paymentGatewayFee.toFixed(2)}</p>
                 </div>
               </div>
             </DialogHeader>
-            <div className="mt-8 flex justify-center">
+            <div className="mt-6 sm:mt-8 flex justify-center">
               <Button 
                 onClick={() => setShowForm(true)}
-                className="bg-primary hover:bg-primary/90 text-white px-8 py-2 w-full sm:w-auto"
+                className="bg-primary hover:bg-primary/90 text-white px-6 sm:px-8 py-2 w-full sm:w-auto text-sm sm:text-base"
               >
                 Apply Now
               </Button>

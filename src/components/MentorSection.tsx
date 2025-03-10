@@ -22,7 +22,7 @@ export const MentorSection = ({ mentorEarnings }: MentorSectionProps) => {
         </p>
         <Button 
           onClick={() => setShowDialog(true)}
-          className="bg-primary hover:bg-primary/90 text-white px-6 sm:px-8 py-5 sm:py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 text-sm sm:text-base"
+          className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-white px-6 sm:px-8 py-5 sm:py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 text-sm sm:text-base"
           aria-haspopup="dialog"
         >
           Apply as Mentor
