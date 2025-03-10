@@ -24,7 +24,7 @@ export const ProjectList = ({ projects, resetFilters }: ProjectListProps) => {
         ) : (
           <div className="col-span-full py-8 sm:py-10 text-center text-gray-500">
             <p className="text-sm sm:text-base">No projects match your search criteria.</p>
-            <Button variant="link" onClick={resetFilters} className="mt-2">
+            <Button variant="link" onClick={resetFilters}>
               Reset filters
             </Button>
           </div>
