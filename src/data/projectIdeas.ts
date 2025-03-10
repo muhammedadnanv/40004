@@ -306,645 +306,693 @@ export const projectIdeas = [
     category: "Low-Code"
   },
   {
-    name: "Design System Creator",
-    description: "Build a comprehensive design system with components and guidelines",
+    name: "3D Product Configurator",
+    description: "Build an interactive tool for customizing 3D product models",
     difficulty: "Advanced",
-    category: "UX/UI"
+    category: "Frontend Development"
   },
   {
-    name: "User Research Platform",
-    description: "Create a tool for conducting and analyzing user research",
-    difficulty: "Intermediate",
-    category: "UX/UI"
-  },
-  {
-    name: "Accessibility Checker",
-    description: "Develop a tool to evaluate and improve web accessibility",
-    difficulty: "Intermediate",
-    category: "UX/UI"
-  },
-  {
-    name: "Brand Identity Generator",
-    description: "Create a tool for generating consistent brand assets",
-    difficulty: "Intermediate",
-    category: "Graphic Design"
-  },
-  {
-    name: "Social Media Kit Creator",
-    description: "Build a platform for creating coordinated social media visuals",
-    difficulty: "Beginner",
-    category: "Graphic Design"
-  },
-  {
-    name: "Vector Art Generator",
-    description: "Develop a tool for creating and editing vector illustrations",
+    name: "Blockchain Explorer",
+    description: "Create a visual interface to explore blockchain transactions and data",
     difficulty: "Advanced",
-    category: "Graphic Design"
+    category: "Blockchain"
   },
   {
-    name: "Auto Video Trimmer",
-    description: "Create an automated video editing and trimming tool",
-    difficulty: "Intermediate",
-    category: "Video Editing"
-  },
-  {
-    name: "Caption Generator",
-    description: "Build a tool for generating and styling video captions",
-    difficulty: "Beginner",
-    category: "Video Editing"
-  },
-  {
-    name: "Video Effects Library",
-    description: "Develop a collection of custom video effects and transitions",
+    name: "Augmented Reality Showroom",
+    description: "Develop an AR application to visualize products in real environments",
     difficulty: "Advanced",
-    category: "Video Editing"
+    category: "AR/VR"
   },
   {
-    name: "Prompt Template Builder",
-    description: "Create a system for building and testing AI prompts",
-    difficulty: "Intermediate",
-    category: "Prompt Engineering"
-  },
-  {
-    name: "Context Optimizer",
-    description: "Build a tool for optimizing prompt context and parameters",
+    name: "Virtual Reality Training",
+    description: "Build an immersive VR training simulation for specific skills",
     difficulty: "Advanced",
-    category: "Prompt Engineering"
+    category: "AR/VR"
   },
   {
-    name: "Prompt Testing Suite",
-    description: "Develop a platform for testing and comparing prompt effectiveness",
+    name: "Gamified Learning Platform",
+    description: "Create an educational platform with game mechanics to enhance engagement",
     difficulty: "Intermediate",
-    category: "Prompt Engineering"
+    category: "Education"
   },
   {
-    name: "AI Email Spam Filter",
-    description: "Create a machine learning-based email filter that automatically categorizes emails as spam or legitimate",
+    name: "Crypto Portfolio Tracker",
+    description: "Develop a dashboard for tracking cryptocurrency investments",
     difficulty: "Intermediate",
-    category: "AI"
+    category: "Blockchain"
   },
   {
-    name: "AI Voice Assistant",
-    description: "Build a custom voice assistant using open-source speech recognition and natural language processing",
+    name: "NFT Marketplace",
+    description: "Build a platform for creating, buying, and selling NFTs",
     difficulty: "Advanced",
-    category: "AI"
+    category: "Blockchain"
   },
   {
-    name: "Sentiment Analysis Dashboard",
-    description: "Develop a tool that analyzes and visualizes sentiment from social media posts or customer reviews",
-    difficulty: "Intermediate",
-    category: "AI"
-  },
-  {
-    name: "AI-Powered News Aggregator",
-    description: "Create a personalized news feed that uses AI to recommend articles based on user preferences",
-    difficulty: "Intermediate",
-    category: "AI"
-  },
-  {
-    name: "Emotion Recognition System",
-    description: "Build an application that can detect emotions from facial expressions using computer vision",
+    name: "Smart Contract Generator",
+    description: "Create a tool for generating custom smart contracts with minimal coding",
     difficulty: "Advanced",
-    category: "AI"
+    category: "Blockchain"
   },
   {
-    name: "AI Fitness Coach",
-    description: "Develop a fitness assistant that provides personalized workout plans using machine learning",
+    name: "Decentralized Finance Dashboard",
+    description: "Develop a dashboard for managing DeFi investments and yield farming",
     difficulty: "Advanced",
-    category: "AI"
+    category: "Blockchain"
   },
   {
-    name: "Chatbot for Mental Health",
-    description: "Create a supportive chatbot designed to provide mental health resources and basic support",
-    difficulty: "Intermediate",
-    category: "AI"
-  },
-  {
-    name: "AI Text Simplifier",
-    description: "Build a tool that transforms complex text into simpler language for improved readability",
-    difficulty: "Intermediate",
-    category: "AI"
-  },
-  {
-    name: "Visual Search Engine",
-    description: "Develop an application that allows users to search using images instead of text",
+    name: "AR Navigation App",
+    description: "Build an augmented reality app for indoor or outdoor navigation",
     difficulty: "Advanced",
-    category: "AI"
+    category: "AR/VR"
   },
   {
-    name: "AI Drawing Assistant",
-    description: "Create a tool that helps improve drawings with AI-powered suggestions and corrections",
+    name: "WebXR Experience",
+    description: "Create an immersive web-based XR experience accessible from browsers",
     difficulty: "Advanced",
-    category: "AI"
+    category: "AR/VR"
   },
   {
-    name: "No-Code Business Dashboard",
-    description: "Build a comprehensive business analytics dashboard without writing code",
-    difficulty: "Beginner",
-    category: "No-Code"
-  },
-  {
-    name: "No-Code Mobile App Builder",
-    description: "Create a platform where users can build and publish mobile apps without coding",
-    difficulty: "Intermediate",
-    category: "No-Code"
-  },
-  {
-    name: "Automated Customer Support",
-    description: "Develop a no-code solution for automating customer support workflows",
-    difficulty: "Beginner",
-    category: "No-Code"
-  },
-  {
-    name: "No-Code Booking System",
-    description: "Build an appointment booking system for small businesses without writing code",
-    difficulty: "Beginner",
-    category: "No-Code"
-  },
-  {
-    name: "Visual Data Pipeline",
-    description: "Create data transformation and processing workflows using no-code tools",
-    difficulty: "Intermediate",
-    category: "No-Code"
-  },
-  {
-    name: "No-Code Knowledge Base",
-    description: "Build a searchable knowledge base for organizations without programming",
-    difficulty: "Beginner",
-    category: "No-Code"
-  },
-  {
-    name: "Automated Marketing Platform",
-    description: "Create a marketing automation system using no-code tools and integrations",
-    difficulty: "Intermediate",
-    category: "No-Code"
-  },
-  {
-    name: "No-Code Business Directory",
-    description: "Develop a directory website for local businesses without writing code",
-    difficulty: "Beginner",
-    category: "No-Code"
-  },
-  {
-    name: "Digital Product Store",
-    description: "Build an e-commerce platform for selling digital products using no-code solutions",
-    difficulty: "Intermediate",
-    category: "No-Code"
-  },
-  {
-    name: "No-Code Community Platform",
-    description: "Create a community platform with forums, events, and member profiles",
-    difficulty: "Intermediate",
-    category: "No-Code"
-  },
-  {
-    name: "Low-Code CRM Extension",
-    description: "Add custom features to an existing CRM system using low-code development",
-    difficulty: "Intermediate",
-    category: "Low-Code"
-  },
-  {
-    name: "Supply Chain Tracker",
-    description: "Build a system to monitor and manage supply chain processes with low-code tools",
-    difficulty: "Intermediate",
-    category: "Low-Code"
-  },
-  {
-    name: "Employee Onboarding System",
-    description: "Create a streamlined onboarding process for new employees using low-code platforms",
-    difficulty: "Intermediate",
-    category: "Low-Code"
-  },
-  {
-    name: "Low-Code Asset Management",
-    description: "Develop an asset tracking and management system with minimal coding",
-    difficulty: "Intermediate",
-    category: "Low-Code"
-  },
-  {
-    name: "Field Service Mobile App",
-    description: "Build a mobile application for field service workers using low-code tools",
+    name: "Motion Capture Animation",
+    description: "Develop a system for creating animations using webcam-based motion capture",
     difficulty: "Advanced",
-    category: "Low-Code"
+    category: "AR/VR"
   },
   {
-    name: "Compliance Reporting Tool",
-    description: "Create a solution for managing and reporting regulatory compliance with low-code platforms",
-    difficulty: "Intermediate",
-    category: "Low-Code"
-  },
-  {
-    name: "Real Estate Management System",
-    description: "Develop a property management application using low-code development",
-    difficulty: "Intermediate",
-    category: "Low-Code"
-  },
-  {
-    name: "Low-Code Healthcare Portal",
-    description: "Build a patient portal for healthcare providers with minimal coding",
-    difficulty: "Advanced",
-    category: "Low-Code"
-  },
-  {
-    name: "Fleet Management Dashboard",
-    description: "Create a system for tracking and managing vehicle fleets using low-code tools",
-    difficulty: "Intermediate",
-    category: "Low-Code"
-  },
-  {
-    name: "Low-Code IoT Monitor",
-    description: "Develop an application to monitor and manage IoT devices with minimal coding",
-    difficulty: "Advanced",
-    category: "Low-Code"
-  },
-  {
-    name: "Micro-interaction Library",
-    description: "Design and implement a collection of engaging micro-interactions for web applications",
-    difficulty: "Intermediate",
-    category: "UX/UI"
-  },
-  {
-    name: "Dark Mode Conversion Guide",
-    description: "Create a comprehensive guide for converting existing interfaces to support dark mode",
-    difficulty: "Intermediate",
-    category: "UX/UI"
-  },
-  {
-    name: "UI Animation Framework",
-    description: "Develop a reusable animation system for creating consistent motion in interfaces",
-    difficulty: "Advanced",
-    category: "UX/UI"
-  },
-  {
-    name: "Responsive Dashboard Template",
-    description: "Design a highly flexible dashboard template that works across all device sizes",
-    difficulty: "Intermediate",
-    category: "UX/UI"
-  },
-  {
-    name: "Voice User Interface Prototype",
-    description: "Create a prototype for voice-controlled user interfaces with visual feedback",
-    difficulty: "Advanced",
-    category: "UX/UI"
-  },
-  {
-    name: "UX Research Toolkit",
-    description: "Build a collection of templates and tools for conducting effective UX research",
-    difficulty: "Intermediate",
-    category: "UX/UI"
-  },
-  {
-    name: "Accessibility Audit System",
-    description: "Develop a methodology and tools for conducting thorough accessibility audits",
-    difficulty: "Advanced",
-    category: "UX/UI"
-  },
-  {
-    name: "Interactive Style Guide",
-    description: "Create an interactive documentation system for design systems and component libraries",
-    difficulty: "Intermediate",
-    category: "UX/UI"
-  },
-  {
-    name: "User Flow Generator",
-    description: "Build a tool for creating and visualizing user flows through applications",
-    difficulty: "Intermediate",
-    category: "UX/UI"
-  },
-  {
-    name: "Design Token Manager",
-    description: "Create a system for managing and implementing design tokens across platforms",
-    difficulty: "Advanced",
-    category: "UX/UI"
-  },
-  {
-    name: "Brand Identity Evolution Kit",
-    description: "Create a toolkit for evolving brand identities while maintaining recognition",
-    difficulty: "Advanced",
-    category: "Graphic Design"
-  },
-  {
-    name: "Icon System Creator",
-    description: "Build a cohesive system for designing and implementing custom icon sets",
-    difficulty: "Intermediate",
-    category: "Graphic Design"
-  },
-  {
-    name: "Data Visualization Toolkit",
-    description: "Develop a library of custom data visualization components and styles",
-    difficulty: "Advanced",
-    category: "Graphic Design"
-  },
-  {
-    name: "Editorial Design System",
-    description: "Create a comprehensive design system for digital publications and blogs",
-    difficulty: "Intermediate",
-    category: "Graphic Design"
-  },
-  {
-    name: "Motion Branding Package",
-    description: "Develop a consistent motion identity system for brand applications",
-    difficulty: "Advanced",
-    category: "Graphic Design"
-  },
-  {
-    name: "Typography Specimen Builder",
-    description: "Build a tool for creating and showcasing typography specimens",
-    difficulty: "Beginner",
-    category: "Graphic Design"
-  },
-  {
-    name: "Product Packaging System",
-    description: "Design a flexible packaging system that scales across product lines",
-    difficulty: "Intermediate",
-    category: "Graphic Design"
-  },
-  {
-    name: "Environmental Graphics Toolkit",
-    description: "Create a system for designing consistent environmental and wayfinding graphics",
-    difficulty: "Advanced",
-    category: "Graphic Design"
-  },
-  {
-    name: "Social Media Template Library",
-    description: "Develop a comprehensive template system for social media content",
-    difficulty: "Beginner",
-    category: "Graphic Design"
-  },
-  {
-    name: "Modular Illustration System",
-    description: "Build a system for creating consistent illustrations from modular components",
-    difficulty: "Intermediate",
-    category: "Graphic Design"
-  },
-  {
-    name: "Video Transition Library",
-    description: "Create a collection of custom video transitions for various editing platforms",
-    difficulty: "Intermediate",
-    category: "Video Editing"
-  },
-  {
-    name: "Documentary Style Guide",
-    description: "Develop a comprehensive visual style guide for documentary filmmaking",
-    difficulty: "Advanced",
-    category: "Video Editing"
-  },
-  {
-    name: "Social Media Video Templates",
-    description: "Build a library of video templates optimized for different social platforms",
-    difficulty: "Beginner",
-    category: "Video Editing"
-  },
-  {
-    name: "Color Grading Preset Pack",
-    description: "Create a collection of color grading presets for different moods and styles",
-    difficulty: "Intermediate",
-    category: "Video Editing"
-  },
-  {
-    name: "Motion Graphics Library",
-    description: "Develop reusable motion graphics elements for video productions",
-    difficulty: "Advanced",
-    category: "Video Editing"
-  },
-  {
-    name: "Video Editing Workflow System",
-    description: "Design an efficient workflow system for video post-production",
-    difficulty: "Intermediate",
-    category: "Video Editing"
-  },
-  {
-    name: "Educational Video Framework",
-    description: "Create a framework for producing consistent and engaging educational videos",
-    difficulty: "Intermediate",
-    category: "Video Editing"
-  },
-  {
-    name: "Short-Form Video Generator",
-    description: "Build a system for quickly creating engaging short-form video content",
-    difficulty: "Beginner",
-    category: "Video Editing"
-  },
-  {
-    name: "Visual Effects Template Pack",
-    description: "Develop a collection of visual effects templates for video projects",
-    difficulty: "Advanced",
-    category: "Video Editing"
-  },
-  {
-    name: "Video Podcast Production Kit",
-    description: "Create a complete production system for video podcasts",
-    difficulty: "Intermediate",
-    category: "Video Editing"
-  },
-  {
-    name: "Prompt Optimization Tool",
-    description: "Build a system for testing and optimizing AI prompts for specific outcomes",
-    difficulty: "Intermediate",
-    category: "Prompt Engineering"
-  },
-  {
-    name: "Cross-Model Prompt Converter",
-    description: "Create a tool that adapts prompts to work effectively across different AI models",
-    difficulty: "Advanced",
-    category: "Prompt Engineering"
-  },
-  {
-    name: "Prompt Chaining Visualizer",
-    description: "Develop a tool for visualizing and managing complex prompt chains",
-    difficulty: "Advanced",
-    category: "Prompt Engineering"
-  },
-  {
-    name: "Domain-Specific Prompt Library",
-    description: "Build a collection of prompts optimized for specific industries or use cases",
-    difficulty: "Intermediate",
-    category: "Prompt Engineering"
-  },
-  {
-    name: "Prompt Performance Analytics",
-    description: "Create a system for measuring and comparing prompt effectiveness",
-    difficulty: "Advanced",
-    category: "Prompt Engineering"
-  },
-  {
-    name: "Interactive Prompt Builder",
-    description: "Develop a tool that helps users construct effective prompts through guided steps",
-    difficulty: "Intermediate",
-    category: "Prompt Engineering"
-  },
-  {
-    name: "Prompt Version Control System",
-    description: "Build a system for tracking changes and improvements to prompts over time",
-    difficulty: "Intermediate",
-    category: "Prompt Engineering"
-  },
-  {
-    name: "Multi-Modal Prompt Designer",
-    description: "Create a tool for designing prompts that combine text, images, and other inputs",
-    difficulty: "Advanced",
-    category: "Prompt Engineering"
-  },
-  {
-    name: "Prompt Template Repository",
-    description: "Develop a searchable repository of prompt templates for different purposes",
-    difficulty: "Beginner",
-    category: "Prompt Engineering"
-  },
-  {
-    name: "Collaborative Prompt Workspace",
-    description: "Build a platform for teams to collaboratively develop and refine prompts",
-    difficulty: "Advanced",
-    category: "Prompt Engineering"
-  },
-  {
-    name: "Micro Frontend Framework",
-    description: "Develop a framework for implementing micro frontend architecture",
+    name: "3D Web Portfolio",
+    description: "Build an interactive 3D portfolio website with WebGL",
     difficulty: "Advanced",
     category: "Frontend Development"
   },
   {
     name: "Interactive Data Explorer",
-    description: "Create a highly interactive tool for exploring and visualizing complex datasets",
+    description: "Create a tool for exploring and visualizing complex datasets",
+    difficulty: "Intermediate",
+    category: "Data Visualization"
+  },
+  {
+    name: "Data Analytics Dashboard",
+    description: "Develop a customizable dashboard for business intelligence",
+    difficulty: "Intermediate",
+    category: "Data Visualization"
+  },
+  {
+    name: "Real-time IoT Dashboard",
+    description: "Build a real-time monitoring system for IoT devices",
+    difficulty: "Intermediate",
+    category: "IoT"
+  },
+  {
+    name: "Smart Home Controller",
+    description: "Create a central hub for managing smart home devices",
+    difficulty: "Intermediate",
+    category: "IoT"
+  },
+  {
+    name: "IoT Weather Station",
+    description: "Develop a connected weather monitoring system with sensors",
+    difficulty: "Intermediate",
+    category: "IoT"
+  },
+  {
+    name: "Indoor Plant Monitoring",
+    description: "Build an IoT system for tracking plant health and automating care",
+    difficulty: "Beginner",
+    category: "IoT"
+  },
+  {
+    name: "Voice-Controlled Assistant",
+    description: "Create a custom voice assistant for specific domain tasks",
     difficulty: "Advanced",
-    category: "Frontend Development"
+    category: "Voice Tech"
   },
   {
-    name: "Progressive Web App Template",
-    description: "Build a comprehensive template for creating offline-capable progressive web apps",
-    difficulty: "Intermediate",
-    category: "Frontend Development"
-  },
-  {
-    name: "Accessibility First Components",
-    description: "Develop a library of components built with accessibility as the primary concern",
-    difficulty: "Intermediate",
-    category: "Frontend Development"
-  },
-  {
-    name: "Animation Performance Lab",
-    description: "Create a testing environment for optimizing web animations for performance",
+    name: "Speech Recognition Tool",
+    description: "Develop an application that converts speech to text with high accuracy",
     difficulty: "Advanced",
-    category: "Frontend Development"
+    category: "Voice Tech"
   },
   {
-    name: "Custom Form Builder",
-    description: "Build a drag-and-drop interface for creating and managing complex forms",
-    difficulty: "Intermediate",
-    category: "Frontend Development"
-  },
-  {
-    name: "State Management Pattern Library",
-    description: "Develop a collection of state management patterns for different scenarios",
+    name: "Voice Authentication System",
+    description: "Build a security system that uses voice biometrics for authentication",
     difficulty: "Advanced",
-    category: "Frontend Development"
+    category: "Voice Tech"
   },
   {
-    name: "Browser Extension Framework",
-    description: "Create a framework for rapidly developing cross-browser extensions",
+    name: "Podcast Transcription Tool",
+    description: "Create an automated system for transcribing and summarizing podcasts",
     difficulty: "Intermediate",
-    category: "Frontend Development"
+    category: "Voice Tech"
   },
   {
-    name: "Interactive Tutorial Builder",
-    description: "Build a system for creating guided interactive tutorials for web applications",
+    name: "Accessibility Voice Navigation",
+    description: "Develop a voice-controlled navigation system for accessibility",
     difficulty: "Intermediate",
-    category: "Frontend Development"
+    category: "Voice Tech"
   },
   {
-    name: "UI Performance Dashboard",
-    description: "Develop a dashboard for monitoring and optimizing frontend performance metrics",
+    name: "Gesture Control Interface",
+    description: "Build an interface that responds to hand gestures using computer vision",
     difficulty: "Advanced",
-    category: "Frontend Development"
+    category: "Computer Vision"
   },
   {
-    name: "Social Media Analytics Platform",
-    description: "Build a comprehensive analytics dashboard for tracking social media performance",
+    name: "Object Recognition App",
+    description: "Create a mobile app that identifies objects in real-time",
     difficulty: "Advanced",
-    category: "Marketing Tech"
+    category: "Computer Vision"
   },
   {
-    name: "Automated Content Calendar",
-    description: "Create a tool for planning and scheduling content across multiple platforms",
+    name: "Facial Expression Analyzer",
+    description: "Develop a tool that recognizes and classifies facial expressions",
+    difficulty: "Advanced",
+    category: "Computer Vision"
+  },
+  {
+    name: "Document Scanner",
+    description: "Build a mobile application for scanning and processing documents",
     difficulty: "Intermediate",
-    category: "Marketing Tech"
+    category: "Computer Vision"
   },
   {
-    name: "Personal Finance Dashboard",
-    description: "Develop a dashboard for tracking expenses, investments, and financial goals",
+    name: "Drone Vision System",
+    description: "Create a computer vision system for autonomous drone navigation",
+    difficulty: "Advanced",
+    category: "Computer Vision"
+  },
+  {
+    name: "Automated QA Testing Framework",
+    description: "Develop a framework for automating UI and API tests",
+    difficulty: "Advanced",
+    category: "Testing"
+  },
+  {
+    name: "Performance Testing Tool",
+    description: "Build a tool for measuring and analyzing application performance",
+    difficulty: "Advanced",
+    category: "Testing"
+  },
+  {
+    name: "Accessibility Testing Suite",
+    description: "Create a comprehensive testing suite for web accessibility",
     difficulty: "Intermediate",
-    category: "Finance Tech"
+    category: "Testing"
   },
   {
-    name: "Health Metrics Tracker",
-    description: "Build an application for monitoring personal health metrics and habits",
+    name: "Visual Regression Testing",
+    description: "Develop a system for detecting visual UI changes across versions",
+    difficulty: "Intermediate",
+    category: "Testing"
+  },
+  {
+    name: "Security Vulnerability Scanner",
+    description: "Build a tool for identifying security vulnerabilities in applications",
+    difficulty: "Advanced",
+    category: "Security"
+  },
+  {
+    name: "Password Manager",
+    description: "Create a secure password management application",
+    difficulty: "Intermediate",
+    category: "Security"
+  },
+  {
+    name: "Two-Factor Authentication System",
+    description: "Develop a custom 2FA solution for applications",
+    difficulty: "Intermediate",
+    category: "Security"
+  },
+  {
+    name: "Secure File Sharing",
+    description: "Build an end-to-end encrypted file sharing platform",
+    difficulty: "Advanced",
+    category: "Security"
+  },
+  {
+    name: "Privacy Policy Generator",
+    description: "Create a tool that generates customized privacy policies",
+    difficulty: "Beginner",
+    category: "Legal Tech"
+  },
+  {
+    name: "Contract Management System",
+    description: "Develop a platform for managing legal contracts and agreements",
+    difficulty: "Intermediate",
+    category: "Legal Tech"
+  },
+  {
+    name: "Legal Document Analyzer",
+    description: "Build a tool that analyzes legal documents using NLP",
+    difficulty: "Advanced",
+    category: "Legal Tech"
+  },
+  {
+    name: "Compliance Tracking System",
+    description: "Create a system for tracking regulatory compliance requirements",
+    difficulty: "Intermediate",
+    category: "Legal Tech"
+  },
+  {
+    name: "Digital Rights Management",
+    description: "Develop a system for managing and protecting digital content rights",
+    difficulty: "Advanced",
+    category: "Legal Tech"
+  },
+  {
+    name: "Telemedicine Platform",
+    description: "Build a platform for remote medical consultations",
+    difficulty: "Advanced",
+    category: "Health Tech"
+  },
+  {
+    name: "Medical Records System",
+    description: "Create a secure electronic health records management system",
+    difficulty: "Advanced",
+    category: "Health Tech"
+  },
+  {
+    name: "Medication Reminder App",
+    description: "Develop a mobile app for medication adherence and reminders",
+    difficulty: "Beginner",
+    category: "Health Tech"
+  },
+  {
+    name: "Health Data Analytics",
+    description: "Build a platform for analyzing and visualizing health data",
+    difficulty: "Advanced",
+    category: "Health Tech"
+  },
+  {
+    name: "Mental Health Tracker",
+    description: "Create an application for tracking mental health and mood patterns",
     difficulty: "Intermediate",
     category: "Health Tech"
   },
   {
-    name: "Remote Team Collaboration Tool",
-    description: "Create a platform designed to improve collaboration for distributed teams",
+    name: "Fitness Challenge Platform",
+    description: "Develop a system for creating and participating in fitness challenges",
+    difficulty: "Intermediate",
+    category: "Fitness Tech"
+  },
+  {
+    name: "Workout Planner",
+    description: "Build an AI-powered workout planning and tracking application",
+    difficulty: "Intermediate",
+    category: "Fitness Tech"
+  },
+  {
+    name: "Nutrition Analysis Tool",
+    description: "Create a tool for analyzing nutritional content of meals",
+    difficulty: "Intermediate",
+    category: "Fitness Tech"
+  },
+  {
+    name: "Virtual Fitness Coach",
+    description: "Develop an AI-based virtual coach for exercise guidance",
     difficulty: "Advanced",
-    category: "Productivity"
+    category: "Fitness Tech"
   },
   {
-    name: "Digital Garden Platform",
-    description: "Develop a tool for creating and managing interconnected knowledge bases",
+    name: "Social Fitness Network",
+    description: "Build a social platform focused on fitness achievements and goals",
     difficulty: "Intermediate",
-    category: "Knowledge Management"
+    category: "Fitness Tech"
   },
   {
-    name: "Sustainable Living Tracker",
-    description: "Build an application for tracking and improving environmental impact",
+    name: "Real Estate Listing Platform",
+    description: "Create a platform for listing and searching properties",
     difficulty: "Intermediate",
-    category: "Sustainability"
+    category: "Real Estate"
   },
   {
-    name: "Language Learning System",
-    description: "Create an adaptive language learning platform with spaced repetition",
+    name: "Virtual Property Tours",
+    description: "Develop a system for creating and viewing virtual property tours",
+    difficulty: "Advanced",
+    category: "Real Estate"
+  },
+  {
+    name: "Real Estate Investment Analysis",
+    description: "Build a tool for analyzing real estate investment opportunities",
+    difficulty: "Advanced",
+    category: "Real Estate"
+  },
+  {
+    name: "Property Management System",
+    description: "Create a comprehensive property management platform",
+    difficulty: "Advanced",
+    category: "Real Estate"
+  },
+  {
+    name: "Smart City Dashboard",
+    description: "Develop a dashboard for visualizing smart city data and metrics",
+    difficulty: "Advanced",
+    category: "Smart City"
+  },
+  {
+    name: "Urban Traffic Monitoring",
+    description: "Build a system for monitoring and analyzing urban traffic patterns",
+    difficulty: "Advanced",
+    category: "Smart City"
+  },
+  {
+    name: "Public Transport Tracker",
+    description: "Create a real-time public transportation tracking application",
+    difficulty: "Intermediate",
+    category: "Smart City"
+  },
+  {
+    name: "Environmental Monitoring",
+    description: "Develop a system for tracking environmental data in urban areas",
+    difficulty: "Intermediate",
+    category: "Smart City"
+  },
+  {
+    name: "Community Issue Reporter",
+    description: "Build a platform for reporting and tracking community issues",
+    difficulty: "Beginner",
+    category: "Smart City"
+  },
+  {
+    name: "Language Learning Flashcards",
+    description: "Create an adaptive flashcard system for language learning",
+    difficulty: "Beginner",
+    category: "Education"
+  },
+  {
+    name: "Interactive Learning Modules",
+    description: "Develop interactive, self-paced learning modules for specific subjects",
+    difficulty: "Intermediate",
+    category: "Education"
+  },
+  {
+    name: "Virtual Classroom",
+    description: "Build a platform for conducting virtual classes with interactive features",
     difficulty: "Advanced",
     category: "Education"
   },
   {
-    name: "Recipe Management Platform",
-    description: "Develop a system for storing, organizing, and scaling cooking recipes",
+    name: "Peer Learning Network",
+    description: "Create a platform that connects learners for collaborative learning",
+    difficulty: "Intermediate",
+    category: "Education"
+  },
+  {
+    name: "Educational Assessment Tool",
+    description: "Develop a system for creating and managing educational assessments",
+    difficulty: "Intermediate",
+    category: "Education"
+  },
+  {
+    name: "Podcast Creation Platform",
+    description: "Build a platform for recording, editing, and publishing podcasts",
+    difficulty: "Intermediate",
+    category: "Media"
+  },
+  {
+    name: "Digital Magazine Creator",
+    description: "Create a tool for designing and publishing digital magazines",
+    difficulty: "Intermediate",
+    category: "Media"
+  },
+  {
+    name: "Interactive Storytelling Platform",
+    description: "Develop a platform for creating and sharing interactive stories",
+    difficulty: "Advanced",
+    category: "Media"
+  },
+  {
+    name: "Content Curation Tool",
+    description: "Build a system for discovering and curating content by topic",
+    difficulty: "Intermediate",
+    category: "Media"
+  },
+  {
+    name: "Music Discovery Platform",
+    description: "Create a platform for discovering new music based on preferences",
+    difficulty: "Intermediate",
+    category: "Media"
+  },
+  {
+    name: "Digital Art Gallery",
+    description: "Develop an online gallery for showcasing and selling digital art",
+    difficulty: "Intermediate",
+    category: "Art"
+  },
+  {
+    name: "Collaborative Art Platform",
+    description: "Build a platform for collaborative art creation",
+    difficulty: "Advanced",
+    category: "Art"
+  },
+  {
+    name: "Art Style Transfer Tool",
+    description: "Create a tool that applies artistic styles to photos using AI",
+    difficulty: "Advanced",
+    category: "Art"
+  },
+  {
+    name: "Virtual Museum Tour",
+    description: "Develop a virtual tour experience for art museums",
+    difficulty: "Advanced",
+    category: "Art"
+  },
+  {
+    name: "Art Collection Management",
+    description: "Build a system for managing personal or institutional art collections",
+    difficulty: "Intermediate",
+    category: "Art"
+  },
+  {
+    name: "AR Shopping Experience",
+    description: "Create an augmented reality shopping application",
+    difficulty: "Advanced",
+    category: "E-commerce"
+  },
+  {
+    name: "Subscription Box Platform",
+    description: "Develop a platform for managing subscription-based product services",
+    difficulty: "Advanced",
+    category: "E-commerce"
+  },
+  {
+    name: "Product Recommendation Engine",
+    description: "Build an AI-based product recommendation system",
+    difficulty: "Advanced",
+    category: "E-commerce"
+  },
+  {
+    name: "Visual Search for Products",
+    description: "Create a visual search feature for e-commerce platforms",
+    difficulty: "Advanced",
+    category: "E-commerce"
+  },
+  {
+    name: "Multi-vendor Marketplace",
+    description: "Develop a marketplace platform for multiple vendors",
+    difficulty: "Advanced",
+    category: "E-commerce"
+  },
+  {
+    name: "Social Media Scheduler",
+    description: "Build a tool for scheduling and managing social media posts",
     difficulty: "Beginner",
-    category: "Lifestyle"
+    category: "Social Media"
+  },
+  {
+    name: "Social Media Analytics",
+    description: "Create a comprehensive analytics platform for social media performance",
+    difficulty: "Intermediate",
+    category: "Social Media"
+  },
+  {
+    name: "Influencer Management Platform",
+    description: "Develop a system for managing influencer marketing campaigns",
+    difficulty: "Intermediate",
+    category: "Social Media"
+  },
+  {
+    name: "Community Engagement Tool",
+    description: "Build a tool for increasing audience engagement on social platforms",
+    difficulty: "Intermediate",
+    category: "Social Media"
+  },
+  {
+    name: "AI Content Generator",
+    description: "Create an AI-powered tool for generating social media content",
+    difficulty: "Advanced",
+    category: "Social Media"
+  },
+  {
+    name: "Travel Itinerary Generator",
+    description: "Build a tool that creates personalized travel itineraries",
+    difficulty: "Intermediate",
+    category: "Travel"
+  },
+  {
+    name: "Local Experience Finder",
+    description: "Develop a platform for discovering authentic local experiences while traveling",
+    difficulty: "Intermediate",
+    category: "Travel"
+  },
+  {
+    name: "Travel Budget Tracker",
+    description: "Create an application for planning and tracking travel expenses",
+    difficulty: "Beginner",
+    category: "Travel"
+  },
+  {
+    name: "Language Translation App",
+    description: "Build a real-time translation tool for travelers",
+    difficulty: "Advanced",
+    category: "Travel"
+  },
+  {
+    name: "Travel Photo Journal",
+    description: "Develop a digital journal for organizing travel memories and photos",
+    difficulty: "Beginner",
+    category: "Travel"
+  },
+  {
+    name: "Recipe Management System",
+    description: "Create a platform for storing, organizing, and sharing recipes",
+    difficulty: "Beginner",
+    category: "Food"
+  },
+  {
+    name: "Meal Planning Tool",
+    description: "Build an application for planning weekly meals and generating shopping lists",
+    difficulty: "Intermediate",
+    category: "Food"
+  },
+  {
+    name: "Restaurant Reservation System",
+    description: "Develop a system for managing restaurant reservations",
+    difficulty: "Intermediate",
+    category: "Food"
+  },
+  {
+    name: "Food Delivery Platform",
+    description: "Create a platform connecting customers with local food delivery",
+    difficulty: "Advanced",
+    category: "Food"
+  },
+  {
+    name: "Dietary Restriction App",
+    description: "Build a tool for finding recipes and restaurants based on dietary restrictions",
+    difficulty: "Intermediate",
+    category: "Food"
+  },
+  {
+    name: "Personal Finance Dashboard",
+    description: "Create a comprehensive dashboard for managing personal finances",
+    difficulty: "Intermediate",
+    category: "Finance"
+  },
+  {
+    name: "Budget Planning Tool",
+    description: "Develop a tool for creating and managing budgets",
+    difficulty: "Beginner",
+    category: "Finance"
+  },
+  {
+    name: "Investment Portfolio Tracker",
+    description: "Build a platform for tracking and analyzing investment portfolios",
+    difficulty: "Advanced",
+    category: "Finance"
+  },
+  {
+    name: "Expense Sharing App",
+    description: "Create an application for splitting and tracking shared expenses",
+    difficulty: "Beginner",
+    category: "Finance"
+  },
+  {
+    name: "Financial Goal Tracker",
+    description: "Develop a system for setting and tracking financial goals",
+    difficulty: "Intermediate",
+    category: "Finance"
+  },
+  {
+    name: "Event Planning Platform",
+    description: "Build a comprehensive platform for planning and managing events",
+    difficulty: "Advanced",
+    category: "Events"
   },
   {
     name: "Virtual Event Platform",
-    description: "Build a platform for hosting engaging virtual events and conferences",
+    description: "Create a platform for hosting and attending virtual events",
     difficulty: "Advanced",
-    category: "Event Tech"
+    category: "Events"
   },
   {
-    name: "Habit Tracking System",
-    description: "Create a tool for building and maintaining positive habits with progress tracking",
+    name: "Event Ticketing System",
+    description: "Develop a system for selling and managing event tickets",
+    difficulty: "Intermediate",
+    category: "Events"
+  },
+  {
+    name: "Conference Scheduling Tool",
+    description: "Build a tool for creating and managing conference schedules",
+    difficulty: "Intermediate",
+    category: "Events"
+  },
+  {
+    name: "Event Networking App",
+    description: "Create an application for networking at events and conferences",
+    difficulty: "Intermediate",
+    category: "Events"
+  },
+  {
+    name: "Job Board Platform",
+    description: "Build a platform for posting and finding job opportunities",
+    difficulty: "Intermediate",
+    category: "Recruitment"
+  },
+  {
+    name: "Resume Builder",
+    description: "Create a tool for building and optimizing professional resumes",
     difficulty: "Beginner",
-    category: "Productivity"
+    category: "Recruitment"
   },
   {
-    name: "Talent Management Platform",
-    description: "Develop a system for managing freelance talent and projects",
+    name: "Applicant Tracking System",
+    description: "Develop a system for managing job applications and candidates",
+    difficulty: "Advanced",
+    category: "Recruitment"
+  },
+  {
+    name: "Interview Scheduling Tool",
+    description: "Build a tool for scheduling and managing interview processes",
     difficulty: "Intermediate",
-    category: "HR Tech"
+    category: "Recruitment"
   },
   {
-    name: "Digital Garden Builder",
-    description: "Create a tool for building and maintaining personal knowledge bases",
+    name: "Skill Assessment Platform",
+    description: "Create a platform for assessing candidate skills and qualifications",
+    difficulty: "Advanced",
+    category: "Recruitment"
+  },
+  {
+    name: "Volunteer Management System",
+    description: "Build a system for managing volunteers and volunteer opportunities",
     difficulty: "Intermediate",
-    category: "Knowledge Management"
+    category: "Non-profit"
   },
   {
-    name: "Mood Tracking Journal",
-    description: "Build an application for tracking moods and identifying patterns",
+    name: "Donation Platform",
+    description: "Create a platform for managing donations and fundraising campaigns",
+    difficulty: "Intermediate",
+    category: "Non-profit"
+  },
+  {
+    name: "Non-profit Resource Directory",
+    description: "Develop a directory of resources for non-profit organizations",
     difficulty: "Beginner",
-    category: "Mental Health"
+    category: "Non-profit"
   },
   {
-    name: "Local Business Directory",
-    description: "Develop a platform for discovering and supporting local businesses",
+    name: "Impact Tracking Dashboard",
+    description: "Build a dashboard for tracking and reporting social impact metrics",
     difficulty: "Intermediate",
-    category: "Community"
+    category: "Non-profit"
   }
 ];
