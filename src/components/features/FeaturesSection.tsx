@@ -5,17 +5,37 @@ import { Star, Brain, Target, Zap } from "lucide-react";
 
 export const FeaturesSection = () => {
   const features = [
-    { icon: Star, title: "Weekly Tasks", desc: "Structured assignments with clear objectives" },
-    { icon: Brain, title: "AI-Powered Learning", desc: "Personalized learning paths and feedback" },
-    { icon: Target, title: "Goal-Oriented", desc: "Focus on practical skill development" },
-    { icon: Zap, title: "Rapid Progress", desc: "Accelerated learning through hands-on practice" }
+    { 
+      icon: Star, 
+      title: "Weekly Tasks", 
+      desc: "Structured assignments with clear objectives and milestones" 
+    },
+    { 
+      icon: Brain, 
+      title: "AI-Powered Learning", 
+      desc: "Personalized learning paths with real-time intelligent feedback" 
+    },
+    { 
+      icon: Target, 
+      title: "Goal-Oriented", 
+      desc: "Focus on practical skills and industry-relevant projects" 
+    },
+    { 
+      icon: Zap, 
+      title: "Rapid Progress", 
+      desc: "Accelerated learning through hands-on practice and expert guidance" 
+    }
   ];
 
   return (
-    <section className="py-8 sm:py-16 md:py-24 lg:py-32 px-4 sm:px-6 relative overflow-hidden">
+    <section 
+      className="py-8 sm:py-16 md:py-24 lg:py-32 px-4 sm:px-6 relative overflow-hidden"
+      aria-labelledby="features-heading"
+    >
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-50/30 to-transparent" />
       <div className="container mx-auto max-w-5xl relative">
         <motion.h2 
+          id="features-heading"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -29,13 +49,14 @@ export const FeaturesSection = () => {
             <motion.div 
               key={feature.title}
               initial={{ opacity: 0, y: 20 }}
+              whileHover={{ y: -5 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
               className="group"
             >
-              <Card className="border-0 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 bg-white/80 backdrop-blur-sm h-full">
+              <Card className="border-0 shadow-md hover:shadow-xl transition-all duration-300 bg-white/80 backdrop-blur-sm h-full">
                 <CardHeader className="space-y-2 sm:space-y-3 md:space-y-4 p-4 sm:p-6">
-                  <feature.icon className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-purple-600 group-hover:rotate-12 transition-transform duration-300" />
+                  <feature.icon className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-purple-600 group-hover:scale-110 transition-transform duration-300" />
                   <CardTitle className="text-sm sm:text-base md:text-lg font-light">{feature.title}</CardTitle>
                   <CardDescription className="text-xs sm:text-sm">{feature.desc}</CardDescription>
                 </CardHeader>
