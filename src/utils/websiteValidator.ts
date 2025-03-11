@@ -1,12 +1,14 @@
 
 import { toast } from "@/hooks/use-toast";
+import { throttle } from "./performanceOptimizer";
 
 interface ValidationResult {
   status: 'success' | 'error' | 'warning';
   message: string;
 }
 
-export const validateWebsiteFeatures = async (): Promise<ValidationResult[]> => {
+// Throttled validation to prevent excessive resource usage
+export const validateWebsiteFeatures = throttle(async (): Promise<ValidationResult[]> => {
   const results: ValidationResult[] = [];
 
   // Check navigation links
@@ -82,6 +84,46 @@ export const validateWebsiteFeatures = async (): Promise<ValidationResult[]> => 
     });
   }
 
+  // Check for console errors
+  if (typeof window !== 'undefined' && window.console) {
+    const originalError = console.error;
+    let hasConsoleErrors = false;
+    
+    console.error = function(...args) {
+      hasConsoleErrors = true;
+      originalError.apply(console, args);
+    };
+    
+    // Wait a brief moment to catch any errors
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    // Restore original console.error
+    console.error = originalError;
+    
+    if (hasConsoleErrors) {
+      results.push({
+        status: 'warning',
+        message: 'Console errors detected'
+      });
+    }
+  }
+
+  // Check page load performance
+  if (typeof window !== 'undefined' && window.performance) {
+    const pageLoadTime = performance.now();
+    if (pageLoadTime > 3000) {
+      results.push({
+        status: 'warning',
+        message: `Page load time is high: ${Math.round(pageLoadTime)}ms`
+      });
+    } else {
+      results.push({
+        status: 'success',
+        message: `Page load time is good: ${Math.round(pageLoadTime)}ms`
+      });
+    }
+  }
+
   // Filter out development-only warnings about scripts
   const scriptWarnings = results.filter(result => 
     result.status === 'warning' && 
@@ -90,7 +132,7 @@ export const validateWebsiteFeatures = async (): Promise<ValidationResult[]> => 
   
   // Remove dev-only warnings from the results
   return results.filter(result => !scriptWarnings.includes(result));
-};
+}, 30000); // Throttle to run at most once every 30 seconds
 
 export const runWebsiteTest = async () => {
   console.log('Starting website validation...');

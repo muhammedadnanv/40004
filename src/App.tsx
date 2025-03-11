@@ -1,9 +1,7 @@
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
+import { Suspense, lazy, useEffect } from "react";
 import { Toaster } from "./components/ui/toaster";
-import { useEffect } from "react";
-import { runWebsiteTest } from "./utils/websiteValidator";
 import { toast } from "./hooks/use-toast";
 import { NewYearMessage } from "./components/NewYearMessage";
 import { startMarketingRecommendations } from "./utils/marketingRecommendations";
@@ -12,9 +10,29 @@ import { dataProcessor } from "./utils/dataProcessor";
 import { LeadCollectionPopup } from "./components/LeadCollectionPopup";
 import { EnrollmentAlert } from "./components/EnrollmentAlert";
 import { JusticeMessage } from "./components/JusticeMessage";
+import ErrorBoundary from "./components/ErrorBoundary";
+import { runWebsiteTest } from "./utils/websiteValidator";
+import { optimizeForDevice } from "./utils/performanceOptimizer";
+
+// Lazy load the Index page for better initial loading performance
+const Index = lazy(() => import("./pages/Index"));
+
+// Loading fallback component
+const LoadingFallback = () => (
+  <div className="min-h-screen w-full flex items-center justify-center">
+    <div className="animate-pulse">
+      <div className="h-12 w-48 bg-gray-200 rounded-md mb-4"></div>
+      <div className="h-4 w-32 bg-gray-200 rounded-md"></div>
+    </div>
+  </div>
+);
 
 function App() {
   useEffect(() => {
+    // Check device capabilities and optimize
+    const deviceCapabilities = optimizeForDevice();
+    console.log("Device optimization:", deviceCapabilities);
+    
     // Initialize data processor
     console.log("Initializing centralized data processing...");
     const processor = dataProcessor;
@@ -85,17 +103,6 @@ function App() {
     initMarketing();
     checkSupabaseConnection();
 
-    // Register service worker for offline capability
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function() {
-        navigator.serviceWorker.register('/sw.js').then(function(registration) {
-          console.log('ServiceWorker registration successful: ', registration.scope);
-        }, function(err) {
-          console.log('ServiceWorker registration failed: ', err);
-        });
-      });
-    }
-
     // Cleanup function
     return () => {
       console.log("App cleanup: removing event listeners and clearing timeouts");
@@ -103,18 +110,39 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <div className="min-h-screen w-full">
-        <JusticeMessage />
-        <Routes>
-          <Route path="/" element={<Index />} />
-        </Routes>
-        <NewYearMessage />
-        <LeadCollectionPopup />
-        <EnrollmentAlert />
-        <Toaster />
-      </div>
-    </Router>
+    <ErrorBoundary>
+      <Router>
+        <div className="min-h-screen w-full">
+          <ErrorBoundary fallback={<div className="p-4 text-center">Justice message unavailable</div>}>
+            <JusticeMessage />
+          </ErrorBoundary>
+          
+          <Routes>
+            <Route path="/" element={
+              <Suspense fallback={<LoadingFallback />}>
+                <ErrorBoundary>
+                  <Index />
+                </ErrorBoundary>
+              </Suspense>
+            } />
+          </Routes>
+          
+          <ErrorBoundary fallback={<div className="p-4 text-center">New Year message unavailable</div>}>
+            <NewYearMessage />
+          </ErrorBoundary>
+          
+          <ErrorBoundary fallback={<div className="p-4 text-center">Lead collection unavailable</div>}>
+            <LeadCollectionPopup />
+          </ErrorBoundary>
+          
+          <ErrorBoundary fallback={<div className="p-4 text-center">Enrollment alert unavailable</div>}>
+            <EnrollmentAlert />
+          </ErrorBoundary>
+          
+          <Toaster />
+        </div>
+      </Router>
+    </ErrorBoundary>
   );
 }
 

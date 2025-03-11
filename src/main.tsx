@@ -1,6 +1,13 @@
+
 import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
+import { addResourceHints } from './utils/performanceOptimizer';
+
+// Add resource hints for faster loading
+if (typeof window !== 'undefined') {
+  addResourceHints();
+}
 
 // Register Service Worker with better error handling and updates
 if ('serviceWorker' in navigator) {
@@ -39,6 +46,24 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-createRoot(document.getElementById("root")!).render(
-  <App />
-);
+// Create root with error boundary
+try {
+  const rootElement = document.getElementById("root");
+  if (!rootElement) throw new Error("Root element not found");
+  
+  createRoot(rootElement).render(
+    <App />
+  );
+} catch (error) {
+  console.error('Error rendering application:', error);
+  // Show fallback UI if rendering fails
+  const rootElement = document.getElementById("root");
+  if (rootElement) {
+    rootElement.innerHTML = `
+      <div style="padding: 20px; text-align: center;">
+        <h2>Something went wrong</h2>
+        <p>Please refresh the page or try again later.</p>
+      </div>
+    `;
+  }
+}
