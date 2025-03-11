@@ -111,7 +111,30 @@ Our platform connects you with mentors who have industry experience in ${topic},
     const socialTitle = `Master ${topic} Through Guided Project Building`
     const socialDescription = `Skip the endless tutorials and build real projects in ${topic} with 1-on-1 mentorship from industry professionals.`
 
-    // Insert the blog post into the database
+    // Generate Schema.org markup for the blog post
+    const pageSchema = {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": title,
+      "description": metaDescription,
+      "author": {
+        "@type": "Organization",
+        "name": "Dev Mentor Hub",
+        "url": "https://devmentorhub.com"
+      },
+      "datePublished": new Date().toISOString(),
+      "dateModified": new Date().toISOString(),
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": `https://devmentorhub.com/blog/${slug}`
+      },
+      "keywords": keywords.join(",")
+    }
+
+    // Prepare tags with proper array formatting for PostgreSQL
+    const tags = [category, 'Mentorship', 'Career Growth', 'Project-Based Learning']
+
+    // Insert the blog post into the database with proper array handling
     const { data, error } = await supabaseClient
       .from('blog_articles')
       .insert({
@@ -120,17 +143,43 @@ Our platform connects you with mentors who have industry experience in ${topic},
         meta_description: metaDescription,
         content: blogContent,
         category,
-        tags: [category, 'Mentorship', 'Career Growth', 'Project-Based Learning'],
+        tags: tags,
         reading_time_minutes: Math.ceil(wordCount / 200), // Estimate reading time
         seo_keywords: keywords,
         social_title: socialTitle,
         social_description: socialDescription,
         published: true,
-        published_at: new Date().toISOString()
+        published_at: new Date().toISOString(),
+        page_schema: pageSchema
       })
       .select()
 
     if (error) throw error
+
+    // Update the keyword usage count
+    if (keywords.length > 0) {
+      const keywordUpdatePromises = keywords.map(keyword => 
+        supabaseClient
+          .from('seo_keywords')
+          .update({ 
+            usage_count: supabaseClient.rpc('increment', { row_id: keyword }),
+            last_used_at: new Date().toISOString() 
+          })
+          .eq('keyword', keyword)
+      )
+      
+      // Execute keyword updates in parallel but don't wait for completion
+      Promise.all(keywordUpdatePromises).catch(err => 
+        console.error('Error updating keyword usage stats:', err)
+      )
+    }
+
+    // Generate XML sitemap entry if blog is published
+    if (data?.[0]?.published) {
+      // This would typically trigger a sitemap regeneration
+      // For now, just log that it should happen
+      console.log(`Sitemap should be updated to include new post: ${slug}`)
+    }
 
     return new Response(
       JSON.stringify({
@@ -164,4 +213,13 @@ function generateSlug(title: string): string {
     .replace(/[^\w\s-]/g, '') // Remove special characters
     .replace(/\s+/g, '-') // Replace spaces with hyphens
     .replace(/-+/g, '-') // Replace multiple hyphens with a single hyphen
+}
+
+/**
+ * Helper function to create a random RPF (Relevance Power Factor)
+ * This helps with SEO by varying the length, formatting and keyword density
+ */
+function generateRPF(): number {
+  // Generate a value between 0.7 and 1.0 to represent content optimization level
+  return 0.7 + Math.random() * 0.3
 }
