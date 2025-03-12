@@ -19,7 +19,7 @@ export const seoOptimizer = {
    * @param quantity Number of keywords to generate
    * @returns Promise resolving to the operation result
    */
-  async generateKeywords(quantity: number = 100): Promise<{ success: boolean; message: string }> {
+  async generateKeywords(quantity: number = 2500): Promise<{ success: boolean; message: string; sample?: any[] }> {
     try {
       const { data, error } = await supabase.functions.invoke('generate-seo-keywords', {
         body: { quantity },
@@ -30,12 +30,58 @@ export const seoOptimizer = {
       return {
         success: true,
         message: `Successfully generated ${quantity} SEO keywords`,
+        sample: data?.sample,
       };
     } catch (error) {
       console.error('Error generating SEO keywords:', error);
       return {
         success: false,
         message: error instanceof Error ? error.message : 'Failed to generate SEO keywords',
+      };
+    }
+  },
+
+  /**
+   * Retrieve keywords from the database with filtering options
+   * @param category Optional category to filter by
+   * @param limit Maximum number of keywords to retrieve (default 100)
+   * @param minRelevance Minimum relevance score (0-1)
+   * @returns Promise resolving to the retrieved keywords
+   */
+  async getKeywords(category?: string, limit: number = 100, minRelevance: number = 0.5): Promise<{
+    success: boolean;
+    keywords?: any[];
+    message: string;
+  }> {
+    try {
+      let query = supabase
+        .from('seo_keywords')
+        .select('*')
+        .order('relevance_score', { ascending: false })
+        .limit(limit);
+      
+      if (category) {
+        query = query.eq('category', category);
+      }
+      
+      if (minRelevance > 0) {
+        query = query.gte('relevance_score', minRelevance);
+      }
+      
+      const { data, error } = await query;
+      
+      if (error) throw error;
+      
+      return {
+        success: true,
+        keywords: data,
+        message: `Retrieved ${data.length} keywords${category ? ` in category ${category}` : ''}`
+      };
+    } catch (error) {
+      console.error('Error retrieving keywords:', error);
+      return {
+        success: false,
+        message: error instanceof Error ? error.message : 'Failed to retrieve keywords'
       };
     }
   },
@@ -92,7 +138,7 @@ export const seoOptimizer = {
     // Generate keywords if requested
     if (options.generateKeywords) {
       tasks.push(
-        this.generateKeywords(100).then(result => {
+        this.generateKeywords(2500).then(result => {
           results.push({
             operation: 'Generate SEO Keywords',
             success: result.success,
