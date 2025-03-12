@@ -310,7 +310,7 @@ const keywordPatterns = {
     'can I afford {profession} mentorship as student?',
     'how to maximize {profession} mentorship benefits?',
     'will {profession} mentor help with job search?',
-    'what's better: {profession} course or mentor?'
+    "what is better: {profession} course or mentor?"
   ],
   transactional: [
     'hire {profession} mentor online',

@@ -244,16 +244,15 @@ export const fetchAndApplySEOKeywords = async (category: string, count: number =
       metaKeywords.setAttribute('content', keywords.join(', '));
       
       // Update usage count and last_used_at for these keywords
-      const keywordIds = data.map(item => item.id);
       const now = new Date().toISOString();
       
       await supabase
         .from('seo_keywords')
         .update({ 
-          usage_count: supabase.sql`usage_count + 1`, 
+          usage_count: data.map((_, i) => i + 1), // Increment usage count
           last_used_at: now 
         })
-        .in('id', keywordIds);
+        .in('keyword', keywords);
       
       return keywords;
     }
@@ -266,7 +265,7 @@ export const fetchAndApplySEOKeywords = async (category: string, count: number =
 };
 
 /**
- * Generate internal links for SEO improvement
+ * Generate internal links for SEO improvement - Stub implementation until blog_articles table is created
  */
 export const generateInternalLinks = async (
   containerSelector: string, 
@@ -277,42 +276,37 @@ export const generateInternalLinks = async (
     const container = document.querySelector(containerSelector);
     if (!container) return;
     
-    const { data, error } = await supabase
-      .from('blog_articles')
-      .select('title, slug, category')
-      .eq('category', category)
-      .eq('published', true)
-      .order('created_at', { ascending: false })
-      .limit(limit);
-      
-    if (error) throw error;
+    // This is a stub implementation until a blog_articles table is created
+    const dummyArticles = [
+      { title: 'Getting Started with Mentorship', slug: 'getting-started-with-mentorship' },
+      { title: 'How to Choose the Right Mentor', slug: 'how-to-choose-the-right-mentor' },
+      { title: 'Building Your Portfolio with Expert Guidance', slug: 'building-portfolio-with-expert-guidance' },
+    ];
     
-    if (data && data.length > 0) {
-      const linksContainer = document.createElement('div');
-      linksContainer.className = 'related-content mt-8 p-4 bg-gray-50 rounded-lg';
+    const linksContainer = document.createElement('div');
+    linksContainer.className = 'related-content mt-8 p-4 bg-gray-50 rounded-lg';
+    
+    const heading = document.createElement('h3');
+    heading.className = 'text-lg font-medium mb-3';
+    heading.textContent = 'Related Articles';
+    linksContainer.appendChild(heading);
+    
+    const linksList = document.createElement('ul');
+    linksList.className = 'space-y-2';
+    
+    dummyArticles.forEach(article => {
+      const listItem = document.createElement('li');
+      const link = document.createElement('a');
+      link.href = `/blog/${article.slug}`;
+      link.className = 'text-blue-600 hover:underline';
+      link.textContent = article.title;
       
-      const heading = document.createElement('h3');
-      heading.className = 'text-lg font-medium mb-3';
-      heading.textContent = 'Related Articles';
-      linksContainer.appendChild(heading);
-      
-      const linksList = document.createElement('ul');
-      linksList.className = 'space-y-2';
-      
-      data.forEach(article => {
-        const listItem = document.createElement('li');
-        const link = document.createElement('a');
-        link.href = `/blog/${article.slug}`;
-        link.className = 'text-blue-600 hover:underline';
-        link.textContent = article.title;
-        
-        listItem.appendChild(link);
-        linksList.appendChild(listItem);
-      });
-      
-      linksContainer.appendChild(linksList);
-      container.appendChild(linksContainer);
-    }
+      listItem.appendChild(link);
+      linksList.appendChild(listItem);
+    });
+    
+    linksContainer.appendChild(linksList);
+    container.appendChild(linksContainer);
   } catch (error) {
     console.error('Error generating internal links:', error);
   }

@@ -143,33 +143,37 @@ export const runWebsiteTest = async () => {
     let hasErrors = false;
     let hasNonScriptWarnings = false;
     
-    results.forEach(result => {
-      if (result.status === 'error') {
-        console.error(result.message);
-        hasErrors = true;
-        toast({
-          title: "Validation Error",
-          description: result.message,
-          variant: "destructive",
-        });
-      } else if (result.status === 'warning') {
-        console.warn(result.message);
-        // Only show toast for important warnings, not development script warnings
-        if (!result.message.includes('Consider making script async')) {
-          hasNonScriptWarnings = true;
+    if (results) {
+      results.forEach(result => {
+        if (result.status === 'error') {
+          console.error(result.message);
+          hasErrors = true;
           toast({
-            title: "Validation Warning",
+            title: "Validation Error",
             description: result.message,
             variant: "destructive",
           });
+        } else if (result.status === 'warning') {
+          console.warn(result.message);
+          // Only show toast for important warnings, not development script warnings
+          if (!result.message.includes('Consider making script async')) {
+            hasNonScriptWarnings = true;
+            toast({
+              title: "Validation Warning",
+              description: result.message,
+              variant: "destructive",
+            });
+          }
+        } else {
+          console.info(result.message);
         }
-      } else {
-        console.info(result.message);
-      }
-    });
+      });
 
-    if (!hasErrors && !hasNonScriptWarnings) {
-      console.log('Website validation completed successfully');
+      if (!hasErrors && !hasNonScriptWarnings) {
+        console.log('Website validation completed successfully');
+      }
+    } else {
+      console.log('No validation results returned');
     }
 
     console.log('Website validation complete');
