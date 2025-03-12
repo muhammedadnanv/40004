@@ -143,7 +143,10 @@ export const runWebsiteTest = async () => {
     let hasErrors = false;
     let hasNonScriptWarnings = false;
     
-    if (results) {
+    // Fixed the error: don't test results for truthiness (it's always defined as a Promise result)
+    // Check if results has items instead
+    if (results && results.length > 0) {
+      // Now we know results is an array with items, so we can safely call forEach
       results.forEach(result => {
         if (result.status === 'error') {
           console.error(result.message);

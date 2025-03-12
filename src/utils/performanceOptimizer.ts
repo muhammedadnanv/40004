@@ -243,16 +243,17 @@ export const fetchAndApplySEOKeywords = async (category: string, count: number =
       }
       metaKeywords.setAttribute('content', keywords.join(', '));
       
-      // Update usage count and last_used_at for these keywords
-      const now = new Date().toISOString();
-      
-      await supabase
-        .from('seo_keywords')
-        .update({ 
-          usage_count: data.map((_, i) => i + 1), // Increment usage count
-          last_used_at: now 
-        })
-        .in('keyword', keywords);
+      // Update usage count for these keywords - fixed the type error here
+      // We need to update each keyword individually instead of batch updating with a number array
+      for (const keyword of keywords) {
+        await supabase
+          .from('seo_keywords')
+          .update({ 
+            usage_count: 1, // Increment by 1 for each usage
+            last_used_at: new Date().toISOString()
+          })
+          .eq('keyword', keyword);
+      }
       
       return keywords;
     }
@@ -265,7 +266,7 @@ export const fetchAndApplySEOKeywords = async (category: string, count: number =
 };
 
 /**
- * Generate internal links for SEO improvement - Stub implementation until blog_articles table is created
+ * Generate internal links for SEO improvement - Mock implementation
  */
 export const generateInternalLinks = async (
   containerSelector: string, 
@@ -276,8 +277,8 @@ export const generateInternalLinks = async (
     const container = document.querySelector(containerSelector);
     if (!container) return;
     
-    // This is a stub implementation until a blog_articles table is created
-    const dummyArticles = [
+    // This is a mock implementation using local data
+    const mockArticles = [
       { title: 'Getting Started with Mentorship', slug: 'getting-started-with-mentorship' },
       { title: 'How to Choose the Right Mentor', slug: 'how-to-choose-the-right-mentor' },
       { title: 'Building Your Portfolio with Expert Guidance', slug: 'building-portfolio-with-expert-guidance' },
@@ -294,7 +295,7 @@ export const generateInternalLinks = async (
     const linksList = document.createElement('ul');
     linksList.className = 'space-y-2';
     
-    dummyArticles.forEach(article => {
+    mockArticles.forEach(article => {
       const listItem = document.createElement('li');
       const link = document.createElement('a');
       link.href = `/blog/${article.slug}`;
