@@ -14,15 +14,17 @@ export const validateWebsiteFeatures = throttle(async (): Promise<ValidationResu
 
   // Check navigation links
   const navigationLinks = document.querySelectorAll('a');
-  navigationLinks.forEach(link => {
-    const href = link.getAttribute('href');
-    if (!href || href === '#') {
-      results.push({
-        status: 'warning',
-        message: `Invalid link found: ${link.textContent}`
-      });
-    }
-  });
+  if (navigationLinks && navigationLinks.length > 0) {
+    navigationLinks.forEach(link => {
+      const href = link.getAttribute('href');
+      if (!href || href === '#') {
+        results.push({
+          status: 'warning',
+          message: `Invalid link found: ${link.textContent}`
+        });
+      }
+    });
+  }
 
   // Check images with timeout
   const images = document.querySelectorAll('img');
@@ -94,17 +96,19 @@ export const validateWebsiteFeatures = throttle(async (): Promise<ValidationResu
     }
   }
 
-  // Check form elements
+  // Check form elements - FIX: Properly handle the NodeList and check for existence
   const forms = document.querySelectorAll('form');
-  forms.forEach(form => {
-    const requiredFields = form.querySelectorAll('[required]');
-    if (requiredFields.length === 0) {
-      results.push({
-        status: 'warning',
-        message: `Form missing required fields: ${form.id || 'unnamed form'}`
-      });
-    }
-  });
+  if (forms && forms.length > 0) {
+    Array.from(forms).forEach(form => {
+      const requiredFields = form.querySelectorAll('[required]');
+      if (requiredFields.length === 0) {
+        results.push({
+          status: 'warning',
+          message: `Form missing required fields: ${form.id || 'unnamed form'}`
+        });
+      }
+    });
+  }
 
   // Check responsive layout
   const isMobileResponsive = window.matchMedia('(max-width: 768px)').matches;
