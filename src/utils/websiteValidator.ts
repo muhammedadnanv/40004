@@ -98,10 +98,10 @@ export const validateWebsiteFeatures = throttle(async (): Promise<ValidationResu
   // Check form elements
   const formElements = document.querySelectorAll('form');
   
-  if (formElements && formElements.length > 0) {
-    // Create a properly typed array from the NodeList
-    const forms = Array.from(formElements as NodeListOf<HTMLFormElement>);
-    
+  // Fixed: Convert NodeList to an array and check if it has items before iterating
+  const forms = Array.from(formElements as NodeListOf<HTMLFormElement>);
+  
+  if (forms.length > 0) {
     forms.forEach(form => {
       const requiredFields = form.querySelectorAll('[required]');
       if (requiredFields.length === 0) {

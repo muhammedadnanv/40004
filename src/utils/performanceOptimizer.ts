@@ -249,7 +249,7 @@ export const fetchAndApplySEOKeywords = async (category: string, count: number =
         await supabase
           .from('seo_keywords')
           .update({ 
-            usage_count: 1, // Increment by 1 for each usage
+            usage_count: 1, // Fixed: using a single number instead of an array
             last_used_at: new Date().toISOString()
           })
           .eq('keyword', keyword);
