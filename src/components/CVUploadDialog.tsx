@@ -59,24 +59,55 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
     setIsChecking(true);
     
     try {
-      // Simulating ATS check with basic validation
-      // In a real implementation, you would send the file to a backend service for analysis
-      await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate processing time
+      // Simulate processing time
+      await new Promise(resolve => setTimeout(resolve, 1500));
       
-      // Perform basic checks (file type, size, etc.)
-      const isValidFileType = ["application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"].includes(file.type);
+      // Check if file is a document type (ATS-friendly) rather than an image
+      const atsDocumentTypes = [
+        "application/pdf", 
+        "application/msword", 
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      ];
+      
+      // Image types that are not ATS-friendly
+      const imageTypes = [
+        "image/jpeg", 
+        "image/png", 
+        "image/gif", 
+        "image/bmp", 
+        "image/tiff", 
+        "image/webp"
+      ];
+      
+      // Check if the file is ATS-friendly (document format, not an image)
+      const isImageFile = imageTypes.includes(file.type);
+      const isDocumentFile = atsDocumentTypes.includes(file.type);
       const isValidSize = file.size < 5 * 1024 * 1024; // Less than 5MB
       
-      // Simple heuristic for ATS friendliness - could be replaced with actual API call
-      const atsCheck = isValidFileType && isValidSize;
-      setIsATSFriendly(atsCheck);
+      // ATS-friendly if it's a document file (not an image) and valid size
+      const isATSCompatible = isDocumentFile && !isImageFile && isValidSize;
+      setIsATSFriendly(isATSCompatible);
       
-      if (!atsCheck) {
-        toast({
-          title: "Resume Check Failed",
-          description: "Your resume does not appear to be ATS-friendly. Please review and try again.",
-          variant: "destructive",
-        });
+      if (!isATSCompatible) {
+        if (isImageFile) {
+          toast({
+            title: "Resume Check Failed",
+            description: "Image files are not ATS-friendly. Please submit a PDF or DOC format resume.",
+            variant: "destructive",
+          });
+        } else if (!isDocumentFile) {
+          toast({
+            title: "Resume Check Failed",
+            description: "Invalid file format. Please submit a PDF or DOC format resume.",
+            variant: "destructive",
+          });
+        } else if (!isValidSize) {
+          toast({
+            title: "Resume Check Failed",
+            description: "File is too large. Maximum size is 5MB.",
+            variant: "destructive",
+          });
+        }
       } else {
         toast({
           title: "Resume Check Passed",
@@ -101,9 +132,8 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
     setIsSubmitting(true);
     
     try {
-      // In a real implementation, you would use a service like EmailJS or a backend endpoint
-      // to send the email with the file attachment
-      await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate sending
+      // Simulate sending
+      await new Promise(resolve => setTimeout(resolve, 1500));
       
       toast({
         title: "Success!",
@@ -229,3 +259,4 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
     </Dialog>
   );
 };
+

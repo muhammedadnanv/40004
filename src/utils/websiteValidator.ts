@@ -1,4 +1,3 @@
-
 import { toast } from "@/hooks/use-toast";
 import { throttle } from "./performanceOptimizer";
 import { optimizeImagesForSEO, applySEOOptimizations } from "./performanceOptimizer";
@@ -98,10 +97,11 @@ export const validateWebsiteFeatures = throttle(async (): Promise<ValidationResu
 
   // Check form elements
   const formElements = document.querySelectorAll('form');
-  // Explicitly type as HTMLFormElement and convert NodeList to Array
-  const forms = Array.from(formElements as NodeListOf<HTMLFormElement>);
   
-  if (forms && forms.length > 0) {
+  if (formElements && formElements.length > 0) {
+    // Create a properly typed array from the NodeList
+    const forms = Array.from(formElements as NodeListOf<HTMLFormElement>);
+    
     forms.forEach(form => {
       const requiredFields = form.querySelectorAll('[required]');
       if (requiredFields.length === 0) {
