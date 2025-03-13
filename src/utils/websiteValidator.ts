@@ -254,3 +254,118 @@ export const runSEOOptimizations = async () => {
     });
   }
 };
+
+// New function to analyze resume content for ATS compatibility
+export const analyzeResumeContent = async (text: string): Promise<{
+  isATSFriendly: boolean;
+  score: number;
+  recommendations: string[];
+}> => {
+  // Initialize results
+  const recommendations: string[] = [];
+  let score = 100;
+  
+  // Check for common ATS issues
+  
+  // 1. Check if resume has proper sections
+  const expectedSections = [
+    'summary', 'objective', 'experience', 'education', 
+    'skills', 'certifications', 'achievements'
+  ];
+  
+  const textLower = text.toLowerCase();
+  const foundSections = expectedSections.filter(section => 
+    textLower.includes(section) || 
+    textLower.includes(section.toUpperCase())
+  );
+  
+  if (foundSections.length < 3) {
+    recommendations.push("Add clear section headers for Summary/Objective, Experience, Education, and Skills");
+    score -= 15;
+  }
+
+  // 2. Check for proper contact information
+  const hasEmail = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/.test(text);
+  const hasPhone = /(\+\d{1,3}[-\s]?)?\(?\d{3}\)?[-\s]?\d{3}[-\s]?\d{4}/.test(text);
+  
+  if (!hasEmail || !hasPhone) {
+    recommendations.push("Include complete contact information (email and phone number)");
+    score -= 10;
+  }
+
+  // 3. Check for bullet points (good for ATS parsing)
+  const bulletPointPatterns = [
+    /•\s/g, /\*\s/g, /-\s/g, /\d+\.\s/g, /[\u2022\u2023\u25E6\u2043\u2219]/g
+  ];
+  
+  const hasBulletPoints = bulletPointPatterns.some(pattern => pattern.test(text));
+  
+  if (!hasBulletPoints) {
+    recommendations.push("Use bullet points to list achievements and responsibilities");
+    score -= 10;
+  }
+
+  // 4. Check for complex formatting that might break ATS
+  const complexFormattingPatterns = [
+    /\t{2,}/g, // Multiple tabs
+    /\n{3,}/g, // Excessive line breaks
+    /\[.*?\]/g, // Content in brackets that might be from a template
+    /\{.*?\}/g, // Content in curly braces that might be from a template
+  ];
+  
+  const hasComplexFormatting = complexFormattingPatterns.some(pattern => pattern.test(text));
+  
+  if (hasComplexFormatting) {
+    recommendations.push("Remove complex formatting like tables, columns, headers/footers, and text boxes");
+    score -= 15;
+  }
+
+  // 5. Check for keyword density (basic implementation)
+  const wordCount = text.split(/\s+/).length;
+  const keywordDensity = (wordCount > 0) ? Math.min(1, wordCount / 500) : 0;
+  
+  if (keywordDensity < 0.6) {
+    recommendations.push("Add more relevant keywords related to the position you're applying for");
+    score -= 10;
+  }
+
+  // 6. Check for date formats (consistent formatting helps ATS)
+  const datePatterns = [
+    /\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* \d{4}\b/g, // Month Year
+    /\b\d{1,2}\/\d{1,2}\/\d{2,4}\b/g, // MM/DD/YYYY
+    /\b\d{4}-\d{1,2}-\d{1,2}\b/g, // YYYY-MM-DD
+  ];
+  
+  const hasConsistentDates = datePatterns.some(pattern => {
+    const matches = text.match(pattern);
+    return matches && matches.length >= 2;
+  });
+  
+  if (!hasConsistentDates) {
+    recommendations.push("Use consistent date formatting throughout your resume (e.g., MM/YYYY)");
+    score -= 5;
+  }
+
+  // 7. Check resume length (based on word count)
+  if (wordCount < 300) {
+    recommendations.push("Your resume appears too short. Add more details to highlight your experience");
+    score -= 10;
+  } else if (wordCount > 1000) {
+    recommendations.push("Your resume may be too long. Consider condensing to 1-2 pages for better readability");
+    score -= 5;
+  }
+
+  // If no recommendations, add a positive note
+  if (recommendations.length === 0) {
+    recommendations.push("Your resume appears to be well-formatted for ATS systems!");
+  }
+
+  // Calculate final result
+  const isATSFriendly = score >= 70;
+
+  return {
+    isATSFriendly,
+    score,
+    recommendations
+  };
+};

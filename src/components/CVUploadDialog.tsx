@@ -12,7 +12,9 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
-import { Upload, CheckCircle, AlertCircle } from "lucide-react";
+import { Upload, CheckCircle, AlertCircle, FileText } from "lucide-react";
+import { analyzeResumeContent } from "@/utils/websiteValidator";
+import { Progress } from "@/components/ui/progress";
 
 export interface CVUploadDialogProps {
   isOpen: boolean;
@@ -27,6 +29,10 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
   const [isATSFriendly, setIsATSFriendly] = useState<boolean | null>(null);
   const [isChecking, setIsChecking] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [analysisResults, setAnalysisResults] = useState<{
+    score: number;
+    recommendations: string[];
+  } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const resetForm = () => {
@@ -37,6 +43,7 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
     setIsATSFriendly(null);
     setIsChecking(false);
     setIsSubmitting(false);
+    setAnalysisResults(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
@@ -51,6 +58,7 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
     const selectedFile = e.target.files?.[0] || null;
     setFile(selectedFile);
     setIsATSFriendly(null); // Reset ATS check when file changes
+    setAnalysisResults(null); // Reset analysis results when file changes
   };
 
   const checkATSCompliance = async () => {
@@ -59,9 +67,6 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
     setIsChecking(true);
     
     try {
-      // Simulate processing time
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
       // Check if file is a document type (ATS-friendly) rather than an image
       const atsDocumentTypes = [
         "application/pdf", 
@@ -84,35 +89,105 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
       const isDocumentFile = atsDocumentTypes.includes(file.type);
       const isValidSize = file.size < 5 * 1024 * 1024; // Less than 5MB
       
-      // ATS-friendly if it's a document file (not an image) and valid size
-      const isATSCompatible = isDocumentFile && !isImageFile && isValidSize;
-      setIsATSFriendly(isATSCompatible);
-      
-      if (!isATSCompatible) {
-        if (isImageFile) {
-          toast({
-            title: "Resume Check Failed",
-            description: "Image files are not ATS-friendly. Please submit a PDF or DOC format resume.",
-            variant: "destructive",
-          });
-        } else if (!isDocumentFile) {
-          toast({
-            title: "Resume Check Failed",
-            description: "Invalid file format. Please submit a PDF or DOC format resume.",
-            variant: "destructive",
-          });
-        } else if (!isValidSize) {
-          toast({
-            title: "Resume Check Failed",
-            description: "File is too large. Maximum size is 5MB.",
-            variant: "destructive",
-          });
-        }
-      } else {
+      // First check file format and size
+      if (isImageFile) {
         toast({
-          title: "Resume Check Passed",
-          description: "Your resume appears to be ATS-friendly! You can now submit it.",
+          title: "Resume Check Failed",
+          description: "Image files are not ATS-friendly. Please submit a PDF or DOC format resume.",
+          variant: "destructive",
         });
+        setIsATSFriendly(false);
+        setIsChecking(false);
+        return;
+      } 
+      
+      if (!isDocumentFile) {
+        toast({
+          title: "Resume Check Failed",
+          description: "Invalid file format. Please submit a PDF or DOC format resume.",
+          variant: "destructive",
+        });
+        setIsATSFriendly(false);
+        setIsChecking(false);
+        return;
+      } 
+      
+      if (!isValidSize) {
+        toast({
+          title: "Resume Check Failed",
+          description: "File is too large. Maximum size is 5MB.",
+          variant: "destructive",
+        });
+        setIsATSFriendly(false);
+        setIsChecking(false);
+        return;
+      }
+      
+      // If file format is valid, read and analyze the content
+      const reader = new FileReader();
+      
+      reader.onload = async (event) => {
+        try {
+          // Extract text content from the file
+          const text = event.target?.result as string || "";
+          
+          // Analyze the resume content
+          const results = await analyzeResumeContent(text);
+          
+          setIsATSFriendly(results.isATSFriendly);
+          setAnalysisResults({
+            score: results.score,
+            recommendations: results.recommendations
+          });
+          
+          if (results.isATSFriendly) {
+            toast({
+              title: "Resume Check Passed",
+              description: `Your resume appears to be ATS-friendly with a score of ${results.score}%!`,
+            });
+          } else {
+            toast({
+              title: "Resume Check Failed",
+              description: "Your resume needs improvement to be fully ATS-friendly. See recommendations below.",
+              variant: "destructive",
+            });
+          }
+        } catch (error) {
+          console.error("Error analyzing resume content:", error);
+          toast({
+            title: "Analysis Error",
+            description: "Failed to analyze resume content. Please try again.",
+            variant: "destructive",
+          });
+          setIsATSFriendly(false);
+        } finally {
+          setIsChecking(false);
+        }
+      };
+      
+      reader.onerror = () => {
+        toast({
+          title: "File Read Error",
+          description: "Failed to read the file. Please try again.",
+          variant: "destructive",
+        });
+        setIsATSFriendly(false);
+        setIsChecking(false);
+      };
+      
+      // For PDF files, we'll only be able to check the file type
+      // For text-based files, we'll try to read the content
+      if (file.type === "application/pdf") {
+        // For PDFs, we can only validate the format
+        setIsATSFriendly(true);
+        toast({
+          title: "Resume Format Check Passed",
+          description: "PDF format is ATS-friendly. For content analysis, upload a DOC/DOCX file.",
+        });
+        setIsChecking(false);
+      } else {
+        // For DOC/DOCX, read as text
+        reader.readAsText(file);
       }
     } catch (error) {
       console.error("Error checking ATS compliance:", error);
@@ -121,7 +196,6 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
         description: "Failed to check resume. Please try again.",
         variant: "destructive",
       });
-    } finally {
       setIsChecking(false);
     }
   };
@@ -201,7 +275,7 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
                 ref={fileInputRef}
                 type="file"
                 onChange={handleFileChange}
-                accept=".pdf,.doc,.docx"
+                accept=".pdf,.doc,.docx,.txt"
                 className="flex-1"
                 required
               />
@@ -220,6 +294,37 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
                   <><CheckCircle className="w-4 h-4 mr-1" /> Your resume appears to be ATS-friendly!</>
                 ) : (
                   <><AlertCircle className="w-4 h-4 mr-1" /> Please try again. Your resume is not ATS-friendly.</>
+                )}
+              </div>
+            )}
+            
+            {/* Show analysis results if available */}
+            {analysisResults && (
+              <div className="mt-4 p-3 bg-gray-50 rounded-md">
+                <h4 className="font-medium mb-2 flex items-center">
+                  <FileText className="w-4 h-4 mr-2" /> Resume Analysis
+                </h4>
+                
+                <div className="mb-3">
+                  <div className="flex justify-between text-sm mb-1">
+                    <span>ATS-Compatibility Score</span>
+                    <span>{analysisResults.score}%</span>
+                  </div>
+                  <Progress value={analysisResults.score} className="h-2" />
+                </div>
+                
+                {analysisResults.recommendations.length > 0 && (
+                  <div>
+                    <h5 className="text-sm font-medium mb-1">Recommendations:</h5>
+                    <ul className="text-sm space-y-1">
+                      {analysisResults.recommendations.map((rec, index) => (
+                        <li key={index} className="flex items-start">
+                          <span className="mr-2">•</span>
+                          <span>{rec}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 )}
               </div>
             )}
@@ -259,4 +364,3 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
     </Dialog>
   );
 };
-
