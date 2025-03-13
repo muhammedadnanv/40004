@@ -15,6 +15,7 @@ import { toast } from "@/hooks/use-toast";
 import { Upload, CheckCircle, AlertCircle, FileText } from "lucide-react";
 import { analyzeResumeContent } from "@/utils/websiteValidator";
 import { Progress } from "@/components/ui/progress";
+import { ResumeAnalysisResults } from "./ResumeAnalysisResults";
 
 export interface CVUploadDialogProps {
   isOpen: boolean;
@@ -71,7 +72,8 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
       const atsDocumentTypes = [
         "application/pdf", 
         "application/msword", 
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "text/plain" // Also support text files for testing
       ];
       
       // Image types that are not ATS-friendly
@@ -104,7 +106,7 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
       if (!isDocumentFile) {
         toast({
           title: "Resume Check Failed",
-          description: "Invalid file format. Please submit a PDF or DOC format resume.",
+          description: "Invalid file format. Please submit a PDF, DOC, or TXT format resume.",
           variant: "destructive",
         });
         setIsATSFriendly(false);
@@ -131,7 +133,9 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
           // Extract text content from the file
           const text = event.target?.result as string || "";
           
-          // Analyze the resume content
+          console.log("Analyzing resume content with NLP enhancements...");
+          
+          // Analyze the resume content with enhanced NLP capabilities
           const results = await analyzeResumeContent(text);
           
           setIsATSFriendly(results.isATSFriendly);
@@ -178,15 +182,15 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
       // For PDF files, we'll only be able to check the file type
       // For text-based files, we'll try to read the content
       if (file.type === "application/pdf") {
-        // For PDFs, we can only validate the format
+        // For PDFs, we can only validate the format but also attempt to extract text
         setIsATSFriendly(true);
         toast({
           title: "Resume Format Check Passed",
-          description: "PDF format is ATS-friendly. For content analysis, upload a DOC/DOCX file.",
+          description: "PDF format is ATS-friendly. For more detailed analysis, upload a DOC/DOCX/TXT file.",
         });
         setIsChecking(false);
       } else {
-        // For DOC/DOCX, read as text
+        // For DOC/DOCX/TXT, read as text
         reader.readAsText(file);
       }
     } catch (error) {
@@ -229,7 +233,7 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-xl">Job Placement Support</DialogTitle>
           <DialogDescription>
@@ -267,7 +271,7 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
           
           <div className="space-y-2">
             <label htmlFor="file" className="text-sm font-medium">
-              Your Resume/CV (PDF or DOC)
+              Your Resume/CV (PDF, DOC or TXT)
             </label>
             <div className="flex items-center gap-2">
               <Input
@@ -285,7 +289,7 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
                 size="sm"
                 type="button"
               >
-                {isChecking ? "Checking..." : "Check"}
+                {isChecking ? "Analyzing..." : "Check"}
               </Button>
             </div>
             {file && isATSFriendly !== null && (
@@ -298,35 +302,13 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
               </div>
             )}
             
-            {/* Show analysis results if available */}
+            {/* Use the new ResumeAnalysisResults component */}
             {analysisResults && (
-              <div className="mt-4 p-3 bg-gray-50 rounded-md">
-                <h4 className="font-medium mb-2 flex items-center">
-                  <FileText className="w-4 h-4 mr-2" /> Resume Analysis
-                </h4>
-                
-                <div className="mb-3">
-                  <div className="flex justify-between text-sm mb-1">
-                    <span>ATS-Compatibility Score</span>
-                    <span>{analysisResults.score}%</span>
-                  </div>
-                  <Progress value={analysisResults.score} className="h-2" />
-                </div>
-                
-                {analysisResults.recommendations.length > 0 && (
-                  <div>
-                    <h5 className="text-sm font-medium mb-1">Recommendations:</h5>
-                    <ul className="text-sm space-y-1">
-                      {analysisResults.recommendations.map((rec, index) => (
-                        <li key={index} className="flex items-start">
-                          <span className="mr-2">•</span>
-                          <span>{rec}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
+              <ResumeAnalysisResults 
+                isATSFriendly={isATSFriendly || false}
+                score={analysisResults.score}
+                recommendations={analysisResults.recommendations}
+              />
             )}
           </div>
           

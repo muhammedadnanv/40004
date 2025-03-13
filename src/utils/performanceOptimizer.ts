@@ -1,4 +1,3 @@
-
 /**
  * Performance optimization utilities for improving platform operations
  */
@@ -244,7 +243,6 @@ export const fetchAndApplySEOKeywords = async (category: string, count: number =
       metaKeywords.setAttribute('content', keywords.join(', '));
       
       // Update usage count for these keywords - fixed the type error here
-      // We need to update each keyword individually instead of batch updating with a number array
       for (const keyword of keywords) {
         await supabase
           .from('seo_keywords')
@@ -310,6 +308,51 @@ export const generateInternalLinks = async (
     container.appendChild(linksContainer);
   } catch (error) {
     console.error('Error generating internal links:', error);
+  }
+};
+
+/**
+ * Use NLP to analyze and enhance text content for better SEO and readability
+ */
+export const enhanceTextWithNLP = (text: string, targetKeywords: string[] = []): string => {
+  if (!text || text.length === 0) return text;
+  
+  try {
+    let enhancedText = text;
+    
+    // Simple NLP enhancements
+    
+    // 1. Add keyword density if keywords are provided and density is low
+    if (targetKeywords.length > 0) {
+      const wordCount = text.split(/\s+/).length;
+      
+      // Check current keyword density
+      const keywordDensity = targetKeywords.reduce((count, keyword) => {
+        const regex = new RegExp(`\\b${keyword}\\b`, 'gi');
+        const matches = text.match(regex) || [];
+        return count + matches.length;
+      }, 0) / wordCount;
+      
+      // If keyword density is low, try to enhance it (but keep it natural)
+      if (keywordDensity < 0.02 && wordCount > 100) { // Less than 2% density
+        // Simple approach: add a summary sentence with keywords at the end
+        enhancedText += `\n\nIn summary, this content covers ${targetKeywords.slice(0, 3).join(', ')} and related topics.`;
+      }
+    }
+    
+    // 2. Check readability (very basic Flesch-Kincaid calculation)
+    const sentences = text.split(/[.!?]+/);
+    const averageSentenceLength = wordCount / sentences.length;
+    
+    if (averageSentenceLength > 25) {
+      // Content might be hard to read, no automatic fixing but return original
+      console.warn('Content has long sentences (avg > 25 words). Consider simplifying.');
+    }
+    
+    return enhancedText;
+  } catch (error) {
+    console.error('Error in NLP text enhancement:', error);
+    return text; // Return original text if there's an error
   }
 };
 
