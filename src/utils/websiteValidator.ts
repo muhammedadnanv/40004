@@ -96,10 +96,13 @@ export const validateWebsiteFeatures = throttle(async (): Promise<ValidationResu
     }
   }
 
-  // Check form elements - FIX: Properly handle the NodeList and check for existence
-  const forms = document.querySelectorAll('form');
-  if (forms && forms.length > 0) {
-    Array.from(forms).forEach(form => {
+  // Check form elements - Fix TypeScript errors by explicit type casting and null checks
+  const formElements = document.querySelectorAll('form');
+  // Convert NodeList to Array for safer operations and explicit typing
+  const forms = formElements ? Array.from(formElements) : [];
+  
+  if (forms.length > 0) {
+    forms.forEach(form => {
       const requiredFields = form.querySelectorAll('[required]');
       if (requiredFields.length === 0) {
         results.push({
