@@ -1,6 +1,7 @@
 
 import { toast } from "@/hooks/use-toast";
 import { throttle } from "./performanceOptimizer";
+import { optimizeImagesForSEO, applySEOOptimizations } from "./performanceOptimizer";
 
 interface ValidationResult {
   status: 'success' | 'error' | 'warning';
@@ -62,6 +63,36 @@ export const validateWebsiteFeatures = throttle(async (): Promise<ValidationResu
   });
 
   await Promise.all(imageChecks);
+
+  // Check for SEO basics
+  const hasTitleTag = document.title && document.title.length > 0;
+  if (!hasTitleTag) {
+    results.push({
+      status: 'error',
+      message: 'Missing page title'
+    });
+  } else if (document.title.length < 30 || document.title.length > 60) {
+    results.push({
+      status: 'warning',
+      message: `Title length is ${document.title.length} characters (recommended: 30-60)`
+    });
+  }
+
+  const metaDescription = document.querySelector('meta[name="description"]');
+  if (!metaDescription) {
+    results.push({
+      status: 'warning',
+      message: 'Missing meta description'
+    });
+  } else {
+    const content = metaDescription.getAttribute('content');
+    if (!content || content.length < 50 || content.length > 160) {
+      results.push({
+        status: 'warning',
+        message: `Meta description length is ${content ? content.length : 0} characters (recommended: 50-160)`
+      });
+    }
+  }
 
   // Check form elements
   const forms = document.querySelectorAll('form');
@@ -143,8 +174,7 @@ export const runWebsiteTest = async () => {
     let hasErrors = false;
     let hasNonScriptWarnings = false;
     
-    // Fixed the error: don't test results for truthiness (it's always defined as a Promise result)
-    // Check if results has items instead
+    // Fixed the error by checking if results has items
     if (results && results.length > 0) {
       // Now we know results is an array with items, so we can safely call forEach
       results.forEach(result => {
@@ -185,6 +215,34 @@ export const runWebsiteTest = async () => {
     toast({
       title: "Validation Failed",
       description: "Could not complete website validation",
+      variant: "destructive",
+    });
+  }
+};
+
+// Improved function to perform SEO optimizations automatically
+export const runSEOOptimizations = async () => {
+  console.log('Running automatic SEO optimizations...');
+
+  try {
+    // Apply basic SEO optimizations
+    applySEOOptimizations();
+    
+    // Optimize images for SEO
+    optimizeImagesForSEO('.content-section img');
+    
+    toast({
+      title: "SEO Optimization",
+      description: "Website optimized with latest high-intent keywords",
+      duration: 3000,
+    });
+    
+    console.log('SEO optimizations complete');
+  } catch (error) {
+    console.error('SEO optimization failed:', error);
+    toast({
+      title: "SEO Optimization Failed",
+      description: "Could not complete website SEO optimization",
       variant: "destructive",
     });
   }

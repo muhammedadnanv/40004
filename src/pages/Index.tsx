@@ -19,17 +19,53 @@ import { AlbatoAdPopup } from "@/components/AlbatoAdPopup";
 import { useEffect } from "react";
 import { showRandomJoinNotification } from "@/utils/mockNotifications";
 import { getContentEngagementStats } from "@/utils/contentAdaptation";
+import { fetchAndApplySEOKeywords } from "@/utils/performanceOptimizer";
+import { runSEOOptimizations, runWebsiteTest } from "@/utils/websiteValidator";
+import { initABTesting, trackConversion } from "@/utils/abTesting";
+import { applySEOOptimizations } from "@/utils/performanceOptimizer";
 
 const Index = () => {
   useEffect(() => {
+    // Show random notification
     showRandomJoinNotification();
     
-    const interval = setInterval(() => {
+    // Monitor content engagement
+    const engagementInterval = setInterval(() => {
       const stats = getContentEngagementStats();
       console.log('Content engagement stats:', stats);
     }, 300000);
 
-    return () => clearInterval(interval);
+    // Initialize A/B testing
+    initABTesting();
+    
+    // Run website test and SEO optimizations
+    const initializePage = async () => {
+      // Apply SEO optimizations
+      await fetchAndApplySEOKeywords('mentorship', 5);
+      runSEOOptimizations();
+      
+      // Run website validation after a short delay to allow page to fully load
+      setTimeout(() => {
+        runWebsiteTest();
+      }, 2000);
+      
+      // Track page view conversion
+      trackConversion('hero-cta-test', 'page_view');
+    };
+    
+    initializePage();
+
+    // Set up automated checks and optimizations
+    const automaticOptimizationInterval = setInterval(() => {
+      fetchAndApplySEOKeywords('mentorship', 3);
+      applySEOOptimizations();
+    }, 12 * 60 * 60 * 1000); // Run every 12 hours
+
+    // Cleanup intervals on unmount
+    return () => {
+      clearInterval(engagementInterval);
+      clearInterval(automaticOptimizationInterval);
+    };
   }, []);
 
   const programFee = 2160;
