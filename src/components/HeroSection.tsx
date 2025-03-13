@@ -1,9 +1,13 @@
 
 import { Button } from "@/components/ui/button";
-import { ExternalLink, BookOpen } from "lucide-react";
+import { ExternalLink, BookOpen, Upload } from "lucide-react";
 import { motion } from "framer-motion";
+import { useState } from "react";
+import { CVUploadDialog } from "./CVUploadDialog";
 
 export const HeroSection = () => {
+  const [showCVDialog, setShowCVDialog] = useState(false);
+  
   const scrollToPrograms = () => {
     const programsSection = document.getElementById('programs-section');
     programsSection?.scrollIntoView({ behavior: 'smooth' });
@@ -63,19 +67,23 @@ export const HeroSection = () => {
               Explore Programs
             </Button>
             
-            <a 
-              href="https://www.mygreatlearning.com/academy?referrer_code=GLL44ZJATMMKQ"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Button 
+              onClick={() => setShowCVDialog(true)}
               className="w-full sm:w-auto mt-3 sm:mt-0 inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-5 sm:py-6 text-base sm:text-lg border-2 border-primary/20 rounded-xl hover:bg-primary/5 transition-all duration-300 hover:scale-105 font-medium text-primary group focus:ring-2 focus:ring-primary/50 focus:ring-offset-2"
-              aria-label="Learn more about our mentorship platform"
+              aria-label="Upload your CV for job placement support"
+              variant="outline"
             >
-              Learn More
-              <ExternalLink className="w-5 h-5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
-            </a>
+              Job Placement Support
+              <Upload className="w-5 h-5 group-hover:translate-y-[-2px] transition-transform" aria-hidden="true" />
+            </Button>
           </motion.div>
         </div>
       </motion.div>
+      
+      <CVUploadDialog 
+        isOpen={showCVDialog} 
+        onClose={() => setShowCVDialog(false)} 
+      />
     </section>
   );
 };
