@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -39,11 +40,14 @@ const CVUploadDialog = ({ open, setOpen }: { open: boolean; setOpen: (open: bool
           // Simulate analysis results
           setTimeout(() => {
             setAnalysisResults({
-              summary: "Your resume is well-structured but could benefit from more quantifiable achievements.",
-              sections: [
-                { title: "Skills", feedback: "Highlight your top skills relevant to the job description." },
-                { title: "Experience", feedback: "Quantify your achievements with numbers and data." },
-                { title: "Education", feedback: "Include relevant coursework or projects." },
+              isATSFriendly: Math.random() > 0.5, // Random result for demo
+              score: Math.floor(Math.random() * 100), // Random score
+              recommendations: [
+                "Highlight your top skills relevant to the job description.",
+                "Quantify your achievements with numbers and data.",
+                "Include relevant coursework or projects.",
+                "Remove graphics and images for better ATS parsing.",
+                "Add more specific technical skills that match the job posting."
               ],
             });
             setIsAnalyzing(false);
@@ -102,7 +106,11 @@ const CVUploadDialog = ({ open, setOpen }: { open: boolean; setOpen: (open: bool
 
           <TabsContent value="results">
             {analysisResults ? (
-              <ResumeAnalysisResults results={analysisResults} />
+              <ResumeAnalysisResults 
+                isATSFriendly={analysisResults.isATSFriendly}
+                score={analysisResults.score}
+                recommendations={analysisResults.recommendations}
+              />
             ) : (
               <p>No analysis results yet. Please upload a resume to get started.</p>
             )}
