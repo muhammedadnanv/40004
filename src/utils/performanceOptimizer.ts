@@ -324,17 +324,17 @@ export const enhanceTextWithNLP = (text: string, targetKeywords: string[] = []):
     
     // 1. Add keyword density if keywords are provided and density is low
     if (targetKeywords.length > 0) {
-      const wordCount = text.split(/\s+/).length;
+      const textWordCount = text.split(/\s+/).length; // Fixed: renamed to textWordCount to avoid conflict
       
       // Check current keyword density
       const keywordDensity = targetKeywords.reduce((count, keyword) => {
         const regex = new RegExp(`\\b${keyword}\\b`, 'gi');
         const matches = text.match(regex) || [];
         return count + matches.length;
-      }, 0) / wordCount;
+      }, 0) / textWordCount; // Fixed: using textWordCount instead of undefined wordCount
       
       // If keyword density is low, try to enhance it (but keep it natural)
-      if (keywordDensity < 0.02 && wordCount > 100) { // Less than 2% density
+      if (keywordDensity < 0.02 && textWordCount > 100) { // Fixed: using textWordCount 
         // Simple approach: add a summary sentence with keywords at the end
         enhancedText += `\n\nIn summary, this content covers ${targetKeywords.slice(0, 3).join(', ')} and related topics.`;
       }
@@ -342,7 +342,8 @@ export const enhanceTextWithNLP = (text: string, targetKeywords: string[] = []):
     
     // 2. Check readability (very basic Flesch-Kincaid calculation)
     const sentences = text.split(/[.!?]+/);
-    const averageSentenceLength = wordCount / sentences.length;
+    const textWordCount = text.split(/\s+/).length; // Fixed: redefining textWordCount
+    const averageSentenceLength = textWordCount / sentences.length;
     
     if (averageSentenceLength > 25) {
       // Content might be hard to read, no automatic fixing but return original
