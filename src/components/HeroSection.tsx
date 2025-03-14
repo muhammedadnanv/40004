@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ExternalLink, BookOpen, Upload } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import CVUploadDialog from "./CVUploadDialog";
+import { CVUploadDialog } from "./CVUploadDialog";
 
 export const HeroSection = () => {
   const [showCVDialog, setShowCVDialog] = useState(false);
@@ -81,8 +81,8 @@ export const HeroSection = () => {
       </motion.div>
       
       <CVUploadDialog 
-        open={showCVDialog} 
-        setOpen={setShowCVDialog} 
+        isOpen={showCVDialog} 
+        onClose={() => setShowCVDialog(false)} 
       />
     </section>
   );
