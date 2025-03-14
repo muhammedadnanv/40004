@@ -994,5 +994,95 @@ export const projectIdeas = [
     description: "Build a dashboard for tracking and reporting social impact metrics",
     difficulty: "Intermediate",
     category: "Non-profit"
+  },
+  {
+    name: "Web3 Social Network",
+    description: "Build a decentralized social platform using blockchain technology for user ownership of content and data",
+    difficulty: "Advanced",
+    category: "Web3"
+  },
+  {
+    name: "AI-Powered Code Reviewer",
+    description: "Create a tool that uses LLMs to review code, suggest improvements, and identify potential bugs",
+    difficulty: "Advanced",
+    category: "AI"
+  },
+  {
+    name: "Voice-Controlled Smart Home Hub",
+    description: "Develop a central system for managing IoT devices with voice commands using speech recognition",
+    difficulty: "Advanced",
+    category: "IoT"
+  },
+  {
+    name: "Mixed Reality Learning Environment",
+    description: "Build an educational platform that combines AR and VR for immersive learning experiences",
+    difficulty: "Advanced",
+    category: "AR/VR"
+  },
+  {
+    name: "Sustainable Energy Dashboard",
+    description: "Create a monitoring system for tracking and optimizing renewable energy usage",
+    difficulty: "Intermediate",
+    category: "IoT"
+  },
+  {
+    name: "Generative AI Art Marketplace",
+    description: "Build a platform for creating, showcasing, and selling AI-generated artwork",
+    difficulty: "Advanced",
+    category: "AI"
+  },
+  {
+    name: "Privacy-Focused Analytics",
+    description: "Develop a web analytics solution that respects user privacy while providing valuable insights",
+    difficulty: "Intermediate",
+    category: "Data Analytics"
+  },
+  {
+    name: "Quantum Computing Simulator",
+    description: "Create an educational tool for visualizing and understanding quantum computing concepts",
+    difficulty: "Advanced",
+    category: "Quantum Computing"
+  },
+  {
+    name: "Metaverse Community Space",
+    description: "Build a virtual world where users can interact, collaborate, and host events",
+    difficulty: "Advanced",
+    category: "Web3"
+  },
+  {
+    name: "No-Code Data Visualization Builder",
+    description: "Create a tool for generating interactive data visualizations without programming",
+    difficulty: "Intermediate",
+    category: "No-Code"
+  },
+  {
+    name: "Personal Carbon Footprint Tracker",
+    description: "Develop an app that helps users monitor and reduce their environmental impact",
+    difficulty: "Intermediate",
+    category: "Climate Tech"
+  },
+  {
+    name: "Edge Computing IoT Gateway",
+    description: "Build a system for processing IoT data at the network edge before cloud transmission",
+    difficulty: "Advanced",
+    category: "IoT"
+  },
+  {
+    name: "AI-Enhanced Video Conferencing",
+    description: "Create a video meeting platform with AI features like real-time translation and note-taking",
+    difficulty: "Advanced",
+    category: "AI"
+  },
+  {
+    name: "Biometric Authentication System",
+    description: "Develop a secure authentication solution using fingerprints, facial recognition, or voice",
+    difficulty: "Advanced",
+    category: "Security"
+  },
+  {
+    name: "Low-Code Database Builder",
+    description: "Create a visual tool for designing and deploying database schemas without extensive SQL knowledge",
+    difficulty: "Intermediate",
+    category: "Low-Code"
   }
 ];

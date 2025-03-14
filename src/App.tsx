@@ -11,7 +11,7 @@ import { LeadCollectionPopup } from "./components/LeadCollectionPopup";
 import { EnrollmentAlert } from "./components/EnrollmentAlert";
 import { JusticeMessage } from "./components/JusticeMessage";
 import ErrorBoundary from "./components/ErrorBoundary";
-import { runWebsiteTest } from "./utils/websiteValidator";
+import { runWebsiteTest } from "./utils/validators/websiteValidator";
 import { optimizeForDevice } from "./utils/performanceOptimizer";
 
 // Lazy load the Index page for better initial loading performance

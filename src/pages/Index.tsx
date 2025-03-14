@@ -1,4 +1,3 @@
-
 import { CategoryTopper } from "@/components/CategoryTopper";
 import { HeroSection } from "@/components/HeroSection";
 import { LearningPathSection } from "@/components/LearningPathSection";
@@ -20,7 +19,8 @@ import { useEffect } from "react";
 import { showRandomJoinNotification } from "@/utils/mockNotifications";
 import { getContentEngagementStats } from "@/utils/contentAdaptation";
 import { fetchAndApplySEOKeywords } from "@/utils/performanceOptimizer";
-import { runSEOOptimizations, runWebsiteTest } from "@/utils/websiteValidator";
+import { runSEOOptimizations } from "@/utils/validators/seoValidator";
+import { runWebsiteTest } from "@/utils/validators/websiteValidator";
 import { initABTesting, trackConversion } from "@/utils/abTesting";
 import { applySEOOptimizations } from "@/utils/performanceOptimizer";
 
