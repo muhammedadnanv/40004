@@ -1,4 +1,3 @@
-
 import { CategoryTopper } from "@/components/CategoryTopper";
 import { HeroSection } from "@/components/HeroSection";
 import { LearningPathSection } from "@/components/LearningPathSection";
@@ -23,6 +22,7 @@ import { fetchAndApplySEOKeywords } from "@/utils/performanceOptimizer";
 import { runSEOOptimizations, runWebsiteTest } from "@/utils/websiteValidator";
 import { initABTesting, trackConversion } from "@/utils/abTesting";
 import { applySEOOptimizations } from "@/utils/performanceOptimizer";
+import { seoOptimizer } from "@/utils/seoOptimizer";
 
 const Index = () => {
   useEffect(() => {
@@ -38,11 +38,28 @@ const Index = () => {
     // Initialize A/B testing
     initABTesting();
     
-    // Run website test and SEO optimizations
+    // Run website test and SEO optimizations with high-intent keywords
     const initializePage = async () => {
-      // Apply SEO optimizations
+      // Apply SEO optimizations focusing on high-intent keywords
       await fetchAndApplySEOKeywords('mentorship', 5);
       runSEOOptimizations();
+      
+      // Get and apply high-intent keywords
+      const keywordsResult = await seoOptimizer.getKeywords('mentorship', 10, 0.7, 0.8);
+      if (keywordsResult.success && keywordsResult.keywords) {
+        console.log('Applied high-intent keywords:', keywordsResult.keywords);
+        
+        // Apply schema markup for improved search visibility
+        const schemaResult = await seoOptimizer.implementSchemaMarkup('Course', {
+          name: "Professional Developer Certification Program",
+          description: "Master modern development skills with expert mentorship",
+          keywords: keywordsResult.keywords.map(k => k.keyword).join(", ")
+        });
+        
+        if (schemaResult.success) {
+          console.log('Schema markup implemented successfully');
+        }
+      }
       
       // Run website validation after a short delay to allow page to fully load
       setTimeout(() => {
@@ -55,10 +72,17 @@ const Index = () => {
     
     initializePage();
 
-    // Set up automated checks and optimizations
-    const automaticOptimizationInterval = setInterval(() => {
-      fetchAndApplySEOKeywords('mentorship', 3);
+    // Set up automated checks and optimizations for high-intent keywords
+    const automaticOptimizationInterval = setInterval(async () => {
+      // Apply high-intent keywords optimization
+      await fetchAndApplySEOKeywords('mentorship', 5);
       applySEOOptimizations();
+      
+      // Run comprehensive SEO check focused on high-intent keywords
+      await seoOptimizer.runOptimizations({
+        optimizeMetaTags: true,
+        checkTechnicalSEO: true
+      });
     }, 12 * 60 * 60 * 1000); // Run every 12 hours
 
     // Cleanup intervals on unmount

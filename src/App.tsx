@@ -1,4 +1,3 @@
-
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Suspense, lazy, useEffect } from "react";
 import { Toaster } from "./components/ui/toaster";
@@ -13,6 +12,7 @@ import { JusticeMessage } from "./components/JusticeMessage";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { runWebsiteTest } from "./utils/websiteValidator";
 import { optimizeForDevice } from "./utils/performanceOptimizer";
+import { seoOptimizer } from "./utils/seoOptimizer";
 
 // Lazy load the Index page for better initial loading performance
 const Index = lazy(() => import("./pages/Index"));
@@ -57,6 +57,22 @@ function App() {
     };
 
     validateWebsite();
+    
+    // Run SEO optimization for high-intent keywords
+    const optimizeSEO = async () => {
+      try {
+        await seoOptimizer.runOptimizations({
+          optimizeMetaTags: true,
+          optimizeHeadings: true,
+          checkTechnicalSEO: true
+        });
+        console.log("SEO optimization for high-intent keywords completed");
+      } catch (error) {
+        console.error("Error during SEO optimization:", error);
+      }
+    };
+
+    optimizeSEO();
     
     // Initialize marketing features with better error handling
     const initMarketing = async () => {

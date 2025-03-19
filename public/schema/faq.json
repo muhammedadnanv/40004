@@ -1,3 +1,4 @@
+
 {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -7,7 +8,7 @@
       "name": "How is this mentorship program different from traditional courses?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Our program focuses on pure project-based learning with real-world applications. You'll work directly with experienced mentors on practical projects, receiving personalized feedback and guidance. Unlike traditional courses, we emphasize hands-on experience and industry-relevant skills."
+        "text": "Our program focuses on pure project-based learning with real-world applications. You'll work directly with experienced mentors on practical projects, receiving personalized feedback and guidance. Unlike traditional courses, we emphasize hands-on experience and industry-relevant skills that translate directly to your professional career."
       }
     },
     {
@@ -15,7 +16,7 @@
       "name": "What career advancement opportunities does the program provide?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Our program includes comprehensive career support with AI-powered resume optimization, interview preparation, portfolio development, and networking opportunities within our developer community. Many graduates have secured positions at leading tech companies."
+        "text": "Our program includes comprehensive career support with AI-powered resume optimization, interview preparation, portfolio development, and networking opportunities within our developer community. Many graduates have secured positions at leading tech companies, with an average salary increase of 30% after certification."
       }
     },
     {
@@ -23,7 +24,31 @@
       "name": "How do you ensure the quality of mentorship?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "All our mentors are experienced industry professionals with proven track records. They undergo a rigorous selection process and are regularly evaluated based on mentee feedback and success metrics."
+        "text": "All our mentors are experienced industry professionals with proven track records. They undergo a rigorous selection process and are regularly evaluated based on mentee feedback and success metrics. Our mentors have an average of 8+ years of industry experience and are committed to your professional growth."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the return on investment (ROI) for this certification program?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Our Professional Developer Certification provides exceptional ROI with 87% of graduates reporting they recouped their investment within 6 months through salary increases, promotions, or new job opportunities. The certification is recognized by over 200 global employers and provides lifetime access to our developer community and learning resources."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How quickly can I start applying my new skills in real projects?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You'll start working on real-world projects from day one. Our project-based approach means you're immediately applying what you learn to practical scenarios. Most students complete their first portfolio-ready project within 4 weeks, and many secure freelance opportunities even before completing their certification."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What makes your Professional Developer Certification valuable to employers?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Our certification is valued by employers because it verifies practical, real-world skills rather than just theoretical knowledge. It demonstrates your ability to build production-ready applications, collaborate effectively with teams, and implement industry best practices. The certification includes a verified digital portfolio showcasing your completed projects."
       }
     }
   ]
