@@ -1,3 +1,4 @@
+
 import { CategoryTopper } from "@/components/CategoryTopper";
 import { HeroSection } from "@/components/HeroSection";
 import { LearningPathSection } from "@/components/LearningPathSection";
@@ -23,6 +24,11 @@ import { runSEOOptimizations, runWebsiteTest } from "@/utils/websiteValidator";
 import { initABTesting, trackConversion } from "@/utils/abTesting";
 import { applySEOOptimizations } from "@/utils/performanceOptimizer";
 import { seoOptimizer } from "@/utils/seoOptimizer";
+import { initRetargetingService, trackVisitorEvent } from "@/utils/retargetingService";
+import { autoFixAndReportLinkIssues } from "@/utils/linkValidator";
+import { enhanceMobileExperience } from "@/utils/mobileResponsiveness";
+import { OnPageOptimizer } from "@/components/SEO/OnPageOptimizer";
+import { GoogleSearchPreview } from "@/components/SEO/GoogleSearchPreview";
 
 const Index = () => {
   useEffect(() => {
@@ -43,6 +49,25 @@ const Index = () => {
       // Apply SEO optimizations focusing on high-intent keywords
       await fetchAndApplySEOKeywords('mentorship', 5);
       runSEOOptimizations();
+      
+      // Initialize visitor retargeting service
+      initRetargetingService({
+        trackPageViews: true,
+        trackProductViews: true,
+        storeUserSegments: true
+      });
+      
+      // Track this page view for retargeting
+      trackVisitorEvent('pageview', {
+        label: 'homepage',
+        value: 1
+      });
+      
+      // Fix common link issues
+      autoFixAndReportLinkIssues();
+      
+      // Optimize mobile experience
+      enhanceMobileExperience();
       
       // Get and apply high-intent keywords
       const keywordsResult = await seoOptimizer.getKeywords('mentorship', 10, 0.7, 0.8);
@@ -84,6 +109,17 @@ const Index = () => {
         checkTechnicalSEO: true
       });
     }, 12 * 60 * 60 * 1000); // Run every 12 hours
+
+    // Add event listeners to track user interactions for retargeting
+    const programButtons = document.querySelectorAll('.program-cta-btn');
+    programButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        trackVisitorEvent('action', {
+          label: 'program_interest',
+          value: 2
+        });
+      });
+    });
 
     // Cleanup intervals on unmount
     return () => {
@@ -192,6 +228,19 @@ const Index = () => {
         <MentorSection mentorEarnings={mentorEarnings} />
         <FAQSection />
         <WhatsAppSection />
+
+        {/* SEO Preview (visible only to admins in a real implementation) */}
+        <div className="hidden">
+          <GoogleSearchPreview
+            title="Developer Certification with Expert Mentorship | Professional Program"
+            description="Master modern development skills with personalized 1:1 expert mentorship. Get certified through our project-based professional learning program."
+          />
+          <OnPageOptimizer 
+            pageName="Homepage" 
+            targetKeywords={["developer certification", "expert mentorship", "professional development", "coding mentors"]}
+            autoOptimize={true}
+          />
+        </div>
 
         <footer className="py-16 md:py-24 lg:py-32">
           <SocialMediaFooter />

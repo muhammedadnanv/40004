@@ -1,3 +1,7 @@
+/**
+ * Comprehensive website validation utility
+ */
+
 import { toast } from "@/hooks/use-toast";
 import { throttle } from "./performanceOptimizer";
 import { optimizeImagesForSEO, applySEOOptimizations } from "./performanceOptimizer";
@@ -102,6 +106,36 @@ export const validateWebsiteFeatures = throttle(async (): Promise<ValidationResu
           message: `Meta description length is ${content ? content.length : 0} characters (recommended: 50-160)`
         });
       }
+    }
+    
+    // NEW: Check for structured data
+    const structuredData = document.querySelectorAll('script[type="application/ld+json"]');
+    if (structuredData.length === 0) {
+      results.push({
+        status: 'warning',
+        message: 'Missing structured data (Schema.org markup)'
+      });
+    }
+    
+    // NEW: Check for canonical URL
+    const canonicalUrl = document.querySelector('link[rel="canonical"]');
+    if (!canonicalUrl) {
+      results.push({
+        status: 'warning',
+        message: 'Missing canonical URL tag'
+      });
+    }
+    
+    // NEW: Check for retargeting tags
+    const hasGoogleRetargeting = document.querySelector('script[src*="googletagmanager"]');
+    const hasFacebookPixel = document.querySelector('script[src*="facebook"]') || 
+                           document.querySelector('script:contains(fbq)');
+                           
+    if (!hasGoogleRetargeting && !hasFacebookPixel) {
+      results.push({
+        status: 'warning',
+        message: 'No retargeting pixels detected (Google/Facebook)'
+      });
     }
   } catch (error) {
     console.error('Error checking SEO basics:', error);
@@ -245,6 +279,102 @@ export const validateWebsiteFeatures = throttle(async (): Promise<ValidationResu
     console.error('Error checking broken links:', error);
   }
 
+  // NEW: Check for mobile optimization
+  try {
+    // Check for touch-friendly elements
+    const smallTouchTargets = [];
+    const touchElements = document.querySelectorAll('button, a, input[type="button"], input[type="submit"]');
+    
+    touchElements.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.width < 44 || rect.height < 44) {
+        smallTouchTargets.push(el);
+      }
+    });
+    
+    if (smallTouchTargets.length > 5) {
+      results.push({
+        status: 'warning',
+        message: `${smallTouchTargets.length} touch targets too small (should be at least 44x44px)`
+      });
+    }
+    
+    // Check for tap spacing
+    const closeElements = [];
+    const clickableElements = Array.from(document.querySelectorAll('a, button'));
+    
+    for (let i = 0; i < clickableElements.length; i++) {
+      for (let j = i + 1; j < clickableElements.length; j++) {
+        const rect1 = clickableElements[i].getBoundingClientRect();
+        const rect2 = clickableElements[j].getBoundingClientRect();
+        
+        const horizontalOverlap = !(rect1.right < rect2.left || rect1.left > rect2.right);
+        const verticalOverlap = !(rect1.bottom < rect2.top || rect1.top > rect2.bottom);
+        
+        if (horizontalOverlap && verticalOverlap) {
+          closeElements.push([clickableElements[i], clickableElements[j]]);
+        }
+      }
+      
+      if (closeElements.length >= 3) break; // Limit checking for performance
+    }
+    
+    if (closeElements.length > 0) {
+      results.push({
+        status: 'warning',
+        message: `${closeElements.length} sets of overlapping clickable elements detected`
+      });
+    }
+  } catch (error) {
+    console.error('Error checking mobile optimization:', error);
+  }
+  
+  // NEW: Check for on-page SEO factors
+  try {
+    // Check for keyword usage in headings
+    const h1Elements = document.querySelectorAll('h1');
+    const h2Elements = document.querySelectorAll('h2');
+    
+    if (h1Elements.length === 0) {
+      results.push({
+        status: 'warning',
+        message: 'No H1 heading found - important for SEO'
+      });
+    }
+    
+    if (h2Elements.length === 0) {
+      results.push({
+        status: 'warning',
+        message: 'No H2 headings found - important for content structure'
+      });
+    }
+    
+    // Check for image alt text
+    const imagesWithoutAlt = document.querySelectorAll('img:not([alt])');
+    if (imagesWithoutAlt.length > 0) {
+      results.push({
+        status: 'warning',
+        message: `${imagesWithoutAlt.length} images missing alt text for SEO and accessibility`
+      });
+    }
+    
+    // Check meta robots
+    const robotsMeta = document.querySelector('meta[name="robots"]');
+    if (!robotsMeta) {
+      results.push({
+        status: 'info',
+        message: 'No robots meta tag found (defaults to index,follow)'
+      });
+    } else if (robotsMeta.getAttribute('content')?.includes('noindex')) {
+      results.push({
+        status: 'warning',
+        message: 'Page set to noindex - will not appear in search results'
+      });
+    }
+  } catch (error) {
+    console.error('Error checking on-page SEO factors:', error);
+  }
+
   // Filter out development-only warnings about scripts
   const scriptWarnings = results.filter(result => 
     result.status === 'warning' && 
@@ -320,9 +450,55 @@ export const runSEOOptimizations = async () => {
     // Optimize images for SEO
     optimizeImagesForSEO('.content-section img');
     
+    // NEW: Apply schema markup if missing
+    const hasSchemaMarkup = document.querySelector('script[type="application/ld+json"]');
+    if (!hasSchemaMarkup) {
+      const pageTitle = document.title;
+      const isProductPage = window.location.pathname.includes('/programs') || 
+                          window.location.pathname.includes('/program');
+      
+      if (isProductPage) {
+        // Add Course schema for program pages
+        const schemaScript = document.createElement('script');
+        schemaScript.type = 'application/ld+json';
+        schemaScript.textContent = JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'Course',
+          'name': pageTitle,
+          'description': document.querySelector('meta[name="description"]')?.getAttribute('content') || pageTitle,
+          'provider': {
+            '@type': 'Organization',
+            'name': 'Developer Certification Program',
+            'sameAs': window.location.origin
+          }
+        });
+        document.head.appendChild(schemaScript);
+      } else {
+        // Add WebSite schema for other pages
+        const schemaScript = document.createElement('script');
+        schemaScript.type = 'application/ld+json';
+        schemaScript.textContent = JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'WebSite',
+          'name': pageTitle,
+          'url': window.location.href
+        });
+        document.head.appendChild(schemaScript);
+      }
+    }
+    
+    // NEW: Add canonical URL if missing
+    const hasCanonicalUrl = document.querySelector('link[rel="canonical"]');
+    if (!hasCanonicalUrl) {
+      const canonicalLink = document.createElement('link');
+      canonicalLink.rel = 'canonical';
+      canonicalLink.href = window.location.href.split('?')[0]; // Remove query parameters
+      document.head.appendChild(canonicalLink);
+    }
+    
     toast({
       title: "SEO Optimization",
-      description: "Website optimized with latest high-intent keywords",
+      description: "Website optimized with latest high-intent keywords and structured data",
       duration: 3000,
     });
     
