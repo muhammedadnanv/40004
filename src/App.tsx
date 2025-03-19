@@ -1,3 +1,4 @@
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Suspense, lazy, useEffect } from "react";
 import { Toaster } from "./components/ui/toaster";
@@ -13,6 +14,8 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { runWebsiteTest } from "./utils/websiteValidator";
 import { optimizeForDevice } from "./utils/performanceOptimizer";
 import { seoOptimizer } from "./utils/seoOptimizer";
+import { enhanceMobileExperience } from "./utils/mobileResponsiveness";
+import { autoFixAndReportLinkIssues } from "./utils/linkValidator";
 
 // Lazy load the Index page for better initial loading performance
 const Index = lazy(() => import("./pages/Index"));
@@ -116,12 +119,39 @@ function App() {
       }
     };
 
+    // Enhance mobile experience
+    const setupMobileOptimizations = () => {
+      try {
+        // Apply mobile experience enhancements
+        enhanceMobileExperience();
+        
+        // Detect and fix broken links
+        autoFixAndReportLinkIssues();
+        
+        // Add resize event listener to reapply optimizations when window is resized
+        window.addEventListener('resize', () => {
+          // Use debounce/throttle pattern to avoid excessive calls
+          clearTimeout(window.resizeTimer);
+          window.resizeTimer = setTimeout(() => {
+            enhanceMobileExperience();
+          }, 250);
+        });
+        
+        console.log("Mobile optimizations and link validation complete");
+      } catch (error) {
+        console.error("Error during mobile optimization:", error);
+      }
+    };
+
     initMarketing();
     checkSupabaseConnection();
+    setupMobileOptimizations();
 
     // Cleanup function
     return () => {
       console.log("App cleanup: removing event listeners and clearing timeouts");
+      window.removeEventListener('resize', () => {});
+      clearTimeout(window.resizeTimer);
     };
   }, []);
 
@@ -160,6 +190,13 @@ function App() {
       </Router>
     </ErrorBoundary>
   );
+}
+
+// Add the window resize timer type for TypeScript
+declare global {
+  interface Window {
+    resizeTimer: ReturnType<typeof setTimeout>;
+  }
 }
 
 export default App;
