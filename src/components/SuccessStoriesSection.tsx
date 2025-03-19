@@ -1,9 +1,17 @@
-
 import { motion } from "framer-motion";
 import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
 import { Quote } from "lucide-react";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { 
+  Pagination, 
+  PaginationContent, 
+  PaginationItem, 
+  PaginationLink, 
+  PaginationNext, 
+  PaginationPrevious 
+} from "@/components/ui/pagination";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface SuccessStory {
   id: string;
@@ -210,9 +218,37 @@ export const SuccessStoriesSection = () => {
   const [localStories, setLocalStories] = useState<Record<string, SuccessStory[]>>({
     "GCC Freelancers": additionalMockStories
   });
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [activeLocation, setActiveLocation] = useState<string>("all");
+  const storiesPerPage = 6;
+
+  const getFilteredAndPaginatedStories = (stories: SuccessStory[], page: number) => {
+    let filteredStories = stories;
+    
+    if (activeLocation !== "all") {
+      filteredStories = stories.filter(story => story.location === activeLocation);
+    }
+    
+    const startIndex = (page - 1) * storiesPerPage;
+    const endIndex = startIndex + storiesPerPage;
+    
+    return {
+      paginatedStories: filteredStories.slice(startIndex, endIndex),
+      totalPages: Math.ceil(filteredStories.length / storiesPerPage),
+      totalStories: filteredStories.length
+    };
+  };
+
+  const getLocations = (stories: SuccessStory[]) => {
+    const locations = stories.map(story => story.location).filter(Boolean);
+    return Array.from(new Set(locations as string[]));
+  };
 
   useEffect(() => {
-    // Initial fetch of success stories
+    setCurrentPage(1);
+  }, [activeLocation]);
+
+  useEffect(() => {
     const fetchStories = async () => {
       const { data, error } = await supabase
         .from('success_stories')
@@ -224,14 +260,11 @@ export const SuccessStoriesSection = () => {
         return;
       }
 
-      // Group stories by program
       const grouped = (data || []).reduce((acc: Record<string, SuccessStory[]>, story) => {
         if (!acc[story.program]) {
           acc[story.program] = [];
         }
-        if (acc[story.program].length < 5) { // Keep only 5 stories per program
-          acc[story.program].push(story);
-        }
+        acc[story.program].push(story);
         return acc;
       }, {});
 
@@ -240,7 +273,6 @@ export const SuccessStoriesSection = () => {
 
     fetchStories();
 
-    // Subscribe to real-time updates
     const channel = supabase
       .channel('success-stories-changes')
       .on(
@@ -252,7 +284,7 @@ export const SuccessStoriesSection = () => {
         },
         (payload) => {
           console.log('Real-time update received:', payload);
-          fetchStories(); // Refetch all stories to maintain consistency
+          fetchStories();
         }
       )
       .subscribe();
@@ -262,52 +294,138 @@ export const SuccessStoriesSection = () => {
     };
   }, []);
 
+  const { 
+    paginatedStories: currentGccStories, 
+    totalPages,
+    totalStories 
+  } = getFilteredAndPaginatedStories(localStories["GCC Freelancers"], currentPage);
+  
+  const gccLocations = getLocations(localStories["GCC Freelancers"]);
+
   return (
-    <div className="container mx-auto max-w-6xl px-4 py-16">
+    <div className="container mx-auto max-w-6xl px-4 py-12 md:py-16">
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="text-3xl font-extralight text-center mb-16 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-purple-800"
+        className="text-2xl md:text-3xl font-extralight text-center mb-10 md:mb-16 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-purple-800"
       >
         Success Stories
       </motion.h2>
 
-      {/* Display the GCC Freelancers success stories first */}
       <div className="mb-16">
         <motion.h3
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-2xl font-light text-center mb-8 text-purple-600"
+          className="text-xl md:text-2xl font-light text-center mb-6 text-purple-600"
         >
           GCC Freelancers from Kerala
         </motion.h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {localStories["GCC Freelancers"].map((story, index) => (
+
+        <div className="flex justify-center mb-8">
+          <Tabs 
+            defaultValue="all" 
+            value={activeLocation}
+            onValueChange={setActiveLocation}
+            className="w-full max-w-md"
+          >
+            <TabsList className="grid grid-cols-3 mb-2">
+              <TabsTrigger value="all">All Locations</TabsTrigger>
+              <TabsTrigger value="Kozhikode">Kozhikode</TabsTrigger>
+              <TabsTrigger value="Malappuram">Malappuram</TabsTrigger>
+            </TabsList>
+            
+            <div className="text-center text-sm text-gray-500 mb-4">
+              Showing {currentGccStories.length} of {totalStories} stories
+            </div>
+          </Tabs>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          {currentGccStories.map((story, index) => (
             <StoryCard key={story.id} story={story} index={index} />
           ))}
         </div>
+
+        {totalPages > 1 && (
+          <Pagination className="mt-8">
+            <PaginationContent>
+              {currentPage > 1 && (
+                <PaginationItem>
+                  <PaginationPrevious 
+                    href="#" 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setCurrentPage(prev => Math.max(prev - 1, 1));
+                    }} 
+                  />
+                </PaginationItem>
+              )}
+              
+              {Array.from({ length: totalPages }).map((_, i) => (
+                <PaginationItem key={i}>
+                  <PaginationLink
+                    href="#"
+                    isActive={currentPage === i + 1}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setCurrentPage(i + 1);
+                    }}
+                  >
+                    {i + 1}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+              
+              {currentPage < totalPages && (
+                <PaginationItem>
+                  <PaginationNext 
+                    href="#" 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setCurrentPage(prev => Math.min(prev + 1, totalPages));
+                    }} 
+                  />
+                </PaginationItem>
+              )}
+            </PaginationContent>
+          </Pagination>
+        )}
       </div>
 
-      {/* Display existing success stories */}
-      {Object.entries(storiesByProgram).map(([program, stories]) => (
-        <div key={program} className="mb-16 last:mb-0">
-          <motion.h3
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-2xl font-light text-center mb-8 text-purple-600"
-          >
-            {program}
-          </motion.h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {stories.map((story, index) => (
-              <StoryCard key={story.id} story={story} index={index} />
-            ))}
+      {Object.entries(storiesByProgram).map(([program, stories]) => {
+        const { 
+          paginatedStories: currentProgramStories, 
+          totalPages: programTotalPages 
+        } = getFilteredAndPaginatedStories(stories, 1);
+        
+        return (
+          <div key={program} className="mb-16 last:mb-0">
+            <motion.h3
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-xl md:text-2xl font-light text-center mb-6 text-purple-600"
+            >
+              {program}
+            </motion.h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+              {currentProgramStories.map((story, index) => (
+                <StoryCard key={story.id} story={story} index={index} />
+              ))}
+            </div>
+            
+            {programTotalPages > 1 && (
+              <div className="mt-8 text-center">
+                <a href="#" className="text-purple-600 hover:text-purple-800 text-sm font-medium">
+                  View All {program} Stories
+                </a>
+              </div>
+            )}
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };
