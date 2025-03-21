@@ -1,259 +1,201 @@
 
-/**
- * Utility for visitor retargeting and on-page SEO optimization
- */
+// This file manages visitor retargeting functionality and user segmentation
 
-import { toast } from "@/hooks/use-toast";
-
-interface RetargetingOptions {
-  trackPageViews?: boolean;
-  trackProductViews?: boolean;
-  trackSearchQueries?: boolean;
-  storeUserSegments?: boolean;
+// Define window.gtag property
+declare global {
+  interface Window {
+    gtag: any;  // Define gtag as any type to resolve TypeScript error
+  }
 }
 
+// Configuration interface for the retargeting service
+interface RetargetingConfig {
+  trackPageViews: boolean;
+  trackProductViews: boolean;
+  storeUserSegments: boolean;
+}
+
+// User segment data structure
 interface UserSegment {
   id: string;
   name: string;
   criteria: string;
-  lastActive: Date;
+  priority: number;
 }
 
-interface RetargetingEvent {
-  eventType: 'pageview' | 'productview' | 'search' | 'action';
-  path: string;
-  timestamp: number;
-  data?: Record<string, any>;
+// Event data object structure
+interface EventData {
+  label?: string;
+  value?: number;
+  category?: string;
+  action?: string;
 }
 
-// Store visitor activity for retargeting
-const visitorEvents: RetargetingEvent[] = [];
-const userSegments: UserSegment[] = [];
+// Visitor data structure
+interface VisitorData {
+  id: string;
+  firstVisit: Date;
+  lastVisit: Date;
+  pageViews: number;
+  segments: string[];
+  interests: string[];
+}
 
-/**
- * Track visitor events for retargeting purposes
- */
-export const trackVisitorEvent = (
-  eventType: 'pageview' | 'productview' | 'search' | 'action',
-  data?: Record<string, any>
-): void => {
-  try {
-    const event: RetargetingEvent = {
-      eventType,
-      path: window.location.pathname,
-      timestamp: Date.now(),
-      data
-    };
-    
-    visitorEvents.push(event);
-    
-    // Store in localStorage for persistence
-    const storedEvents = JSON.parse(localStorage.getItem('visitor_events') || '[]');
-    storedEvents.push(event);
-    localStorage.setItem('visitor_events', JSON.stringify(storedEvents.slice(-100))); // Keep last 100 events
-    
-    // Sync with analytics service if available
-    if (window.gtag) {
-      window.gtag('event', eventType, {
-        event_category: 'retargeting',
-        event_label: data?.label || window.location.pathname,
-        value: data?.value
-      });
-    }
-    
-    console.log(`Tracked ${eventType} event for retargeting:`, event);
-  } catch (error) {
-    console.error('Error tracking visitor event:', error);
-  }
+// Initialize visitor data
+let visitorData: VisitorData = {
+  id: generateVisitorId(),
+  firstVisit: new Date(),
+  lastVisit: new Date(),
+  pageViews: 0,
+  segments: [],
+  interests: []
 };
 
-/**
- * Segment users based on their browsing behavior
- */
-export const segmentVisitors = (): UserSegment[] => {
-  try {
-    const storedEvents = JSON.parse(localStorage.getItem('visitor_events') || '[]');
-    
-    // Clear existing segments
-    userSegments.length = 0;
-    
-    // Define segments based on visitor behavior
-    
-    // Segment 1: Visitors who viewed multiple program pages
-    const programPageViews = storedEvents.filter(
-      (event: RetargetingEvent) => 
-        event.eventType === 'pageview' && 
-        event.path.includes('/programs/')
-    );
-    
-    if (programPageViews.length >= 2) {
-      userSegments.push({
-        id: 'program-researcher',
-        name: 'Program Researcher',
-        criteria: 'Viewed multiple program pages',
-        lastActive: new Date()
-      });
-    }
-    
-    // Segment 2: Visitors who viewed certification information
-    const certificationViews = storedEvents.filter(
-      (event: RetargetingEvent) => 
-        (event.eventType === 'pageview' && event.path.includes('/certification')) ||
-        (event.data && event.data.category === 'certification')
-    );
-    
-    if (certificationViews.length > 0) {
-      userSegments.push({
-        id: 'certification-seeker',
-        name: 'Certification Seeker',
-        criteria: 'Viewed certification information',
-        lastActive: new Date()
-      });
-    }
-    
-    // Segment 3: High intent visitors who viewed multiple high-value pages
-    const highValuePageViews = storedEvents.filter(
-      (event: RetargetingEvent) => 
-        event.eventType === 'pageview' && 
-        (event.path.includes('/enroll') || 
-         event.path.includes('/pricing') || 
-         event.path.includes('/mentors'))
-    );
-    
-    if (highValuePageViews.length >= 2) {
-      userSegments.push({
-        id: 'high-intent-visitor',
-        name: 'High Intent Visitor',
-        criteria: 'Viewed multiple high-value pages',
-        lastActive: new Date()
-      });
-    }
-    
-    // Store segments for future use
-    localStorage.setItem('user_segments', JSON.stringify(userSegments));
-    
-    return userSegments;
-  } catch (error) {
-    console.error('Error segmenting visitors:', error);
-    return [];
-  }
-};
+// Generate a unique visitor ID
+function generateVisitorId(): string {
+  return 'visitor_' + Math.random().toString(36).substring(2, 15);
+}
 
-/**
- * Get personalized content recommendations based on visitor segments
- */
-export const getPersonalizedRecommendations = (): {
-  programs: string[];
-  content: string[];
-  cta: string;
-} => {
-  try {
-    const segments = JSON.parse(localStorage.getItem('user_segments') || '[]');
-    
-    // Default recommendations
-    const recommendations = {
-      programs: ['Frontend Development', 'Full Stack Development'],
-      content: ['How to Choose the Right Mentor', 'Certification Benefits'],
-      cta: 'Explore Programs'
-    };
-    
-    // Personalize based on segments
-    if (segments.some((s: UserSegment) => s.id === 'program-researcher')) {
-      recommendations.programs = ['Frontend Development', 'Low-Code Development', 'Full Stack Development'];
-      recommendations.content = ['Program Comparison Guide', 'Student Success Stories'];
-      recommendations.cta = 'Compare Programs';
-    }
-    
-    if (segments.some((s: UserSegment) => s.id === 'certification-seeker')) {
-      recommendations.programs = ['Full Stack Development', 'UX/UI Development'];
-      recommendations.content = ['Certification Value Guide', 'Industry Recognition'];
-      recommendations.cta = 'Get Certified';
-    }
-    
-    if (segments.some((s: UserSegment) => s.id === 'high-intent-visitor')) {
-      recommendations.programs = ['Frontend Development', 'Full Stack Development', 'UX/UI Development'];
-      recommendations.content = ['ROI of Our Programs', 'Career Advancement Stories'];
-      recommendations.cta = 'Enroll Now';
-    }
-    
-    return recommendations;
-  } catch (error) {
-    console.error('Error getting personalized recommendations:', error);
-    return {
-      programs: ['Frontend Development', 'Full Stack Development'],
-      content: ['How to Choose the Right Program', 'Benefits of Mentorship'],
-      cta: 'Explore Programs'
-    };
-  }
-};
-
-/**
- * Create retargeting pixel or script for external ad platforms
- */
-export const createRetargetingPixel = (platform: 'facebook' | 'google' | 'linkedin'): boolean => {
-  try {
-    switch (platform) {
-      case 'facebook':
-        // Simulate Facebook Pixel implementation
-        console.log('Implementing Facebook Pixel for retargeting');
-        break;
-      case 'google':
-        // Simulate Google Ads Remarketing implementation
-        console.log('Implementing Google Ads Remarketing tag');
-        break;
-      case 'linkedin':
-        // Simulate LinkedIn Insight Tag implementation
-        console.log('Implementing LinkedIn Insight Tag');
-        break;
-      default:
-        return false;
-    }
-    
-    toast({
-      title: `${platform.charAt(0).toUpperCase() + platform.slice(1)} Retargeting Enabled`,
-      description: "Visitor tracking implemented for personalized ad experiences",
-      duration: 3000,
+// Initialize the retargeting service
+export function initRetargetingService(config: RetargetingConfig): void {
+  console.log('Initializing retargeting service with config:', config);
+  
+  // Set up Google Analytics event tracking if available
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag('config', 'GA-TRACKING-ID', {
+      send_page_view: config.trackPageViews
     });
-    
-    return true;
-  } catch (error) {
-    console.error(`Error implementing ${platform} retargeting:`, error);
-    return false;
   }
-};
+  
+  // Set up page view tracking
+  if (config.trackPageViews) {
+    trackPageView();
+  }
+  
+  // Store local visitor data
+  storeVisitorData();
+}
 
-/**
- * Initialize retargeting service
- */
-export const initRetargetingService = (options: RetargetingOptions = {}): void => {
-  try {
-    console.log('Initializing retargeting service with options:', options);
-    
-    // Set up page view tracking for retargeting
-    if (options.trackPageViews !== false) {
-      trackVisitorEvent('pageview');
-      
-      // Track navigation events
-      window.addEventListener('popstate', () => {
-        trackVisitorEvent('pageview');
-      });
+// Track a visitor event
+export function trackVisitorEvent(eventType: string, data: EventData): void {
+  console.log('Tracking visitor event:', eventType, data);
+  
+  // Update visitor data
+  visitorData.lastVisit = new Date();
+  visitorData.pageViews++;
+  
+  // Add interest based on event if available
+  if (data.category) {
+    if (!visitorData.interests.includes(data.category)) {
+      visitorData.interests.push(data.category);
     }
-    
-    // Run initial segmentation
-    const segments = segmentVisitors();
-    console.log('Initial visitor segments:', segments);
-    
-    // Set up regular segmentation updates
-    setInterval(() => {
-      segmentVisitors();
-    }, 10 * 60 * 1000); // Run every 10 minutes
-    
-    toast({
-      title: "Retargeting Service Initialized",
-      description: "Visitor tracking enabled for personalized experiences",
-      duration: 3000,
-    });
-  } catch (error) {
-    console.error('Error initializing retargeting service:', error);
   }
-};
+  
+  // Track with Google Analytics if available
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag('event', eventType, {
+      event_category: data.category || 'general',
+      event_label: data.label || '',
+      value: data.value || 1
+    });
+  }
+  
+  // Store updated visitor data
+  storeVisitorData();
+  
+  // Run segmentation
+  segmentVisitor();
+}
+
+// Track a page view
+function trackPageView(): void {
+  visitorData.pageViews++;
+  visitorData.lastVisit = new Date();
+  storeVisitorData();
+}
+
+// Store visitor data in localStorage
+function storeVisitorData(): void {
+  if (typeof window !== 'undefined') {
+    localStorage.setItem('visitorData', JSON.stringify(visitorData));
+  }
+}
+
+// Segment the visitor based on behavior
+function segmentVisitor(): void {
+  // Basic segmentation logic
+  // New visitors (first visit)
+  if (isNewVisitor()) {
+    addToSegment('new_visitors');
+  }
+  
+  // Returning visitors
+  if (isReturningVisitor()) {
+    addToSegment('returning_visitors');
+  }
+  
+  // Engaged visitors (viewed multiple pages)
+  if (visitorData.pageViews > 3) {
+    addToSegment('engaged_visitors');
+  }
+  
+  // High-intent visitors (visited key pages)
+  if (visitorData.interests.includes('program')) {
+    addToSegment('high_intent_visitors');
+  }
+}
+
+// Check if this is a new visitor
+function isNewVisitor(): boolean {
+  const timeSinceFirstVisit = new Date().getTime() - new Date(visitorData.firstVisit).getTime();
+  const hoursSinceFirstVisit = timeSinceFirstVisit / (1000 * 60 * 60);
+  return hoursSinceFirstVisit < 24;
+}
+
+// Check if this is a returning visitor
+function isReturningVisitor(): boolean {
+  return visitorData.pageViews > 1;
+}
+
+// Add visitor to a segment
+function addToSegment(segmentId: string): void {
+  if (!visitorData.segments.includes(segmentId)) {
+    visitorData.segments.push(segmentId);
+    console.log(`Visitor added to segment: ${segmentId}`);
+    storeVisitorData();
+  }
+}
+
+// Get recommendations based on visitor segment
+export function getPersonalizedRecommendations(): string[] {
+  // Default recommendations
+  const defaultRecommendations = [
+    'Explore our certifications',
+    'Check out our mentorship programs',
+    'Browse project ideas'
+  ];
+  
+  // Return personalized recommendations if possible
+  if (visitorData.segments.includes('high_intent_visitors')) {
+    return [
+      'Schedule a consultation with a mentor',
+      'Start your certification journey today',
+      'Enroll in our premium program'
+    ];
+  }
+  
+  if (visitorData.segments.includes('engaged_visitors')) {
+    return [
+      'Join our developer community',
+      'Check out our latest success stories',
+      'Sign up for a free session'
+    ];
+  }
+  
+  return defaultRecommendations;
+}
+
+// Get current visitor data
+export function getVisitorData(): VisitorData {
+  return visitorData;
+}

@@ -1,679 +1,676 @@
-/**
- * Comprehensive website validation utility
- */
 
-import { toast } from "@/hooks/use-toast";
-import { throttle } from "./performanceOptimizer";
-import { optimizeImagesForSEO, applySEOOptimizations } from "./performanceOptimizer";
+// This file contains utilities for validating website structure, content, and SEO factors
 
+import { toast } from "sonner";
+
+// Website validation result interface
 interface ValidationResult {
-  status: 'success' | 'error' | 'warning';
-  message: string;
+  score: number;
+  issues: ValidationIssue[];
+  passes: string[];
 }
 
-// Throttled validation to prevent excessive resource usage
-export const validateWebsiteFeatures = throttle(async (): Promise<ValidationResult[]> => {
-  const results: ValidationResult[] = [];
+// Validation issue interface
+interface ValidationIssue {
+  type: "error" | "warning" | "success"; // Limiting to these three types
+  message: string;
+  impact: "high" | "medium" | "low";
+  element?: string;
+}
 
-  // Check navigation links
+// SEO validation result interface
+interface SEOValidationResult {
+  metaTagsScore: number;
+  contentScore: number;
+  mobileFriendlinessScore: number;
+  performanceScore: number;
+  overallScore: number;
+  recommendations: string[];
+}
+
+// Page speeds data interface
+interface PageSpeedData {
+  FCP: number; // First Contentful Paint
+  LCP: number; // Largest Contentful Paint
+  CLS: number; // Cumulative Layout Shift
+  TTI: number; // Time to Interactive
+  TBT: number; // Total Blocking Time
+}
+
+// SEO factors to check
+const SEO_FACTORS = [
+  'title',
+  'meta-description',
+  'headings',
+  'image-alt',
+  'canonical',
+  'schema-markup',
+  'mobile-friendly',
+  'page-speed',
+  'content-quality',
+  'keyword-usage'
+];
+
+// Content elements to validate
+const CONTENT_ELEMENTS = [
+  'h1',
+  'h2',
+  'h3',
+  'p',
+  'img',
+  'button',
+  'a',
+  'ul',
+  'ol'
+];
+
+// Main function to run website tests
+export async function runWebsiteTest(): Promise<ValidationResult> {
+  console.log('Running website test...');
+  
+  const result: ValidationResult = {
+    score: 0,
+    issues: [],
+    passes: []
+  };
+  
   try {
-    const navigationLinks = document.querySelectorAll('a');
-    if (navigationLinks && navigationLinks.length > 0) {
-      Array.from(navigationLinks).forEach(link => {
-        const href = link.getAttribute('href');
-        if (!href || href === '#') {
-          results.push({
-            status: 'warning',
-            message: `Invalid link found: ${link.textContent}`
-          });
-        }
-      });
+    // Check if we're in a browser environment
+    if (typeof document === 'undefined') {
+      throw new Error('This function must be run in a browser environment.');
     }
+    
+    // Run various checks
+    checkMetaTags(result);
+    checkContentStructure(result);
+    checkMobileFriendliness(result);
+    checkAccessibility(result);
+    checkPerformance(result);
+    checkSEOFactors(result);
+    
+    // Calculate overall score
+    const totalChecks = result.issues.length + result.passes.length;
+    const passedChecks = result.passes.length;
+    
+    if (totalChecks > 0) {
+      result.score = Math.round((passedChecks / totalChecks) * 100);
+    }
+    
+    // Log results
+    console.log('Website test complete. Score:', result.score);
+    console.log('Passes:', result.passes.length);
+    console.log('Issues:', result.issues.length);
+    
+    // Display toast with results
+    toast.success(`Website test complete! Score: ${result.score}%`);
+    
+    return result;
   } catch (error) {
-    console.error('Error checking navigation links:', error);
-  }
-
-  // Check images with timeout
-  try {
-    const images = document.querySelectorAll('img');
-    const imageChecks = Array.from(images).map(img => {
-      return new Promise<void>(resolve => {
-        if (img.complete) {
-          if (!img.naturalHeight) {
-            results.push({
-              status: 'warning',
-              message: `Image might be broken: ${img.src}`
-            });
-          }
-          resolve();
-        } else {
-          const timeout = setTimeout(() => {
-            results.push({
-              status: 'warning',
-              message: `Image load timeout: ${img.src}`
-            });
-            resolve();
-          }, 5000);
-
-          img.onload = () => {
-            clearTimeout(timeout);
-            resolve();
-          };
-
-          img.onerror = () => {
-            clearTimeout(timeout);
-            results.push({
-              status: 'warning',
-              message: `Failed to load image: ${img.src}`
-            });
-            resolve();
-          };
-        }
-      });
-    });
-
-    await Promise.all(imageChecks);
-  } catch (error) {
-    console.error('Error checking images:', error);
-  }
-
-  // Check for SEO basics
-  try {
-    const hasTitleTag = document.title && document.title.length > 0;
-    if (!hasTitleTag) {
-      results.push({
-        status: 'error',
-        message: 'Missing page title'
-      });
-    } else if (document.title.length < 30 || document.title.length > 60) {
-      results.push({
-        status: 'warning',
-        message: `Title length is ${document.title.length} characters (recommended: 30-60)`
-      });
-    }
-
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (!metaDescription) {
-      results.push({
-        status: 'warning',
-        message: 'Missing meta description'
-      });
-    } else {
-      const content = metaDescription.getAttribute('content');
-      if (!content || content.length < 50 || content.length > 160) {
-        results.push({
-          status: 'warning',
-          message: `Meta description length is ${content ? content.length : 0} characters (recommended: 50-160)`
-        });
-      }
-    }
-    
-    // NEW: Check for structured data
-    const structuredData = document.querySelectorAll('script[type="application/ld+json"]');
-    if (structuredData.length === 0) {
-      results.push({
-        status: 'warning',
-        message: 'Missing structured data (Schema.org markup)'
-      });
-    }
-    
-    // NEW: Check for canonical URL
-    const canonicalUrl = document.querySelector('link[rel="canonical"]');
-    if (!canonicalUrl) {
-      results.push({
-        status: 'warning',
-        message: 'Missing canonical URL tag'
-      });
-    }
-    
-    // NEW: Check for retargeting tags
-    const hasGoogleRetargeting = document.querySelector('script[src*="googletagmanager"]');
-    const hasFacebookPixel = document.querySelector('script[src*="facebook"]') || 
-                           document.querySelector('script:contains(fbq)');
-                           
-    if (!hasGoogleRetargeting && !hasFacebookPixel) {
-      results.push({
-        status: 'warning',
-        message: 'No retargeting pixels detected (Google/Facebook)'
-      });
-    }
-  } catch (error) {
-    console.error('Error checking SEO basics:', error);
-  }
-
-  // Check form elements
-  try {
-    const formElements = document.querySelectorAll('form');
-    
-    // Fixed: Convert NodeList to an array and check if it has items before iterating
-    const forms = Array.from(formElements as NodeListOf<HTMLFormElement>);
-    
-    if (forms.length > 0) {
-      forms.forEach(form => {
-        const requiredFields = form.querySelectorAll('[required]');
-        if (requiredFields.length === 0) {
-          results.push({
-            status: 'warning',
-            message: `Form missing required fields: ${form.id || 'unnamed form'}`
-          });
-        }
-      });
-    }
-  } catch (error) {
-    console.error('Error checking forms:', error);
-  }
-
-  // Check responsive layout
-  try {
-    // Check for viewport meta tag
-    const hasViewportTag = !!document.querySelector('meta[name="viewport"]');
-    if (!hasViewportTag) {
-      results.push({
-        status: 'error',
-        message: 'Missing viewport meta tag. Add <meta name="viewport" content="width=device-width, initial-scale=1">'
-      });
-    }
-
-    // Check for mobile media queries in stylesheets
-    let hasMobileMediaQueries = false;
-    const styles = document.querySelectorAll('style, link[rel="stylesheet"]');
-    if (styles.length > 0) {
-      // We can't actually check the content of external stylesheets due to CORS,
-      // but we can assume our project has responsive styles based on our CSS files
-      hasMobileMediaQueries = true;
-    }
-
-    if (!hasMobileMediaQueries) {
-      results.push({
-        status: 'warning',
-        message: 'No mobile media queries detected'
-      });
-    } else {
-      results.push({
-        status: 'success',
-        message: 'Mobile responsiveness validated'
-      });
-    }
-  } catch (error) {
-    console.error('Error checking responsive layout:', error);
-  }
-
-  // Check for console errors
-  if (typeof window !== 'undefined' && window.console) {
-    const originalError = console.error;
-    let hasConsoleErrors = false;
-    
-    console.error = function(...args) {
-      hasConsoleErrors = true;
-      originalError.apply(console, args);
-    };
-    
-    // Wait a brief moment to catch any errors
-    await new Promise(resolve => setTimeout(resolve, 500));
-    
-    // Restore original console.error
-    console.error = originalError;
-    
-    if (hasConsoleErrors) {
-      results.push({
-        status: 'warning',
-        message: 'Console errors detected'
-      });
-    }
-  }
-
-  // Check page load performance
-  if (typeof window !== 'undefined' && window.performance) {
-    const pageLoadTime = performance.now();
-    if (pageLoadTime > 3000) {
-      results.push({
-        status: 'warning',
-        message: `Page load time is high: ${Math.round(pageLoadTime)}ms`
-      });
-    } else {
-      results.push({
-        status: 'success',
-        message: `Page load time is good: ${Math.round(pageLoadTime)}ms`
-      });
-    }
-  }
-
-  // Check for broken links
-  try {
-    const links = document.querySelectorAll('a[href]:not([href^="#"]):not([href^="javascript:"]):not([href^="mailto:"])');
-    let brokenLinkCount = 0;
-    
-    const linkChecks = Array.from(links).slice(0, 10).map(link => { // Limit to 10 links to prevent excessive requests
-      const href = link.getAttribute('href') || '';
-      
-      // Skip external links in validation
-      if (href.startsWith('http') && !href.includes(window.location.hostname)) {
-        return Promise.resolve();
-      }
-      
-      return new Promise<void>(resolve => {
-        // For internal links, just check if they exist in the DOM
-        if (href.startsWith('/') || href.startsWith('./') || href.startsWith('#')) {
-          const targetId = href.includes('#') ? href.split('#')[1] : '';
-          if (targetId && !document.getElementById(targetId)) {
-            results.push({
-              status: 'warning',
-              message: `Broken anchor link: ${href}`
-            });
-            brokenLinkCount++;
-          }
-        }
-        resolve();
-      });
+    console.error('Error running website test:', error);
+    result.issues.push({
+      type: 'error',
+      message: `Test failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      impact: 'high'
     });
     
-    await Promise.all(linkChecks);
+    toast.error('Website test failed. See console for details.');
     
-    if (brokenLinkCount > 0) {
-      results.push({
-        status: 'warning',
-        message: `${brokenLinkCount} broken internal links detected`
-      });
-    }
-  } catch (error) {
-    console.error('Error checking broken links:', error);
+    return result;
   }
+}
 
-  // NEW: Check for mobile optimization
-  try {
-    // Check for touch-friendly elements
-    const smallTouchTargets = [];
-    const touchElements = document.querySelectorAll('button, a, input[type="button"], input[type="submit"]');
-    
-    touchElements.forEach(el => {
-      const rect = el.getBoundingClientRect();
-      if (rect.width < 44 || rect.height < 44) {
-        smallTouchTargets.push(el);
-      }
+// Check meta tags
+function checkMetaTags(result: ValidationResult): void {
+  console.log('Checking meta tags...');
+  
+  // Title check
+  const title = document.title;
+  if (title && title.length > 10 && title.length < 70) {
+    result.passes.push('Title has appropriate length');
+  } else {
+    result.issues.push({
+      type: 'warning',
+      message: 'Title should be between 10-70 characters',
+      impact: 'medium',
+      element: 'title'
     });
-    
-    if (smallTouchTargets.length > 5) {
-      results.push({
-        status: 'warning',
-        message: `${smallTouchTargets.length} touch targets too small (should be at least 44x44px)`
-      });
-    }
-    
-    // Check for tap spacing
-    const closeElements = [];
-    const clickableElements = Array.from(document.querySelectorAll('a, button'));
-    
-    for (let i = 0; i < clickableElements.length; i++) {
-      for (let j = i + 1; j < clickableElements.length; j++) {
-        const rect1 = clickableElements[i].getBoundingClientRect();
-        const rect2 = clickableElements[j].getBoundingClientRect();
-        
-        const horizontalOverlap = !(rect1.right < rect2.left || rect1.left > rect2.right);
-        const verticalOverlap = !(rect1.bottom < rect2.top || rect1.top > rect2.bottom);
-        
-        if (horizontalOverlap && verticalOverlap) {
-          closeElements.push([clickableElements[i], clickableElements[j]]);
-        }
-      }
-      
-      if (closeElements.length >= 3) break; // Limit checking for performance
-    }
-    
-    if (closeElements.length > 0) {
-      results.push({
-        status: 'warning',
-        message: `${closeElements.length} sets of overlapping clickable elements detected`
-      });
-    }
-  } catch (error) {
-    console.error('Error checking mobile optimization:', error);
   }
   
-  // NEW: Check for on-page SEO factors
-  try {
-    // Check for keyword usage in headings
-    const h1Elements = document.querySelectorAll('h1');
-    const h2Elements = document.querySelectorAll('h2');
-    
-    if (h1Elements.length === 0) {
-      results.push({
-        status: 'warning',
-        message: 'No H1 heading found - important for SEO'
+  // Meta description check
+  const metaDescription = document.querySelector('meta[name="description"]');
+  if (metaDescription && metaDescription.getAttribute('content')) {
+    const descContent = metaDescription.getAttribute('content') || '';
+    if (descContent.length > 50 && descContent.length < 160) {
+      result.passes.push('Meta description has appropriate length');
+    } else {
+      result.issues.push({
+        type: 'warning',
+        message: 'Meta description should be between 50-160 characters',
+        impact: 'medium',
+        element: 'meta[name="description"]'
       });
     }
-    
-    if (h2Elements.length === 0) {
-      results.push({
-        status: 'warning',
-        message: 'No H2 headings found - important for content structure'
-      });
-    }
-    
-    // Check for image alt text
-    const imagesWithoutAlt = document.querySelectorAll('img:not([alt])');
-    if (imagesWithoutAlt.length > 0) {
-      results.push({
-        status: 'warning',
-        message: `${imagesWithoutAlt.length} images missing alt text for SEO and accessibility`
-      });
-    }
-    
-    // Check meta robots
-    const robotsMeta = document.querySelector('meta[name="robots"]');
-    if (!robotsMeta) {
-      results.push({
-        status: 'info',
-        message: 'No robots meta tag found (defaults to index,follow)'
-      });
-    } else if (robotsMeta.getAttribute('content')?.includes('noindex')) {
-      results.push({
-        status: 'warning',
-        message: 'Page set to noindex - will not appear in search results'
-      });
-    }
-  } catch (error) {
-    console.error('Error checking on-page SEO factors:', error);
+  } else {
+    result.issues.push({
+      type: 'error',
+      message: 'Meta description is missing',
+      impact: 'high'
+    });
   }
+  
+  // Check canonical link
+  const canonical = document.querySelector('link[rel="canonical"]');
+  if (canonical) {
+    result.passes.push('Canonical link is present');
+  } else {
+    result.issues.push({
+      type: 'warning',
+      message: 'Canonical link is missing',
+      impact: 'medium'
+    });
+  }
+  
+  // Check viewport
+  const viewport = document.querySelector('meta[name="viewport"]');
+  if (viewport) {
+    result.passes.push('Viewport meta tag is present');
+  } else {
+    result.issues.push({
+      type: 'error',
+      message: 'Viewport meta tag is missing',
+      impact: 'high'
+    });
+  }
+}
 
-  // Filter out development-only warnings about scripts
-  const scriptWarnings = results.filter(result => 
-    result.status === 'warning' && 
-    result.message.includes('Consider making script async')
+// Check content structure
+function checkContentStructure(result: ValidationResult): void {
+  console.log('Checking content structure...');
+  
+  // Check for H1
+  const h1Elements = document.querySelectorAll('h1');
+  if (h1Elements.length === 1) {
+    result.passes.push('Page has exactly one H1 heading');
+  } else if (h1Elements.length === 0) {
+    result.issues.push({
+      type: 'error',
+      message: 'Page is missing an H1 heading',
+      impact: 'high'
+    });
+  } else {
+    result.issues.push({
+      type: 'warning',
+      message: `Page has multiple H1 headings (${h1Elements.length})`,
+      impact: 'medium'
+    });
+  }
+  
+  // Check heading hierarchy
+  let prevLevel = 0;
+  const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+  let headingHierarchyValid = true;
+  
+  headings.forEach(heading => {
+    const level = parseInt(heading.tagName.substring(1), 10);
+    
+    // Check if heading levels are skipped (e.g., H1 to H3)
+    if (level > prevLevel + 1 && prevLevel !== 0) {
+      headingHierarchyValid = false;
+      result.issues.push({
+        type: 'warning',
+        message: `Heading level skipped from H${prevLevel} to H${level}`,
+        impact: 'medium',
+        element: heading.tagName.toLowerCase()
+      });
+    }
+    
+    prevLevel = level;
+  });
+  
+  if (headingHierarchyValid) {
+    result.passes.push('Heading hierarchy is valid');
+  }
+  
+  // Check for alt text on images
+  const images = document.querySelectorAll('img');
+  let allImagesHaveAlt = true;
+  
+  images.forEach(img => {
+    if (!img.hasAttribute('alt')) {
+      allImagesHaveAlt = false;
+      result.issues.push({
+        type: 'error',
+        message: 'Image missing alt text',
+        impact: 'high',
+        element: 'img'
+      });
+    }
+  });
+  
+  if (allImagesHaveAlt && images.length > 0) {
+    result.passes.push('All images have alt text');
+  }
+  
+  // Check for empty links
+  const links = document.querySelectorAll('a');
+  let allLinksHaveText = true;
+  
+  links.forEach(link => {
+    if (!link.textContent?.trim() && !link.querySelector('img')) {
+      allLinksHaveText = false;
+      result.issues.push({
+        type: 'warning',
+        message: 'Link has no text or image content',
+        impact: 'medium',
+        element: 'a'
+      });
+    }
+  });
+  
+  if (allLinksHaveText && links.length > 0) {
+    result.passes.push('All links have text or image content');
+  }
+}
+
+// Check mobile friendliness
+function checkMobileFriendliness(result: ValidationResult): void {
+  console.log('Checking mobile friendliness...');
+  
+  // Check viewport
+  const viewport = document.querySelector('meta[name="viewport"]');
+  const viewportContent = viewport?.getAttribute('content') || '';
+  
+  if (viewportContent.includes('width=device-width') && 
+      viewportContent.includes('initial-scale=1')) {
+    result.passes.push('Viewport is properly configured for mobile');
+  } else if (viewport) {
+    result.issues.push({
+      type: 'warning',
+      message: 'Viewport meta tag may not be properly configured for mobile',
+      impact: 'medium'
+    });
+  }
+  
+  // Check font sizes (must be at least 16px for readability)
+  const bodyFontSize = window.getComputedStyle(document.body).fontSize;
+  const parsedSize = parseInt(bodyFontSize, 10);
+  
+  if (parsedSize >= 16) {
+    result.passes.push('Body font size is suitable for mobile (≥16px)');
+  } else {
+    result.issues.push({
+      type: 'warning',
+      message: 'Body font size may be too small for mobile devices',
+      impact: 'medium'
+    });
+  }
+  
+  // Check tap target sizes (Google recommends at least 48px height/width with 8px margins)
+  const tappableElements = document.querySelectorAll('a, button, input, select, textarea');
+  let smallTapTargets = 0;
+  
+  tappableElements.forEach(element => {
+    const rect = element.getBoundingClientRect();
+    if (rect.height < 48 || rect.width < 48) {
+      smallTapTargets++;
+    }
+  });
+  
+  if (smallTapTargets === 0 && tappableElements.length > 0) {
+    result.passes.push('All tap targets are appropriately sized');
+  } else if (smallTapTargets > 0) {
+    result.issues.push({
+      type: 'warning',
+      message: `${smallTapTargets} tap targets may be too small for mobile users`,
+      impact: 'medium'
+    });
+  }
+}
+
+// Check accessibility
+function checkAccessibility(result: ValidationResult): void {
+  console.log('Checking accessibility...');
+  
+  // Check for alt text on images (already checked in content structure)
+  
+  // Check for form labels
+  const formInputs = document.querySelectorAll('input, textarea, select');
+  let unlabeledInputs = 0;
+  
+  formInputs.forEach(input => {
+    const inputId = input.getAttribute('id');
+    if (inputId) {
+      const associatedLabel = document.querySelector(`label[for="${inputId}"]`);
+      if (!associatedLabel) {
+        unlabeledInputs++;
+      }
+    } else if (!input.getAttribute('aria-label') && 
+               !input.getAttribute('aria-labelledby')) {
+      unlabeledInputs++;
+    }
+  });
+  
+  if (unlabeledInputs === 0 && formInputs.length > 0) {
+    result.passes.push('All form inputs have associated labels');
+  } else if (unlabeledInputs > 0) {
+    result.issues.push({
+      type: 'warning',
+      message: `${unlabeledInputs} form inputs lack proper labels`,
+      impact: 'high'
+    });
+  }
+  
+  // Check heading hierarchy (already checked in content structure)
+  
+  // Check color contrast (simplified check)
+  const bodyStyle = window.getComputedStyle(document.body);
+  const bodyColor = bodyStyle.color;
+  const bodyBg = bodyStyle.backgroundColor;
+  
+  if (bodyColor && bodyBg && bodyColor !== bodyBg) {
+    result.passes.push('Body text and background have different colors');
+  } else {
+    result.issues.push({
+      type: 'warning',
+      message: 'Body text and background colors may not have sufficient contrast',
+      impact: 'high'
+    });
+  }
+}
+
+// Check performance (simplified)
+function checkPerformance(result: ValidationResult): void {
+  console.log('Checking performance...');
+  
+  // Check image sizes (simplified)
+  const images = document.querySelectorAll('img');
+  let largeImagesCount = 0;
+  
+  images.forEach(img => {
+    // Check if images have width and height attributes to prevent layout shifts
+    if (!img.hasAttribute('width') || !img.hasAttribute('height')) {
+      result.issues.push({
+        type: 'warning',
+        message: 'Image missing width or height attributes (may cause layout shifts)',
+        impact: 'medium',
+        element: 'img'
+      });
+    }
+  });
+  
+  // Check for lazy loading on images below the fold
+  let imagesWithLazyLoading = 0;
+  images.forEach(img => {
+    if (img.getAttribute('loading') === 'lazy') {
+      imagesWithLazyLoading++;
+    }
+  });
+  
+  if (imagesWithLazyLoading > 0) {
+    result.passes.push(`${imagesWithLazyLoading} images use lazy loading`);
+  } else if (images.length > 3) {
+    result.issues.push({
+      type: 'warning',
+      message: 'No images use lazy loading',
+      impact: 'medium'
+    });
+  }
+  
+  // Count scripts and estimate impact
+  const scripts = document.querySelectorAll('script');
+  if (scripts.length > 15) {
+    result.issues.push({
+      type: 'warning',
+      message: `Large number of scripts (${scripts.length}) may impact performance`,
+      impact: 'medium'
+    });
+  } else {
+    result.passes.push('Reasonable number of script elements');
+  }
+  
+  // Check for render-blocking resources
+  const renderBlockingStyles = document.querySelectorAll('link[rel="stylesheet"]:not([media="print"])');
+  const renderBlockingScripts = document.querySelectorAll('script:not([async]):not([defer])');
+  
+  const totalBlockingResources = renderBlockingStyles.length + renderBlockingScripts.length;
+  
+  if (totalBlockingResources <= 3) {
+    result.passes.push('Few render-blocking resources detected');
+  } else {
+    result.issues.push({
+      type: 'warning',
+      message: `${totalBlockingResources} potential render-blocking resources detected`,
+      impact: 'medium'
+    });
+  }
+}
+
+// Check SEO factors
+function checkSEOFactors(result: ValidationResult): void {
+  console.log('Checking SEO factors...');
+  
+  // Check for structured data
+  const jsonLdScripts = document.querySelectorAll('script[type="application/ld+json"]');
+  if (jsonLdScripts.length > 0) {
+    result.passes.push('Structured data (JSON-LD) is present');
+  } else {
+    result.issues.push({
+      type: 'warning',
+      message: 'No structured data (JSON-LD) detected',
+      impact: 'medium'
+    });
+  }
+  
+  // Check for Open Graph tags
+  const ogTags = document.querySelectorAll('meta[property^="og:"]');
+  if (ogTags.length >= 3) {
+    result.passes.push('Open Graph meta tags are present');
+  } else {
+    result.issues.push({
+      type: 'warning',
+      message: 'Few or no Open Graph meta tags detected',
+      impact: 'medium'
+    });
+  }
+  
+  // Check for Twitter Card tags
+  const twitterTags = document.querySelectorAll('meta[name^="twitter:"]');
+  if (twitterTags.length >= 2) {
+    result.passes.push('Twitter Card meta tags are present');
+  } else {
+    result.issues.push({
+      type: 'warning',
+      message: 'Few or no Twitter Card meta tags detected',
+      impact: 'low'
+    });
+  }
+  
+  // Check for robots meta tag
+  const robotsTag = document.querySelector('meta[name="robots"]');
+  if (robotsTag) {
+    result.passes.push('Robots meta tag is present');
+  } else {
+    result.issues.push({
+      type: 'warning',
+      message: 'Robots meta tag is missing',
+      impact: 'medium'
+    });
+  }
+  
+  // Check keyword usage in important elements
+  // This is a simplified check that would need to be customized based on target keywords
+  const bodyText = document.body.textContent?.toLowerCase() || '';
+  const commonKeywords = ['certification', 'developer', 'mentorship', 'projects'];
+  
+  let keywordsFound = 0;
+  commonKeywords.forEach(keyword => {
+    if (bodyText.includes(keyword)) {
+      keywordsFound++;
+    }
+  });
+  
+  if (keywordsFound === commonKeywords.length) {
+    result.passes.push('All expected keywords found in page content');
+  } else {
+    result.issues.push({
+      type: 'warning',
+      message: `Only ${keywordsFound}/${commonKeywords.length} expected keywords found in content`,
+      impact: 'medium'
+    });
+  }
+}
+
+// Run SEO optimizations (to be called separately)
+export function runSEOOptimizations(): SEOValidationResult {
+  console.log('Running SEO optimizations...');
+  
+  // This would be more comprehensive in a real implementation
+  const result: SEOValidationResult = {
+    metaTagsScore: 0,
+    contentScore: 0,
+    mobileFriendlinessScore: 0,
+    performanceScore: 0,
+    overallScore: 0,
+    recommendations: []
+  };
+  
+  // Check meta tags
+  const metaTitle = document.title;
+  const metaDescription = document.querySelector('meta[name="description"]')?.getAttribute('content');
+  
+  if (metaTitle && metaTitle.length >= 10 && metaTitle.length <= 60) {
+    result.metaTagsScore += 25;
+  } else {
+    result.recommendations.push('Optimize title length (10-60 characters)');
+  }
+  
+  if (metaDescription && metaDescription.length >= 50 && metaDescription.length <= 160) {
+    result.metaTagsScore += 25;
+  } else {
+    result.recommendations.push('Optimize meta description length (50-160 characters)');
+  }
+  
+  // Check Open Graph tags
+  const hasOgTitle = document.querySelector('meta[property="og:title"]') !== null;
+  const hasOgDescription = document.querySelector('meta[property="og:description"]') !== null;
+  
+  if (hasOgTitle && hasOgDescription) {
+    result.metaTagsScore += 25;
+  } else {
+    result.recommendations.push('Add Open Graph meta tags');
+  }
+  
+  // Check Twitter Card tags
+  const hasTwitterCard = document.querySelector('meta[name="twitter:card"]') !== null;
+  
+  if (hasTwitterCard) {
+    result.metaTagsScore += 25;
+  } else {
+    result.recommendations.push('Add Twitter Card meta tags');
+  }
+  
+  // Calculate content score
+  const h1Elements = document.querySelectorAll('h1');
+  const paragraphs = document.querySelectorAll('p');
+  const images = document.querySelectorAll('img');
+  
+  if (h1Elements.length === 1) {
+    result.contentScore += 25;
+  } else {
+    result.recommendations.push('Use exactly one H1 heading');
+  }
+  
+  if (paragraphs.length >= 3) {
+    result.contentScore += 25;
+  } else {
+    result.recommendations.push('Add more text content (at least 3 paragraphs)');
+  }
+  
+  let allImagesHaveAlt = true;
+  images.forEach(img => {
+    if (!img.hasAttribute('alt')) {
+      allImagesHaveAlt = false;
+    }
+  });
+  
+  if (allImagesHaveAlt && images.length > 0) {
+    result.contentScore += 25;
+  } else {
+    result.recommendations.push('Add alt text to all images');
+  }
+  
+  // Check keyword usage
+  // Simplified check, would need target keywords in a real implementation
+  if (document.body.textContent && document.body.textContent.length > 300) {
+    result.contentScore += 25;
+  } else {
+    result.recommendations.push('Add more content (at least 300 characters)');
+  }
+  
+  // Calculate mobile friendliness score
+  const viewport = document.querySelector('meta[name="viewport"]');
+  const viewportContent = viewport?.getAttribute('content') || '';
+  
+  if (viewportContent.includes('width=device-width') && 
+      viewportContent.includes('initial-scale=1')) {
+    result.mobileFriendlinessScore += 50;
+  } else {
+    result.recommendations.push('Configure viewport meta tag properly');
+  }
+  
+  // Simplified tap target check
+  const tappableElements = document.querySelectorAll('a, button, input, select, textarea');
+  let smallTapTargets = 0;
+  
+  tappableElements.forEach(element => {
+    const rect = element.getBoundingClientRect();
+    if (rect.height < 48 || rect.width < 48) {
+      smallTapTargets++;
+    }
+  });
+  
+  if (smallTapTargets === 0 && tappableElements.length > 0) {
+    result.mobileFriendlinessScore += 50;
+  } else {
+    result.recommendations.push('Ensure tap targets are at least 48px in size');
+  }
+  
+  // Calculate performance score (simplified)
+  const renderBlockingStyles = document.querySelectorAll('link[rel="stylesheet"]:not([media="print"])');
+  const renderBlockingScripts = document.querySelectorAll('script:not([async]):not([defer])');
+  
+  const totalBlockingResources = renderBlockingStyles.length + renderBlockingScripts.length;
+  
+  if (totalBlockingResources <= 3) {
+    result.performanceScore += 50;
+  } else {
+    result.recommendations.push('Reduce render-blocking resources');
+  }
+  
+  // Check for lazy loading
+  let imagesWithLazyLoading = 0;
+  images.forEach(img => {
+    if (img.getAttribute('loading') === 'lazy') {
+      imagesWithLazyLoading++;
+    }
+  });
+  
+  if (imagesWithLazyLoading > 0 || images.length <= 3) {
+    result.performanceScore += 50;
+  } else {
+    result.recommendations.push('Use lazy loading for images');
+  }
+  
+  // Calculate overall score
+  result.overallScore = Math.round(
+    (result.metaTagsScore + result.contentScore + 
+     result.mobileFriendlinessScore + result.performanceScore) / 4
   );
   
-  // Remove dev-only warnings from the results
-  return results.filter(result => !scriptWarnings.includes(result));
-}, 30000); // Throttle to run at most once every 30 seconds
-
-export const runWebsiteTest = async () => {
-  console.log('Starting website validation...');
+  // Show notification
+  toast.success(`SEO Score: ${result.overallScore}%`, {
+    description: `${result.recommendations.length} recommendations available`
+  });
   
-  try {
-    const results = await validateWebsiteFeatures();
-    
-    let hasErrors = false;
-    let hasNonScriptWarnings = false;
-    
-    // Check if results is an array and has items
-    if (results && results.length > 0) {
-      results.forEach(result => {
-        if (result.status === 'error') {
-          console.error(result.message);
-          hasErrors = true;
-          toast({
-            title: "Validation Error",
-            description: result.message,
-            variant: "destructive",
-          });
-        } else if (result.status === 'warning') {
-          console.warn(result.message);
-          // Only show toast for important warnings, not development script warnings
-          if (!result.message.includes('Consider making script async')) {
-            hasNonScriptWarnings = true;
-            toast({
-              title: "Validation Warning",
-              description: result.message,
-              variant: "destructive",
-            });
-          }
-        } else {
-          console.info(result.message);
-        }
-      });
-
-      if (!hasErrors && !hasNonScriptWarnings) {
-        console.log('Website validation completed successfully');
-      }
-    } else {
-      console.log('No validation results returned');
-    }
-
-    console.log('Website validation complete');
-  } catch (error) {
-    console.error('Validation failed:', error);
-    toast({
-      title: "Validation Failed",
-      description: "Could not complete website validation",
-      variant: "destructive",
-    });
-  }
-};
-
-// Improved function to perform SEO optimizations automatically
-export const runSEOOptimizations = async () => {
-  console.log('Running automatic SEO optimizations...');
-
-  try {
-    // Apply basic SEO optimizations
-    applySEOOptimizations();
-    
-    // Optimize images for SEO
-    optimizeImagesForSEO('.content-section img');
-    
-    // NEW: Apply schema markup if missing
-    const hasSchemaMarkup = document.querySelector('script[type="application/ld+json"]');
-    if (!hasSchemaMarkup) {
-      const pageTitle = document.title;
-      const isProductPage = window.location.pathname.includes('/programs') || 
-                          window.location.pathname.includes('/program');
-      
-      if (isProductPage) {
-        // Add Course schema for program pages
-        const schemaScript = document.createElement('script');
-        schemaScript.type = 'application/ld+json';
-        schemaScript.textContent = JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'Course',
-          'name': pageTitle,
-          'description': document.querySelector('meta[name="description"]')?.getAttribute('content') || pageTitle,
-          'provider': {
-            '@type': 'Organization',
-            'name': 'Developer Certification Program',
-            'sameAs': window.location.origin
-          }
-        });
-        document.head.appendChild(schemaScript);
-      } else {
-        // Add WebSite schema for other pages
-        const schemaScript = document.createElement('script');
-        schemaScript.type = 'application/ld+json';
-        schemaScript.textContent = JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'WebSite',
-          'name': pageTitle,
-          'url': window.location.href
-        });
-        document.head.appendChild(schemaScript);
-      }
-    }
-    
-    // NEW: Add canonical URL if missing
-    const hasCanonicalUrl = document.querySelector('link[rel="canonical"]');
-    if (!hasCanonicalUrl) {
-      const canonicalLink = document.createElement('link');
-      canonicalLink.rel = 'canonical';
-      canonicalLink.href = window.location.href.split('?')[0]; // Remove query parameters
-      document.head.appendChild(canonicalLink);
-    }
-    
-    toast({
-      title: "SEO Optimization",
-      description: "Website optimized with latest high-intent keywords and structured data",
-      duration: 3000,
-    });
-    
-    console.log('SEO optimizations complete');
-  } catch (error) {
-    console.error('SEO optimization failed:', error);
-    toast({
-      title: "SEO Optimization Failed",
-      description: "Could not complete website SEO optimization",
-      variant: "destructive",
-    });
-  }
-};
-
-// Enhanced resume analyzer using NLP model integration
-export const analyzeResumeContent = async (text: string): Promise<{
-  isATSFriendly: boolean;
-  score: number;
-  recommendations: string[];
-}> => {
-  try {
-    console.log('Analyzing resume content with enhanced NLP model...');
-    
-    // Initialize results
-    const recommendations: string[] = [];
-    let score = 100;
-    let nlpEnhancedScore = 0;
-    
-    // 1. Check if resume has proper sections using NLP pattern recognition
-    const expectedSections = [
-      'summary', 'objective', 'experience', 'education', 
-      'skills', 'certifications', 'achievements'
-    ];
-    
-    const textLower = text.toLowerCase();
-    const foundSections = expectedSections.filter(section => 
-      textLower.includes(section) || 
-      textLower.includes(section.toUpperCase())
-    );
-    
-    if (foundSections.length < 3) {
-      recommendations.push("Add clear section headers for Summary/Objective, Experience, Education, and Skills");
-      score -= 15;
-    }
-
-    // 2. Check for proper contact information
-    const hasEmail = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/.test(text);
-    const hasPhone = /(\+\d{1,3}[-\s]?)?\(?\d{3}\)?[-\s]?\d{3}[-\s]?\d{4}/.test(text);
-    
-    if (!hasEmail || !hasPhone) {
-      recommendations.push("Include complete contact information (email and phone number)");
-      score -= 10;
-    }
-
-    // 3. Check for bullet points (good for ATS parsing)
-    const bulletPointPatterns = [
-      /•\s/g, /\*\s/g, /-\s/g, /\d+\.\s/g, /[\u2022\u2023\u25E6\u2043\u2219]/g
-    ];
-    
-    const hasBulletPoints = bulletPointPatterns.some(pattern => pattern.test(text));
-    
-    if (!hasBulletPoints) {
-      recommendations.push("Use bullet points to list achievements and responsibilities");
-      score -= 10;
-    }
-
-    // 4. Check for complex formatting that might break ATS
-    const complexFormattingPatterns = [
-      /\t{2,}/g, // Multiple tabs
-      /\n{3,}/g, // Excessive line breaks
-      /\[.*?\]/g, // Content in brackets that might be from a template
-      /\{.*?\}/g, // Content in curly braces that might be from a template
-    ];
-    
-    const hasComplexFormatting = complexFormattingPatterns.some(pattern => pattern.test(text));
-    
-    if (hasComplexFormatting) {
-      recommendations.push("Remove complex formatting like tables, columns, headers/footers, and text boxes");
-      score -= 15;
-    }
-
-    // 5. NEW: Enhanced keyword density analysis using NLP techniques
-    try {
-      // Extract potential job-related keywords using regex patterns for skills and technologies
-      const skillKeywords = text.match(/\b([A-Z][A-Za-z]*|[A-Za-z]+\+\+|[A-Za-z]#|[A-Za-z]+\.js|[A-Za-z]+\.NET|HTML5|CSS3|[A-Za-z0-9\-]+)\b/g) || [];
-      
-      // Filter out common words that are not likely to be skills
-      const commonWords = ['The', 'And', 'For', 'With', 'From', 'That', 'This', 'Have', 'Will'];
-      const filteredKeywords = skillKeywords.filter(word => !commonWords.includes(word));
-      
-      // Calculate unique keywords ratio
-      const uniqueKeywords = [...new Set(filteredKeywords)];
-      const keywordDensity = uniqueKeywords.length / Math.max(text.split(/\s+/).length, 1);
-      
-      // Improve score based on keyword analysis
-      if (uniqueKeywords.length >= 15) {
-        nlpEnhancedScore += 10;
-      } else if (uniqueKeywords.length < 10) {
-        recommendations.push("Add more industry-specific keywords and skills relevant to the position");
-        score -= 10;
-      }
-    } catch (error) {
-      console.error('Error during NLP keyword analysis:', error);
-    }
-
-    // 6. Check for date formats (consistent formatting helps ATS)
-    const datePatterns = [
-      /\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* \d{4}\b/g, // Month Year
-      /\b\d{1,2}\/\d{1,2}\/\d{2,4}\b/g, // MM/DD/YYYY
-      /\b\d{4}-\d{1,2}-\d{1,2}\b/g, // YYYY-MM-DD
-    ];
-    
-    const hasConsistentDates = datePatterns.some(pattern => {
-      const matches = text.match(pattern);
-      return matches && matches.length >= 2;
-    });
-    
-    if (!hasConsistentDates) {
-      recommendations.push("Use consistent date formatting throughout your resume (e.g., MM/YYYY)");
-      score -= 5;
-    }
-
-    // 7. Check resume length (based on word count)
-    const wordCount = text.split(/\s+/).length;
-    if (wordCount < 300) {
-      recommendations.push("Your resume appears too short. Add more details to highlight your experience");
-      score -= 10;
-    } else if (wordCount > 1000) {
-      recommendations.push("Your resume may be too long. Consider condensing to 1-2 pages for better readability");
-      score -= 5;
-    }
-
-    // 8. NEW: Analyze sentence structure and action verbs using basic NLP techniques
-    try {
-      // Simple pattern matching for action verbs at the beginning of lines (commonly used in resumes)
-      const actionVerbPattern = /\n(Developed|Created|Led|Managed|Implemented|Designed|Analyzed|Built|Improved|Increased|Reduced|Achieved|Collaborated|Coordinated|Delivered)/gi;
-      const actionVerbMatches = text.match(actionVerbPattern);
-      
-      if (!actionVerbMatches || actionVerbMatches.length < 5) {
-        recommendations.push("Use more action verbs to start bullet points (e.g., Developed, Implemented, Increased)");
-        score -= 5;
-      } else {
-        nlpEnhancedScore += 5;
-      }
-    } catch (error) {
-      console.error('Error during action verb analysis:', error);
-    }
-
-    // Add NLP-enhanced score bonus (capped at 15 points)
-    score += Math.min(nlpEnhancedScore, 15);
-    
-    // Ensure score stays within 0-100 range
-    score = Math.min(Math.max(score, 0), 100);
-
-    // If no recommendations, add a positive note
-    if (recommendations.length === 0) {
-      recommendations.push("Your resume appears to be well-formatted for ATS systems with good keyword optimization!");
-    }
-
-    // Calculate final result
-    const isATSFriendly = score >= 70;
-    
-    console.log('Resume analysis complete with score:', score);
-
-    return {
-      isATSFriendly,
-      score,
-      recommendations
-    };
-  } catch (error) {
-    console.error('Error in resume analysis:', error);
-    return {
-      isATSFriendly: false,
-      score: 0,
-      recommendations: ['Error analyzing resume content. Please try again.']
-    };
-  }
-};
+  return result;
+}
