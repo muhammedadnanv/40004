@@ -11,8 +11,25 @@
 
 .container-fluid {
   @apply w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 mx-auto;
-  background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(249,250,251,0.8) 100%);
+  background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(247,247,247,0.8) 100%);
   transition: padding 0.3s ease;
+}
+
+/* New accent borders for UI elements */
+.accent-border-left {
+  @apply border-l-4 border-accent pl-4;
+}
+
+.secondary-border-left {
+  @apply border-l-4 border-secondary pl-4;
+}
+
+.primary-border-left {
+  @apply border-l-4 border-primary pl-4;
+}
+
+.success-border-left {
+  @apply border-l-4 border-success pl-4;
 }
 
 /* Improved mobile responsiveness */
@@ -55,19 +72,19 @@
   
   /* Better spacing for text elements */
   h1 {
-    @apply text-2xl sm:text-3xl md:text-4xl;
+    @apply text-2xl sm:text-3xl md:text-4xl text-primary;
   }
   
   h2 {
-    @apply text-xl sm:text-2xl md:text-3xl;
+    @apply text-xl sm:text-2xl md:text-3xl text-primary;
   }
   
   h3 {
-    @apply text-lg sm:text-xl md:text-2xl;
+    @apply text-lg sm:text-xl md:text-2xl text-primary;
   }
   
   p {
-    @apply text-sm sm:text-base;
+    @apply text-sm sm:text-base text-foreground;
   }
 }
 
@@ -105,9 +122,9 @@ html {
   -webkit-overflow-scrolling: touch;
 }
 
-/* Improved focus styles */
+/* Improved focus styles with new colors */
 :focus-visible {
-  @apply outline-2 outline-primary outline-offset-2 rounded;
+  @apply outline-2 outline-secondary outline-offset-2 rounded;
 }
 
 /* Loading state improvements */
@@ -115,13 +132,13 @@ html {
   @apply opacity-70 pointer-events-none transition-opacity duration-300;
 }
 
-/* Skeleton loading animation */
+/* Skeleton loading animation with updated colors */
 .skeleton {
   background: linear-gradient(
     90deg,
-    rgba(0, 0, 0, 0.06) 25%,
-    rgba(0, 0, 0, 0.15) 37%,
-    rgba(0, 0, 0, 0.06) 63%
+    rgba(46, 64, 83, 0.06) 25%,
+    rgba(46, 64, 83, 0.15) 37%,
+    rgba(46, 64, 83, 0.06) 63%
   );
   background-size: 400% 100%;
   animation: skeleton-loading 1.4s ease infinite;
@@ -136,92 +153,66 @@ html {
   }
 }
 
-/* Safe area insets for modern mobile devices */
-@supports (padding: max(0px)) {
-  .safe-bottom {
-    padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
-  }
-  
-  .safe-top {
-    padding-top: max(1.5rem, env(safe-area-inset-top));
-  }
-  
-  .safe-left {
-    padding-left: max(1rem, env(safe-area-inset-left));
-  }
-  
-  .safe-right {
-    padding-right: max(1rem, env(safe-area-inset-right));
-  }
+/* Card hover effects */
+.edu-hover-card {
+  @apply transition-all duration-300;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-/* Better form controls for touch devices */
-@media (hover: none) {
-  input[type="checkbox"],
-  input[type="radio"] {
-    @apply min-w-[24px] min-h-[24px];
-  }
-  
-  /* Improved touch feedback */
-  .touch-feedback:active {
-    @apply bg-gray-100;
-  }
+.edu-hover-card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transform: translateY(-5px);
 }
 
-/* Improved dropdown styling */
-.dropdown-menu {
-  @apply bg-white shadow-lg rounded-lg border border-gray-200 z-50;
-}
+/* ... keep existing code (Safe area insets for modern mobile devices, better form controls, etc.) */
 
-/* Better scrollbar styling */
-::-webkit-scrollbar {
-  @apply w-2;
-}
-
-::-webkit-scrollbar-track {
-  @apply bg-transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  @apply bg-gray-300 rounded-full;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-400;
-}
-
-/* Enhanced button states */
+/* Enhanced button states with new colors */
 button:active,
 [role="button"]:active {
   @apply transform scale-95 transition-transform duration-150;
 }
 
-/* Improved text selection */
+/* Improved text selection with brand colors */
 ::selection {
-  @apply bg-primary/20 text-primary;
+  @apply bg-secondary/20 text-secondary;
 }
 
-/* Sticky positioning for navigation */
-.sticky-nav {
-  @apply sticky top-0 z-50 bg-white/90 backdrop-blur-sm shadow-sm;
+/* Course Difficulty Labels */
+.difficulty-beginner {
+  @apply bg-success/20 text-success px-2 py-1 rounded-full text-xs font-medium;
 }
 
-/* Optimizing images for mobile */
-img {
-  @apply max-w-full h-auto;
+.difficulty-intermediate {
+  @apply bg-accent/20 text-accent px-2 py-1 rounded-full text-xs font-medium;
 }
 
-/* Flex column for mobile, row for desktop */
-.flex-responsive {
-  @apply flex flex-col sm:flex-row;
+.difficulty-advanced {
+  @apply bg-secondary/20 text-secondary px-2 py-1 rounded-full text-xs font-medium;
 }
 
-/* Mobile optimized grid view */
-.grid-responsive {
-  @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4;
+.difficulty-expert {
+  @apply bg-primary/20 text-primary px-2 py-1 rounded-full text-xs font-medium;
 }
 
-/* Prevent overflow issues on mobile */
-.no-overflow {
-  @apply overflow-hidden;
+/* New highlight elements */
+.highlight-box {
+  @apply p-4 rounded-lg border;
 }
+
+.highlight-box.primary {
+  @apply bg-primary/5 border-primary/20 text-primary;
+}
+
+.highlight-box.secondary {
+  @apply bg-secondary/5 border-secondary/20 text-secondary;
+}
+
+.highlight-box.accent {
+  @apply bg-accent/5 border-accent/20 text-accent;
+}
+
+.highlight-box.success {
+  @apply bg-success/5 border-success/20 text-success;
+}
+
+/* ... keep existing code (Sticky positioning for navigation, optimizing images for mobile, etc.) */

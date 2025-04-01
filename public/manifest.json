@@ -1,11 +1,12 @@
+
 {
   "name": "Dev Mentor Hub - Professional Developer Certification",
   "short_name": "DevMentor",
   "description": "Professional Developer Certification & Career Growth Platform with Expert Mentorship",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#4A00E0",
-  "theme_color": "#4A00E0",
+  "background_color": "#2E4053",
+  "theme_color": "#2E4053",
   "orientation": "any",
   "icons": [
     {

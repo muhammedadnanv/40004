@@ -8,28 +8,30 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 224 71% 4%;
+    --foreground: 210 27% 25%;
     --card: 0 0% 100%;
-    --card-foreground: 224 71% 4%;
+    --card-foreground: 210 27% 25%;
     --popover: 0 0% 100%;
-    --popover-foreground: 224 71% 4%;
-    --primary: 250 60% 45%;
+    --popover-foreground: 210 27% 25%;
+    --primary: 210 27% 25%;
     --primary-foreground: 0 0% 100%;
-    --primary-muted: 250 60% 97%;
-    --primary-hover: 250 60% 40%;
-    --secondary: 0 0% 98%;
-    --secondary-foreground: 224 71% 4%;
-    --secondary-hover: 0 0% 96%;
-    --muted: 220 14% 96%;
-    --muted-foreground: 220 9% 46%;
-    --accent: 220 14% 96%;
-    --accent-foreground: 224 71% 4%;
-    --accent-hover: 220 14% 94%;
+    --primary-muted: 210 27% 95%;
+    --primary-hover: 210 27% 20%;
+    --secondary: 187 100% 33%;
+    --secondary-foreground: 0 0% 100%;
+    --secondary-hover: 187 100% 28%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 27%;
+    --accent: 43 100% 50%;
+    --accent-foreground: 210 27% 25%;
+    --accent-hover: 43 100% 45%;
+    --success: 120 61% 50%;
+    --success-foreground: 0 0% 100%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
     --border: 220 13% 91%;
     --input: 220 13% 91%;
-    --ring: 250 60% 45%;
+    --ring: 195 100% 33%;
     --radius: 0.5rem;
   }
 
@@ -66,7 +68,28 @@
 }
 
 @layer utilities {
-  /* New responsive utilities for 2025 */
+  /* New design system utilities */
+  .edu-card {
+    @apply bg-white rounded-xl shadow-lg border border-gray-100 hover:shadow-xl transition-shadow duration-300;
+  }
+  
+  .edu-button-primary {
+    @apply bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-600 transition-colors;
+  }
+  
+  .edu-button-secondary {
+    @apply bg-secondary text-white px-4 py-2 rounded-lg hover:bg-secondary/90 transition-colors;
+  }
+  
+  .edu-button-accent {
+    @apply bg-accent text-primary px-4 py-2 rounded-lg hover:bg-accent/90 transition-colors;
+  }
+  
+  .edu-button-success {
+    @apply bg-success text-white px-4 py-2 rounded-lg hover:bg-success/90 transition-colors;
+  }
+
+  /* New responsive utilities */
   .responsive-container {
     @apply w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 mx-auto max-w-7xl;
   }
@@ -103,10 +126,28 @@
     @apply m-4 sm:m-6 lg:m-8 xl:m-10;
   }
 
+  /* Updated glass card with new color theme */
   .glass-card-2025 {
     @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-lg rounded-xl 
            hover:shadow-xl transition-all duration-300 
            dark:bg-gray-800/80 dark:border-gray-700/20;
+  }
+  
+  /* Enhanced gradient backgrounds */
+  .bg-primary-gradient {
+    background: linear-gradient(135deg, #2E4053 0%, #1A1D23 100%);
+  }
+  
+  .bg-secondary-gradient {
+    background: linear-gradient(135deg, #0097A7 0%, #00BFFF 100%);
+  }
+  
+  .bg-accent-gradient {
+    background: linear-gradient(135deg, #FFC107 0%, #FF9900 100%);
+  }
+  
+  .bg-success-gradient {
+    background: linear-gradient(135deg, #32CD32 0%, #8BC34A 100%);
   }
 
   .interactive-element {
@@ -131,110 +172,60 @@
   }
 }
 
-/* Enhanced responsive base styles */
-html {
-  @apply text-[14px] sm:text-[16px];
-  scroll-behavior: smooth;
-  -webkit-tap-highlight-color: transparent;
-  text-size-adjust: 100%;
-}
+/* ... keep existing code (Enhanced responsive base styles, focus styles, container fluid styles, etc.) */
 
-/* Improved focus styles */
-:focus-visible {
-  @apply outline-none ring-2 ring-primary/50;
-}
-
-/* Container fluid with improved responsive padding */
-.container-fluid {
-  @apply w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 mx-auto;
-}
-
-/* Better dropdown styles */
-.dropdown-content {
-  @apply bg-white shadow-lg rounded-lg border border-gray-200 z-50;
-}
-
-/* Safe area insets for modern devices */
-.safe-area-inset {
-  padding-top: env(safe-area-inset-top);
-  padding-bottom: env(safe-area-inset-bottom);
-  padding-left: env(safe-area-inset-left);
-  padding-right: env(safe-area-inset-right);
-}
-
-/* Improved tap targets for mobile */
-@media (max-width: 640px) {
-  button, 
-  [role="button"],
-  a {
-    @apply min-h-[48px] min-w-[48px] px-4 py-2;
-  }
-
-  input,
-  select,
-  textarea {
-    @apply min-h-[48px];
-  }
-  
-  /* Prevent horizontal scrolling on mobile */
-  body {
-    @apply overflow-x-hidden;
-  }
-  
-  /* Better form spacing */
-  form .form-group {
-    @apply mb-4;
-  }
-  
-  /* Larger font for readability */
-  .text-mobile-readable {
-    @apply text-base;
-  }
-}
-
-/* Enhanced touch feedback */
-@media (hover: none) {
-  .hover\:scale-105:hover {
-    transform: none !important;
-  }
-  
-  .hover\:shadow-lg:hover {
-    box-shadow: none !important;
-  }
-  
-  /* Active state for touch */
-  .touch-active:active {
-    @apply bg-gray-100 scale-95;
-  }
-}
-
-/* Reduced motion preferences */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-/* Mobile-first card styling */
+/* Mobile-first card styling with new colors */
 .mobile-card {
-  @apply p-4 sm:p-6 rounded-lg shadow-md;
+  @apply p-4 sm:p-6 rounded-lg shadow-md bg-white border border-gray-100;
+}
+
+/* New color-based utility classes */
+.text-primary-gradient {
+  @apply bg-primary-gradient bg-clip-text text-transparent;
+}
+
+.text-secondary-gradient {
+  @apply bg-secondary-gradient bg-clip-text text-transparent;
+}
+
+.text-accent-gradient {
+  @apply bg-accent-gradient bg-clip-text text-transparent;
+}
+
+.text-success-gradient {
+  @apply bg-success-gradient bg-clip-text text-transparent;
 }
 
 /* Better form label positioning for mobile */
 .mobile-form-label {
-  @apply block mb-2 text-sm font-medium;
+  @apply block mb-2 text-sm font-medium text-primary;
 }
 
-/* Mobile-friendly button group */
+/* Mobile-friendly button group with new colors */
 .mobile-btn-group {
   @apply flex flex-col sm:flex-row gap-2 sm:gap-3 w-full;
 }
 
-/* Prevent text overflow on mobile */
-.mobile-text-ellipsis {
-  @apply truncate;
+/* Premium card styling */
+.premium-card {
+  @apply border-0 shadow-lg hover:shadow-xl transition-shadow duration-300;
+  background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(247,247,247,1) 100%);
+  border: 1px solid rgba(46, 64, 83, 0.1);
 }
 
+/* Edu-tech specific elements */
+.course-card {
+  @apply p-6 rounded-xl border border-gray-100 bg-white shadow-lg hover:shadow-xl transition-all duration-300;
+}
+
+.mentor-card {
+  @apply p-4 rounded-xl border border-secondary/10 bg-white shadow-md hover:shadow-lg transition-all duration-300;
+}
+
+.certificate-badge {
+  @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-accent text-primary;
+}
+
+.skill-tag {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary;
+}

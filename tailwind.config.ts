@@ -33,21 +33,37 @@ export default {
       colors: {
         border: "hsl(220 13% 91%)",
         input: "hsl(220 13% 91%)",
-        ring: "hsl(250 60% 45%)",
+        ring: "hsl(195 100% 33%)",
         background: "hsl(0 0% 100%)",
-        foreground: "hsl(224 71% 4%)",
+        foreground: "hsl(210 27% 25%)",
         primary: {
-          DEFAULT: "hsl(250 60% 45%)",
+          DEFAULT: "hsl(210 27% 25%)", // Deep Navy Blue (#2E4053)
           foreground: "hsl(0 0% 100%)",
-          muted: "hsl(250 60% 97%)",
-          hover: "hsl(250 60% 40%)",
-          light: "hsl(250 60% 97%)",
-          dark: "hsl(250 60% 35%)",
-          600: "hsl(250 60% 40%)",
+          muted: "hsl(210 27% 95%)",
+          hover: "hsl(210 27% 20%)",
+          light: "hsl(210 27% 90%)",
+          dark: "hsl(210 27% 15%)",
+          600: "hsl(210 27% 20%)",
         },
-        secondary: { DEFAULT: "hsl(0 0% 98%)", foreground: "hsl(224 71% 4%)", hover: "hsl(0 0% 96%)" },
-        muted: { DEFAULT: "hsl(220 14% 96%)", foreground: "hsl(220 9% 46%)" },
-        accent: { DEFAULT: "hsl(220 14% 96%)", foreground: "hsl(224 71% 4%)", hover: "hsl(220 14% 94%)" },
+        secondary: { 
+          DEFAULT: "hsl(187 100% 33%)", // Bright Teal (#0097A7)
+          foreground: "hsl(0 0% 100%)", 
+          hover: "hsl(187 100% 28%)" 
+        },
+        accent: { 
+          DEFAULT: "hsl(43 100% 50%)", // Warm Orange (#FFC107)
+          foreground: "hsl(210 27% 25%)", 
+          hover: "hsl(43 100% 45%)" 
+        },
+        success: {
+          DEFAULT: "hsl(120 61% 50%)", // Lime Green (#32CD32)
+          foreground: "hsl(0 0% 100%)",
+          hover: "hsl(120 61% 45%)",
+        },
+        muted: { 
+          DEFAULT: "hsl(0 0% 96%)", // Soft Gray (#F7F7F7)
+          foreground: "hsl(0 0% 27%)" // Dark Gray (#444444)
+        },
         glass: {
           DEFAULT: "rgba(255, 255, 255, 0.8)",
           dark: "rgba(255, 255, 255, 0.1)",
@@ -117,6 +133,26 @@ export default {
           'padding-bottom': 'env(safe-area-inset-bottom)',
           'padding-left': 'env(safe-area-inset-left)',
           'padding-right': 'env(safe-area-inset-right)',
+        },
+        '.premium-gradient': {
+          'background-image': 'linear-gradient(135deg, #2E4053 0%, #1A1D23 100%)',
+          'background-clip': 'text',
+          'color': 'transparent',
+        },
+        '.teal-gradient': {
+          'background-image': 'linear-gradient(135deg, #0097A7 0%, #00BFFF 100%)',
+          'background-clip': 'text',
+          'color': 'transparent',
+        },
+        '.orange-gradient': {
+          'background-image': 'linear-gradient(135deg, #FFC107 0%, #FF9900 100%)',
+          'background-clip': 'text',
+          'color': 'transparent',
+        },
+        '.lime-gradient': {
+          'background-image': 'linear-gradient(135deg, #32CD32 0%, #8BC34A 100%)',
+          'background-clip': 'text',
+          'color': 'transparent',
         },
       }
       addUtilities(newUtilities)
