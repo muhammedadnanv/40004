@@ -1,3 +1,4 @@
+
 import { HeroSection } from "@/components/HeroSection";
 import { LearningPathSection } from "@/components/LearningPathSection";
 import { FeaturesSection } from "@/components/features/FeaturesSection";
@@ -26,6 +27,7 @@ import { autoFixAndReportLinkIssues } from "@/utils/linkValidator";
 import { enhanceMobileExperience } from "@/utils/mobileResponsiveness";
 import { OnPageOptimizer } from "@/components/SEO/OnPageOptimizer";
 import { GoogleSearchPreview } from "@/components/SEO/GoogleSearchPreview";
+import { JusticeMessage } from "@/components/JusticeMessage";
 
 const Index = () => {
   useEffect(() => {
@@ -185,6 +187,7 @@ const Index = () => {
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1485827404703-89b55fcc595e')] bg-cover bg-center opacity-5 pointer-events-none" />
       
       <div className="relative">
+        <JusticeMessage />
         <AlbatoAdPopup />
         
         <HeroSection />
