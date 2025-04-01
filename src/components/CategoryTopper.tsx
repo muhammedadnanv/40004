@@ -1,15 +1,21 @@
-import { Shield } from "lucide-react";
+
+import { TagIcon } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { VALID_REFERRAL_CODES } from "@/utils/referralUtils";
 
 export const CategoryTopper = () => {
+  // Get a few random referral codes to showcase
+  const referralCodes = Object.keys(VALID_REFERRAL_CODES).slice(0, 3);
+  
   return (
-    <Alert variant="destructive" className="mb-8 border-destructive/50 bg-destructive/10">
-      <Shield className="h-4 w-4" />
-      <AlertTitle>Important Notice</AlertTitle>
+    <Alert variant="default" className="mb-8 border-accent/50 bg-accent/10">
+      <TagIcon className="h-4 w-4" />
+      <AlertTitle>Referral Program</AlertTitle>
       <AlertDescription className="text-sm">
-        We exclusively support and verify mentors in Men's and Women's categories. All other categories are considered potential spam and are not endorsed by our platform.<br />
-          Make sure you pay the amount quickly; otherwise, the payment will fail, and you'll have to wait 7 days to get the amount credited back to your account.<br />
-        Please ensure that you have made the payment through your UPI ID or number. Do not scan the QR code
+        Share your unique referral code with friends and earn rewards when they enroll in our programs. 
+        Anyone using a referral code gets a discount on their enrollment.<br />
+        Popular codes: {referralCodes.join(", ")}<br />
+        Apply the code during checkout to receive your discount instantly.
       </AlertDescription>
     </Alert>
   );

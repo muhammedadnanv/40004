@@ -1,12 +1,15 @@
-import { Share2, Facebook, Twitter, Linkedin, Link2 } from "lucide-react";
+
+import { Share2, Facebook, Twitter, Linkedin, Link2, TagIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
+import { getCurrentReferralCode } from "@/utils/referralUtils";
 
 interface ShareProgramCardProps {
   program: {
@@ -19,8 +22,8 @@ export const ShareProgramCard = ({ program }: ShareProgramCardProps) => {
   const { toast } = useToast();
   const websiteUrl = window.location.origin;
   
-  // Using the standard referral code
-  const referralCode = '40met';
+  // Using the current active referral code
+  const referralCode = getCurrentReferralCode();
   const shareUrl = `${websiteUrl}?program=${encodeURIComponent(program.title)}&ref=${referralCode}`;
   
   // Create a more concise referral-focused share text
@@ -43,7 +46,7 @@ export const ShareProgramCard = ({ program }: ShareProgramCardProps) => {
       shareWindow.focus();
       toast({
         title: `Sharing on ${platform}!`,
-        description: "Thanks for spreading the word! Your friends can use your referral code.",
+        description: "Thanks for spreading the word! Your referral code is included in the share.",
       });
     }
   };
@@ -64,18 +67,39 @@ export const ShareProgramCard = ({ program }: ShareProgramCardProps) => {
     }
   };
 
+  const copyReferralCode = async () => {
+    try {
+      await navigator.clipboard.writeText(referralCode);
+      toast({
+        title: "Referral Code Copied!",
+        description: `Code ${referralCode} copied to clipboard. Share it with friends!`,
+      });
+    } catch (err) {
+      toast({
+        title: "Failed to copy",
+        description: "Please try again",
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button 
           variant="outline" 
           size="icon"
-          className="rounded-full hover:bg-[#4A00E0]/10 hover:text-[#4A00E0] transition-all duration-300"
+          className="rounded-full hover:bg-[#0097A7]/10 hover:text-[#0097A7] transition-all duration-300"
         >
           <Share2 className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-48">
+        <DropdownMenuItem onClick={copyReferralCode} className="cursor-pointer font-medium">
+          <TagIcon className="mr-2 h-4 w-4" />
+          Copy Referral Code
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => handleShare('facebook')} className="cursor-pointer">
           <Facebook className="mr-2 h-4 w-4" />
           Facebook
@@ -90,7 +114,7 @@ export const ShareProgramCard = ({ program }: ShareProgramCardProps) => {
         </DropdownMenuItem>
         <DropdownMenuItem onClick={copyToClipboard} className="cursor-pointer">
           <Link2 className="mr-2 h-4 w-4" />
-          Copy Link
+          Copy Link with Code
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
