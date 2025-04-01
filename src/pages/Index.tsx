@@ -1,4 +1,3 @@
-
 import { CategoryTopper } from "@/components/CategoryTopper";
 import { HeroSection } from "@/components/HeroSection";
 import { LearningPathSection } from "@/components/LearningPathSection";
@@ -17,7 +16,6 @@ import { SuccessStoriesSection } from "@/components/SuccessStoriesSection";
 import { CodeOfConductSection } from "@/components/CodeOfConductSection";
 import { AlbatoAdPopup } from "@/components/AlbatoAdPopup";
 import { useEffect } from "react";
-import { showRandomJoinNotification } from "@/utils/mockNotifications";
 import { getContentEngagementStats } from "@/utils/contentAdaptation";
 import { fetchAndApplySEOKeywords } from "@/utils/performanceOptimizer";
 import { runSEOOptimizations, runWebsiteTest } from "@/utils/websiteValidator";
@@ -32,9 +30,6 @@ import { GoogleSearchPreview } from "@/components/SEO/GoogleSearchPreview";
 
 const Index = () => {
   useEffect(() => {
-    // Show random notification
-    showRandomJoinNotification();
-    
     // Monitor content engagement
     const engagementInterval = setInterval(() => {
       const stats = getContentEngagementStats();

@@ -1,9 +1,7 @@
-
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Suspense, lazy, useEffect } from "react";
 import { Toaster } from "./components/ui/toaster";
 import { toast } from "./hooks/use-toast";
-import { NewYearMessage } from "./components/NewYearMessage";
 import { startMarketingRecommendations } from "./utils/marketingRecommendations";
 import { supabase } from "@/integrations/supabase/client";
 import { dataProcessor } from "./utils/dataProcessor";
@@ -172,10 +170,6 @@ function App() {
               </Suspense>
             } />
           </Routes>
-          
-          <ErrorBoundary fallback={<div className="p-4 text-center">New Year message unavailable</div>}>
-            <NewYearMessage />
-          </ErrorBoundary>
           
           <ErrorBoundary fallback={<div className="p-4 text-center">Lead collection unavailable</div>}>
             <LeadCollectionPopup />
