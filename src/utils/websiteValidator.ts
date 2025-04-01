@@ -1,4 +1,3 @@
-
 // This file contains utilities for validating website structure, content, and SEO factors
 
 import { toast } from "sonner";
@@ -25,6 +24,13 @@ interface SEOValidationResult {
   mobileFriendlinessScore: number;
   performanceScore: number;
   overallScore: number;
+  recommendations: string[];
+}
+
+// Resume analysis result interface
+interface ResumeAnalysisResult {
+  isATSFriendly: boolean;
+  score: number;
   recommendations: string[];
 }
 
@@ -673,4 +679,82 @@ export function runSEOOptimizations(): SEOValidationResult {
   });
   
   return result;
+}
+
+// Add the missing analyzeResumeContent function
+export async function analyzeResumeContent(content: string): Promise<ResumeAnalysisResult> {
+  console.log("Analyzing resume content...");
+  
+  // Default result
+  const result: ResumeAnalysisResult = {
+    isATSFriendly: false,
+    score: 0,
+    recommendations: []
+  };
+  
+  try {
+    // Basic content analysis for demonstration purposes
+    // In a real application, this would use NLP or other advanced techniques
+    
+    // Check content length
+    if (content.length < 300) {
+      result.recommendations.push("Resume content is too short. Add more details about your experience.");
+    }
+    
+    // Check for skills section
+    if (!content.toLowerCase().includes("skills") && !content.toLowerCase().includes("expertise")) {
+      result.recommendations.push("Add a dedicated skills or expertise section to highlight your capabilities.");
+    }
+    
+    // Check for experience section
+    if (!content.toLowerCase().includes("experience") && !content.toLowerCase().includes("work history")) {
+      result.recommendations.push("Add a clear work experience or employment history section.");
+    }
+    
+    // Check for education section
+    if (!content.toLowerCase().includes("education") && !content.toLowerCase().includes("degree")) {
+      result.recommendations.push("Include an education section with your qualifications.");
+    }
+    
+    // Check for contact information
+    if (!content.toLowerCase().includes("email") && !content.toLowerCase().includes("phone")) {
+      result.recommendations.push("Add complete contact information including email and phone number.");
+    }
+    
+    // Check for overly complex language
+    const sentences = content.split(/[.!?]+/);
+    const longSentences = sentences.filter(s => s.trim().split(" ").length > 25);
+    if (longSentences.length > 2) {
+      result.recommendations.push("Simplify your language. Some sentences are too long and complex.");
+    }
+    
+    // Check for action verbs
+    const actionVerbs = ["managed", "led", "created", "developed", "implemented", "achieved", "increased", "decreased", "improved", "designed", "built"];
+    let actionVerbCount = 0;
+    
+    actionVerbs.forEach(verb => {
+      if (content.toLowerCase().includes(verb)) {
+        actionVerbCount++;
+      }
+    });
+    
+    if (actionVerbCount < 3) {
+      result.recommendations.push("Use more action verbs to describe your achievements and responsibilities.");
+    }
+    
+    // Calculate ATS friendliness score based on recommendations
+    // Fewer recommendations = higher score
+    const maxScore = 100;
+    const deductionPerRecommendation = 15;
+    result.score = Math.max(0, maxScore - (result.recommendations.length * deductionPerRecommendation));
+    
+    // Determine if ATS friendly (score above 70)
+    result.isATSFriendly = result.score >= 70;
+    
+    return result;
+  } catch (error) {
+    console.error("Error analyzing resume:", error);
+    result.recommendations.push("An error occurred during resume analysis. Please try again.");
+    return result;
+  }
 }

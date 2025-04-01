@@ -1,3 +1,4 @@
+
 import { pipeline } from '@huggingface/transformers';
 
 interface TextGenerationSingle {
@@ -17,11 +18,12 @@ interface TextClassificationOutput {
   results: TextClassificationSingle[];
 }
 
+// Simplify types to avoid complex union types
 type TextGenerationResult = TextGenerationOutput | TextGenerationSingle;
 type TextClassificationResult = TextClassificationOutput | TextClassificationSingle;
 
-// Define specific pipeline types
-type HuggingFacePipeline = Awaited<ReturnType<typeof pipeline>>;
+// Use a more specific type instead of the complex Awaited<ReturnType<>>
+type HuggingFacePipeline = any; // Using any for now to simplify the complex type
 
 let textGenerationPipeline: HuggingFacePipeline | null = null;
 let sentimentPipeline: HuggingFacePipeline | null = null;

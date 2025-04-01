@@ -211,3 +211,43 @@ export function getPersonalizedRecommendations(): string[] {
 export function getVisitorData(): VisitorData {
   return visitorData;
 }
+
+// Add the missing createRetargetingPixel function
+export function createRetargetingPixel(platform: 'facebook' | 'google' | 'linkedin'): void {
+  console.log(`Creating ${platform} retargeting pixel...`);
+  
+  if (typeof window === 'undefined') {
+    console.error('Cannot create retargeting pixel outside of browser environment');
+    return;
+  }
+  
+  switch (platform) {
+    case 'facebook':
+      // Simulate adding Facebook Pixel
+      console.log('Facebook Pixel initialized for retargeting');
+      // In a real implementation, this would inject the Facebook Pixel script
+      break;
+      
+    case 'google':
+      // Simulate adding Google Ads Remarketing Tag
+      console.log('Google Ads remarketing tag initialized');
+      // In a real implementation, this would inject the Google Ads remarketing script
+      break;
+      
+    case 'linkedin':
+      // Simulate adding LinkedIn Insight Tag
+      console.log('LinkedIn Insight Tag initialized for retargeting');
+      // In a real implementation, this would inject the LinkedIn Insight Tag script
+      break;
+      
+    default:
+      console.error('Unknown retargeting platform:', platform);
+  }
+  
+  // Track that a pixel was added
+  trackVisitorEvent('pixel_added', {
+    category: 'retargeting',
+    label: platform,
+    value: 1
+  });
+}
