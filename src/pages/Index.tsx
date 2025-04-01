@@ -1,4 +1,3 @@
-import { CategoryTopper } from "@/components/CategoryTopper";
 import { HeroSection } from "@/components/HeroSection";
 import { LearningPathSection } from "@/components/LearningPathSection";
 import { FeaturesSection } from "@/components/features/FeaturesSection";
@@ -30,46 +29,36 @@ import { GoogleSearchPreview } from "@/components/SEO/GoogleSearchPreview";
 
 const Index = () => {
   useEffect(() => {
-    // Monitor content engagement
     const engagementInterval = setInterval(() => {
       const stats = getContentEngagementStats();
       console.log('Content engagement stats:', stats);
     }, 300000);
 
-    // Initialize A/B testing
     initABTesting();
     
-    // Run website test and SEO optimizations with high-intent keywords
     const initializePage = async () => {
-      // Apply SEO optimizations focusing on high-intent keywords
       await fetchAndApplySEOKeywords('mentorship', 5);
       runSEOOptimizations();
       
-      // Initialize visitor retargeting service
       initRetargetingService({
         trackPageViews: true,
         trackProductViews: true,
         storeUserSegments: true
       });
       
-      // Track this page view for retargeting
       trackVisitorEvent('pageview', {
         label: 'homepage',
         value: 1
       });
       
-      // Fix common link issues
       autoFixAndReportLinkIssues();
       
-      // Optimize mobile experience
       enhanceMobileExperience();
       
-      // Get and apply high-intent keywords
       const keywordsResult = await seoOptimizer.getKeywords('mentorship', 10, 0.7, 0.8);
       if (keywordsResult.success && keywordsResult.keywords) {
         console.log('Applied high-intent keywords:', keywordsResult.keywords);
         
-        // Apply schema markup for improved search visibility
         const schemaResult = await seoOptimizer.implementSchemaMarkup('Course', {
           name: "Professional Developer Certification Program",
           description: "Master modern development skills with expert mentorship",
@@ -81,31 +70,25 @@ const Index = () => {
         }
       }
       
-      // Run website validation after a short delay to allow page to fully load
       setTimeout(() => {
         runWebsiteTest();
       }, 2000);
       
-      // Track page view conversion
       trackConversion('hero-cta-test', 'page_view');
     };
     
     initializePage();
 
-    // Set up automated checks and optimizations for high-intent keywords
     const automaticOptimizationInterval = setInterval(async () => {
-      // Apply high-intent keywords optimization
       await fetchAndApplySEOKeywords('mentorship', 5);
       applySEOOptimizations();
       
-      // Run comprehensive SEO check focused on high-intent keywords
       await seoOptimizer.runOptimizations({
         optimizeMetaTags: true,
         checkTechnicalSEO: true
       });
-    }, 12 * 60 * 60 * 1000); // Run every 12 hours
+    }, 12 * 60 * 60 * 1000);
 
-    // Add event listeners to track user interactions for retargeting
     const programButtons = document.querySelectorAll('.program-cta-btn');
     programButtons.forEach(btn => {
       btn.addEventListener('click', () => {
@@ -116,7 +99,6 @@ const Index = () => {
       });
     });
 
-    // Cleanup intervals on unmount
     return () => {
       clearInterval(engagementInterval);
       clearInterval(automaticOptimizationInterval);
@@ -127,7 +109,6 @@ const Index = () => {
   const platformFeePercentage = 10;
   const razorpayFeePercentage = 2;
   
-  // Calculate fees
   const platformFee = (programFee * platformFeePercentage) / 100;
   const razorpayFee = (programFee * razorpayFeePercentage) / 100;
   const mentorEarnings = programFee - platformFee - razorpayFee;
@@ -205,10 +186,7 @@ const Index = () => {
       
       <div className="relative">
         <AlbatoAdPopup />
-        <section aria-label="category-notice" className="container mx-auto px-4 pt-8">
-          <CategoryTopper />
-        </section>
-
+        
         <HeroSection />
         <LearningPathSection />
         <FeaturesSection />
@@ -224,7 +202,6 @@ const Index = () => {
         <FAQSection />
         <WhatsAppSection />
 
-        {/* SEO Preview (visible only to admins in a real implementation) */}
         <div className="hidden">
           <GoogleSearchPreview
             title="Developer Certification with Expert Mentorship | Professional Program"
