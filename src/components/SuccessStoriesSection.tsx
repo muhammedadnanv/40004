@@ -49,11 +49,10 @@ const StoryCard = ({ story, index }: { story: SuccessStory, index: number }) => 
   </motion.div>
 );
 
-// Mock data for additional success stories from Kozhikode and Malappuram
 const additionalMockStories: SuccessStory[] = [
   {
     id: "gcc-1",
-    name: "Fathima K",
+    name: "Fathima Khalid",
     program: "AI Prompt Engineering Mastery",
     quote: "The AI Prompt Engineering course helped me secure three clients from UAE for content optimization. Now I earn 3x my previous salary working remotely from Kozhikode.",
     location: "Kozhikode",
@@ -141,7 +140,7 @@ const additionalMockStories: SuccessStory[] = [
   },
   {
     id: "gcc-12",
-    name: "Nithin Kumar",
+    name: "Nitin Kumar",
     program: "No-Code Development",
     quote: "Created a customer loyalty app for an Omani retail chain without coding expertise. This program gave me the confidence to pitch to larger clients in the GCC region.",
     location: "Malappuram",
@@ -165,7 +164,7 @@ const additionalMockStories: SuccessStory[] = [
   },
   {
     id: "gcc-15",
-    name: "Divya Menon",
+    name: "Deepa Menon",
     program: "Frontend Development with Low-Code",
     quote: "Developed a customer portal for a Qatari insurance company that needed a quick refresh before an investor presentation. The low-code approach saved the day!",
     location: "Kozhikode",
@@ -181,7 +180,7 @@ const additionalMockStories: SuccessStory[] = [
   },
   {
     id: "gcc-17",
-    name: "Meera Krishnan",
+    name: "Maya Krishnan",
     program: "AI Prompt Engineering Mastery",
     quote: "I create AI-driven market reports for Bahraini investment firms, all from my home in Kozhikode. This program taught me how to add tremendous value without relocating.",
     location: "Kozhikode",
@@ -189,7 +188,7 @@ const additionalMockStories: SuccessStory[] = [
   },
   {
     id: "gcc-18",
-    name: "Shameer Khan",
+    name: "Salman Khan",
     program: "AI + Supabase Integration",
     quote: "Developed a real-time inventory system for an Omani supermarket chain. The technical architecture covered in the course was exactly what the client needed.",
     location: "Malappuram",
@@ -197,7 +196,7 @@ const additionalMockStories: SuccessStory[] = [
   },
   {
     id: "gcc-19",
-    name: "Roshni Menon",
+    name: "Roopa Menon",
     program: "Frontend Development with Low-Code",
     quote: "Created an investor dashboard for a UAE wealth management firm. The responsive components we learned in the course allowed me to deliver a premium experience.",
     location: "Kozhikode",
@@ -205,7 +204,7 @@ const additionalMockStories: SuccessStory[] = [
   },
   {
     id: "gcc-20",
-    name: "Abdul Razak",
+    name: "Abdul Rahman",
     program: "No-Code Development",
     quote: "Implemented a no-code booking system for a Saudi hotel chain that replaced their expensive legacy software. This program gave me the expertise to compete with established agencies.",
     location: "Malappuram",
