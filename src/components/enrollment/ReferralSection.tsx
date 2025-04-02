@@ -34,13 +34,13 @@ export const ReferralSection = ({
     <div className="space-y-3 border-t border-b py-4 my-4 border-accent/20">
       <div className="flex items-center gap-2 text-accent">
         <TagIcon className="h-5 w-5" />
-        <h3 className="font-medium">Apply Referral Code</h3>
+        <h3 className="font-medium">Apply Discount Code</h3>
       </div>
       
       <div className="flex flex-col sm:flex-row gap-2">
         <div className="flex-1">
           <Input 
-            placeholder="Enter referral code" 
+            placeholder="Enter discount code" 
             {...form.register("referralCode")}
             className="border-accent/30 focus:border-accent transition-colors w-full text-sm sm:text-base"
           />
