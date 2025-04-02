@@ -2,6 +2,7 @@
 import { motion } from "framer-motion";
 import { Star } from "lucide-react";
 import { ProgramCard } from "@/components/ProgramCard";
+import { useState, useEffect, useRef } from "react";
 
 interface Program {
   title: string;
@@ -17,6 +18,37 @@ interface ProgramsSectionProps {
 }
 
 export const ProgramsSection = ({ programs }: ProgramsSectionProps) => {
+  const [activeCategory, setActiveCategory] = useState<string>("all");
+  const [categories, setCategories] = useState<string[]>([]);
+  const categoryScrollRef = useRef<HTMLDivElement>(null);
+  
+  // Extract unique categories from programs
+  useEffect(() => {
+    const uniqueCategories = ["all", ...Array.from(new Set(programs.map(program => program.category)))];
+    setCategories(uniqueCategories);
+  }, [programs]);
+  
+  // Filter programs by selected category
+  const filteredPrograms = activeCategory === "all" 
+    ? programs 
+    : programs.filter(program => program.category === activeCategory);
+  
+  // Handle category selection and scroll into view on mobile
+  const handleCategoryChange = (category: string) => {
+    setActiveCategory(category);
+    
+    // Scroll the active category into view on mobile
+    if (categoryScrollRef.current) {
+      const activeElement = categoryScrollRef.current.querySelector(`[data-category="${category}"]`);
+      if (activeElement) {
+        categoryScrollRef.current.scrollTo({
+          left: (activeElement as HTMLElement).offsetLeft - 20,
+          behavior: 'smooth'
+        });
+      }
+    }
+  };
+
   return (
     <section 
       id="programs-section" 
@@ -32,22 +64,59 @@ export const ProgramsSection = ({ programs }: ProgramsSectionProps) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-xl sm:text-2xl md:text-3xl font-extralight text-center mb-6 sm:mb-10 md:mb-16 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-purple-800"
+          className="text-xl sm:text-2xl md:text-3xl font-extralight text-center mb-6 sm:mb-8 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-purple-800"
         >
           Choose Your Mentorship Path <Star className="inline-block w-5 h-5 sm:w-6 sm:h-6 text-purple-600 animate-pulse" aria-hidden="true" />
         </motion.h2>
+        
+        {/* Mobile-friendly category filter with horizontal scrolling */}
+        <div 
+          ref={categoryScrollRef}
+          className="flex overflow-x-auto pb-4 mb-6 hide-scrollbar -mx-4 px-4"
+        >
+          {categories.map((category) => (
+            <button
+              key={category}
+              data-category={category}
+              onClick={() => handleCategoryChange(category)}
+              className={`flex-none px-4 py-2 mr-2 whitespace-nowrap rounded-full text-sm font-medium min-h-[40px] touch-manipulation transition-colors ${
+                activeCategory === category
+                  ? "bg-primary text-white"
+                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              }`}
+            >
+              {category.charAt(0).toUpperCase() + category.slice(1)}
+            </button>
+          ))}
+        </div>
+        
+        {/* Mobile-optimized grid with adjusted columns */}
         <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-          {programs.map((program, index) => (
+          {filteredPrograms.map((program, index) => (
             <motion.div
               key={program.title}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
+              className="h-full" // Ensure equal height cards
             >
               <ProgramCard program={program} />
             </motion.div>
           ))}
         </div>
+        
+        {/* Empty state when no programs match the filter */}
+        {filteredPrograms.length === 0 && (
+          <div className="text-center py-12">
+            <p className="text-gray-500">No programs found in this category.</p>
+            <button
+              onClick={() => setActiveCategory("all")}
+              className="mt-4 px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-600 transition-colors"
+            >
+              View all programs
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

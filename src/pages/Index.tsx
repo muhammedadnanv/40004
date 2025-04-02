@@ -24,7 +24,7 @@ import { applySEOOptimizations } from "@/utils/performanceOptimizer";
 import { seoOptimizer } from "@/utils/seoOptimizer";
 import { initRetargetingService, trackVisitorEvent } from "@/utils/retargetingService";
 import { autoFixAndReportLinkIssues } from "@/utils/linkValidator";
-import { enhanceMobileExperience } from "@/utils/mobileResponsiveness";
+import { enhanceMobileExperience, initializeMobileOptimizations } from "@/utils/mobileResponsiveness";
 import { OnPageOptimizer } from "@/components/SEO/OnPageOptimizer";
 import { GoogleSearchPreview } from "@/components/SEO/GoogleSearchPreview";
 import { JusticeMessage } from "@/components/JusticeMessage";
@@ -55,7 +55,8 @@ const Index = () => {
       
       autoFixAndReportLinkIssues();
       
-      enhanceMobileExperience();
+      // Apply mobile optimizations
+      initializeMobileOptimizations();
       
       const keywordsResult = await seoOptimizer.getKeywords('mentorship', 10, 0.7, 0.8);
       if (keywordsResult.success && keywordsResult.keywords) {

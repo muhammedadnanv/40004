@@ -1,6 +1,7 @@
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { isMobileDevice, hasTouchCapability } from "@/utils/mobileResponsiveness";
 
 interface ResponsiveContainerProps {
   children: React.ReactNode;
@@ -8,7 +9,8 @@ interface ResponsiveContainerProps {
   fullWidth?: boolean;
   withPadding?: boolean;
   centered?: boolean;
-  safeArea?: boolean; // New prop for adding safe area insets
+  safeArea?: boolean;
+  mobileOptimized?: boolean;
 }
 
 export function ResponsiveContainer({
@@ -18,15 +20,34 @@ export function ResponsiveContainer({
   withPadding = true,
   centered = true,
   safeArea = false,
+  mobileOptimized = true,
 }: ResponsiveContainerProps) {
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    // Check if mobile on mount
+    setIsMobile(isMobileDevice());
+    
+    // Add resize listener
+    const handleResize = () => {
+      setIsMobile(isMobileDevice());
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
     <div
       className={cn(
         "w-full",
         fullWidth ? "" : "max-w-7xl mx-auto",
-        withPadding ? "px-4 sm:px-6 md:px-8 lg:px-12" : "",
+        withPadding ? "px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12" : "", // Adjusted padding for better mobile experience
         centered ? "text-center" : "",
         safeArea ? "safe-area-padding" : "",
+        mobileOptimized && isMobile ? "mobile-optimized" : "",
         className
       )}
     >
@@ -41,6 +62,7 @@ export function ResponsiveGrid({
   columns = { default: 1, sm: 2, md: 3, lg: 4 },
   spacing = "default",
   mobileStack = true,
+  mobileScrollable = false,
 }: {
   children: React.ReactNode;
   className?: string;
@@ -53,6 +75,7 @@ export function ResponsiveGrid({
   };
   spacing?: "compact" | "default" | "wide";
   mobileStack?: boolean;
+  mobileScrollable?: boolean;
 }) {
   const getGridCols = () => {
     const colClasses = [`grid-cols-${mobileStack ? 1 : columns.default}`];
@@ -75,9 +98,29 @@ export function ResponsiveGrid({
 
   const getSpacing = () => {
     if (spacing === "compact") return "gap-2 sm:gap-3 md:gap-4";
-    if (spacing === "wide") return "gap-6 sm:gap-8 md:gap-10";
-    return "gap-4 sm:gap-6 md:gap-8";
+    if (spacing === "wide") return "gap-4 sm:gap-6 md:gap-8 lg:gap-10";
+    return "gap-3 sm:gap-4 md:gap-6 lg:gap-8"; // Adjusted for better mobile spacing
   };
+
+  // For mobile scrollable grids
+  if (mobileScrollable) {
+    return (
+      <div className={cn("overflow-x-auto pb-4 -mx-4 px-4 hide-scrollbar", className)}>
+        <div className={cn(
+          "flex",
+          spacing === "compact" ? "gap-2 sm:gap-3" : 
+          spacing === "wide" ? "gap-4 sm:gap-6" : "gap-3 sm:gap-4",
+          "min-w-full"
+        )}>
+          {React.Children.map(children, (child) => (
+            <div className="flex-none" style={{ width: `calc(85% - 1rem)`, maxWidth: '300px' }}>
+              {child}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -102,6 +145,7 @@ export function ResponsiveFlex({
   wrap = true,
   gap = "default",
   mobileStack = true,
+  mobileReverse = false,
 }: {
   children: React.ReactNode;
   className?: string;
@@ -111,10 +155,13 @@ export function ResponsiveFlex({
   wrap?: boolean;
   gap?: "none" | "sm" | "default" | "md" | "lg";
   mobileStack?: boolean;
+  mobileReverse?: boolean;
 }) {
   const getDirection = () => {
     if (direction === "responsive" || mobileStack) {
-      return "flex-col sm:flex-row";
+      return mobileReverse 
+        ? "flex-col-reverse sm:flex-row" 
+        : "flex-col sm:flex-row";
     }
     if (direction === "row") return "flex-row";
     if (direction === "col") return "flex-col";
@@ -125,9 +172,9 @@ export function ResponsiveFlex({
   const getGap = () => {
     if (gap === "none") return "";
     if (gap === "sm") return "gap-2 sm:gap-3";
-    if (gap === "md") return "gap-4 sm:gap-6";
-    if (gap === "lg") return "gap-6 sm:gap-8";
-    return "gap-4";
+    if (gap === "md") return "gap-4 sm:gap-5 md:gap-6";
+    if (gap === "lg") return "gap-5 sm:gap-6 md:gap-8";
+    return "gap-3 sm:gap-4"; // Adjusted for better spacing on mobile
   };
 
   return (
@@ -153,12 +200,16 @@ export function ResponsiveText({
   size = "default",
   as = "p",
   mobileOptimized = true,
+  truncate = false,
+  lines,
 }: {
   children: React.ReactNode;
   className?: string;
   size?: "xs" | "sm" | "default" | "lg" | "xl" | "2xl" | "3xl";
   as?: "p" | "span" | "div" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
   mobileOptimized?: boolean;
+  truncate?: boolean;
+  lines?: number;
 }) {
   const Component = as;
 
@@ -174,7 +225,7 @@ export function ResponsiveText({
       return "text-base";
     }
     
-    // Responsive sizes
+    // Responsive sizes with better mobile scaling
     if (size === "xs") return "text-xs sm:text-sm";
     if (size === "sm") return "text-sm sm:text-base";
     if (size === "lg") return "text-base sm:text-lg md:text-xl";
@@ -184,20 +235,33 @@ export function ResponsiveText({
     return "text-base";
   };
 
+  const truncateStyles = truncate 
+    ? lines 
+      ? {
+          overflow: 'hidden',
+          display: '-webkit-box',
+          WebkitBoxOrient: 'vertical',
+          WebkitLineClamp: lines,
+        } as React.CSSProperties
+      : "truncate"
+    : "";
+
   return (
     <Component
       className={cn(
         getSize(),
         mobileOptimized && "tracking-tight", // Tighter tracking for better mobile reading
+        typeof truncateStyles === 'string' ? truncateStyles : "",
         className
       )}
+      style={typeof truncateStyles === 'object' ? truncateStyles : undefined}
     >
       {children}
     </Component>
   );
 }
 
-// New component specifically for mobile-friendly touch targets
+// Enhanced version of TouchFriendlyButton with better mobile support
 export function TouchFriendlyButton({
   children,
   className,
@@ -205,6 +269,9 @@ export function TouchFriendlyButton({
   disabled = false,
   type = "button",
   variant = "default",
+  fullWidthOnMobile = true,
+  size = "default",
+  loading = false,
 }: {
   children: React.ReactNode;
   className?: string;
@@ -212,13 +279,28 @@ export function TouchFriendlyButton({
   disabled?: boolean;
   type?: "button" | "submit" | "reset";
   variant?: "default" | "primary" | "secondary" | "outline" | "ghost";
+  fullWidthOnMobile?: boolean;
+  size?: "sm" | "default" | "lg";
+  loading?: boolean;
 }) {
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  
+  useEffect(() => {
+    setIsTouchDevice(hasTouchCapability());
+  }, []);
+
   const getVariantClass = () => {
     if (variant === "primary") return "bg-primary text-white hover:bg-primary-600";
     if (variant === "secondary") return "bg-secondary text-foreground hover:bg-secondary-hover";
-    if (variant === "outline") return "border border-input bg-background hover:bg-accent";
-    if (variant === "ghost") return "hover:bg-accent";
+    if (variant === "outline") return "border border-input bg-background hover:bg-accent/10";
+    if (variant === "ghost") return "hover:bg-accent/10";
     return "bg-primary text-primary-foreground hover:bg-primary/90";
+  };
+  
+  const getSizeClass = () => {
+    if (size === "sm") return "min-h-[40px] px-3 py-1.5 text-sm";
+    if (size === "lg") return "min-h-[52px] px-6 py-3 text-lg";
+    return "min-h-[48px] px-4 py-2"; // Default size optimized for touch
   };
 
   return (
@@ -226,16 +308,25 @@ export function TouchFriendlyButton({
       type={type}
       className={cn(
         // Base button styling
-        "rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+        "rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1",
         
         // Enhanced for mobile touch targets
-        "min-h-[48px] min-w-[48px] px-4 py-2 sm:px-5 sm:py-2.5",
+        getSizeClass(),
         
         // Active state feedback
-        "active:scale-[0.98] touch-improved",
+        "active:scale-[0.98] touch-manipulation",
+        
+        // Full width on mobile if enabled
+        fullWidthOnMobile && isMobileDevice() ? "w-full" : "",
+        
+        // Touch device optimizations
+        isTouchDevice ? "touch-improved" : "",
         
         // Variant styling
         getVariantClass(),
+        
+        // Loading state
+        loading && "opacity-70 cursor-wait",
         
         // Disabled state
         disabled && "opacity-50 cursor-not-allowed",
@@ -243,14 +334,20 @@ export function TouchFriendlyButton({
         className
       )}
       onClick={onClick}
-      disabled={disabled}
+      disabled={disabled || loading}
+      aria-busy={loading}
     >
-      {children}
+      {loading ? (
+        <div className="flex items-center justify-center gap-2">
+          <div className="w-4 h-4 rounded-full border-2 border-current border-b-transparent animate-spin" />
+          <span>{typeof children === 'string' ? children : 'Loading...'}</span>
+        </div>
+      ) : children}
     </button>
   );
 }
 
-// New component for safe area container (especially for mobile notches)
+// Enhanced safe area container for all device notches and UI elements
 export function SafeAreaContainer({
   children,
   className,
@@ -258,6 +355,7 @@ export function SafeAreaContainer({
   bottom = true,
   left = true,
   right = true,
+  withPadding = true,
 }: {
   children: React.ReactNode;
   className?: string;
@@ -265,14 +363,129 @@ export function SafeAreaContainer({
   bottom?: boolean;
   left?: boolean;
   right?: boolean;
+  withPadding?: boolean;
 }) {
   return (
     <div
       className={cn(
-        top && "safe-top",
-        bottom && "safe-bottom",
-        left && "safe-left",
-        right && "safe-right",
+        "relative",
+        top && "pt-safe-top",
+        bottom && "pb-safe-bottom",
+        left && "pl-safe-left",
+        right && "pr-safe-right",
+        withPadding && "px-4 sm:px-6 md:px-8",
+        className
+      )}
+    >
+      {children}
+    </div>
+  );
+}
+
+// New component for mobile-friendly tabs with horizontal scrolling
+export function MobileScrollableTabs({
+  tabs,
+  activeTab,
+  onChange,
+  className,
+}: {
+  tabs: { id: string; label: string }[];
+  activeTab: string;
+  onChange: (id: string) => void;
+  className?: string;
+}) {
+  // Reference for scrolling
+  const tabsRef = React.useRef<HTMLDivElement>(null);
+  
+  // Scroll active tab into view
+  React.useEffect(() => {
+    if (tabsRef.current) {
+      const activeElement = tabsRef.current.querySelector(`[data-tab-id="${activeTab}"]`);
+      if (activeElement) {
+        const container = tabsRef.current;
+        const scrollLeft = activeElement.getBoundingClientRect().left - 
+                          container.getBoundingClientRect().left + 
+                          container.scrollLeft - 
+                          16; // Add some padding
+        
+        container.scrollTo({
+          left: scrollLeft,
+          behavior: 'smooth'
+        });
+      }
+    }
+  }, [activeTab]);
+
+  return (
+    <div 
+      ref={tabsRef}
+      className={cn(
+        "flex overflow-x-auto hide-scrollbar py-2 px-1 -mx-4 sm:mx-0 sm:px-0",
+        className
+      )}
+    >
+      {tabs.map((tab) => (
+        <button
+          key={tab.id}
+          data-tab-id={tab.id}
+          onClick={() => onChange(tab.id)}
+          className={cn(
+            "flex-none px-4 py-2 whitespace-nowrap text-sm font-medium rounded-full mr-2 last:mr-4 sm:last:mr-2 transition-colors",
+            "min-h-[40px] touch-manipulation",
+            activeTab === tab.id
+              ? "bg-primary text-white"
+              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+          )}
+        >
+          {tab.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+// New component for sticky mobile navigation
+export function StickyMobileNav({
+  children,
+  className,
+  alwaysVisible = false,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  alwaysVisible?: boolean;
+}) {
+  const [visible, setVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  
+  useEffect(() => {
+    if (alwaysVisible) return;
+    
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      // Show nav when scrolling up or at the top
+      if (currentScrollY <= 0 || currentScrollY < lastScrollY) {
+        setVisible(true);
+      } 
+      // Hide nav when scrolling down and not at the top
+      else if (currentScrollY > 100 && currentScrollY > lastScrollY) {
+        setVisible(false);
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [lastScrollY, alwaysVisible]);
+
+  return (
+    <div
+      className={cn(
+        "fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-40 transition-transform duration-300 px-2 py-2 safe-area-padding",
+        !visible && !alwaysVisible ? "translate-y-full" : "translate-y-0",
         className
       )}
     >

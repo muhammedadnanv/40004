@@ -112,6 +112,18 @@
         e.preventDefault();
         window.deferredPrompt = e;
       });
+      
+      // Add event listener for orientation changes
+      window.addEventListener('orientationchange', function() {
+        // Force redraw on certain elements
+        setTimeout(function() {
+          document.querySelectorAll('.orientation-sensitive').forEach(function(el) {
+            el.style.display = 'none';
+            void el.offsetHeight;
+            el.style.display = '';
+          });
+        }, 300);
+      });
     </script>
   </body>
 </html>

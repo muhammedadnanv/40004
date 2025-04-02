@@ -2,11 +2,21 @@
 import { Button } from "@/components/ui/button";
 import { ExternalLink, BookOpen, Upload } from "lucide-react";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CVUploadDialog } from "./CVUploadDialog";
+import { isMobileDevice } from "@/utils/mobileResponsiveness";
 
 export const HeroSection = () => {
   const [showCVDialog, setShowCVDialog] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(isMobileDevice());
+    checkMobile();
+    
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
   
   const scrollToPrograms = () => {
     const programsSection = document.getElementById('programs-section');
@@ -30,7 +40,7 @@ export const HeroSection = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="container mx-auto max-w-4xl text-center relative"
+        className="container mx-auto max-w-4xl text-center relative px-4 sm:px-6"
         style={{ willChange: 'transform' }}
       >
         <div className="space-y-6 sm:space-y-8">
@@ -42,12 +52,12 @@ export const HeroSection = () => {
           >
             <h1 
               id="hero-heading"
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight premium-gradient"
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight premium-gradient"
             >
               Dev Mentor Hub 
             </h1>
             
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-600 font-light max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 font-light max-w-2xl mx-auto px-2">
               Transform your career through personalized tech mentorship
             </p>
           </motion.div>
@@ -60,7 +70,7 @@ export const HeroSection = () => {
           >
             <Button 
               onClick={scrollToPrograms} 
-              className="w-full sm:w-auto bg-primary hover:bg-primary-600 text-white font-medium px-6 sm:px-8 py-5 sm:py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 text-base sm:text-lg group focus:ring-2 focus:ring-primary/50 focus:ring-offset-2"
+              className={`w-full sm:w-auto bg-primary hover:bg-primary-600 text-white font-medium px-5 sm:px-6 py-4 sm:py-5 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 text-base ${isMobile ? 'text-base' : 'sm:text-lg'} group focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 touch-manipulation`}
               aria-label="Explore our mentorship programs"
             >
               <BookOpen className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" aria-hidden="true" />
@@ -69,7 +79,7 @@ export const HeroSection = () => {
             
             <Button 
               onClick={() => setShowCVDialog(true)}
-              className="w-full sm:w-auto mt-3 sm:mt-0 inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-5 sm:py-6 text-base sm:text-lg border-2 border-primary/20 rounded-xl hover:bg-primary/5 transition-all duration-300 hover:scale-105 font-medium text-primary group focus:ring-2 focus:ring-primary/50 focus:ring-offset-2"
+              className={`w-full sm:w-auto mt-3 sm:mt-0 inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-4 sm:py-5 text-base ${isMobile ? 'text-base' : 'sm:text-lg'} border-2 border-primary/20 rounded-xl hover:bg-primary/5 transition-all duration-300 hover:scale-105 font-medium text-primary group focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 touch-manipulation`}
               aria-label="Upload your CV for job placement support"
               variant="outline"
             >
