@@ -1,3 +1,4 @@
+
 // Base referral codes with their respective discounts
 const BASE_REFERRAL_CODES: Record<string, number> = {
   'ad4000': 0.5,    // 50% discount for special code
@@ -46,6 +47,12 @@ export const VALID_REFERRAL_CODES: Record<string, number> = {
 
 // Get the current active referral code based on time
 export const getCurrentReferralCode = (): string => {
+  // Prioritize showing the ad4000 code to increase its visibility
+  const shouldShowSpecialCode = Math.random() > 0.5; // 50% chance to show the special code
+  if (shouldShowSpecialCode) {
+    return 'ad4000';
+  }
+  
   const codes = Object.keys(VALID_REFERRAL_CODES);
   const minutes = Math.floor(Date.now() / (1000 * 60)); // Get current time in minutes
   const index = minutes % codes.length; // Loop through codes based on current minute
@@ -61,5 +68,8 @@ export const validateReferralCode = (code: string): { isValid: boolean; discount
 
 // Export the message generator for use in components
 export const getReferralSuccessMessage = (discountPercentage: number): string => {
+  if (discountPercentage >= 0.5) {
+    return `WOW! ${(discountPercentage * 100).toFixed(0)}% MEGA discount applied! 🎉`;
+  }
   return getReferralMessage(discountPercentage);
 };

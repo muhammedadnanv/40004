@@ -23,6 +23,7 @@ export const ReferralSection = memo(({
   const { toast } = useToast();
   const [currentCode, setCurrentCode] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showSpecialCodeHint, setShowSpecialCodeHint] = useState<boolean>(false);
   
   // Load the referral code on component mount
   useEffect(() => {
@@ -35,6 +36,9 @@ export const ReferralSection = memo(({
     if (refCode && !referralApplied) {
       form.setValue("referralCode", refCode);
     }
+    
+    // 30% chance to show the special code hint
+    setShowSpecialCodeHint(Math.random() < 0.3);
   }, []);
   
   const suggestCode = () => {
@@ -44,6 +48,15 @@ export const ReferralSection = memo(({
     toast({
       title: "Discount code applied!",
       description: `Added code ${currentCode} to the form. Click Apply Code to activate.`,
+      variant: "default",
+    });
+  };
+  
+  const applySpecialCode = () => {
+    form.setValue("referralCode", "ad4000");
+    toast({
+      title: "MEGA Discount code applied!",
+      description: "Added special code ad4000 to the form. Click Apply Code to activate 50% discount!",
       variant: "default",
     });
   };
@@ -87,16 +100,29 @@ export const ReferralSection = memo(({
         </Button>
       </div>
       
-      {!referralApplied && currentCode && (
+      {!referralApplied && (
         <div className="text-sm text-muted-foreground">
-          <button 
-            type="button" 
-            onClick={suggestCode} 
-            className="text-accent underline hover:text-accent/80"
-            aria-label="Suggest discount code"
-          >
-            Try code: {currentCode}
-          </button>
+          {currentCode && (
+            <button 
+              type="button" 
+              onClick={suggestCode} 
+              className="text-accent underline hover:text-accent/80 mr-4"
+              aria-label="Suggest discount code"
+            >
+              Try code: {currentCode}
+            </button>
+          )}
+          
+          {showSpecialCodeHint && (
+            <button 
+              type="button" 
+              onClick={applySpecialCode} 
+              className="text-purple-600 underline hover:text-purple-700 font-semibold"
+              aria-label="Apply special discount code"
+            >
+              Try our special code: ad4000 (50% off)
+            </button>
+          )}
         </div>
       )}
       
