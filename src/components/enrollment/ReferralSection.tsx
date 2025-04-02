@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { TagIcon } from "lucide-react";
 import { getCurrentReferralCode } from "@/utils/referralUtils";
+import { useState, useEffect, memo } from "react";
 
 interface ReferralSectionProps {
   form: any;
@@ -12,22 +13,42 @@ interface ReferralSectionProps {
   referralApplied: boolean;
 }
 
-export const ReferralSection = ({ 
+// Using memo to prevent unnecessary re-renders
+export const ReferralSection = memo(({ 
   form, 
   onApplyReferral, 
   finalAmount,
   referralApplied 
 }: ReferralSectionProps) => {
   const { toast } = useToast();
-  const currentCode = getCurrentReferralCode();
+  const [currentCode, setCurrentCode] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  
+  // Load the referral code on component mount
+  useEffect(() => {
+    setCurrentCode(getCurrentReferralCode());
+  }, []);
   
   const suggestCode = () => {
+    if (!currentCode) return;
+    
     form.setValue("referralCode", currentCode);
     toast({
-      title: "Referral code applied!",
+      title: "Discount code applied!",
       description: `Added code ${currentCode} to the form. Click Apply Code to activate.`,
       variant: "default",
     });
+  };
+  
+  const handleApplyReferral = async () => {
+    if (referralApplied) return;
+    setIsLoading(true);
+    
+    try {
+      await onApplyReferral();
+    } finally {
+      setIsLoading(false);
+    }
   };
   
   return (
@@ -43,25 +64,28 @@ export const ReferralSection = ({
             placeholder="Enter discount code" 
             {...form.register("referralCode")}
             className="border-accent/30 focus:border-accent transition-colors w-full text-sm sm:text-base"
+            aria-label="Discount code"
           />
         </div>
         <Button 
           type="button" 
           variant="referral" 
-          onClick={onApplyReferral}
+          onClick={handleApplyReferral}
           className="w-full sm:w-auto text-sm sm:text-base whitespace-nowrap"
-          disabled={referralApplied}
+          disabled={referralApplied || isLoading}
+          aria-label="Apply discount code"
         >
-          Apply Code
+          {isLoading ? "Applying..." : "Apply Code"}
         </Button>
       </div>
       
-      {!referralApplied && (
+      {!referralApplied && currentCode && (
         <div className="text-sm text-muted-foreground">
           <button 
             type="button" 
             onClick={suggestCode} 
             className="text-accent underline hover:text-accent/80"
+            aria-label="Suggest discount code"
           >
             Try code: {currentCode}
           </button>
@@ -73,4 +97,7 @@ export const ReferralSection = ({
       </div>
     </div>
   );
-};
+});
+
+// Add display name for better debugging
+ReferralSection.displayName = "ReferralSection";
