@@ -26,7 +26,15 @@ export const ReferralSection = memo(({
   
   // Load the referral code on component mount
   useEffect(() => {
-    setCurrentCode(getCurrentReferralCode());
+    const code = getCurrentReferralCode();
+    setCurrentCode(code);
+    
+    // Auto-apply referral code if present in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const refCode = urlParams.get('ref');
+    if (refCode && !referralApplied) {
+      form.setValue("referralCode", refCode);
+    }
   }, []);
   
   const suggestCode = () => {

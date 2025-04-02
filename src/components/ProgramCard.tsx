@@ -76,13 +76,19 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
           title={program.title}
         />
 
-        <ProgramFooter 
-          title={program.title}
-          onEnrollClick={() => setShowEnrollmentForm(true)}
-          onShareClick={() => {}}
-          currentPrice={currentPrice}
-          regularPrice={program.regularPrice}
-        />
+        <div className="flex justify-between items-center mt-auto p-4">
+          <ProgramFooter 
+            title={program.title}
+            onEnrollClick={() => setShowEnrollmentForm(true)}
+            onShareClick={() => {}}
+            currentPrice={currentPrice}
+            regularPrice={program.regularPrice}
+          />
+          
+          <div className="shrink-0 ml-2">
+            <ShareProgramCard program={program} />
+          </div>
+        </div>
 
         <EnrollmentForm 
           isOpen={showEnrollmentForm}
@@ -90,7 +96,6 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
           programTitle={program.title}
           amount={currentPrice}
         />
-        <ShareProgramCard program={program} />
       </Card>
     </motion.div>
   );

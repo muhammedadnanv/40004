@@ -29,21 +29,42 @@ export const ShareSection = ({
     try {
       const shareUrl = url || window.location.href;
       
-      // Check if Web Share API is available
-      if (navigator.share) {
-        await navigator.share({
+      // Add UTM parameters for tracking
+      const shareUrlWithUTM = new URL(shareUrl);
+      if (!shareUrlWithUTM.searchParams.has('utm_source')) {
+        shareUrlWithUTM.searchParams.append('utm_source', 'share_button');
+        shareUrlWithUTM.searchParams.append('utm_medium', 'web');
+        shareUrlWithUTM.searchParams.append('utm_campaign', 'user_share');
+      }
+      
+      // Check if Web Share API is available and supported
+      if (navigator.share && navigator.canShare) {
+        const shareData = {
           title,
           text: description,
-          url: shareUrl,
-        });
+          url: shareUrlWithUTM.toString(),
+        };
         
-        toast({
-          title: "Shared successfully!",
-          description: "Thanks for sharing Dev Mentor Hub.",
-        });
+        // Verify if the data can be shared on this device
+        if (navigator.canShare(shareData)) {
+          await navigator.share(shareData);
+          
+          toast({
+            title: "Shared successfully!",
+            description: "Thanks for sharing Dev Mentor Hub.",
+          });
+        } else {
+          // Fallback to clipboard if share data not supported
+          await navigator.clipboard.writeText(shareUrlWithUTM.toString());
+          
+          toast({
+            title: "Link copied to clipboard!",
+            description: "Share the link with your friends.",
+          });
+        }
       } else {
-        // Fallback to clipboard
-        await navigator.clipboard.writeText(shareUrl);
+        // Fallback to clipboard for browsers without Web Share API
+        await navigator.clipboard.writeText(shareUrlWithUTM.toString());
         
         toast({
           title: "Link copied to clipboard!",
@@ -81,7 +102,7 @@ export const ShareSection = ({
       >
         {isSharing ? (
           <>
-            <span className="animate-spin mr-2">
+            <span className="animate-spin mr-2" aria-hidden="true">
               <svg className="h-4 w-4" viewBox="0 0 24 24">
                 <circle
                   className="opacity-25"

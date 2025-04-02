@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ProjectCard } from "./ProjectCard";
 import { ShareProjectIdea } from "./ShareProjectIdea";
 import { useState } from "react";
+import { Share2 } from "lucide-react";
 
 interface ProjectListProps {
   projects: Array<{
@@ -47,9 +48,10 @@ export const ProjectList = ({ projects, resetFilters }: ProjectListProps) => {
                 <Button 
                   variant="outline" 
                   size="sm" 
-                  className="mt-2 text-xs w-full sm:w-auto"
+                  className="mt-2 text-xs w-full sm:w-auto flex items-center justify-center gap-1"
                   onClick={() => handleShareClick(project)}
                 >
+                  <Share2 className="h-3 w-3" />
                   Share Project Idea
                 </Button>
               </div>
