@@ -87,7 +87,8 @@ export const JusticeMessage = () => {
       </div>
       
       {/* Add styles for the copied animation */}
-      <style jsx>{`
+      <style>
+        {`
         #referral-code.copied {
           background-color: rgba(255, 255, 255, 0.3);
           border-radius: 4px;
@@ -102,7 +103,8 @@ export const JusticeMessage = () => {
         #referral-code.copied {
           animation: pulse 0.5s ease-in-out 2;
         }
-      `}</style>
+        `}
+      </style>
     </motion.div>
   );
 };

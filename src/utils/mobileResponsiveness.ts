@@ -164,16 +164,18 @@ export const optimizeImagesForMobile = (): void => {
           wrapper.style.paddingBottom = `${aspectRatio}%`;
           
           // Style the image for the wrapper
-          img.style.position = 'absolute';
-          img.style.top = '0';
-          img.style.left = '0';
-          img.style.width = '100%';
-          img.style.height = '100%';
-          img.style.objectFit = 'cover';
-          
-          // Replace the image with the wrapper containing the image
-          parent.replaceChild(wrapper, img);
-          wrapper.appendChild(img);
+          if (img instanceof HTMLImageElement) {
+            img.style.position = 'absolute';
+            img.style.top = '0';
+            img.style.left = '0';
+            img.style.width = '100%';
+            img.style.height = '100%';
+            img.style.objectFit = 'cover';
+            
+            // Replace the image with the wrapper containing the image
+            parent.replaceChild(wrapper, img);
+            wrapper.appendChild(img);
+          }
         }
       }
     });
