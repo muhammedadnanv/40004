@@ -22,7 +22,7 @@ export const hasTouchCapability = (): boolean => {
 export const optimizeFontsForMobile = (): void => {
   if (isMobileDevice()) {
     const bodyElement = document.querySelector('body');
-    if (bodyElement) {
+    if (bodyElement && bodyElement instanceof HTMLElement) {
       // Ensure minimum font size for readability
       bodyElement.style.fontSize = 'min(16px, 4vw)';
     }
@@ -35,29 +35,30 @@ export const enhanceTouchTargets = (): void => {
     const touchElements = document.querySelectorAll('button, a, input, select, [role="button"]');
     
     touchElements.forEach(el => {
-      const element = el as HTMLElement;
-      
-      // Get current computed styles
-      const styles = window.getComputedStyle(element);
-      const height = parseInt(styles.height);
-      const width = parseInt(styles.width);
-      
-      // If elements are too small for touch, enhance them
-      if (height < 48 || width < 48) { // Increased from 44px to 48px for better touch targets
-        // Add more padding for better touch targets
-        const currentPaddingY = parseInt(styles.paddingTop) + parseInt(styles.paddingBottom);
-        const currentPaddingX = parseInt(styles.paddingLeft) + parseInt(styles.paddingRight);
+      // Cast to HTMLElement to access style properties
+      if (el instanceof HTMLElement) {
+        // Get current computed styles
+        const styles = window.getComputedStyle(el);
+        const height = parseInt(styles.height);
+        const width = parseInt(styles.width);
         
-        if (height < 48 && currentPaddingY < 24) { // Increased padding threshold
-          const neededPadding = Math.max(0, (48 - height + currentPaddingY) / 2);
-          element.style.paddingTop = `${neededPadding}px`;
-          element.style.paddingBottom = `${neededPadding}px`;
-        }
-        
-        if (width < 48 && currentPaddingX < 24) { // Increased padding threshold
-          const neededPadding = Math.max(0, (48 - width + currentPaddingX) / 2);
-          element.style.paddingLeft = `${neededPadding}px`;
-          element.style.paddingRight = `${neededPadding}px`;
+        // If elements are too small for touch, enhance them
+        if (height < 48 || width < 48) { // Increased from 44px to 48px for better touch targets
+          // Add more padding for better touch targets
+          const currentPaddingY = parseInt(styles.paddingTop) + parseInt(styles.paddingBottom);
+          const currentPaddingX = parseInt(styles.paddingLeft) + parseInt(styles.paddingRight);
+          
+          if (height < 48 && currentPaddingY < 24) { // Increased padding threshold
+            const neededPadding = Math.max(0, (48 - height + currentPaddingY) / 2);
+            el.style.paddingTop = `${neededPadding}px`;
+            el.style.paddingBottom = `${neededPadding}px`;
+          }
+          
+          if (width < 48 && currentPaddingX < 24) { // Increased padding threshold
+            const neededPadding = Math.max(0, (48 - width + currentPaddingX) / 2);
+            el.style.paddingLeft = `${neededPadding}px`;
+            el.style.paddingRight = `${neededPadding}px`;
+          }
         }
       }
     });
@@ -70,12 +71,14 @@ export const fixMobileZIndexIssues = (): void => {
     const overlayElements = document.querySelectorAll('.dropdown-menu, .modal, .dialog, .popover, .tooltip');
     
     overlayElements.forEach(el => {
-      const element = el as HTMLElement;
-      const currentZIndex = parseInt(window.getComputedStyle(element).zIndex);
-      
-      // Ensure overlay elements have high z-index
-      if (!isNaN(currentZIndex) && currentZIndex < 1000) {
-        element.style.zIndex = '1000';
+      // Cast to HTMLElement to access style properties
+      if (el instanceof HTMLElement) {
+        const currentZIndex = parseInt(window.getComputedStyle(el).zIndex);
+        
+        // Ensure overlay elements have high z-index
+        if (!isNaN(currentZIndex) && currentZIndex < 1000) {
+          el.style.zIndex = '1000';
+        }
       }
     });
   }
@@ -124,11 +127,12 @@ export const handleOrientationChange = (): void => {
       
       // Force redraw on some elements that might need it
       document.querySelectorAll('.needs-redraw-on-orientation').forEach(el => {
-        const element = el as HTMLElement;
-        element.style.display = 'none';
-        // Force reflow
-        void element.offsetHeight;
-        element.style.display = '';
+        if (el instanceof HTMLElement) {
+          el.style.display = 'none';
+          // Force reflow
+          void el.offsetHeight;
+          el.style.display = '';
+        }
       });
     }, 300);
   });
@@ -139,14 +143,17 @@ export const enhanceResponsiveNavigation = (): void => {
   const navElement = document.querySelector('nav');
   if (navElement && isMobileDevice()) {
     // Make navigation more accessible on mobile
-    navElement.classList.add('mobile-optimized');
-    
-    // Find navigation links and ensure they have proper touch target sizes
-    const navLinks = navElement.querySelectorAll('a, button');
-    navLinks.forEach(link => {
-      const element = link as HTMLElement;
-      element.classList.add('touch-improved');
-    });
+    if (navElement instanceof HTMLElement) {
+      navElement.classList.add('mobile-optimized');
+      
+      // Find navigation links and ensure they have proper touch target sizes
+      const navLinks = navElement.querySelectorAll('a, button');
+      navLinks.forEach(link => {
+        if (link instanceof HTMLElement) {
+          link.classList.add('touch-improved');
+        }
+      });
+    }
   }
 };
 
@@ -176,7 +183,10 @@ export const detectAndOptimizeForSlowConnections = (): void => {
     
     if (connection && (connection.saveData || connection.effectiveType.includes('2g') || connection.effectiveType.includes('slow'))) {
       // Apply aggressive optimizations for slow connections
-      document.body.classList.add('slow-connection');
+      const bodyElement = document.body;
+      if (bodyElement) {
+        bodyElement.classList.add('slow-connection');
+      }
       
       // Find and defer non-critical images
       const nonCriticalImages = document.querySelectorAll('img:not(.critical-image)');
@@ -186,7 +196,9 @@ export const detectAndOptimizeForSlowConnections = (): void => {
           img.setAttribute('loading', 'lazy');
           img.setAttribute('decoding', 'async');
           // Move to much further down the loading priority
-          img.style.opacity = '0.1';
+          if (img instanceof HTMLImageElement) {
+            img.style.opacity = '0.1';
+          }
         }
       });
       
