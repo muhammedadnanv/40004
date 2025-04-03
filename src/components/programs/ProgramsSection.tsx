@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Star } from "lucide-react";
 import { ProgramCard } from "@/components/ProgramCard";
 import { useState, useEffect, useRef } from "react";
+import { isMobileDevice } from "@/utils/mobileResponsiveness";
 
 interface Program {
   title: string;
@@ -20,12 +21,20 @@ interface ProgramsSectionProps {
 export const ProgramsSection = ({ programs }: ProgramsSectionProps) => {
   const [activeCategory, setActiveCategory] = useState<string>("all");
   const [categories, setCategories] = useState<string[]>([]);
+  const [isMobile, setIsMobile] = useState(false);
   const categoryScrollRef = useRef<HTMLDivElement>(null);
   
   // Extract unique categories from programs
   useEffect(() => {
     const uniqueCategories = ["all", ...Array.from(new Set(programs.map(program => program.category)))];
     setCategories(uniqueCategories);
+    
+    // Check for mobile device
+    const checkMobile = () => setIsMobile(isMobileDevice());
+    checkMobile();
+    
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, [programs]);
   
   // Filter programs by selected category
@@ -40,7 +49,7 @@ export const ProgramsSection = ({ programs }: ProgramsSectionProps) => {
     // Scroll the active category into view on mobile
     if (categoryScrollRef.current) {
       const activeElement = categoryScrollRef.current.querySelector(`[data-category="${category}"]`);
-      if (activeElement) {
+      if (activeElement && isMobile) {
         categoryScrollRef.current.scrollTo({
           left: (activeElement as HTMLElement).offsetLeft - 20,
           behavior: 'smooth'
@@ -72,18 +81,24 @@ export const ProgramsSection = ({ programs }: ProgramsSectionProps) => {
         {/* Mobile-friendly category filter with horizontal scrolling */}
         <div 
           ref={categoryScrollRef}
-          className="flex overflow-x-auto pb-4 mb-6 hide-scrollbar -mx-4 px-4"
+          className="flex overflow-x-auto pb-4 mb-6 hide-scrollbar -mx-4 px-4 snap-x snap-mandatory"
+          role="tablist"
+          aria-label="Program categories"
         >
           {categories.map((category) => (
             <button
               key={category}
               data-category={category}
               onClick={() => handleCategoryChange(category)}
-              className={`flex-none px-4 py-2 mr-2 whitespace-nowrap rounded-full text-sm font-medium min-h-[40px] touch-manipulation transition-colors ${
+              className={`flex-none px-4 py-2 mr-2 whitespace-nowrap rounded-full text-sm font-medium min-h-[40px] touch-manipulation transition-colors snap-start ${
                 activeCategory === category
                   ? "bg-primary text-white"
                   : "bg-gray-100 text-gray-600 hover:bg-gray-200"
               }`}
+              role="tab"
+              aria-selected={activeCategory === category}
+              aria-controls={`panel-${category}`}
+              id={`tab-${category}`}
             >
               {category.charAt(0).toUpperCase() + category.slice(1)}
             </button>
@@ -91,7 +106,12 @@ export const ProgramsSection = ({ programs }: ProgramsSectionProps) => {
         </div>
         
         {/* Mobile-optimized grid with adjusted columns */}
-        <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+        <div 
+          className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8"
+          role="tabpanel"
+          id={`panel-${activeCategory}`}
+          aria-labelledby={`tab-${activeCategory}`}
+        >
           {filteredPrograms.map((program, index) => (
             <motion.div
               key={program.title}
@@ -111,7 +131,7 @@ export const ProgramsSection = ({ programs }: ProgramsSectionProps) => {
             <p className="text-gray-500">No programs found in this category.</p>
             <button
               onClick={() => setActiveCategory("all")}
-              className="mt-4 px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-600 transition-colors"
+              className="mt-4 px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-600 transition-colors min-h-[48px] touch-manipulation"
             >
               View all programs
             </button>

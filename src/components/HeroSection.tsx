@@ -4,28 +4,52 @@ import { ExternalLink, BookOpen, Upload } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { CVUploadDialog } from "./CVUploadDialog";
-import { isMobileDevice } from "@/utils/mobileResponsiveness";
+import { isMobileDevice, hasTouchCapability, fluidTypography } from "@/utils/mobileResponsiveness";
 
 export const HeroSection = () => {
   const [showCVDialog, setShowCVDialog] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
   
   useEffect(() => {
-    const checkMobile = () => setIsMobile(isMobileDevice());
-    checkMobile();
+    const checkDeviceCapabilities = () => {
+      setIsMobile(isMobileDevice());
+      setIsTouchDevice(hasTouchCapability());
+    };
     
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    checkDeviceCapabilities();
+    window.addEventListener('resize', checkDeviceCapabilities);
+    
+    return () => window.removeEventListener('resize', checkDeviceCapabilities);
   }, []);
   
   const scrollToPrograms = () => {
     const programsSection = document.getElementById('programs-section');
-    programsSection?.scrollIntoView({ behavior: 'smooth' });
+    if (programsSection) {
+      const yOffset = -60; // Account for sticky headers
+      const y = programsSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      
+      window.scrollTo({
+        top: y,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  // Determine font sizes based on viewport
+  const getHeadingStyle = () => {
+    if (isMobile) {
+      return {
+        fontSize: "calc(1.75rem + 2vw)",
+        lineHeight: 1.2
+      };
+    }
+    return {};
   };
 
   return (
     <section 
-      className="relative min-h-[80vh] sm:min-h-[90vh] flex items-center justify-center py-8 sm:py-12 md:py-16 lg:py-20 xl:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden"
+      className="relative min-h-[80vh] sm:min-h-[90vh] flex items-center justify-center py-8 sm:py-12 md:py-16 lg:py-20 xl:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden safe-area-padding"
       id="hero-section"
       aria-labelledby="hero-heading"
     >
@@ -52,12 +76,13 @@ export const HeroSection = () => {
           >
             <h1 
               id="hero-heading"
-              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight premium-gradient"
+              className="text-fluid-3xl font-bold tracking-tight premium-gradient"
+              style={getHeadingStyle()}
             >
               Dev Mentor Hub 
             </h1>
             
-            <p className="text-base sm:text-lg md:text-xl text-gray-600 font-light max-w-2xl mx-auto px-2">
+            <p className="text-fluid-lg text-gray-600 font-light max-w-2xl mx-auto px-2">
               Transform your career through personalized tech mentorship
             </p>
           </motion.div>
@@ -66,11 +91,11 @@ export const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.5 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 max-w-md mx-auto"
+            className={`flex ${isMobile ? 'flex-col' : 'sm:flex-row'} items-center justify-center gap-3 sm:gap-4 max-w-md mx-auto`}
           >
             <Button 
               onClick={scrollToPrograms} 
-              className={`w-full sm:w-auto bg-primary hover:bg-primary-600 text-white font-medium px-5 sm:px-6 py-4 sm:py-5 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 text-base ${isMobile ? 'text-base' : 'sm:text-lg'} group focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 touch-manipulation`}
+              className={`w-full sm:w-auto bg-primary hover:bg-primary-600 text-white font-medium px-5 sm:px-6 py-4 sm:py-5 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 text-fluid-base group focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 touch-manipulation mobile-touch-target`}
               aria-label="Explore our mentorship programs"
             >
               <BookOpen className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" aria-hidden="true" />
@@ -79,7 +104,7 @@ export const HeroSection = () => {
             
             <Button 
               onClick={() => setShowCVDialog(true)}
-              className={`w-full sm:w-auto mt-3 sm:mt-0 inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-4 sm:py-5 text-base ${isMobile ? 'text-base' : 'sm:text-lg'} border-2 border-primary/20 rounded-xl hover:bg-primary/5 transition-all duration-300 hover:scale-105 font-medium text-primary group focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 touch-manipulation`}
+              className={`w-full sm:w-auto mt-3 sm:mt-0 inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-4 sm:py-5 text-fluid-base border-2 border-primary/20 rounded-xl hover:bg-primary/5 transition-all duration-300 hover:scale-105 font-medium text-primary group focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 touch-manipulation mobile-touch-target`}
               aria-label="Upload your CV for job placement support"
               variant="outline"
             >

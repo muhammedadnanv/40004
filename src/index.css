@@ -126,7 +126,60 @@
     @apply m-4 sm:m-6 lg:m-8 xl:m-10;
   }
 
-  /* Updated glass card with new color theme */
+  /* Enhanced touch feedback */
+  .touch-feedback:active {
+    @apply transform scale-95 opacity-90 transition-transform duration-150;
+  }
+  
+  /* Improve tap targets across the platform */
+  .tap-target {
+    @apply min-h-[48px] min-w-[48px] px-3 py-2 cursor-pointer touch-manipulation;
+  }
+  
+  /* Prevent content from being hidden under fixed headers/footers */
+  .content-safe-area {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 60px);
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 20px);
+  }
+  
+  /* Better focus indicators for accessibility */
+  .focus-visible-ring {
+    @apply outline-none ring-2 ring-offset-2 ring-primary/70 transition-shadow duration-150;
+  }
+  
+  /* Eliminate text size adjustment on orientation change in iOS */
+  .text-size-adjust-none {
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  
+  /* Fluid typography helpers */
+  .text-fluid-sm {
+    font-size: clamp(12px, 0.75rem + 0.25vw, 14px);
+  }
+  
+  .text-fluid-base {
+    font-size: clamp(14px, 0.875rem + 0.5vw, 16px);
+  }
+  
+  .text-fluid-lg {
+    font-size: clamp(16px, 1rem + 0.75vw, 20px);
+  }
+  
+  .text-fluid-xl {
+    font-size: clamp(18px, 1.125rem + 1vw, 24px);
+  }
+  
+  .text-fluid-2xl {
+    font-size: clamp(20px, 1.25rem + 1.5vw, 30px);
+  }
+  
+  .text-fluid-3xl {
+    font-size: clamp(24px, 1.5rem + 2vw, 36px);
+  }
+
+  /* Glass card with new color theme */
   .glass-card-2025 {
     @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-lg rounded-xl 
            hover:shadow-xl transition-all duration-300 
@@ -169,6 +222,16 @@
   
   .mobile-touch-target {
     @apply min-h-[48px] min-w-[48px];
+  }
+  
+  /* Hide scrollbars but keep functionality */
+  .hide-scrollbar {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+  
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Opera */
   }
 }
 
@@ -228,4 +291,77 @@
 
 .skill-tag {
   @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary;
+}
+
+/* Enhanced active state for touch devices */
+@media (hover: none) {
+  .touch-active:active {
+    @apply transform scale-95 transition-transform duration-150;
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Better default button styles on touch devices */
+  button, 
+  [role="button"],
+  .button {
+    @apply touch-active touch-manipulation;
+  }
+  
+  /* Better tap area for form elements */
+  input,
+  select,
+  textarea,
+  .form-control {
+    @apply min-h-[48px];
+  }
+}
+
+/* Fixed position elements with safe area considerations */
+.safe-fixed-top {
+  position: fixed;
+  top: env(safe-area-inset-top, 0);
+  left: 0;
+  right: 0;
+  z-index: 30;
+}
+
+.safe-fixed-bottom {
+  position: fixed;
+  bottom: env(safe-area-inset-bottom, 0);
+  left: 0;
+  right: 0;
+  z-index: 30;
+}
+
+/* Responsive tables */
+.responsive-table {
+  @apply w-full overflow-x-auto pb-2;
+}
+
+.responsive-table table {
+  @apply min-w-full;
+}
+
+/* Mobile nav drawer for responsive navigation */
+.mobile-nav-drawer {
+  @apply fixed inset-0 bg-black/50 z-50 transition-opacity duration-300;
+}
+
+.mobile-nav-drawer-content {
+  @apply fixed top-0 left-0 bottom-0 w-[75%] max-w-xs bg-white shadow-lg z-50 transform transition-transform duration-300 ease-in-out overflow-y-auto;
+}
+
+.mobile-nav-drawer.closed .mobile-nav-drawer-content {
+  @apply -translate-x-full;
+}
+
+.mobile-nav-drawer.open .mobile-nav-drawer-content {
+  @apply translate-x-0;
+}
+
+/* Improve focus visibility on mobile */
+@media (hover: none) {
+  *:focus-visible {
+    @apply outline-none ring-2 ring-primary/70 ring-offset-2 transition-shadow duration-150;
+  }
 }

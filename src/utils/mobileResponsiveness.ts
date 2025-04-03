@@ -18,6 +18,17 @@ export const hasTouchCapability = (): boolean => {
   return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 };
 
+// Calculate fluid typography sizes based on viewport width
+export const fluidTypography = (minSize: number, maxSize: number, minWidth = 320, maxWidth = 1200): string => {
+  const minSizePx = minSize + 'px';
+  const maxSizePx = maxSize + 'px';
+  const sizeDiff = maxSize - minSize;
+  const widthDiff = maxWidth - minWidth;
+  const fluidFormula = `calc(${minSizePx} + ${sizeDiff} * ((100vw - ${minWidth}px) / ${widthDiff}))`;
+  
+  return `clamp(${minSizePx}, ${fluidFormula}, ${maxSizePx})`;
+};
+
 // Adjust font sizes for better readability on mobile
 export const optimizeFontsForMobile = (): void => {
   if (isMobileDevice()) {
@@ -25,6 +36,24 @@ export const optimizeFontsForMobile = (): void => {
     if (bodyElement && bodyElement instanceof HTMLElement) {
       // Ensure minimum font size for readability
       bodyElement.style.fontSize = 'min(16px, 4vw)';
+      
+      // Apply fluid typography to headings
+      const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+      headings.forEach(heading => {
+        if (heading instanceof HTMLElement) {
+          // Progressively adjust sizes based on heading level
+          if (heading.tagName === 'H1') {
+            heading.style.fontSize = fluidTypography(24, 36);
+          } else if (heading.tagName === 'H2') {
+            heading.style.fontSize = fluidTypography(20, 30);
+          } else if (heading.tagName === 'H3') {
+            heading.style.fontSize = fluidTypography(18, 24);
+          }
+          
+          // Adjust line height for better readability
+          heading.style.lineHeight = '1.3';
+        }
+      });
     }
   }
 };
@@ -59,6 +88,22 @@ export const enhanceTouchTargets = (): void => {
             el.style.paddingLeft = `${neededPadding}px`;
             el.style.paddingRight = `${neededPadding}px`;
           }
+        }
+        
+        // Add appropriate feedback for touch interactions
+        el.classList.add('touch-manipulation');
+        
+        // Add active state feedback for touch devices
+        if (!el.hasAttribute('data-touch-enhanced')) {
+          el.setAttribute('data-touch-enhanced', 'true');
+          
+          el.addEventListener('touchstart', () => {
+            el.classList.add('active-touch');
+          }, { passive: true });
+          
+          el.addEventListener('touchend', () => {
+            el.classList.remove('active-touch');
+          }, { passive: true });
         }
       }
     });
@@ -100,6 +145,37 @@ export const optimizeImagesForMobile = (): void => {
       if (img.hasAttribute('srcset') && !img.hasAttribute('sizes')) {
         img.setAttribute('sizes', '(max-width: 768px) 100vw, 50vw');
       }
+      
+      // Add responsive image aspect ratio wrapper if not already wrapped
+      const parent = img.parentElement;
+      if (parent && !parent.classList.contains('img-wrapper') && !parent.classList.contains('aspect-ratio-container')) {
+        // Get image dimensions if available
+        const width = img.getAttribute('width');
+        const height = img.getAttribute('height');
+        
+        if (width && height && !isNaN(Number(width)) && !isNaN(Number(height))) {
+          const aspectRatio = (Number(height) / Number(width)) * 100;
+          
+          // Create wrapper with proper aspect ratio to prevent layout shifts
+          const wrapper = document.createElement('div');
+          wrapper.classList.add('aspect-ratio-container');
+          wrapper.style.position = 'relative';
+          wrapper.style.width = '100%';
+          wrapper.style.paddingBottom = `${aspectRatio}%`;
+          
+          // Style the image for the wrapper
+          img.style.position = 'absolute';
+          img.style.top = '0';
+          img.style.left = '0';
+          img.style.width = '100%';
+          img.style.height = '100%';
+          img.style.objectFit = 'cover';
+          
+          // Replace the image with the wrapper containing the image
+          parent.replaceChild(wrapper, img);
+          wrapper.appendChild(img);
+        }
+      }
     });
   }
 };
@@ -111,11 +187,23 @@ export const ensureViewportMeta = (): void => {
     viewportMeta.setAttribute('name', 'viewport');
     viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0');
     document.head.appendChild(viewportMeta);
+  } else {
+    // Update existing viewport meta to ensure it has proper values
+    const existingViewport = document.querySelector('meta[name="viewport"]');
+    if (existingViewport) {
+      const content = existingViewport.getAttribute('content') || '';
+      if (!content.includes('maximum-scale=')) {
+        existingViewport.setAttribute('content', content + ', maximum-scale=5.0');
+      }
+    }
   }
 };
 
 // Apply orientation change handling
 export const handleOrientationChange = (): void => {
+  // Remove any existing orientation change listeners to prevent duplicates
+  window.removeEventListener('orientationchange', () => {});
+  
   window.addEventListener('orientationchange', () => {
     // Delay execution to allow the browser to complete the orientation change
     setTimeout(() => {
@@ -134,7 +222,31 @@ export const handleOrientationChange = (): void => {
           el.style.display = '';
         }
       });
+      
+      // Disable and re-enable transitions during orientation change to prevent visual glitches
+      document.body.classList.add('orientation-changing');
+      setTimeout(() => {
+        document.body.classList.remove('orientation-changing');
+      }, 300);
     }, 300);
+  });
+  
+  // Also handle resize events for desktop browser resizing
+  let resizeTimeout: number | null = null;
+  window.addEventListener('resize', () => {
+    if (resizeTimeout) {
+      window.clearTimeout(resizeTimeout);
+    }
+    
+    // Add class to disable transitions during resize
+    document.body.classList.add('resize-in-progress');
+    
+    resizeTimeout = window.setTimeout(() => {
+      // Re-enable transitions
+      document.body.classList.remove('resize-in-progress');
+      // Apply optimizations
+      enhanceMobileExperience();
+    }, 250); // Debounced resize handler
   });
 };
 
@@ -202,6 +314,30 @@ export const detectAndOptimizeForSlowConnections = (): void => {
         }
       });
       
+      // Reduce animation complexity on slow connections
+      document.querySelectorAll('.animate-on-scroll, .has-animation').forEach(el => {
+        el.classList.add('reduced-motion');
+      });
+      
+      // Disable video autoplay
+      document.querySelectorAll('video[autoplay]').forEach(video => {
+        video.removeAttribute('autoplay');
+        video.setAttribute('preload', 'none');
+      });
+      
+      // Reduce the quality of background images
+      document.querySelectorAll('[style*="background-image"]').forEach(el => {
+        if (el instanceof HTMLElement) {
+          const originalStyle = el.getAttribute('data-original-bg') || el.style.backgroundImage;
+          if (!el.hasAttribute('data-original-bg')) {
+            el.setAttribute('data-original-bg', originalStyle);
+          }
+          // Use a lower quality version if available or just add a semi-transparent overlay
+          el.style.backgroundImage = 'none';
+          el.classList.add('low-quality-bg');
+        }
+      });
+      
       console.log('Slow connection optimizations applied');
     }
   }
@@ -225,4 +361,35 @@ export const initializeMobileOptimizations = (): void => {
   
   // Check for slow connections
   detectAndOptimizeForSlowConnections();
+  
+  // Create a disconnect observer for low bandwidth situations
+  if ('connection' in navigator) {
+    (navigator as any).connection.addEventListener('change', () => {
+      detectAndOptimizeForSlowConnections();
+    });
+  }
+  
+  // Add appropriate CSS for orientation changes
+  const style = document.createElement('style');
+  style.textContent = `
+    .orientation-changing * {
+      transition: none !important;
+    }
+    .resize-in-progress * {
+      transition: none !important;
+    }
+    .slow-connection .reduced-motion {
+      animation: none !important;
+      transition: none !important;
+    }
+    .active-touch {
+      transform: scale(0.98);
+      opacity: 0.9;
+    }
+    .touch-manipulation {
+      touch-action: manipulation;
+    }
+  `;
+  document.head.appendChild(style);
 };
+
