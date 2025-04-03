@@ -18,12 +18,11 @@ export const JusticeMessage = () => {
     setIsTouchDevice(hasTouchCapability());
     
     const handleScroll = () => {
-      if (window.innerWidth < 640) { // Only for mobile devices
-        if (window.scrollY > 100) {
-          setIsVisible(false);
-        } else {
-          setIsVisible(true);
-        }
+      // Auto-hide on both mobile and desktop after scrolling
+      if (window.scrollY > 100) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
       }
     };
     
