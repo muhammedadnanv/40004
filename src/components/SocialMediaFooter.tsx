@@ -1,3 +1,4 @@
+
 import { Facebook, Twitter, Linkedin, ExternalLink } from "lucide-react";
 import { Button } from "./ui/button";
 import { motion } from "framer-motion";
@@ -46,7 +47,7 @@ export const SocialMediaFooter = () => {
             </motion.a>
           </div>
 
-          {/* Resume Building Call-to-Action */}
+          {/* SXO Resume Builder Call-to-Action */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -60,12 +61,12 @@ export const SocialMediaFooter = () => {
             </h4>
             
             <p className="text-sm sm:text-base text-purple-700/80 mb-6 max-w-lg mx-auto">
-              Create an impressive resume that highlights your skills and experience. 
-              Try our resume builder featured on Product Hunt!
+              Create an impressive ATS-friendly resume that highlights your skills and experience. 
+              Try our SXO Resume Builder to increase your chances of getting hired!
             </p>
             
             <a 
-              href="https://www.producthunt.com/products/705762"
+              href="https://sxoresumebulider.vercel.app/"
               target="_blank"
               rel="noopener noreferrer"
             >

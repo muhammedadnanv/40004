@@ -1,4 +1,3 @@
-
 import { useState, useRef, ChangeEvent } from "react";
 import { 
   Dialog, 
@@ -38,7 +37,6 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isMobile, setIsMobile] = useState(false);
 
-  // Check if device is mobile on mount
   useState(() => {
     setIsMobile(isMobileDevice());
     
@@ -74,10 +72,9 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0] || null;
     setFile(selectedFile);
-    setIsATSFriendly(null); // Reset ATS check when file changes
-    setAnalysisResults(null); // Reset analysis results when file changes
+    setIsATSFriendly(null);
+    setAnalysisResults(null);
     
-    // Show file name toast for better UX on mobile
     if (selectedFile && isMobile) {
       toast({
         title: "File Selected",
@@ -99,15 +96,13 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
     setIsChecking(true);
     
     try {
-      // Check if file is a document type (ATS-friendly) rather than an image
       const atsDocumentTypes = [
         "application/pdf", 
         "application/msword", 
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        "text/plain" // Also support text files for testing
+        "text/plain"
       ];
       
-      // Image types that are not ATS-friendly
       const imageTypes = [
         "image/jpeg", 
         "image/png", 
@@ -117,12 +112,10 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
         "image/webp"
       ];
       
-      // Check if the file is ATS-friendly (document format, not an image)
       const isImageFile = imageTypes.includes(file.type);
       const isDocumentFile = atsDocumentTypes.includes(file.type);
-      const isValidSize = file.size < 5 * 1024 * 1024; // Less than 5MB
+      const isValidSize = file.size < 5 * 1024 * 1024;
       
-      // First check file format and size
       if (isImageFile) {
         toast({
           title: "Resume Check Failed",
@@ -156,17 +149,14 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
         return;
       }
       
-      // If file format is valid, read and analyze the content
       const reader = new FileReader();
       
       reader.onload = async (event) => {
         try {
-          // Extract text content from the file
           const text = event.target?.result as string || "";
           
           console.log("Analyzing resume content with NLP enhancements...");
           
-          // Analyze the resume content with enhanced NLP capabilities
           const results = await analyzeResumeContent(text);
           
           setIsATSFriendly(results.isATSFriendly);
@@ -210,10 +200,7 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
         setIsChecking(false);
       };
       
-      // For PDF files, we'll only be able to check the file type
-      // For text-based files, we'll try to read the content
       if (file.type === "application/pdf") {
-        // For PDFs, we can only validate the format but also attempt to extract text
         setIsATSFriendly(true);
         toast({
           title: "Resume Format Check Passed",
@@ -221,7 +208,6 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
         });
         setIsChecking(false);
       } else {
-        // For DOC/DOCX/TXT, read as text
         reader.readAsText(file);
       }
     } catch (error) {
@@ -266,10 +252,8 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
     setIsSubmitting(true);
     
     try {
-      // Simulate sending
       await new Promise(resolve => setTimeout(resolve, 1500));
       
-      // Use more natural toast message with specific action
       toast({
         title: "CV Submitted Successfully!",
         description: "Please email your CV to comicfixxx@gmail.com for additional job placement support.",
@@ -380,7 +364,6 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
               </div>
             )}
             
-            {/* Use the ResumeAnalysisResults component */}
             {analysisResults && (
               <ResumeAnalysisResults 
                 isATSFriendly={isATSFriendly || false}
@@ -402,6 +385,13 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
               className="min-h-[100px]"
               aria-label="Additional information about your job placement needs"
             />
+          </div>
+          
+          <div className="mt-4 p-3 bg-blue-50 border border-blue-100 rounded-md">
+            <p className="text-sm text-blue-700 flex items-center">
+              <FileText className="w-4 h-4 mr-2 flex-shrink-0" />
+              Need help creating an ATS-friendly resume? Try our <a href="https://sxoresumebulider.vercel.app/" target="_blank" rel="noopener noreferrer" className="font-medium underline ml-1 hover:text-blue-800">SXO Resume Builder</a>
+            </p>
           </div>
         </div>
         
