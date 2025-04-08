@@ -1,4 +1,3 @@
-
 /**
  * Utility functions for enhancing mobile responsiveness
  */
@@ -394,4 +393,3 @@ export const initializeMobileOptimizations = (): void => {
   `;
   document.head.appendChild(style);
 };
-

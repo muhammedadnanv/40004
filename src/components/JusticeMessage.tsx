@@ -85,7 +85,6 @@ export const JusticeMessage = () => {
         </span>
       </div>
       
-      {/* Add styles for the copied animation */}
       <style>
         {`
         #referral-code.copied {

@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form } from "@/components/ui/form";
@@ -46,6 +47,15 @@ export const PartnershipForm = ({ isOpen, onClose, partnerName }: PartnershipFor
     },
   });
 
+  const handleFollowClick = () => {
+    window.open("https://x.com/comicfixin", "_blank");
+    setHasFollowed(true);
+    toast({
+      title: "Thank you!",
+      description: "You can now join our WhatsApp groups below.",
+    });
+  };
+
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     try {
@@ -80,106 +90,108 @@ export const PartnershipForm = ({ isOpen, onClose, partnerName }: PartnershipFor
     }
   };
 
-  const handleFollowClick = () => {
-    window.open("https://x.com/comicfixin", "_blank");
-    setHasFollowed(true);
-    toast({
-      title: "Thank you!",
-      description: "You can now join our WhatsApp groups below.",
-    });
-  };
-
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="w-[95%] max-w-[425px] mx-auto rounded-lg">
-        <DialogTitle className="text-xl font-semibold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">
-          Join {partnerName} Community
-        </DialogTitle>
-        <DialogDescription className="text-gray-600">
-          Fill out the form below to join our community and get access to exclusive resources.
-        </DialogDescription>
-
+      <DialogContent className="w-[95%] max-w-[425px] mx-auto rounded-lg p-4 sm:p-6">
         {!isSubmitted ? (
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <div className="space-y-2">
-                <Input
-                  placeholder="Your Name"
-                  {...form.register("name")}
-                  className="border-purple-200 focus:border-purple-400 transition-colors"
-                />
-                {form.formState.errors.name && (
-                  <p className="text-red-500 text-sm">{form.formState.errors.name.message}</p>
-                )}
-              </div>
+          <>
+            <DialogHeader>
+              <DialogTitle className="text-lg sm:text-xl font-semibold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">
+                Join {partnerName} Community
+              </DialogTitle>
+              <DialogDescription className="text-gray-600 pt-2">
+                Fill out the form below to join our community and get access to exclusive resources.
+              </DialogDescription>
+            </DialogHeader>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4">
+                <div className="space-y-2">
+                  <Input
+                    placeholder="Your Name"
+                    {...form.register("name")}
+                    className="border-purple-200 focus:border-purple-400 transition-colors h-12 text-base"
+                    aria-label="Full name"
+                  />
+                  {form.formState.errors.name && (
+                    <p className="text-red-500 text-sm">{form.formState.errors.name.message}</p>
+                  )}
+                </div>
 
-              <div className="space-y-2">
-                <Input
-                  type="email"
-                  placeholder="Email Address"
-                  {...form.register("email")}
-                  className="border-purple-200 focus:border-purple-400 transition-colors"
-                />
-                {form.formState.errors.email && (
-                  <p className="text-red-500 text-sm">{form.formState.errors.email.message}</p>
-                )}
-              </div>
+                <div className="space-y-2">
+                  <Input
+                    type="email"
+                    placeholder="Email Address"
+                    {...form.register("email")}
+                    className="border-purple-200 focus:border-purple-400 transition-colors h-12 text-base"
+                    aria-label="Email address"
+                  />
+                  {form.formState.errors.email && (
+                    <p className="text-red-500 text-sm">{form.formState.errors.email.message}</p>
+                  )}
+                </div>
 
-              <div className="space-y-2">
-                <Input
-                  type="tel"
-                  placeholder="Phone Number"
-                  {...form.register("phone")}
-                  className="border-purple-200 focus:border-purple-400 transition-colors"
-                />
-                {form.formState.errors.phone && (
-                  <p className="text-red-500 text-sm">{form.formState.errors.phone.message}</p>
-                )}
-              </div>
+                <div className="space-y-2">
+                  <Input
+                    type="tel"
+                    placeholder="Phone Number"
+                    {...form.register("phone")}
+                    className="border-purple-200 focus:border-purple-400 transition-colors h-12 text-base"
+                    inputMode="tel"
+                    aria-label="Phone number"
+                  />
+                  {form.formState.errors.phone && (
+                    <p className="text-red-500 text-sm">{form.formState.errors.phone.message}</p>
+                  )}
+                </div>
 
-              <div className="space-y-2">
-                <Input
-                  placeholder="Address"
-                  {...form.register("address")}
-                  className="border-purple-200 focus:border-purple-400 transition-colors"
-                />
-                {form.formState.errors.address && (
-                  <p className="text-red-500 text-sm">{form.formState.errors.address.message}</p>
-                )}
-              </div>
+                <div className="space-y-2">
+                  <Input
+                    placeholder="Address"
+                    {...form.register("address")}
+                    className="border-purple-200 focus:border-purple-400 transition-colors h-12 text-base"
+                    aria-label="Address"
+                  />
+                  {form.formState.errors.address && (
+                    <p className="text-red-500 text-sm">{form.formState.errors.address.message}</p>
+                  )}
+                </div>
 
-              <Button 
-                type="submit" 
-                className="w-full bg-purple-600 hover:bg-purple-700 text-white transition-all duration-300"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? "Submitting..." : "Submit"}
-              </Button>
-            </form>
-          </Form>
+                <Button 
+                  type="submit" 
+                  className="w-full bg-purple-600 hover:bg-purple-700 text-white transition-all duration-300 text-base py-3 h-12"
+                  disabled={isSubmitting}
+                  aria-label="Submit form"
+                >
+                  {isSubmitting ? "Submitting..." : "Submit"}
+                </Button>
+              </form>
+            </Form>
+          </>
         ) : !hasFollowed ? (
-          <div className="space-y-4">
+          <div className="space-y-5 py-4">
             <p className="text-center text-gray-600">
               Please follow us on Twitter/X to join our WhatsApp groups:
             </p>
             <Button
-              className="w-full bg-black hover:bg-black/90 text-white"
+              className="w-full bg-black hover:bg-black/90 text-white py-3 h-12 text-base"
               onClick={handleFollowClick}
+              aria-label="Follow on Twitter/X"
             >
               Follow on Twitter/X
             </Button>
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-5 py-4">
             <p className="text-center text-gray-600">
               Thank you for following! Click any of the links below to join our WhatsApp groups:
             </p>
-            <div className="space-y-2">
+            <div className="space-y-3">
               {whatsappGroups.map((link, index) => (
                 <Button
                   key={index}
-                  className="w-full bg-[#25D366] hover:bg-[#25D366]/90 text-white"
+                  className="w-full bg-[#25D366] hover:bg-[#25D366]/90 text-white py-3 h-12 text-base"
                   onClick={() => window.open(link, "_blank")}
+                  aria-label={`Join WhatsApp Group ${index + 1}`}
                 >
                   Join WhatsApp Group {index + 1}
                 </Button>
