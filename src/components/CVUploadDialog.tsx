@@ -16,6 +16,7 @@ import { Upload, CheckCircle, AlertCircle, FileText } from "lucide-react";
 import { analyzeResumeContent } from "@/utils/websiteValidator";
 import { Progress } from "@/components/ui/progress";
 import { ResumeAnalysisResults } from "./ResumeAnalysisResults";
+import { isMobileDevice } from "@/utils/mobileResponsiveness";
 
 export interface CVUploadDialogProps {
   isOpen: boolean;
@@ -35,6 +36,21 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
     recommendations: string[];
   } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if device is mobile on mount
+  useState(() => {
+    setIsMobile(isMobileDevice());
+    
+    const handleResize = () => {
+      setIsMobile(isMobileDevice());
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  });
 
   const resetForm = () => {
     setFile(null);
@@ -60,10 +76,25 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
     setFile(selectedFile);
     setIsATSFriendly(null); // Reset ATS check when file changes
     setAnalysisResults(null); // Reset analysis results when file changes
+    
+    // Show file name toast for better UX on mobile
+    if (selectedFile && isMobile) {
+      toast({
+        title: "File Selected",
+        description: `"${selectedFile.name}" (${(selectedFile.size / 1024 / 1024).toFixed(2)} MB)`,
+      });
+    }
   };
 
   const checkATSCompliance = async () => {
-    if (!file) return;
+    if (!file) {
+      toast({
+        title: "No File Selected",
+        description: "Please select a resume file first.",
+        variant: "destructive",
+      });
+      return;
+    }
     
     setIsChecking(true);
     
@@ -205,7 +236,32 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
   };
 
   const handleSubmit = async () => {
-    if (!file || !isATSFriendly || !fullName || !email) return;
+    if (!file) {
+      toast({
+        title: "No Resume Selected",
+        description: "Please upload your resume before submitting.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (!isATSFriendly) {
+      toast({
+        title: "ATS Check Required",
+        description: "Please ensure your resume is ATS-friendly before submitting.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (!fullName || !email) {
+      toast({
+        title: "Missing Information",
+        description: "Please complete all required fields.",
+        variant: "destructive",
+      });
+      return;
+    }
     
     setIsSubmitting(true);
     
@@ -213,9 +269,10 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
       // Simulate sending
       await new Promise(resolve => setTimeout(resolve, 1500));
       
+      // Use more natural toast message with specific action
       toast({
-        title: "Success!",
-        description: "Please email your CV to comicfixxx@gmail.com for job placement support.",
+        title: "CV Submitted Successfully!",
+        description: "Please email your CV to comicfixxx@gmail.com for additional job placement support.",
       });
       
       handleClose();
@@ -244,7 +301,7 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
         <div className="space-y-4 py-4">
           <div className="space-y-2">
             <label htmlFor="fullName" className="text-sm font-medium">
-              Full Name
+              Full Name <span className="text-red-500">*</span>
             </label>
             <Input
               id="fullName"
@@ -252,12 +309,15 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
               onChange={(e) => setFullName(e.target.value)}
               placeholder="Enter your full name"
               required
+              className="h-12"
+              aria-required="true"
+              autoComplete="name"
             />
           </div>
           
           <div className="space-y-2">
             <label htmlFor="email" className="text-sm font-medium">
-              Email
+              Email <span className="text-red-500">*</span>
             </label>
             <Input
               id="email"
@@ -266,32 +326,50 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
               required
+              className="h-12"
+              aria-required="true"
+              autoComplete="email"
+              inputMode="email"
             />
           </div>
           
           <div className="space-y-2">
             <label htmlFor="file" className="text-sm font-medium">
-              Your Resume/CV (PDF, DOC or TXT)
+              Your Resume/CV (PDF, DOC or TXT) <span className="text-red-500">*</span>
             </label>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
               <Input
                 id="file"
                 ref={fileInputRef}
                 type="file"
                 onChange={handleFileChange}
                 accept=".pdf,.doc,.docx,.txt"
-                className="flex-1"
+                className="h-auto py-2 flex-1"
                 required
+                aria-required="true"
+                aria-describedby="file-format-info"
               />
               <Button 
                 onClick={checkATSCompliance} 
                 disabled={!file || isChecking}
                 size="sm"
                 type="button"
+                className="w-full sm:w-auto h-10"
               >
-                {isChecking ? "Analyzing..." : "Check"}
+                {isChecking ? "Analyzing..." : "Check Resume"}
               </Button>
             </div>
+            <p id="file-format-info" className="text-xs text-gray-500 mt-1">
+              Accepted formats: PDF, DOC, DOCX, TXT (max 5MB)
+            </p>
+            
+            {isChecking && (
+              <div className="my-2 space-y-2">
+                <p className="text-sm text-gray-600">Analyzing your resume...</p>
+                <Progress value={100} className="h-2 animate-pulse" />
+              </div>
+            )}
+            
             {file && isATSFriendly !== null && (
               <div className={`flex items-center mt-2 text-sm ${isATSFriendly ? 'text-green-600' : 'text-red-600'}`}>
                 {isATSFriendly ? (
@@ -302,7 +380,7 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
               </div>
             )}
             
-            {/* Use the new ResumeAnalysisResults component */}
+            {/* Use the ResumeAnalysisResults component */}
             {analysisResults && (
               <ResumeAnalysisResults 
                 isATSFriendly={isATSFriendly || false}
@@ -322,6 +400,7 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Any additional information you'd like to share..."
               className="min-h-[100px]"
+              aria-label="Additional information about your job placement needs"
             />
           </div>
         </div>
@@ -336,10 +415,15 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
           </Button>
           <Button
             onClick={handleSubmit}
-            disabled={!file || !isATSFriendly || !fullName || !email || isSubmitting}
-            className="sm:w-auto w-full"
+            disabled={isSubmitting}
+            className={`sm:w-auto w-full ${(!file || !isATSFriendly || !fullName || !email) ? 'opacity-70' : ''}`}
           >
-            {isSubmitting ? "Submitting..." : "Submit CV"}
+            {isSubmitting ? (
+              <span className="flex items-center gap-2">
+                <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                Submitting...
+              </span>
+            ) : "Submit CV"}
           </Button>
         </DialogFooter>
       </DialogContent>
