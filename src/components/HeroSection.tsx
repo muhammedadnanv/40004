@@ -99,7 +99,7 @@ export const HeroSection = () => {
               aria-label="Explore our mentorship programs"
             >
               <BookOpen className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" aria-hidden="true" />
-              Explore Programs
+              <span className="text-white font-semibold text-base">Explore Programs</span>
             </Button>
             
             <Button 
