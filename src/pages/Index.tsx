@@ -211,28 +211,20 @@ const Index = () => {
           </div>
         </div>
         
-        <Routes>
-          <Route path="/" element={
-            <>
-              <HeroSection />
-              <LearningPathSection />
-              <FeaturesSection />
-              <ProgramsSection programs={programs} />
-              <PartnershipsSection />
-              <SuccessStoriesSection />
-              <ProjectIdeasSection />
-              <CertificationSection />
-              <CodeOfConductSection />
-              <ReviewSection />
-              <ShareSection />
-              <MentorSection mentorEarnings={mentorEarnings} />
-              <FAQSection />
-              <WhatsAppSection />
-            </>
-          } />
-          <Route path="/privacy" element={<Privacy />} />
-          <Route path="/terms" element={<Terms />} />
-        </Routes>
+        <HeroSection />
+        <LearningPathSection />
+        <FeaturesSection />
+        <ProgramsSection programs={programs} />
+        <PartnershipsSection />
+        <SuccessStoriesSection />
+        <ProjectIdeasSection />
+        <CertificationSection />
+        <CodeOfConductSection />
+        <ReviewSection />
+        <ShareSection />
+        <MentorSection mentorEarnings={mentorEarnings} />
+        <FAQSection />
+        <WhatsAppSection />
 
         <div className="hidden">
           <GoogleSearchPreview

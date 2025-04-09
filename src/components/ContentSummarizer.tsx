@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
-import { FileUpload, FileType, Link, Upload } from "lucide-react";
+import { FileText, Upload, Link } from "lucide-react";
 import { generateAndDownloadPDF } from "@/utils/generatePDF";
 
 const ContentSummarizer = () => {
@@ -172,7 +171,7 @@ const ContentSummarizer = () => {
         <TabsContent value="upload" className="space-y-6">
           <div className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-12 text-center">
             <div className="mb-4">
-              <FileUpload size={48} className="mx-auto text-gray-400" />
+              <FileText size={48} className="mx-auto text-gray-400" />
             </div>
             <p className="mb-4 text-sm text-gray-500">Upload PDF or video files</p>
             <Input
