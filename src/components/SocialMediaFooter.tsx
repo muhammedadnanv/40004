@@ -1,6 +1,5 @@
 
-import { Facebook, Twitter, Linkedin, ExternalLink, Instagram, Youtube } from "lucide-react";
-import { Button } from "./ui/button";
+import { Facebook, Twitter, Linkedin, Instagram, Youtube } from "lucide-react";
 import { motion } from "framer-motion";
 
 export const SocialMediaFooter = () => {
@@ -75,40 +74,6 @@ export const SocialMediaFooter = () => {
               <Youtube className="w-5 h-5 sm:w-6 sm:h-6 text-[#9b87f5] group-hover:text-[#7E69AB] transition-colors" />
             </motion.a>
           </div>
-
-          {/* SXO Resume Builder Call-to-Action */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="relative overflow-hidden mb-8 p-6 sm:p-8 rounded-2xl shadow-premium bg-gradient-to-br from-purple-50 via-white to-purple-50 border border-purple-100/50"
-          >
-            <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1498050108023-c5249f4df085')] bg-cover bg-center opacity-[0.02]" />
-            
-            <h4 className="text-lg sm:text-xl md:text-2xl font-medium bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent mb-3">
-              Build Your Professional Resume
-            </h4>
-            
-            <p className="text-sm sm:text-base text-purple-700/80 mb-6 max-w-lg mx-auto">
-              Create an impressive ATS-friendly resume that highlights your skills and experience. 
-              Try our SXO Resume Builder to increase your chances of getting hired!
-            </p>
-            
-            <a 
-              href="https://sxoresumebulider.vercel.app/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block"
-            >
-              <Button 
-                variant="default"
-                className="bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white font-medium px-6 py-5 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 group"
-              >
-                Start Building Your Resume
-                <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-0.5 transition-transform" />
-              </Button>
-            </a>
-          </motion.div>
           
           <div className="text-center text-sm text-gray-500 mt-8">
             <p>© {new Date().getFullYear()} ComicFix. All rights reserved.</p>

@@ -1,4 +1,3 @@
-
 import { HeroSection } from "@/components/HeroSection";
 import { LearningPathSection } from "@/components/LearningPathSection";
 import { FeaturesSection } from "@/components/features/FeaturesSection";
@@ -28,6 +27,9 @@ import { enhanceMobileExperience, initializeMobileOptimizations } from "@/utils/
 import { OnPageOptimizer } from "@/components/SEO/OnPageOptimizer";
 import { GoogleSearchPreview } from "@/components/SEO/GoogleSearchPreview";
 import { JusticeMessage } from "@/components/JusticeMessage";
+import { Routes, Route } from "react-router-dom";
+import Privacy from "./Privacy";
+import Terms from "./Terms";
 
 const Index = () => {
   useEffect(() => {
@@ -191,20 +193,28 @@ const Index = () => {
         <JusticeMessage />
         <AlbatoAdPopup />
         
-        <HeroSection />
-        <LearningPathSection />
-        <FeaturesSection />
-        <ProgramsSection programs={programs} />
-        <PartnershipsSection />
-        <SuccessStoriesSection />
-        <ProjectIdeasSection />
-        <CertificationSection />
-        <CodeOfConductSection />
-        <ReviewSection />
-        <ShareSection />
-        <MentorSection mentorEarnings={mentorEarnings} />
-        <FAQSection />
-        <WhatsAppSection />
+        <Routes>
+          <Route path="/" element={
+            <>
+              <HeroSection />
+              <LearningPathSection />
+              <FeaturesSection />
+              <ProgramsSection programs={programs} />
+              <PartnershipsSection />
+              <SuccessStoriesSection />
+              <ProjectIdeasSection />
+              <CertificationSection />
+              <CodeOfConductSection />
+              <ReviewSection />
+              <ShareSection />
+              <MentorSection mentorEarnings={mentorEarnings} />
+              <FAQSection />
+              <WhatsAppSection />
+            </>
+          } />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/terms" element={<Terms />} />
+        </Routes>
 
         <div className="hidden">
           <GoogleSearchPreview
