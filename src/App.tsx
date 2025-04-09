@@ -18,6 +18,7 @@ const Index = lazy(() => import("./pages/Index"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const Terms = lazy(() => import("./pages/Terms"));
 const ContentSummarizerPage = lazy(() => import("./pages/ContentSummarizerPage"));
+const CertificationPage = lazy(() => import("./pages/CertificationPage"));
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -31,6 +32,9 @@ const LoadingFallback = () => (
 
 function App() {
   useEffect(() => {
+    // Initialize performance monitoring
+    const startTime = performance.now();
+    
     // Check device capabilities and optimize
     const deviceCapabilities = optimizeForDevice();
     console.log("Device optimization:", deviceCapabilities);
@@ -68,7 +72,7 @@ function App() {
           optimizeHeadings: true,
           checkTechnicalSEO: true
         });
-        console.log("SEO optimization for high-intent keywords completed");
+        console.log("SEO optimization completed");
       } catch (error) {
         console.error("Error during SEO optimization:", error);
       }
@@ -129,7 +133,7 @@ function App() {
         
         // Add resize event listener to reapply optimizations when window is resized
         window.addEventListener('resize', () => {
-          // Use debounce/throttle pattern to avoid excessive calls
+          // Use debounce pattern to avoid excessive calls
           clearTimeout(window.resizeTimer);
           window.resizeTimer = setTimeout(() => {
             enhanceMobileExperience();
@@ -145,6 +149,10 @@ function App() {
     initMarketing();
     checkSupabaseConnection();
     setupMobileOptimizations();
+    
+    // Log performance metrics
+    const loadTime = performance.now() - startTime;
+    console.log(`App initialization completed in ${loadTime.toFixed(2)}ms`);
 
     // Cleanup function
     return () => {
@@ -184,6 +192,13 @@ function App() {
               <Suspense fallback={<LoadingFallback />}>
                 <ErrorBoundary>
                   <ContentSummarizerPage />
+                </ErrorBoundary>
+              </Suspense>
+            } />
+            <Route path="/certification" element={
+              <Suspense fallback={<LoadingFallback />}>
+                <ErrorBoundary>
+                  <CertificationPage />
                 </ErrorBoundary>
               </Suspense>
             } />

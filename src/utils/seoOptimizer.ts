@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 
@@ -65,7 +64,7 @@ export const seoOptimizer = {
    * @param minIntentScore Minimum intent score (0-1) for high-intent keywords
    * @returns Promise resolving to the retrieved keywords
    */
-  async getKeywords(category?: string, limit: number = 100, minRelevance: number = 0.5, minIntentScore: number = 0.7): Promise<{
+  async getKeywords(category?: string, limit: number = 100, minRelevance: number = 0.5): Promise<{
     success: boolean;
     keywords?: KeywordData[];
     message: string;
@@ -85,9 +84,6 @@ export const seoOptimizer = {
         query = query.gte('relevance_score', minRelevance);
       }
       
-      if (minIntentScore > 0) {
-        query = query.gte('intent_score', minIntentScore);
-      }
       
       const { data, error } = await query;
       
@@ -96,10 +92,10 @@ export const seoOptimizer = {
       return {
         success: true,
         keywords: data,
-        message: `Retrieved ${data.length} high-intent keywords${category ? ` in category ${category}` : ''}`
+        message: `Retrieved ${data.length} keywords${category ? ` in category ${category}` : ''}`
       };
     } catch (error) {
-      console.error('Error retrieving keywords:', error);
+      console.error('Retrieving keywords error:', error);
       return {
         success: false,
         message: error instanceof Error ? error.message : 'Failed to retrieve keywords'
