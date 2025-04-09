@@ -2,10 +2,16 @@
 import React from 'react';
 import { SocialMediaFooter } from "@/components/SocialMediaFooter";
 import { MainNav } from "@/components/MainNav";
+import { Helmet } from "react-helmet";
 
 const Terms = () => {
   return (
     <main className="min-h-screen bg-gradient-to-br from-white via-purple-50 to-white">
+      <Helmet>
+        <title>Terms of Service | ComicFix Mentorship</title>
+        <meta name="description" content="Review ComicFix's terms of service for our mentorship platform, certification programs, and related services." />
+      </Helmet>
+      
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1485827404703-89b55fcc595e')] bg-cover bg-center opacity-5 pointer-events-none" />
       
       <MainNav />
@@ -89,7 +95,7 @@ const Terms = () => {
               <h2 className="text-2xl font-semibold text-purple-700">Contact Us</h2>
               <p>If you have any questions about these Terms, please contact us at:</p>
               <p>Email: support@comicfix.com</p>
-              <p>Last Updated: April 9, 2025</p>
+              <p>Last Updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
             </section>
           </div>
         </div>

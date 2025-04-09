@@ -1,3 +1,4 @@
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Suspense, lazy, useEffect } from "react";
 import { Toaster } from "./components/ui/toaster";
@@ -5,18 +6,17 @@ import { toast } from "./hooks/use-toast";
 import { startMarketingRecommendations } from "./utils/marketingRecommendations";
 import { supabase } from "@/integrations/supabase/client";
 import { dataProcessor } from "./utils/dataProcessor";
-import { LeadCollectionPopup } from "./components/LeadCollectionPopup";
-import { EnrollmentAlert } from "./components/EnrollmentAlert";
-import { JusticeMessage } from "./components/JusticeMessage";
-import ErrorBoundary from "./components/ErrorBoundary";
+import { ErrorBoundary } from "./components/ErrorBoundary";
 import { runWebsiteTest } from "./utils/websiteValidator";
 import { optimizeForDevice } from "./utils/performanceOptimizer";
 import { seoOptimizer } from "./utils/seoOptimizer";
 import { enhanceMobileExperience } from "./utils/mobileResponsiveness";
 import { autoFixAndReportLinkIssues } from "./utils/linkValidator";
 
-// Lazy load the Index page for better initial loading performance
+// Lazy load pages for better initial loading performance
 const Index = lazy(() => import("./pages/Index"));
+const Privacy = lazy(() => import("./pages/Privacy"));
+const Terms = lazy(() => import("./pages/Terms"));
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -157,10 +157,6 @@ function App() {
     <ErrorBoundary>
       <Router>
         <div className="min-h-screen w-full">
-          <ErrorBoundary fallback={<div className="p-4 text-center">Justice message unavailable</div>}>
-            <JusticeMessage />
-          </ErrorBoundary>
-          
           <Routes>
             <Route path="/" element={
               <Suspense fallback={<LoadingFallback />}>
@@ -169,15 +165,21 @@ function App() {
                 </ErrorBoundary>
               </Suspense>
             } />
+            <Route path="/privacy" element={
+              <Suspense fallback={<LoadingFallback />}>
+                <ErrorBoundary>
+                  <Privacy />
+                </ErrorBoundary>
+              </Suspense>
+            } />
+            <Route path="/terms" element={
+              <Suspense fallback={<LoadingFallback />}>
+                <ErrorBoundary>
+                  <Terms />
+                </ErrorBoundary>
+              </Suspense>
+            } />
           </Routes>
-          
-          <ErrorBoundary fallback={<div className="p-4 text-center">Lead collection unavailable</div>}>
-            <LeadCollectionPopup />
-          </ErrorBoundary>
-          
-          <ErrorBoundary fallback={<div className="p-4 text-center">Enrollment alert unavailable</div>}>
-            <EnrollmentAlert />
-          </ErrorBoundary>
           
           <Toaster />
         </div>

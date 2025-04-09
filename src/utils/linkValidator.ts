@@ -53,6 +53,17 @@ export const validateInternalLinks = (): LinkValidationResult[] => {
         }
       }
       
+      // Check for router paths that should be prefixed with /
+      if (!url.startsWith('/') && !url.startsWith('#') && !url.startsWith('.')) {
+        results.push({
+          url,
+          text,
+          valid: false,
+          issue: `Router link should start with /: ${url}`
+        });
+        return;
+      }
+      
       // For other internal links, we can only validate if they have a reasonable format
       results.push({
         url,
@@ -109,6 +120,16 @@ export const fixCommonLinkIssues = (): number => {
           link.setAttribute('aria-label', 'Link');
           fixedCount++;
         }
+      }
+    });
+    
+    // Fix router links that should start with /
+    const routerLinks = document.querySelectorAll('a[href]:not([href^="http"]):not([href^="#"]):not([href^="/"]):not([href^="."]):not([href^="mailto:"]):not([href^="tel:"])');
+    routerLinks.forEach(link => {
+      const currentHref = link.getAttribute('href') || '';
+      if (currentHref) {
+        link.setAttribute('href', `/${currentHref}`);
+        fixedCount++;
       }
     });
   } catch (error) {

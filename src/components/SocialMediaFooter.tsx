@@ -1,8 +1,11 @@
 
 import { Facebook, Twitter, Linkedin, Instagram, Youtube } from "lucide-react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 export const SocialMediaFooter = () => {
+  const currentYear = new Date().getFullYear();
+
   return (
     <footer className="bg-white border-t border-purple-100">
       <div className="container mx-auto px-4 py-12">
@@ -76,10 +79,10 @@ export const SocialMediaFooter = () => {
           </div>
           
           <div className="text-center text-sm text-gray-500 mt-8">
-            <p>© {new Date().getFullYear()} ComicFix. All rights reserved.</p>
+            <p>© {currentYear} ComicFix. All rights reserved.</p>
             <p className="mt-2">
-              <a href="/privacy" className="text-purple-600 hover:underline mx-2">Privacy Policy</a>
-              <a href="/terms" className="text-purple-600 hover:underline mx-2">Terms of Service</a>
+              <Link to="/privacy" className="text-purple-600 hover:underline mx-2">Privacy Policy</Link>
+              <Link to="/terms" className="text-purple-600 hover:underline mx-2">Terms of Service</Link>
             </p>
           </div>
         </div>
