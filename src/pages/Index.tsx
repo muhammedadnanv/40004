@@ -1,115 +1,13 @@
-import { HeroSection } from "@/components/HeroSection";
-import { LearningPathSection } from "@/components/LearningPathSection";
-import { FeaturesSection } from "@/components/features/FeaturesSection";
-import { ProgramsSection } from "@/components/programs/ProgramsSection";
-import { CertificationSection } from "@/components/CertificationSection";
-import { FAQSection } from "@/components/FAQSection";
-import { WhatsAppSection } from "@/components/WhatsAppSection";
-import { SocialMediaFooter } from "@/components/SocialMediaFooter";
-import { ProjectIdeasSection } from "@/components/ProjectIdeasSection";
-import { PartnershipsSection } from "@/components/PartnershipsSection";
-import { ReviewSection } from "@/components/ReviewSection";
-import { ShareSection } from "@/components/ShareSection";
-import { MentorSection } from "@/components/MentorSection";
-import { SuccessStoriesSection } from "@/components/SuccessStoriesSection";
-import { CodeOfConductSection } from "@/components/CodeOfConductSection";
-import { AlbatoAdPopup } from "@/components/AlbatoAdPopup";
-import { useEffect } from "react";
-import { getContentEngagementStats } from "@/utils/contentAdaptation";
-import { fetchAndApplySEOKeywords } from "@/utils/performanceOptimizer";
-import { runSEOOptimizations, runWebsiteTest } from "@/utils/websiteValidator";
-import { initABTesting, trackConversion } from "@/utils/abTesting";
-import { applySEOOptimizations } from "@/utils/performanceOptimizer";
-import { seoOptimizer } from "@/utils/seoOptimizer";
-import { initRetargetingService, trackVisitorEvent } from "@/utils/retargetingService";
-import { autoFixAndReportLinkIssues } from "@/utils/linkValidator";
-import { enhanceMobileExperience, initializeMobileOptimizations } from "@/utils/mobileResponsiveness";
-import { OnPageOptimizer } from "@/components/SEO/OnPageOptimizer";
-import { GoogleSearchPreview } from "@/components/SEO/GoogleSearchPreview";
-import { JusticeMessage } from "@/components/JusticeMessage";
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { FileText, Wand2 } from "lucide-react";
+
+import React from "react";
+import { IndexDataProvider } from "@/components/index/IndexDataProvider";
+import { IndexPageLayout } from "@/components/index/IndexPageLayout";
+import { HeroWithAnnouncementBar } from "@/components/index/HeroWithAnnouncementBar";
+import { MainContent } from "@/components/index/MainContent";
+import { SEOMetadata } from "@/components/index/SEOMetadata";
 
 const Index = () => {
-  useEffect(() => {
-    const engagementInterval = setInterval(() => {
-      const stats = getContentEngagementStats();
-      console.log('Content engagement stats:', stats);
-    }, 300000);
-
-    initABTesting();
-    
-    const initializePage = async () => {
-      await fetchAndApplySEOKeywords('mentorship', 5);
-      runSEOOptimizations();
-      
-      initRetargetingService({
-        trackPageViews: true,
-        trackProductViews: true,
-        storeUserSegments: true
-      });
-      
-      trackVisitorEvent('pageview', {
-        label: 'homepage',
-        value: 1
-      });
-      
-      autoFixAndReportLinkIssues();
-      
-      // Apply mobile optimizations
-      initializeMobileOptimizations();
-      
-      const keywordsResult = await seoOptimizer.getKeywords('mentorship', 10, 0.7, 0.8);
-      if (keywordsResult.success && keywordsResult.keywords) {
-        console.log('Applied high-intent keywords:', keywordsResult.keywords);
-        
-        const schemaResult = await seoOptimizer.implementSchemaMarkup('Course', {
-          name: "Professional Developer Certification Program",
-          description: "Master modern development skills with expert mentorship",
-          keywords: keywordsResult.keywords.map(k => k.keyword).join(", ")
-        });
-        
-        if (schemaResult.success) {
-          console.log('Schema markup implemented successfully');
-        }
-      }
-      
-      setTimeout(() => {
-        runWebsiteTest();
-      }, 2000);
-      
-      trackConversion('hero-cta-test', 'page_view');
-    };
-    
-    initializePage();
-
-    const automaticOptimizationInterval = setInterval(async () => {
-      await fetchAndApplySEOKeywords('mentorship', 5);
-      applySEOOptimizations();
-      
-      await seoOptimizer.runOptimizations({
-        optimizeMetaTags: true,
-        checkTechnicalSEO: true
-      });
-    }, 12 * 60 * 60 * 1000);
-
-    const programButtons = document.querySelectorAll('.program-cta-btn');
-    programButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        trackVisitorEvent('action', {
-          label: 'program_interest',
-          value: 2
-        });
-      });
-    });
-
-    return () => {
-      clearInterval(engagementInterval);
-      clearInterval(automaticOptimizationInterval);
-    };
-  }, []);
-
+  // Calculate mentor earnings
   const programFee = 2160;
   const platformFeePercentage = 10;
   const razorpayFeePercentage = 2;
@@ -118,6 +16,7 @@ const Index = () => {
   const razorpayFee = (programFee * razorpayFeePercentage) / 100;
   const mentorEarnings = programFee - platformFee - razorpayFee;
 
+  // Define programs data
   const programs = [
     {
       title: "Frontend Development",
@@ -186,71 +85,16 @@ const Index = () => {
   ];
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-white via-purple-50 to-white overflow-hidden">
-      <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1485827404703-89b55fcc595e')] bg-cover bg-center opacity-5 pointer-events-none" />
-      
-      <div className="relative">
-        <JusticeMessage />
-        <AlbatoAdPopup />
-        
-        <div className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white py-4">
-          <div className="container mx-auto px-4">
-            <div className="flex flex-col md:flex-row items-center justify-between">
-              <div className="flex items-center mb-3 md:mb-0">
-                <Wand2 className="mr-2" />
-                <span className="font-medium">NEW:</span>
-                <span className="ml-2">Summarize PDFs & Videos with Gemini AI</span>
-              </div>
-              <Link to="/content-summarizer">
-                <Button variant="secondary" size="sm" className="whitespace-nowrap">
-                  <FileText className="mr-2 h-4 w-4" />
-                  Try it now
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-        
-        <Routes>
-          <Route path="/" element={
-            <>
-              <HeroSection />
-              <LearningPathSection />
-              <FeaturesSection />
-              <ProgramsSection programs={programs} />
-              <PartnershipsSection />
-              <SuccessStoriesSection />
-              <ProjectIdeasSection />
-              <CertificationSection />
-              <CodeOfConductSection />
-              <ReviewSection />
-              <ShareSection />
-              <MentorSection mentorEarnings={mentorEarnings} />
-              <FAQSection />
-              <WhatsAppSection />
-            </>
-          } />
-          <Route path="/privacy" element={<Privacy />} />
-          <Route path="/terms" element={<Terms />} />
-        </Routes>
-
-        <div className="hidden">
-          <GoogleSearchPreview
-            title="Developer Certification with Expert Mentorship | Professional Program"
-            description="Master modern development skills with personalized 1:1 expert mentorship. Get certified through our project-based professional learning program."
-          />
-          <OnPageOptimizer 
-            pageName="Homepage" 
-            targetKeywords={["developer certification", "expert mentorship", "professional development", "coding mentors"]}
-            autoOptimize={true}
-          />
-        </div>
-
-        <footer className="py-16 md:py-24 lg:py-32">
-          <SocialMediaFooter />
-        </footer>
-      </div>
-    </main>
+    <IndexDataProvider>
+      <IndexPageLayout>
+        <HeroWithAnnouncementBar />
+        <MainContent 
+          programs={programs} 
+          mentorEarnings={mentorEarnings} 
+        />
+        <SEOMetadata />
+      </IndexPageLayout>
+    </IndexDataProvider>
   );
 };
 

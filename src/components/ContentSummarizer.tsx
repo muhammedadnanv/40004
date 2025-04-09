@@ -1,259 +1,154 @@
 
-import React, { useState } from 'react';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { toast } from "@/hooks/use-toast";
-import { FileUpload, FileType, Link, Upload } from "lucide-react";
-import { generateAndDownloadPDF } from "@/utils/generatePDF";
+import { useState } from "react";
+import { Card } from "./ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import { Button } from "./ui/button";
+import { Textarea } from "./ui/textarea";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import { useToast } from "./ui/use-toast";
+import { FileText, Link as LinkIcon, FileVideo } from "lucide-react";
 
 const ContentSummarizer = () => {
-  const [url, setUrl] = useState("");
-  const [file, setFile] = useState<File | null>(null);
-  const [fileType, setFileType] = useState<"pdf" | "video" | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [summary, setSummary] = useState("");
-  const [showDialog, setShowDialog] = useState(false);
+  const [result, setResult] = useState("");
+  const [url, setUrl] = useState("");
+  const [fileToUpload, setFileToUpload] = useState<File | null>(null);
+  const [summaryType, setSummaryType] = useState<"url" | "file">("url");
+  const { toast } = useToast();
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = e.target.files?.[0];
-    
-    if (!selectedFile) {
-      return;
-    }
-    
-    if (selectedFile.type === "application/pdf") {
-      setFile(selectedFile);
-      setFileType("pdf");
-      toast({
-        title: "PDF Selected",
-        description: `${selectedFile.name} has been selected for summarization.`,
-      });
-    } else if (selectedFile.type.startsWith("video/")) {
-      setFile(selectedFile);
-      setFileType("video");
-      toast({
-        title: "Video Selected",
-        description: `${selectedFile.name} has been selected for summarization.`,
-      });
-    } else {
-      toast({
-        title: "Invalid File Type",
-        description: "Please upload a PDF or video file.",
-        variant: "destructive",
-      });
-    }
-  };
-
-  const handleUrlSubmit = () => {
-    if (!url) {
-      toast({
-        title: "URL Required",
-        description: "Please enter a valid URL.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    // Check if it's a URL
-    try {
-      new URL(url);
-    } catch (error) {
-      toast({
-        title: "Invalid URL",
-        description: "Please enter a valid URL.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    // Determine if it's likely a PDF or video URL
-    if (url.endsWith('.pdf')) {
-      setFileType("pdf");
-    } else if (url.includes('youtube.com') || url.includes('vimeo.com') || 
-               url.endsWith('.mp4') || url.endsWith('.mov') || url.endsWith('.avi')) {
-      setFileType("video");
-    }
-
-    summarizeContent();
-  };
-
-  const handleFileSubmit = () => {
-    if (!file) {
-      toast({
-        title: "File Required",
-        description: "Please upload a file first.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    summarizeContent();
-  };
-
-  const summarizeContent = async () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     setIsLoading(true);
-    let contentSource = file ? "file" : "url";
-    let contentType = fileType;
-    let contentUrl = url;
-    
+    setResult("");
+
     try {
-      // Mock API call - this would be replaced with actual Gemini API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Mock API call for demo purposes
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       
-      // For demo purposes, generate a mock summary based on the input
-      let mockSummary = "";
-      if (contentType === "pdf") {
-        mockSummary = `# Summary of ${contentSource === "file" ? file?.name : "PDF from URL"}\n\n`;
-        mockSummary += "## Key Points\n\n";
-        mockSummary += "1. This is a summarized version of the PDF content for easier understanding.\n";
-        mockSummary += "2. The document has been processed to extract the main ideas and concepts.\n";
-        mockSummary += "3. Technical terms have been simplified for student-friendly comprehension.\n\n";
-        mockSummary += "## Main Concepts\n\n";
-        mockSummary += "- The document discusses important academic concepts in a structured manner.\n";
-        mockSummary += "- Several examples illustrate practical applications of the theories presented.\n";
-        mockSummary += "- References to further reading are provided for deeper understanding.\n\n";
-        mockSummary += "*Note: This is a demonstration of the summarization feature. In production, actual content from your PDF would be analyzed by the Gemini API.*";
+      if (summaryType === "url") {
+        if (!url) {
+          throw new Error("Please enter a valid URL");
+        }
+        // Mock result for URL summarization
+        setResult(`Summary of content from ${url}:\n\nThe provided content discusses advanced techniques for optimizing React applications with a focus on performance considerations. Key points include:\n\n1. Component memoization strategies\n2. Effective state management patterns\n3. Code splitting for improved load times\n4. Reducing bundle sizes through tree-shaking\n5. Server-side rendering considerations`);
       } else {
-        mockSummary = `# Summary of ${contentSource === "file" ? file?.name : "Video from URL"}\n\n`;
-        mockSummary += "## Video Overview\n\n";
-        mockSummary += "This video covers the following topics:\n\n";
-        mockSummary += "1. Introduction to the main subject (00:00 - 02:15)\n";
-        mockSummary += "2. Explanation of key concepts with examples (02:16 - 08:45)\n";
-        mockSummary += "3. Practical demonstrations and applications (08:46 - 15:30)\n";
-        mockSummary += "4. Summary and conclusion (15:31 - end)\n\n";
-        mockSummary += "## Key Takeaways\n\n";
-        mockSummary += "- The video presents complex ideas in a visual format for better understanding.\n";
-        mockSummary += "- Step-by-step explanations make the content accessible to beginners.\n";
-        mockSummary += "- Visual aids and animations help clarify difficult concepts.\n\n";
-        mockSummary += "*Note: This is a demonstration of the summarization feature. In production, actual content from your video would be analyzed by the Gemini API.*";
+        if (!fileToUpload) {
+          throw new Error("Please select a file to upload");
+        }
+        // Mock result for file upload
+        setResult(`Summary of uploaded file "${fileToUpload.name}":\n\nThe document outlines a comprehensive approach to modern web development workflows with these main sections:\n\n1. Frontend architecture best practices\n2. API design principles for scalability\n3. Testing methodologies for robust applications\n4. Deployment strategies for continuous integration\n5. Performance monitoring and optimization techniques`);
       }
-      
-      setSummary(mockSummary);
-      setShowDialog(true);
-    } catch (error) {
-      console.error("Error summarizing content:", error);
+
       toast({
-        title: "Summarization Failed",
-        description: "There was an error processing your content. Please try again.",
+        title: "Summary Generated Successfully",
+        description: "Your content has been analyzed and summarized.",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Something went wrong",
         variant: "destructive",
       });
+      console.error(error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleDownload = () => {
-    generateAndDownloadPDF();
-    toast({
-      title: "Summary Downloaded",
-      description: "Your summarized content has been downloaded as a text file.",
-    });
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    setFileToUpload(file);
+  };
+
+  // Switch between URL and file upload modes
+  const handleSummaryTypeChange = (value: string) => {
+    setSummaryType(value as "url" | "file");
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-6 text-center">Content Summarizer</h2>
-      <p className="text-center mb-8 text-gray-600">Upload PDFs, videos, or paste links to get AI-powered summaries in student-friendly formats</p>
-      
-      <Tabs defaultValue="upload" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 mb-8">
-          <TabsTrigger value="upload" className="flex items-center gap-2">
-            <Upload size={16} /> Upload Files
+    <Card className="max-w-3xl mx-auto p-6 shadow-lg">
+      <Tabs defaultValue="url" onValueChange={handleSummaryTypeChange}>
+        <TabsList className="grid w-full grid-cols-2 mb-6">
+          <TabsTrigger value="url">
+            <LinkIcon className="w-4 h-4 mr-2" />
+            <span>URL</span>
           </TabsTrigger>
-          <TabsTrigger value="link" className="flex items-center gap-2">
-            <Link size={16} /> Paste URL
+          <TabsTrigger value="file">
+            <FileText className="w-4 h-4 mr-2" />
+            <span>File Upload</span>
           </TabsTrigger>
         </TabsList>
-
-        <TabsContent value="upload" className="space-y-6">
-          <div className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-12 text-center">
-            <div className="mb-4">
-              <FileUpload size={48} className="mx-auto text-gray-400" />
-            </div>
-            <p className="mb-4 text-sm text-gray-500">Upload PDF or video files</p>
-            <Input
-              id="file-upload"
-              type="file"
-              accept=".pdf,video/*"
-              onChange={handleFileChange}
-              className="hidden"
-            />
-            <Label 
-              htmlFor="file-upload" 
-              className="cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md"
-            >
-              Select File
-            </Label>
-            {file && (
-              <div className="mt-4 text-sm text-gray-700">
-                Selected: {file.name}
-              </div>
-            )}
-          </div>
-          <div className="flex justify-center mt-6">
-            <Button 
-              onClick={handleFileSubmit} 
-              disabled={!file || isLoading}
-              className="w-full sm:w-auto"
-            >
-              {isLoading ? "Processing..." : "Summarize Content"}
-            </Button>
-          </div>
-        </TabsContent>
-
-        <TabsContent value="link" className="space-y-6">
-          <div className="space-y-4">
-            <Label htmlFor="url-input">Enter URL of PDF or video content</Label>
-            <div className="flex gap-2">
+        
+        <form onSubmit={handleSubmit}>
+          <TabsContent value="url" className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="url">Enter URL to Summarize</Label>
               <Input
-                id="url-input"
-                placeholder="https://example.com/document.pdf"
+                id="url"
+                placeholder="https://example.com/article-or-paper"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
-                className="flex-grow"
               />
+              <p className="text-xs text-gray-500">Supports articles, blog posts, and academic papers</p>
             </div>
-          </div>
-          <div className="flex justify-center mt-6">
-            <Button 
-              onClick={handleUrlSubmit} 
-              disabled={!url || isLoading}
-              className="w-full sm:w-auto"
-            >
-              {isLoading ? "Processing..." : "Summarize Content"}
-            </Button>
-          </div>
-        </TabsContent>
+          </TabsContent>
+          
+          <TabsContent value="file" className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="file">Upload PDF or Video</Label>
+              <div className="flex items-center gap-3">
+                <Input
+                  id="file"
+                  type="file"
+                  accept=".pdf,video/*"
+                  onChange={handleFileChange}
+                />
+                {fileToUpload && (
+                  <div className="flex items-center gap-1 text-sm text-gray-600">
+                    {fileToUpload.type.includes("pdf") ? (
+                      <FileText className="w-4 h-4" />
+                    ) : (
+                      <FileVideo className="w-4 h-4" />
+                    )}
+                    <span>{fileToUpload.name}</span>
+                  </div>
+                )}
+              </div>
+              <p className="text-xs text-gray-500">Supports PDF documents and video files up to 100MB</p>
+            </div>
+          </TabsContent>
+          
+          <Button 
+            type="submit" 
+            className="w-full mt-6" 
+            disabled={isLoading || (summaryType === "url" ? !url : !fileToUpload)}
+          >
+            {isLoading ? "Generating Summary..." : "Generate Summary"}
+          </Button>
+        </form>
       </Tabs>
-
-      <Dialog open={showDialog} onOpenChange={setShowDialog}>
-        <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>Summarized Content</DialogTitle>
-          </DialogHeader>
-          <div className="mt-4">
-            <Textarea 
-              value={summary} 
-              readOnly 
-              rows={15} 
-              className="font-mono text-sm whitespace-pre-wrap"
-            />
-          </div>
-          <div className="flex justify-end gap-2 mt-4">
-            <Button onClick={handleDownload} variant="outline">
-              Download Summary
-            </Button>
-            <Button onClick={() => setShowDialog(false)}>
-              Close
+      
+      {result && (
+        <div className="mt-8 space-y-4">
+          <h3 className="text-lg font-medium">Summary</h3>
+          <Textarea 
+            readOnly 
+            value={result} 
+            className="min-h-[200px]"
+            rows={10}
+          />
+          <div className="flex justify-end">
+            <Button 
+              variant="outline" 
+              onClick={() => navigator.clipboard.writeText(result)}
+            >
+              Copy to Clipboard
             </Button>
           </div>
-        </DialogContent>
-      </Dialog>
-    </div>
+        </div>
+      )}
+    </Card>
   );
 };
 
