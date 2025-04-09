@@ -1,5 +1,4 @@
 
-import { useState } from "react";
 import ContentSummarizer from "@/components/ContentSummarizer";
 
 const ContentSummarizerPage = () => {

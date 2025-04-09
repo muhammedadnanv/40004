@@ -57,7 +57,6 @@ const ContentSummarizer = () => {
       return;
     }
 
-    // Check if it's a URL
     try {
       new URL(url);
     } catch (error) {
@@ -69,7 +68,6 @@ const ContentSummarizer = () => {
       return;
     }
 
-    // Determine if it's likely a PDF or video URL
     if (url.endsWith('.pdf')) {
       setFileType("pdf");
     } else if (url.includes('youtube.com') || url.includes('vimeo.com') || 
@@ -100,10 +98,8 @@ const ContentSummarizer = () => {
     let contentUrl = url;
     
     try {
-      // Mock API call - this would be replaced with actual Gemini API call
       await new Promise(resolve => setTimeout(resolve, 2000));
       
-      // For demo purposes, generate a mock summary based on the input
       let mockSummary = "";
       if (contentType === "pdf") {
         mockSummary = `# Summary of ${contentSource === "file" ? file?.name : "PDF from URL"}\n\n`;
