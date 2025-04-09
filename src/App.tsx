@@ -17,6 +17,7 @@ import { autoFixAndReportLinkIssues } from "./utils/linkValidator";
 const Index = lazy(() => import("./pages/Index"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const Terms = lazy(() => import("./pages/Terms"));
+const ContentSummarizerPage = lazy(() => import("./pages/ContentSummarizerPage"));
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -176,6 +177,13 @@ function App() {
               <Suspense fallback={<LoadingFallback />}>
                 <ErrorBoundary>
                   <Terms />
+                </ErrorBoundary>
+              </Suspense>
+            } />
+            <Route path="/content-summarizer" element={
+              <Suspense fallback={<LoadingFallback />}>
+                <ErrorBoundary>
+                  <ContentSummarizerPage />
                 </ErrorBoundary>
               </Suspense>
             } />
