@@ -6,7 +6,7 @@ import { toast } from "./hooks/use-toast";
 import { startMarketingRecommendations } from "./utils/marketingRecommendations";
 import { supabase } from "@/integrations/supabase/client";
 import { dataProcessor } from "./utils/dataProcessor";
-import { ErrorBoundary } from "./components/ErrorBoundary";
+import ErrorBoundary from "./components/ErrorBoundary";
 import { runWebsiteTest } from "./utils/websiteValidator";
 import { optimizeForDevice } from "./utils/performanceOptimizer";
 import { seoOptimizer } from "./utils/seoOptimizer";
