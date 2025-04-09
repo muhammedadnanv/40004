@@ -6,7 +6,7 @@ import { toast } from "./hooks/use-toast";
 import { startMarketingRecommendations } from "./utils/marketingRecommendations";
 import { supabase } from "@/integrations/supabase/client";
 import { dataProcessor } from "./utils/dataProcessor";
-import { ErrorBoundary } from "./components/ErrorBoundary";
+import ErrorBoundary from "./components/ErrorBoundary";
 import { runWebsiteTest } from "./utils/websiteValidator";
 import { optimizeForDevice } from "./utils/performanceOptimizer";
 import { seoOptimizer } from "./utils/seoOptimizer";
@@ -17,6 +17,7 @@ import { autoFixAndReportLinkIssues } from "./utils/linkValidator";
 const Index = lazy(() => import("./pages/Index"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const Terms = lazy(() => import("./pages/Terms"));
+const ContentSummarizerPage = lazy(() => import("./pages/ContentSummarizerPage"));
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -176,6 +177,13 @@ function App() {
               <Suspense fallback={<LoadingFallback />}>
                 <ErrorBoundary>
                   <Terms />
+                </ErrorBoundary>
+              </Suspense>
+            } />
+            <Route path="/content-summarizer" element={
+              <Suspense fallback={<LoadingFallback />}>
+                <ErrorBoundary>
+                  <ContentSummarizerPage />
                 </ErrorBoundary>
               </Suspense>
             } />
