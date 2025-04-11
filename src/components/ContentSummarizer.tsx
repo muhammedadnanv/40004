@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,8 +7,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
-import { FileText, Upload, Link } from "lucide-react";
+import { FileText, Upload, Link, Loader2 } from "lucide-react";
 import { generateAndDownloadPDF } from "@/utils/generatePDF";
+import { summarizeContent, processContentUrl } from "@/utils/geminiService";
 
 const ContentSummarizer = () => {
   const [url, setUrl] = useState("");
@@ -16,6 +18,7 @@ const ContentSummarizer = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [summary, setSummary] = useState("");
   const [showDialog, setShowDialog] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -47,7 +50,7 @@ const ContentSummarizer = () => {
     }
   };
 
-  const handleUrlSubmit = () => {
+  const handleUrlSubmit = async () => {
     if (!url) {
       toast({
         title: "URL Required",
@@ -68,18 +71,30 @@ const ContentSummarizer = () => {
       return;
     }
 
+    // Determine content type from URL
+    let detectedType: "pdf" | "video" | null = null;
     if (url.endsWith('.pdf')) {
-      setFileType("pdf");
+      detectedType = "pdf";
     } else if (url.includes('youtube.com') || url.includes('vimeo.com') || 
-               url.endsWith('.mp4') || url.endsWith('.mov') || url.endsWith('.avi')) {
-      setFileType("video");
+              url.endsWith('.mp4') || url.endsWith('.mov') || url.endsWith('.avi')) {
+      detectedType = "video";
     }
-
-    summarizeContent();
+    
+    if (!detectedType) {
+      toast({
+        title: "Unsupported Content Type",
+        description: "URL must point to a PDF or video content.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    setFileType(detectedType);
+    await summarizeFromUrl(url, detectedType);
   };
 
-  const handleFileSubmit = () => {
-    if (!file) {
+  const handleFileSubmit = async () => {
+    if (!file || !fileType) {
       toast({
         title: "File Required",
         description: "Please upload a file first.",
@@ -88,52 +103,48 @@ const ContentSummarizer = () => {
       return;
     }
 
-    summarizeContent();
-  };
-
-  const summarizeContent = async () => {
     setIsLoading(true);
-    let contentSource = file ? "file" : "url";
-    let contentType = fileType;
-    let contentUrl = url;
+    setError(null);
     
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Read file content
+      const fileContent = await readFileContent(file);
       
-      let mockSummary = "";
-      if (contentType === "pdf") {
-        mockSummary = `# Summary of ${contentSource === "file" ? file?.name : "PDF from URL"}\n\n`;
-        mockSummary += "## Key Points\n\n";
-        mockSummary += "1. This is a summarized version of the PDF content for easier understanding.\n";
-        mockSummary += "2. The document has been processed to extract the main ideas and concepts.\n";
-        mockSummary += "3. Technical terms have been simplified for student-friendly comprehension.\n\n";
-        mockSummary += "## Main Concepts\n\n";
-        mockSummary += "- The document discusses important academic concepts in a structured manner.\n";
-        mockSummary += "- Several examples illustrate practical applications of the theories presented.\n";
-        mockSummary += "- References to further reading are provided for deeper understanding.\n\n";
-        mockSummary += "*Note: This is a demonstration of the summarization feature. In production, actual content from your PDF would be analyzed by the Gemini API.*";
-      } else {
-        mockSummary = `# Summary of ${contentSource === "file" ? file?.name : "Video from URL"}\n\n`;
-        mockSummary += "## Video Overview\n\n";
-        mockSummary += "This video covers the following topics:\n\n";
-        mockSummary += "1. Introduction to the main subject (00:00 - 02:15)\n";
-        mockSummary += "2. Explanation of key concepts with examples (02:16 - 08:45)\n";
-        mockSummary += "3. Practical demonstrations and applications (08:46 - 15:30)\n";
-        mockSummary += "4. Summary and conclusion (15:31 - end)\n\n";
-        mockSummary += "## Key Takeaways\n\n";
-        mockSummary += "- The video presents complex ideas in a visual format for better understanding.\n";
-        mockSummary += "- Step-by-step explanations make the content accessible to beginners.\n";
-        mockSummary += "- Visual aids and animations help clarify difficult concepts.\n\n";
-        mockSummary += "*Note: This is a demonstration of the summarization feature. In production, actual content from your video would be analyzed by the Gemini API.*";
-      }
-      
-      setSummary(mockSummary);
+      // Get summary from Gemini API
+      const summaryText = await summarizeContent(fileContent, fileType);
+      setSummary(summaryText);
       setShowDialog(true);
     } catch (error) {
-      console.error("Error summarizing content:", error);
+      console.error("Error processing file:", error);
+      setError("Failed to process your file. Please try again or use a different file.");
       toast({
         title: "Summarization Failed",
-        description: "There was an error processing your content. Please try again.",
+        description: "There was a problem processing your file.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  const summarizeFromUrl = async (contentUrl: string, contentType: "pdf" | "video") => {
+    setIsLoading(true);
+    setError(null);
+    
+    try {
+      // Process URL to extract content
+      const extractedContent = await processContentUrl(contentUrl);
+      
+      // Get summary from Gemini API
+      const summaryText = await summarizeContent(extractedContent, contentType);
+      setSummary(summaryText);
+      setShowDialog(true);
+    } catch (error) {
+      console.error("Error processing URL:", error);
+      setError("Failed to process the provided URL. Please try again or use a different URL.");
+      toast({
+        title: "Summarization Failed",
+        description: "There was a problem processing the URL content.",
         variant: "destructive",
       });
     } finally {
@@ -141,8 +152,55 @@ const ContentSummarizer = () => {
     }
   };
 
+  // Helper function to read file content
+  const readFileContent = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      
+      reader.onload = (event) => {
+        if (event.target?.result) {
+          resolve(event.target.result.toString());
+        } else {
+          reject(new Error("Failed to read file"));
+        }
+      };
+      
+      reader.onerror = () => reject(new Error("Error reading file"));
+      
+      if (file.type === "application/pdf") {
+        // For demonstration, we're just reading as text
+        // In production, you'd want to use a PDF parsing library
+        reader.readAsText(file);
+      } else if (file.type.startsWith("video/")) {
+        // For video, we'd normally need a transcription service
+        // For demo, we'll just return the file name and info
+        resolve(`Video file: ${file.name}, Size: ${Math.round(file.size / 1024)} KB, Type: ${file.type}`);
+      } else {
+        reject(new Error("Unsupported file type"));
+      }
+    });
+  };
+
   const handleDownload = () => {
-    generateAndDownloadPDF();
+    if (!summary) {
+      toast({
+        title: "Nothing to Download",
+        description: "Please generate a summary first.",
+      });
+      return;
+    }
+    
+    const filename = file ? file.name.replace(/\.[^/.]+$/, "") + "-summary.txt" : "content-summary.txt";
+    const blob = new Blob([summary], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
     toast({
       title: "Summary Downloaded",
       description: "Your summarized content has been downloaded as a text file.",
@@ -195,7 +253,14 @@ const ContentSummarizer = () => {
               disabled={!file || isLoading}
               className="w-full sm:w-auto"
             >
-              {isLoading ? "Processing..." : "Summarize Content"}
+              {isLoading ? (
+                <>
+                  <Loader2 size={16} className="mr-2 animate-spin" />
+                  Processing...
+                </>
+              ) : (
+                "Summarize Content"
+              )}
             </Button>
           </div>
         </TabsContent>
@@ -219,11 +284,24 @@ const ContentSummarizer = () => {
               disabled={!url || isLoading}
               className="w-full sm:w-auto"
             >
-              {isLoading ? "Processing..." : "Summarize Content"}
+              {isLoading ? (
+                <>
+                  <Loader2 size={16} className="mr-2 animate-spin" />
+                  Processing...
+                </>
+              ) : (
+                "Summarize Content"
+              )}
             </Button>
           </div>
         </TabsContent>
       </Tabs>
+
+      {error && (
+        <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-md text-red-600 text-sm">
+          {error}
+        </div>
+      )}
 
       <Dialog open={showDialog} onOpenChange={setShowDialog}>
         <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
