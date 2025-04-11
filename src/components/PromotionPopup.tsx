@@ -4,7 +4,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Mail, User, MessageSquare, X, Bell } from "lucide-react";
+import { Mail, User, MessageSquare, X, Bell, Phone } from "lucide-react";
 import {
   Popover,
   PopoverContent,
@@ -27,6 +27,7 @@ export const PromotionPopup = ({
   const [isOpen, setIsOpen] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
@@ -58,23 +59,38 @@ export const PromotionPopup = ({
     }
 
     try {
-      // Here you would typically send the data to your backend
-      // For now, we'll simulate a successful submission
-      await new Promise((resolve) => setTimeout(resolve, 800));
-
-      toast({
-        title: "Success!",
-        description: "Thank you for subscribing to our updates!",
+      // Send the form data to Formspree
+      const response = await fetch("https://formspree.io/f/xqaapwvz", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          phone,
+          message,
+        }),
       });
-      
-      // Mark as seen in local storage
-      localStorage.setItem("hasSeenPromotionPopup", "true");
-      setIsOpen(false);
-      
-      // Reset form
-      setName("");
-      setEmail("");
-      setMessage("");
+
+      if (response.ok) {
+        toast({
+          title: "Success!",
+          description: "Thank you for subscribing to our updates!",
+        });
+        
+        // Mark as seen in local storage
+        localStorage.setItem("hasSeenPromotionPopup", "true");
+        setIsOpen(false);
+        
+        // Reset form
+        setName("");
+        setEmail("");
+        setPhone("");
+        setMessage("");
+      } else {
+        throw new Error("Form submission failed");
+      }
     } catch (error) {
       toast({
         title: "Error",
@@ -118,10 +134,11 @@ export const PromotionPopup = ({
           <form onSubmit={handleSubmit} className="space-y-3">
             <div className="relative">
               <Input
-                placeholder="Your Name (Optional)"
+                placeholder="Your Name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="pl-10 h-10 text-sm border-gray-200 focus:border-purple-400"
+                required
               />
               <User className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             </div>
@@ -136,6 +153,18 @@ export const PromotionPopup = ({
                 required
               />
               <Mail className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            </div>
+
+            <div className="relative">
+              <Input
+                type="tel"
+                placeholder="Phone Number"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className="pl-10 h-10 text-sm border-gray-200 focus:border-purple-400"
+                required
+              />
+              <Phone className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             </div>
 
             <div className="relative">
@@ -154,7 +183,7 @@ export const PromotionPopup = ({
                 className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white transition-all duration-300"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? "Subscribing..." : buttonText}
+                {isSubmitting ? "Submitting..." : buttonText}
               </Button>
               <p className="text-xs text-gray-500 mt-2 text-center">
                 We respect your privacy. Unsubscribe at any time.
