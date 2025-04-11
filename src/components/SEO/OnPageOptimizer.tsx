@@ -1,215 +1,163 @@
-
-import React, { useEffect, useState } from 'react';
-import { seoOptimizer } from '@/utils/seoOptimizer';
+import React, { useState, useEffect } from 'react';
+import { seoOptimizer } from "@/utils/seoOptimizer";
+import { useToast } from "@/hooks/use-toast";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { toast } from "@/hooks/use-toast";
-import { Progress } from "@/components/ui/progress";
+import { Textarea } from "@/components/ui/textarea";
 
 interface OnPageOptimizerProps {
   pageName: string;
-  targetKeywords?: string[];
+  targetKeywords: string[];
   autoOptimize?: boolean;
 }
 
-export function OnPageOptimizer({ 
-  pageName, 
-  targetKeywords = [], 
-  autoOptimize = false 
-}: OnPageOptimizerProps) {
-  const [seoScore, setSeoScore] = useState<number>(0);
-  const [isOptimizing, setIsOptimizing] = useState<boolean>(false);
-  const [recommendations, setRecommendations] = useState<string[]>([]);
-  const [keywordDensity, setKeywordDensity] = useState<{[key: string]: number}>({});
+export const OnPageOptimizer: React.FC<OnPageOptimizerProps> = ({ pageName, targetKeywords, autoOptimize = false }) => {
+  const [metaTitle, setMetaTitle] = useState('');
+  const [metaDescription, setMetaDescription] = useState('');
+  const [pageContent, setPageContent] = useState('');
+  const [optimizationResults, setOptimizationResults] = useState<string[]>([]);
+  const { toast } = useToast();
 
   useEffect(() => {
-    // Run initial SEO check
-    analyzeOnPageSEO();
-    
-    // Automatically optimize if specified
     if (autoOptimize) {
-      optimizeOnPageSEO();
+      runAutomaticOptimizations();
     }
-  }, []);
+  }, [autoOptimize]);
 
-  const analyzeOnPageSEO = async () => {
+  const runAutomaticOptimizations = async () => {
     try {
-      console.log(`Analyzing on-page SEO for ${pageName}...`);
-      
-      // Get page content
-      const pageContent = document.querySelector('main')?.textContent || '';
-      
-      // Get keywords if not provided
-      let keywords = [...targetKeywords];
-      if (keywords.length === 0) {
-        const keywordsResult = await seoOptimizer.getKeywords('general', 5, 0.7, 0.8);
-        if (keywordsResult.success && keywordsResult.keywords) {
-          keywords = keywordsResult.keywords.map(k => k.keyword);
-        }
+      const metaTagsResult = await seoOptimizer.optimizeMetaTags(pageName, targetKeywords);
+      if (metaTagsResult && metaTagsResult.success) {
+        setMetaTitle(metaTagsResult.metaTitle || '');
+        setMetaDescription(metaTagsResult.metaDescription || '');
+        setOptimizationResults(prev => [...prev, 'Meta tags automatically optimized.']);
+      } else {
+        setOptimizationResults(prev => [...prev, 'Meta tags optimization failed.']);
       }
-      
-      // Calculate keyword density
-      const densityMap: {[key: string]: number} = {};
-      keywords.forEach(keyword => {
-        const regex = new RegExp(`\\b${keyword}\\b`, 'gi');
-        const matches = pageContent.match(regex) || [];
-        const wordCount = pageContent.split(/\s+/).length;
-        const density = matches.length / wordCount * 100;
-        densityMap[keyword] = parseFloat(density.toFixed(2));
+
+      const headingsResult = await seoOptimizer.optimizeHeadings(pageName, targetKeywords);
+      if (headingsResult && headingsResult.success) {
+        setOptimizationResults(prev => [...prev, 'Headings automatically optimized.']);
+      } else {
+        setOptimizationResults(prev => [...prev, 'Headings optimization failed.']);
+      }
+
+      const contentResult = await seoOptimizer.optimizeContent(pageName, targetKeywords);
+      if (contentResult && contentResult.success) {
+        setPageContent(contentResult.optimizedContent || '');
+        setOptimizationResults(prev => [...prev, 'Content automatically optimized.']);
+      } else {
+        setOptimizationResults(prev => [...prev, 'Content optimization failed.']);
+      }
+
+      toast({
+        title: "Automatic Optimizations",
+        description: "On-page SEO optimizations completed automatically.",
+        duration: 3000,
       });
-      setKeywordDensity(densityMap);
-      
-      // Analyze content structure
-      const contentAnalysis = seoOptimizer.analyzeContentStructure('main');
-      
-      // Compile recommendations
-      const seoRecommendations: string[] = [];
-      
-      // Check heading structure
-      if (!contentAnalysis.headingStructure?.hasProperHierarchy) {
-        seoRecommendations.push(
-          'Improve heading structure: Use one H1 heading and multiple H2 subheadings'
-        );
-      }
-      
-      // Check keyword density
-      const lowDensityKeywords = Object.entries(densityMap)
-        .filter(([_, density]) => density < 0.5)
-        .map(([keyword]) => keyword);
-        
-      if (lowDensityKeywords.length > 0) {
-        seoRecommendations.push(
-          `Increase keyword density for: ${lowDensityKeywords.join(', ')}`
-        );
-      }
-      
-      // Check meta tags
-      const metaDescription = document.querySelector('meta[name="description"]');
-      if (!metaDescription) {
-        seoRecommendations.push('Add a meta description with target keywords');
-      }
-      
-      // Check for internal linking
-      if (contentAnalysis.internalLinks && contentAnalysis.internalLinks.count < 3) {
-        seoRecommendations.push('Add more internal links to improve site structure');
-      }
-      
-      // Check for image optimization
-      const images = document.querySelectorAll('img:not([alt])');
-      if (images.length > 0) {
-        seoRecommendations.push(`Add alt text to ${images.length} images`);
-      }
-      
-      // Calculate overall SEO score
-      let score = 100;
-      score -= seoRecommendations.length * 10;
-      score = Math.max(0, Math.min(100, score));
-      
-      setSeoScore(score);
-      setRecommendations(seoRecommendations);
-      
-      console.log(`SEO analysis complete for ${pageName}. Score: ${score}`);
-      return { score, recommendations: seoRecommendations };
-    } catch (error) {
-      console.error('Error analyzing on-page SEO:', error);
-      return { score: 0, recommendations: ['Error analyzing SEO'] };
+    } catch (error: any) {
+      console.error("Error during automatic SEO optimization:", error);
+      toast({
+        title: "Optimization Error",
+        description: `An error occurred during automatic optimization: ${error.message || 'Unknown error'}`,
+        variant: "destructive",
+        duration: 5000,
+      });
     }
   };
 
-  const optimizeOnPageSEO = async () => {
+  const handleManualOptimize = async () => {
     try {
-      setIsOptimizing(true);
-      console.log(`Optimizing on-page SEO for ${pageName}...`);
-      
-      // Get high-intent keywords
-      const keywordsResult = await seoOptimizer.getKeywords('general', 5, 0.8, 0.9);
-      let highIntentKeywords: string[] = [];
-      
-      if (keywordsResult.success && keywordsResult.keywords) {
-        highIntentKeywords = keywordsResult.keywords.map(k => k.keyword);
-      }
-      
-      // Apply optimizations
-      await seoOptimizer.optimizeMetaTags(window.location.href, highIntentKeywords);
-      
-      // Update schema markup based on page content
-      if (pageName.toLowerCase().includes('program') || pageName.toLowerCase().includes('course')) {
-        await seoOptimizer.implementSchemaMarkup('Course', {
-          name: document.title,
-          description: document.querySelector('meta[name="description"]')?.getAttribute('content'),
-          keywords: highIntentKeywords.join(', ')
-        });
-      } else {
-        await seoOptimizer.implementSchemaMarkup('Organization', {
-          name: "Professional Developer Certification Program",
-          description: "Expert mentorship and certification for professional developers",
-          keywords: highIntentKeywords.join(', ')
-        });
-      }
-      
+      const manualMetaTagsResult = await seoOptimizer.optimizeMetaTags(pageName, targetKeywords);
+        if (manualMetaTagsResult && manualMetaTagsResult.success) {
+            setMetaTitle(manualMetaTagsResult.metaTitle || '');
+            setMetaDescription(manualMetaTagsResult.metaDescription || '');
+            setOptimizationResults(prev => [...prev, 'Meta tags manually optimized.']);
+        } else {
+            setOptimizationResults(prev => [...prev, 'Meta tags manual optimization failed.']);
+        }
+
+        const manualHeadingsResult = await seoOptimizer.optimizeHeadings(pageName, targetKeywords);
+        if (manualHeadingsResult && manualHeadingsResult.success) {
+            setOptimizationResults(prev => [...prev, 'Headings manually optimized.']);
+        } else {
+            setOptimizationResults(prev => [...prev, 'Headings manual optimization failed.']);
+        }
+
+        const manualContentResult = await seoOptimizer.optimizeContent(pageName, targetKeywords);
+        if (manualContentResult && manualContentResult.success) {
+            setPageContent(manualContentResult.optimizedContent || '');
+            setOptimizationResults(prev => [...prev, 'Content manually optimized.']);
+        } else {
+            setOptimizationResults(prev => [...prev, 'Content manual optimization failed.']);
+        }
+
       toast({
-        title: "On-Page SEO Optimized",
-        description: `Enhanced page SEO with high-intent keywords: ${highIntentKeywords.slice(0, 3).join(', ')}`,
+        title: "Manual Optimizations",
+        description: "On-page SEO optimizations completed manually.",
         duration: 3000,
       });
-      
-      // Re-analyze to show improvements
-      await analyzeOnPageSEO();
-      setIsOptimizing(false);
-    } catch (error) {
-      console.error('Error optimizing on-page SEO:', error);
-      setIsOptimizing(false);
-      
+    } catch (error: any) {
+      console.error("Error during manual SEO optimization:", error);
       toast({
-        title: "SEO Optimization Failed",
-        description: "Could not optimize on-page SEO",
+        title: "Optimization Error",
+        description: `An error occurred during manual optimization: ${error.message || 'Unknown error'}`,
         variant: "destructive",
+        duration: 5000,
       });
     }
   };
 
   return (
-    <div className="p-4 bg-white rounded-lg shadow space-y-4">
-      <div className="flex justify-between items-center">
-        <h3 className="text-lg font-medium">On-Page SEO Score</h3>
-        <span className={`text-lg font-bold ${seoScore > 70 ? 'text-green-600' : seoScore > 50 ? 'text-yellow-600' : 'text-red-600'}`}>
-          {seoScore}%
-        </span>
+    <div className="p-4">
+      <h2 className="text-lg font-semibold mb-4">On-Page SEO Optimizer - {pageName}</h2>
+
+      <div className="mb-4">
+        <Label htmlFor="metaTitle">Meta Title</Label>
+        <Input
+          type="text"
+          id="metaTitle"
+          value={metaTitle}
+          onChange={(e) => setMetaTitle(e.target.value)}
+          className="w-full mt-1"
+        />
       </div>
-      
-      <Progress value={seoScore} className="h-2" />
-      
-      {recommendations.length > 0 && (
+
+      <div className="mb-4">
+        <Label htmlFor="metaDescription">Meta Description</Label>
+        <Textarea
+          id="metaDescription"
+          value={metaDescription}
+          onChange={(e) => setMetaDescription(e.target.value)}
+          className="w-full mt-1"
+        />
+      </div>
+
+      <div className="mb-4">
+        <Label htmlFor="pageContent">Page Content</Label>
+        <Textarea
+          id="pageContent"
+          value={pageContent}
+          onChange={(e) => setPageContent(e.target.value)}
+          className="w-full mt-1"
+        />
+      </div>
+
+      <Button onClick={handleManualOptimize} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+        Run Manual Optimization
+      </Button>
+
+      {optimizationResults.length > 0 && (
         <div className="mt-4">
-          <h4 className="text-sm font-medium text-gray-500 mb-2">Recommendations:</h4>
-          <ul className="space-y-1 text-sm">
-            {recommendations.map((rec, index) => (
-              <li key={index} className="text-gray-700">• {rec}</li>
+          <h3 className="text-md font-semibold">Optimization Results:</h3>
+          <ul>
+            {optimizationResults.map((result, index) => (
+              <li key={index} className="list-disc ml-5">{result}</li>
             ))}
           </ul>
         </div>
       )}
-      
-      <div className="mt-4">
-        <h4 className="text-sm font-medium text-gray-500 mb-2">Keyword Density:</h4>
-        <div className="grid grid-cols-2 gap-2">
-          {Object.entries(keywordDensity).map(([keyword, density]) => (
-            <div key={keyword} className="flex justify-between text-sm">
-              <span className="text-gray-700">{keyword}:</span>
-              <span className={`font-medium ${density >= 0.5 ? 'text-green-600' : 'text-yellow-600'}`}>
-                {density}%
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-      
-      <Button 
-        onClick={optimizeOnPageSEO} 
-        disabled={isOptimizing}
-        className="w-full mt-4"
-      >
-        {isOptimizing ? 'Optimizing...' : 'Optimize SEO'}
-      </Button>
     </div>
   );
-}
+};

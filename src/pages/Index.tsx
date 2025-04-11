@@ -1,3 +1,4 @@
+
 import { HeroSection } from "@/components/HeroSection";
 import { LearningPathSection } from "@/components/LearningPathSection";
 import { FeaturesSection } from "@/components/features/FeaturesSection";
@@ -14,6 +15,7 @@ import { MentorSection } from "@/components/MentorSection";
 import { SuccessStoriesSection } from "@/components/SuccessStoriesSection";
 import { CodeOfConductSection } from "@/components/CodeOfConductSection";
 import { AlbatoAdPopup } from "@/components/AlbatoAdPopup";
+import { PromotionPopup } from "@/components/PromotionPopup";
 import { useEffect } from "react";
 import { getContentEngagementStats } from "@/utils/contentAdaptation";
 import { fetchAndApplySEOKeywords } from "@/utils/performanceOptimizer";
@@ -192,6 +194,11 @@ const Index = () => {
       <div className="relative">
         <JusticeMessage />
         <AlbatoAdPopup />
+        <PromotionPopup 
+          title="Join Our Community" 
+          description="Subscribe to get exclusive project ideas, learning resources, and special offers delivered to your inbox."
+          buttonText="Get Valuable Updates"
+        />
         
         <div className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white py-4">
           <div className="container mx-auto px-4">
