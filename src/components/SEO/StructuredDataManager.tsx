@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { seoOptimizer } from '@/utils/seoOptimizer';
 
@@ -21,7 +22,7 @@ export const StructuredDataManager: React.FC<StructuredDataManagerProps> = ({
           if (result.success) {
             console.log(`Schema markup for ${type} implemented successfully`);
           } else {
-            console.error(`Failed to implement schema markup for ${type}:`, result.error);
+            console.error(`Failed to implement schema markup for ${type}:`, result.message);
           }
         } catch (error) {
           console.error(`Error implementing schema markup for ${type}:`, error);

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { seoOptimizer } from "@/utils/seoOptimizer";
 import { useToast } from "@/hooks/use-toast";
@@ -29,27 +30,23 @@ export const OnPageOptimizer: React.FC<OnPageOptimizerProps> = ({ pageName, targ
     try {
       const metaTagsResult = await seoOptimizer.optimizeMetaTags(pageName, targetKeywords);
       if (metaTagsResult && metaTagsResult.success) {
-        setMetaTitle(metaTagsResult.metaTitle || '');
-        setMetaDescription(metaTagsResult.metaDescription || '');
+        setMetaTitle(metaTagsResult.suggestions?.title || '');
+        setMetaDescription(metaTagsResult.suggestions?.description || '');
         setOptimizationResults(prev => [...prev, 'Meta tags automatically optimized.']);
       } else {
         setOptimizationResults(prev => [...prev, 'Meta tags optimization failed.']);
       }
 
-      const headingsResult = await seoOptimizer.optimizeHeadings(pageName, targetKeywords);
+      // Since optimizeHeadings doesn't exist in the seoOptimizer, we'll use analyzeContentStructure instead
+      const headingsResult = seoOptimizer.analyzeContentStructure('main');
       if (headingsResult && headingsResult.success) {
-        setOptimizationResults(prev => [...prev, 'Headings automatically optimized.']);
+        setOptimizationResults(prev => [...prev, 'Headings automatically analyzed.']);
       } else {
-        setOptimizationResults(prev => [...prev, 'Headings optimization failed.']);
+        setOptimizationResults(prev => [...prev, 'Headings analysis failed.']);
       }
 
-      const contentResult = await seoOptimizer.optimizeContent(pageName, targetKeywords);
-      if (contentResult && contentResult.success) {
-        setPageContent(contentResult.optimizedContent || '');
-        setOptimizationResults(prev => [...prev, 'Content automatically optimized.']);
-      } else {
-        setOptimizationResults(prev => [...prev, 'Content optimization failed.']);
-      }
+      // Since optimizeContent doesn't exist, we can't use it. We'll update results accordingly
+      setOptimizationResults(prev => [...prev, 'Content optimization capability not available.']);
 
       toast({
         title: "Automatic Optimizations",
@@ -70,28 +67,24 @@ export const OnPageOptimizer: React.FC<OnPageOptimizerProps> = ({ pageName, targ
   const handleManualOptimize = async () => {
     try {
       const manualMetaTagsResult = await seoOptimizer.optimizeMetaTags(pageName, targetKeywords);
-        if (manualMetaTagsResult && manualMetaTagsResult.success) {
-            setMetaTitle(manualMetaTagsResult.metaTitle || '');
-            setMetaDescription(manualMetaTagsResult.metaDescription || '');
-            setOptimizationResults(prev => [...prev, 'Meta tags manually optimized.']);
-        } else {
-            setOptimizationResults(prev => [...prev, 'Meta tags manual optimization failed.']);
-        }
+      if (manualMetaTagsResult && manualMetaTagsResult.success) {
+        setMetaTitle(manualMetaTagsResult.suggestions?.title || '');
+        setMetaDescription(manualMetaTagsResult.suggestions?.description || '');
+        setOptimizationResults(prev => [...prev, 'Meta tags manually optimized.']);
+      } else {
+        setOptimizationResults(prev => [...prev, 'Meta tags manual optimization failed.']);
+      }
 
-        const manualHeadingsResult = await seoOptimizer.optimizeHeadings(pageName, targetKeywords);
-        if (manualHeadingsResult && manualHeadingsResult.success) {
-            setOptimizationResults(prev => [...prev, 'Headings manually optimized.']);
-        } else {
-            setOptimizationResults(prev => [...prev, 'Headings manual optimization failed.']);
-        }
+      // Since optimizeHeadings doesn't exist, use analyzeContentStructure instead
+      const manualHeadingsResult = seoOptimizer.analyzeContentStructure('main');
+      if (manualHeadingsResult && manualHeadingsResult.success) {
+        setOptimizationResults(prev => [...prev, 'Headings manually analyzed.']);
+      } else {
+        setOptimizationResults(prev => [...prev, 'Headings manual analysis failed.']);
+      }
 
-        const manualContentResult = await seoOptimizer.optimizeContent(pageName, targetKeywords);
-        if (manualContentResult && manualContentResult.success) {
-            setPageContent(manualContentResult.optimizedContent || '');
-            setOptimizationResults(prev => [...prev, 'Content manually optimized.']);
-        } else {
-            setOptimizationResults(prev => [...prev, 'Content manual optimization failed.']);
-        }
+      // Since optimizeContent doesn't exist, we can't use it
+      setOptimizationResults(prev => [...prev, 'Content optimization capability not available.']);
 
       toast({
         title: "Manual Optimizations",

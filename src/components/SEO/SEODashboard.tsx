@@ -44,6 +44,24 @@ export function SEODashboard({ pageType = 'homepage' }: SEODashboardProps) {
     // Add retargeting pixels
     createRetargetingPixel('google');
   };
+  
+  // Define default keywords based on page type
+  const getDefaultKeywords = (): string[] => {
+    switch (pageType) {
+      case 'homepage':
+        return ["developer certification", "mentorship", "professional skills", "coding program"];
+      case 'program':
+        return ["developer course", "certification program", "technical skills", "career advancement"];
+      case 'blog':
+        return ["programming tips", "development insights", "tech tutorials", "coding guides"];
+      case 'faq':
+        return ["developer faqs", "program questions", "certification help", "mentorship info"];
+      case 'organization':
+        return ["tech organization", "development company", "training provider", "certification authority"];
+      default:
+        return ["developer certification", "mentorship", "professional skills"];
+    }
+  };
 
   return (
     <div className="container mx-auto p-4 max-w-6xl">
@@ -80,7 +98,8 @@ export function SEODashboard({ pageType = 'homepage' }: SEODashboardProps) {
               
               <TabsContent value="on-page" className="pt-4">
                 <OnPageOptimizer 
-                  pageName={document.title} 
+                  pageName={document.title}
+                  targetKeywords={getDefaultKeywords()}
                   autoOptimize={false}
                 />
               </TabsContent>
@@ -90,7 +109,74 @@ export function SEODashboard({ pageType = 'homepage' }: SEODashboardProps) {
               </TabsContent>
               
               <TabsContent value="schema" className="pt-4">
-                <StructuredDataManager pageType={pageType} />
+                {pageType === 'organization' && (
+                  <StructuredDataManager 
+                    type="Organization" 
+                    data={{
+                      name: "Developer Certification Platform",
+                      url: window.location.origin,
+                      logo: `${window.location.origin}/logo.png`
+                    }}
+                  />
+                )}
+                {pageType === 'program' && (
+                  <StructuredDataManager 
+                    type="Course" 
+                    data={{
+                      name: "Professional Developer Certification",
+                      description: "Master modern development skills with expert mentorship",
+                      provider: {
+                        "@type": "Organization",
+                        name: "Developer Certification Platform",
+                        url: window.location.origin
+                      }
+                    }}
+                  />
+                )}
+                {pageType === 'faq' && (
+                  <StructuredDataManager 
+                    type="FAQPage" 
+                    data={{
+                      mainEntity: [
+                        {
+                          "@type": "Question",
+                          name: "What is the Developer Certification Program?",
+                          acceptedAnswer: {
+                            "@type": "Answer",
+                            text: "Our Developer Certification Program offers mentorship and project-based learning for professional developers."
+                          }
+                        }
+                      ]
+                    }}
+                  />
+                )}
+                {pageType === 'blog' && (
+                  <StructuredDataManager 
+                    type="Article" 
+                    data={{
+                      headline: "Developer Insights",
+                      author: {
+                        "@type": "Person",
+                        name: "Tech Expert"
+                      },
+                      datePublished: new Date().toISOString()
+                    }}
+                  />
+                )}
+                {pageType === 'homepage' && (
+                  <StructuredDataManager 
+                    type="Organization" 
+                    data={{
+                      name: "Developer Certification Platform",
+                      url: window.location.origin,
+                      logo: `${window.location.origin}/logo.png`,
+                      sameAs: [
+                        "https://twitter.com/devplatform",
+                        "https://linkedin.com/company/devplatform"
+                      ]
+                    }}
+                  />
+                )}
               </TabsContent>
               
               <TabsContent value="sitemap" className="pt-4">
