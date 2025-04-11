@@ -44,62 +44,29 @@ export const PromotionPopup = ({
     return () => clearTimeout(timer);
   }, [delay]);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     if (!email) {
+      e.preventDefault();
       toast({
         title: "Email Required",
         description: "Please enter your email address to subscribe.",
         variant: "destructive",
       });
-      setIsSubmitting(false);
       return;
     }
 
-    try {
-      // Send the form data to Formspree
-      const response = await fetch("https://formspree.io/f/xqaapwvz", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          phone,
-          message,
-        }),
-      });
+    setIsSubmitting(true);
+    // The actual form submission is handled by the form's action and method attributes
+    // We'll just set a flag to show the popup was completed
+    localStorage.setItem("hasSeenPromotionPopup", "true");
 
-      if (response.ok) {
-        toast({
-          title: "Success!",
-          description: "Thank you for subscribing to our updates!",
-        });
-        
-        // Mark as seen in local storage
-        localStorage.setItem("hasSeenPromotionPopup", "true");
-        setIsOpen(false);
-        
-        // Reset form
-        setName("");
-        setEmail("");
-        setPhone("");
-        setMessage("");
-      } else {
-        throw new Error("Form submission failed");
-      }
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Something went wrong. Please try again later.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
+    // Show a success toast after form submission
+    toast({
+      title: "Form Submitted!",
+      description: "Thank you for subscribing to our updates!",
+    });
+
+    // We don't prevent default here to allow the form to submit naturally
   };
 
   const handleClose = () => {
@@ -131,9 +98,15 @@ export const PromotionPopup = ({
         </div>
 
         <div className="p-4 bg-white rounded-b-xl">
-          <form onSubmit={handleSubmit} className="space-y-3">
+          <form 
+            action="https://formspree.io/f/xqaapwvz"
+            method="POST"
+            onSubmit={handleSubmit} 
+            className="space-y-3"
+          >
             <div className="relative">
               <Input
+                name="name"
                 placeholder="Your Name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -145,6 +118,7 @@ export const PromotionPopup = ({
 
             <div className="relative">
               <Input
+                name="email"
                 type="email"
                 placeholder="Email Address"
                 value={email}
@@ -157,6 +131,7 @@ export const PromotionPopup = ({
 
             <div className="relative">
               <Input
+                name="phone"
                 type="tel"
                 placeholder="Phone Number"
                 value={phone}
@@ -169,6 +144,7 @@ export const PromotionPopup = ({
 
             <div className="relative">
               <Textarea
+                name="message"
                 placeholder="Additional Comments (Optional)"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
