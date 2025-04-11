@@ -11,7 +11,6 @@ import { Badge } from "@/components/ui/badge";
 import { seoOptimizer } from '@/utils/seoOptimizer';
 import { initRetargetingService, createRetargetingPixel } from '@/utils/retargetingService';
 import { Button } from "@/components/ui/button";
-import { toast } from "@/hooks/use-toast";
 
 interface SEODashboardProps {
   pageType?: 'homepage' | 'program' | 'blog' | 'faq' | 'organization';
@@ -21,11 +20,7 @@ export function SEODashboard({ pageType = 'homepage' }: SEODashboardProps) {
   const [activeTab, setActiveTab] = useState<string>('on-page');
   
   const runFullSEOOptimization = async () => {
-    toast({
-      title: "Running Full SEO Optimization",
-      description: "Optimizing for high-intent keywords and technical factors",
-      duration: 3000,
-    });
+    console.log("Running Full SEO Optimization");
     
     // Run comprehensive SEO optimizations
     await seoOptimizer.runOptimizations({
@@ -60,6 +55,75 @@ export function SEODashboard({ pageType = 'homepage' }: SEODashboardProps) {
         return ["tech organization", "development company", "training provider", "certification authority"];
       default:
         return ["developer certification", "mentorship", "professional skills"];
+    }
+  };
+
+  // Get schema data based on page type
+  const getSchemaData = () => {
+    switch (pageType) {
+      case 'organization':
+        return {
+          type: "Organization" as const, 
+          data: {
+            name: "Developer Certification Platform",
+            url: window.location.origin,
+            logo: `${window.location.origin}/logo.png`
+          }
+        };
+      case 'program':
+        return {
+          type: "Course" as const,
+          data: {
+            name: "Professional Developer Certification",
+            description: "Master modern development skills with expert mentorship",
+            provider: {
+              "@type": "Organization",
+              name: "Developer Certification Platform",
+              url: window.location.origin
+            }
+          }
+        };
+      case 'faq':
+        return {
+          type: "FAQPage" as const,
+          data: {
+            mainEntity: [
+              {
+                "@type": "Question",
+                name: "What is the Developer Certification Program?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Our Developer Certification Program offers mentorship and project-based learning for professional developers."
+                }
+              }
+            ]
+          }
+        };
+      case 'blog':
+        return {
+          type: "Article" as const,
+          data: {
+            headline: "Developer Insights",
+            author: {
+              "@type": "Person",
+              name: "Tech Expert"
+            },
+            datePublished: new Date().toISOString()
+          }
+        };
+      default:
+        return {
+          type: "Organization" as const,
+          data: {
+            name: "Developer Certification Platform",
+            url: window.location.origin,
+            logo: `${window.location.origin}/logo.png`,
+            sameAs: [
+              "https://twitter.com/devplatform",
+              "https://linkedin.com/company/devplatform"
+            ]
+          }
+        };
     }
   };
 
@@ -109,74 +173,16 @@ export function SEODashboard({ pageType = 'homepage' }: SEODashboardProps) {
               </TabsContent>
               
               <TabsContent value="schema" className="pt-4">
-                {pageType === 'organization' && (
-                  <StructuredDataManager 
-                    type="Organization" 
-                    data={{
-                      name: "Developer Certification Platform",
-                      url: window.location.origin,
-                      logo: `${window.location.origin}/logo.png`
-                    }}
-                  />
-                )}
-                {pageType === 'program' && (
-                  <StructuredDataManager 
-                    type="Course" 
-                    data={{
-                      name: "Professional Developer Certification",
-                      description: "Master modern development skills with expert mentorship",
-                      provider: {
-                        "@type": "Organization",
-                        name: "Developer Certification Platform",
-                        url: window.location.origin
-                      }
-                    }}
-                  />
-                )}
-                {pageType === 'faq' && (
-                  <StructuredDataManager 
-                    type="FAQPage" 
-                    data={{
-                      mainEntity: [
-                        {
-                          "@type": "Question",
-                          name: "What is the Developer Certification Program?",
-                          acceptedAnswer: {
-                            "@type": "Answer",
-                            text: "Our Developer Certification Program offers mentorship and project-based learning for professional developers."
-                          }
-                        }
-                      ]
-                    }}
-                  />
-                )}
-                {pageType === 'blog' && (
-                  <StructuredDataManager 
-                    type="Article" 
-                    data={{
-                      headline: "Developer Insights",
-                      author: {
-                        "@type": "Person",
-                        name: "Tech Expert"
-                      },
-                      datePublished: new Date().toISOString()
-                    }}
-                  />
-                )}
-                {pageType === 'homepage' && (
-                  <StructuredDataManager 
-                    type="Organization" 
-                    data={{
-                      name: "Developer Certification Platform",
-                      url: window.location.origin,
-                      logo: `${window.location.origin}/logo.png`,
-                      sameAs: [
-                        "https://twitter.com/devplatform",
-                        "https://linkedin.com/company/devplatform"
-                      ]
-                    }}
-                  />
-                )}
+                {/* Render the appropriate schema data based on page type */}
+                {(() => {
+                  const schema = getSchemaData();
+                  return (
+                    <StructuredDataManager
+                      type={schema.type}
+                      data={schema.data}
+                    />
+                  );
+                })()}
               </TabsContent>
               
               <TabsContent value="sitemap" className="pt-4">

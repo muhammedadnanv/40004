@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { seoOptimizer } from "@/utils/seoOptimizer";
-import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -18,7 +17,6 @@ export const OnPageOptimizer: React.FC<OnPageOptimizerProps> = ({ pageName, targ
   const [metaDescription, setMetaDescription] = useState('');
   const [pageContent, setPageContent] = useState('');
   const [optimizationResults, setOptimizationResults] = useState<string[]>([]);
-  const { toast } = useToast();
 
   useEffect(() => {
     if (autoOptimize) {
@@ -37,7 +35,7 @@ export const OnPageOptimizer: React.FC<OnPageOptimizerProps> = ({ pageName, targ
         setOptimizationResults(prev => [...prev, 'Meta tags optimization failed.']);
       }
 
-      // Since optimizeHeadings doesn't exist in the seoOptimizer, we'll use analyzeContentStructure instead
+      // Using analyzeContentStructure instead of optimizeHeadings
       const headingsResult = seoOptimizer.analyzeContentStructure('main');
       if (headingsResult && headingsResult.success) {
         setOptimizationResults(prev => [...prev, 'Headings automatically analyzed.']);
@@ -45,22 +43,11 @@ export const OnPageOptimizer: React.FC<OnPageOptimizerProps> = ({ pageName, targ
         setOptimizationResults(prev => [...prev, 'Headings analysis failed.']);
       }
 
-      // Since optimizeContent doesn't exist, we can't use it. We'll update results accordingly
+      // Content optimization message
       setOptimizationResults(prev => [...prev, 'Content optimization capability not available.']);
-
-      toast({
-        title: "Automatic Optimizations",
-        description: "On-page SEO optimizations completed automatically.",
-        duration: 3000,
-      });
     } catch (error: any) {
       console.error("Error during automatic SEO optimization:", error);
-      toast({
-        title: "Optimization Error",
-        description: `An error occurred during automatic optimization: ${error.message || 'Unknown error'}`,
-        variant: "destructive",
-        duration: 5000,
-      });
+      setOptimizationResults(prev => [...prev, `Error: ${error.message || 'Unknown error'}`]);
     }
   };
 
@@ -75,7 +62,7 @@ export const OnPageOptimizer: React.FC<OnPageOptimizerProps> = ({ pageName, targ
         setOptimizationResults(prev => [...prev, 'Meta tags manual optimization failed.']);
       }
 
-      // Since optimizeHeadings doesn't exist, use analyzeContentStructure instead
+      // Using analyzeContentStructure instead of optimizeHeadings
       const manualHeadingsResult = seoOptimizer.analyzeContentStructure('main');
       if (manualHeadingsResult && manualHeadingsResult.success) {
         setOptimizationResults(prev => [...prev, 'Headings manually analyzed.']);
@@ -83,22 +70,11 @@ export const OnPageOptimizer: React.FC<OnPageOptimizerProps> = ({ pageName, targ
         setOptimizationResults(prev => [...prev, 'Headings manual analysis failed.']);
       }
 
-      // Since optimizeContent doesn't exist, we can't use it
+      // Content optimization message
       setOptimizationResults(prev => [...prev, 'Content optimization capability not available.']);
-
-      toast({
-        title: "Manual Optimizations",
-        description: "On-page SEO optimizations completed manually.",
-        duration: 3000,
-      });
     } catch (error: any) {
       console.error("Error during manual SEO optimization:", error);
-      toast({
-        title: "Optimization Error",
-        description: `An error occurred during manual optimization: ${error.message || 'Unknown error'}`,
-        variant: "destructive",
-        duration: 5000,
-      });
+      setOptimizationResults(prev => [...prev, `Error: ${error.message || 'Unknown error'}`]);
     }
   };
 

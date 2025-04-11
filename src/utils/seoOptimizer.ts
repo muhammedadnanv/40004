@@ -1,6 +1,4 @@
-
 import { supabase } from "@/integrations/supabase/client";
-import { toast } from "@/hooks/use-toast";
 
 interface SEOOptimizerOptions {
   generateKeywords?: boolean;
@@ -484,20 +482,6 @@ export const seoOptimizer = {
     // Wait for all tasks to complete
     await Promise.all(tasks);
 
-    // Display results
-    results.forEach(result => {
-      if (result.success) {
-        toast({
-          title: `${result.operation} Completed`,
-          description: result.message,
-        });
-      } else {
-        toast({
-          title: `${result.operation} Failed`,
-          description: result.message,
-          variant: "destructive",
-        });
-      }
-    });
+    console.log("SEO optimization tasks completed:", results);
   }
 };
