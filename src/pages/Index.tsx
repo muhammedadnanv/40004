@@ -1,4 +1,3 @@
-
 import { HeroSection } from "@/components/HeroSection";
 import { LearningPathSection } from "@/components/LearningPathSection";
 import { FeaturesSection } from "@/components/features/FeaturesSection";
@@ -113,7 +112,7 @@ const Index = () => {
   }, []);
 
   const programFee = 2160;
-  const platformFeePercentage = 10;
+  const platformFeePercentage = 25;
   const razorpayFeePercentage = 2;
   
   const platformFee = (programFee * platformFeePercentage) / 100;
@@ -198,6 +197,7 @@ const Index = () => {
           title="Join Our Community" 
           description="Subscribe to get exclusive project ideas, learning resources, and special offers delivered to your inbox."
           buttonText="Get Valuable Updates"
+          delay={120000}
         />
         
         <div className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white py-4">

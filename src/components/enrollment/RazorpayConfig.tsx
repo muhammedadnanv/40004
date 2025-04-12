@@ -24,7 +24,7 @@ const calculateTotalAmount = (baseAmount: number) => {
     return feeCalculationCache.get(baseAmount)!;
   }
   
-  const platformFeePercentage = 20;
+  const platformFeePercentage = 25; // Updated from 20% to 25%
   const platformFee = (baseAmount * platformFeePercentage) / 100;
   const total = Math.round(baseAmount + platformFee);
   
