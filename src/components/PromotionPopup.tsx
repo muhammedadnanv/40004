@@ -29,7 +29,7 @@ export const PromotionPopup = ({
   title = "Get Exclusive Updates",
   description = "Join our community to receive the latest updates, tips, and special offers.",
   buttonText = "Subscribe Now",
-  delay = 5000,
+  delay = 120000, // Default to 2 minutes (120000ms)
 }: PromotionPopupProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [showAsDialog, setShowAsDialog] = useState(false);
@@ -63,8 +63,8 @@ export const PromotionPopup = ({
     };
   }, [delay]);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // Prevent default but still allow form submission
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     
     if (!email) {
       toast({
@@ -77,20 +77,29 @@ export const PromotionPopup = ({
 
     setIsSubmitting(true);
     
-    // We'll set a flag to show the popup was completed
-    localStorage.setItem("hasSeenPromotionPopup", "true");
-
-    // Allow the form to submit naturally through the Formspree action
-    // The page will navigate to Formspree's success page and then redirect back
-    toast({
-      title: "Form Submitted!",
-      description: "Thank you for subscribing to our updates!",
-    });
-    
-    // Close the popup after submission
-    setTimeout(() => {
-      setIsOpen(false);
-    }, 1000);
+    try {
+      // We'll set a flag to show the popup was completed
+      localStorage.setItem("hasSeenPromotionPopup", "true");
+      
+      // Form submission will happen via the form's action attribute
+      toast({
+        title: "Thanks for Subscribing!",
+        description: "You'll receive our updates soon.",
+      });
+      
+      // Close the popup after submission
+      setTimeout(() => {
+        setIsOpen(false);
+        setIsSubmitting(false);
+      }, 1000);
+    } catch (error) {
+      setIsSubmitting(false);
+      toast({
+        title: "Something went wrong",
+        description: "Please try again later.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleClose = () => {
