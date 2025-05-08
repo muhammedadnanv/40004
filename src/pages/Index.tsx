@@ -1,4 +1,3 @@
-
 import { HeroSection } from "@/components/HeroSection";
 import { LearningPathSection } from "@/components/LearningPathSection";
 import { FeaturesSection } from "@/components/features/FeaturesSection";
@@ -8,11 +7,8 @@ import { FAQSection } from "@/components/FAQSection";
 import { WhatsAppSection } from "@/components/WhatsAppSection";
 import { SocialMediaFooter } from "@/components/SocialMediaFooter";
 import { ProjectIdeasSection } from "@/components/ProjectIdeasSection";
-import { PartnershipsSection } from "@/components/PartnershipsSection";
-import { ReviewSection } from "@/components/ReviewSection";
 import { ShareSection } from "@/components/ShareSection";
 import { MentorSection } from "@/components/MentorSection";
-import { SuccessStoriesSection } from "@/components/SuccessStoriesSection";
 import { CodeOfConductSection } from "@/components/CodeOfConductSection";
 import { AlbatoAdPopup } from "@/components/AlbatoAdPopup";
 import { PromotionPopup } from "@/components/PromotionPopup";
@@ -223,8 +219,6 @@ const Index = () => {
         <LearningPathSection />
         <FeaturesSection />
         <ProgramsSection programs={programs} />
-        <PartnershipsSection />
-        <SuccessStoriesSection />
         <ProjectIdeasSection />
         <CertificationSection />
         <CodeOfConductSection />
