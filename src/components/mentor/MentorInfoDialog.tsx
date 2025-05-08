@@ -18,8 +18,10 @@ export const MentorInfoDialog = ({ isOpen, onClose, mentorEarnings = 0 }: Mentor
     onClose();
   };
 
-  const platformFee = 2160 * 0.1; // 10% platform fee
-  const paymentGatewayFee = 2160 * 0.02; // 2% payment gateway fee
+  const programFee = 199; // Updated from 2160 to 199
+  const platformFeePercentage = 20; // Updated from 10% to 20%
+  const platformFee = programFee * (platformFeePercentage / 100);
+  const paymentGatewayFee = programFee * 0.02; // 2% payment gateway fee
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
@@ -38,8 +40,8 @@ export const MentorInfoDialog = ({ isOpen, onClose, mentorEarnings = 0 }: Mentor
                   ₹{mentorEarnings.toFixed(2)} per student
                 </p>
                 <div className="text-xs sm:text-sm text-gray-500 space-y-1 sm:space-y-2 max-w-md mx-auto">
-                  <p>Program Fee: ₹2160</p>
-                  <p>Platform Fee (10%): ₹{platformFee.toFixed(2)}</p>
+                  <p>Program Fee: ₹{programFee}</p>
+                  <p>Platform Fee ({platformFeePercentage}%): ₹{platformFee.toFixed(2)}</p>
                   <p>Payment Gateway Fee (2%): ₹{paymentGatewayFee.toFixed(2)}</p>
                 </div>
               </div>

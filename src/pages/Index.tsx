@@ -1,3 +1,4 @@
+
 import { HeroSection } from "@/components/HeroSection";
 import { LearningPathSection } from "@/components/LearningPathSection";
 import { FeaturesSection } from "@/components/features/FeaturesSection";
@@ -111,8 +112,8 @@ const Index = () => {
     };
   }, []);
 
-  const programFee = 2160;
-  const platformFeePercentage = 25;
+  const programFee = 199; // Updated from 2160 to 199
+  const platformFeePercentage = 20; // Updated from 25% to 20%
   const razorpayFeePercentage = 2;
   
   const platformFee = (programFee * platformFeePercentage) / 100;
