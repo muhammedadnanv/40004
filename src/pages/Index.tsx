@@ -28,6 +28,7 @@ import { JusticeMessage } from "@/components/JusticeMessage";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { FileText, Wand2 } from "lucide-react";
+import { ReviewSection } from "@/components/ReviewSection";
 
 const Index = () => {
   useEffect(() => {
