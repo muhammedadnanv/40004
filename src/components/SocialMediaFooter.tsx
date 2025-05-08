@@ -26,7 +26,7 @@ export const SocialMediaFooter = () => {
             </motion.a>
             
             <motion.a
-              href="https://x.com/comicfixin"
+              href="https://x.com/devmentorhub"
               target="_blank"
               rel="noopener noreferrer"
               className="group relative p-3 rounded-full bg-gradient-to-br from-purple-50 to-white shadow-premium hover:shadow-lg transition-all duration-300"
@@ -39,7 +39,7 @@ export const SocialMediaFooter = () => {
             </motion.a>
             
             <motion.a
-              href="https://www.linkedin.com/company/comicfix/posts/?feedView=all"
+              href="https://www.linkedin.com/company/devmentorhub/"
               target="_blank"
               rel="noopener noreferrer"
               className="group relative p-3 rounded-full bg-gradient-to-br from-purple-50 to-white shadow-premium hover:shadow-lg transition-all duration-300"
@@ -52,7 +52,7 @@ export const SocialMediaFooter = () => {
             </motion.a>
             
             <motion.a
-              href="https://www.instagram.com/comicfixin/"
+              href="https://www.instagram.com/devmentorhub/"
               target="_blank"
               rel="noopener noreferrer"
               className="group relative p-3 rounded-full bg-gradient-to-br from-purple-50 to-white shadow-premium hover:shadow-lg transition-all duration-300"
@@ -65,7 +65,7 @@ export const SocialMediaFooter = () => {
             </motion.a>
             
             <motion.a
-              href="https://www.youtube.com/@comicfixchannel"
+              href="https://www.youtube.com/@devmentorhub"
               target="_blank"
               rel="noopener noreferrer"
               className="group relative p-3 rounded-full bg-gradient-to-br from-purple-50 to-white shadow-premium hover:shadow-lg transition-all duration-300"
@@ -79,7 +79,7 @@ export const SocialMediaFooter = () => {
           </div>
           
           <div className="text-center text-sm text-gray-500 mt-8">
-            <p>© {currentYear} ComicFix. All rights reserved.</p>
+            <p>© {currentYear} Dev Mentor Hub. All rights reserved.</p>
             <p className="mt-2">
               <Link to="/privacy" className="text-purple-600 hover:underline mx-2">Privacy Policy</Link>
               <Link to="/terms" className="text-purple-600 hover:underline mx-2">Terms of Service</Link>

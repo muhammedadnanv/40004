@@ -2,7 +2,7 @@
 {
   "@context": "https://schema.org",
   "@type": "Course",
-  "name": "Professional Developer Career Certification Program",
+  "name": "Dev Mentor Hub Professional Developer Certification Program",
   "description": "Earn your Professional Developer Certification while transforming your development career with personalized mentorship, hands-on projects, and expert guidance. Master modern technologies through real-world experience and direct feedback from industry experts.",
   "provider": {
     "@type": "Organization",
