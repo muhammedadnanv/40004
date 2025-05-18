@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { EnrollmentForm } from "./EnrollmentForm";
@@ -27,8 +26,15 @@ interface ProgramCardProps {
 }
 
 export const ProgramCard = ({ program }: ProgramCardProps) => {
+  // Enrollment is disabled, but we keep the state for future use
   const [showEnrollmentForm, setShowEnrollmentForm] = useState(false);
   const currentPrice = program.regularPrice;
+
+  // This is a dummy function that does nothing - enrollments are disabled
+  const handleEnrollmentClick = () => {
+    // Enrollment is disabled, so this function does nothing
+    return;
+  };
 
   return (
     <motion.div
@@ -79,7 +85,7 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
         <div className="flex justify-between items-center mt-auto p-4">
           <ProgramFooter 
             title={program.title}
-            onEnrollClick={() => setShowEnrollmentForm(true)}
+            onEnrollClick={handleEnrollmentClick}
             onShareClick={() => {}}
             currentPrice={currentPrice}
             regularPrice={program.regularPrice}
@@ -89,13 +95,6 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
             <ShareProgramCard program={program} />
           </div>
         </div>
-
-        <EnrollmentForm 
-          isOpen={showEnrollmentForm}
-          onClose={() => setShowEnrollmentForm(false)}
-          programTitle={program.title}
-          amount={currentPrice}
-        />
       </Card>
     </motion.div>
   );
