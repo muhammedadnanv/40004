@@ -26,7 +26,17 @@
       "category": "Professional Developer Certification",
       "availability": "http://schema.org/OutOfStock",
       "price": "599",
-      "priceCurrency": "INR"
+      "priceCurrency": "INR",
+      "acceptedPaymentMethod": [
+        {
+          "@type": "PaymentMethod",
+          "name": "Razorpay"
+        },
+        {
+          "@type": "PaymentMethod",
+          "name": "Dodo Payment"
+        }
+      ]
     }
   },
   "coursePrerequisites": "Basic programming knowledge in any language",
