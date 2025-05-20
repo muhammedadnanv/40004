@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
@@ -6,14 +7,14 @@ import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { FormFields } from "./enrollment/FormFields";
 import { SuccessCard } from "./enrollment/SuccessCard";
-import { initializeRazorpay } from "@/utils/razorpayService";
 import { validateReferralCode, getReferralSuccessMessage } from "@/utils/referralUtils";
-import { formSchema, createRazorpayOptions } from "./enrollment/RazorpayConfig";
+import { formSchema, createDodoPaymentOptions } from "./enrollment/RazorpayConfig";
 import type { FormData } from "./enrollment/RazorpayConfig";
 import { PaymentAlert } from "./enrollment/PaymentAlert";
 import { ReferralSection } from "./enrollment/ReferralSection";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { sendWelcomeNotification } from "@/utils/notificationService";
+import { initializeDodoPayment } from "@/utils/dodoPaymentService";
 
 interface EnrollmentFormProps {
   isOpen: boolean;
@@ -80,7 +81,7 @@ export const EnrollmentForm = ({
   const handlePaymentProceed = async () => {
     const data = form.getValues();
     try {
-      const options = createRazorpayOptions(
+      const options = createDodoPaymentOptions(
         data,
         finalAmount,
         programTitle,
@@ -110,7 +111,7 @@ export const EnrollmentForm = ({
         }
       );
 
-      await initializeRazorpay(options);
+      await initializeDodoPayment(options);
     } catch (error: any) {
       console.error("Payment processing error:", error);
       setIsProcessing(false);
@@ -122,7 +123,7 @@ export const EnrollmentForm = ({
       setIsProcessing(true);
       setShowPaymentAlert(true);
     } catch (error: any) {
-      console.error("Razorpay initialization error:", error);
+      console.error("Payment initialization error:", error);
       toast({
         title: "Error",
         description: error.message || "Something went wrong. Please try again.",

@@ -30,10 +30,6 @@
       "acceptedPaymentMethod": [
         {
           "@type": "PaymentMethod",
-          "name": "Razorpay"
-        },
-        {
-          "@type": "PaymentMethod",
           "name": "Dodo Payment"
         }
       ]

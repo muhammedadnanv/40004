@@ -14,7 +14,6 @@ export const formSchema = z.object({
 
 export type FormData = z.infer<typeof formSchema>;
 
-const RAZORPAY_KEY = import.meta.env.VITE_RAZORPAY_LIVE_KEY;
 const DODO_PUBLIC_KEY = import.meta.env.VITE_DODO_PAYMENT_PUBLIC_KEY;
 
 // Optimized fee calculation with memoization
@@ -81,125 +80,7 @@ const sendEnrollmentEmail = async (email: string, name: string, programTitle: st
   }
 };
 
-// Optimized Razorpay options creation
-export const createRazorpayOptions = (
-  data: FormData,
-  amount: number,
-  programTitle: string,
-  onSuccess: () => void,
-  onError: (error: { message: string }) => void
-) => {
-  if (!data || !programTitle) {
-    onError({ message: "Missing required data for payment processing." });
-    return null;
-  }
-  
-  const totalAmount = calculateTotalAmount(amount);
-  
-  if (!RAZORPAY_KEY) {
-    onError({ message: "Payment configuration error. Please try again later." });
-    return null;
-  }
-  
-  const options = {
-    key: RAZORPAY_KEY,
-    amount: totalAmount * 100, // Razorpay expects amount in paise
-    currency: "INR",
-    name: "Dev Mentor Hub",
-    description: `Enrollment for ${programTitle}`,
-    image: "https://your-logo-url.com/logo.png",
-    prefill: {
-      name: data.name,
-      email: data.email,
-      contact: data.phone,
-    },
-    notes: {
-      address: data.address,
-      program: programTitle,
-      baseAmount: `₹${amount}`,
-      platformFee: `₹${totalAmount - amount}`,
-      totalAmount: `₹${totalAmount}`,
-      source: "website",
-      timestamp: new Date().toISOString(),
-    },
-    theme: {
-      color: "#7c3aed",
-    },
-    handler: async function (response: any) {
-      console.log("Payment successful, response:", response);
-      
-      try {
-        // Enhanced payment record with additional metadata
-        const paymentRecord = {
-          payment_id: response.razorpay_payment_id,
-          order_id: response.razorpay_order_id,
-          signature: response.razorpay_signature,
-          program_title: programTitle,
-          amount: totalAmount,
-          base_amount: amount,
-          platform_fee: totalAmount - amount,
-          user_name: data.name,
-          user_email: data.email,
-          user_phone: data.phone,
-          referral_code: data.referralCode || null,
-          payment_method: "razorpay",
-          status: "completed",
-          device_info: navigator.userAgent,
-          created_at: new Date().toISOString(),
-        };
-
-        const { error } = await supabase
-          .from('payments')
-          .insert([paymentRecord]);
-
-        if (error) {
-          console.error("Error storing payment:", error);
-          
-          // Log payment details separately for recovery in case of database error
-          console.log("Payment details for recovery:", JSON.stringify(paymentRecord));
-          
-          toast({
-            title: "Payment Recorded",
-            description: "Your payment was successful but we encountered an issue saving your details. Our team will contact you shortly.",
-            variant: "default",
-          });
-          onSuccess(); // Still consider it a success since payment went through
-          return;
-        }
-
-        // Send enrollment confirmation email
-        await sendEnrollmentEmail(data.email, data.name, programTitle);
-        
-        onSuccess();
-        
-        toast({
-          title: "Payment Successful! 🎉",
-          description: "Check your email for enrollment confirmation and next steps.",
-        });
-      } catch (error: any) {
-        console.error("Error processing payment:", error);
-        onError({ message: error.message || "Error processing payment" });
-      }
-    },
-    modal: {
-      ondismiss: function() {
-        console.log("Payment modal dismissed");
-        onError({ message: "Payment cancelled by user" });
-      },
-      confirm_close: true,
-      escape: true,
-      animation: true,
-    },
-    retry: {
-      enabled: true,
-      max_count: 3,
-    },
-  };
-
-  return options;
-};
-
-// New function for Dodo payment options
+// Optimized Dodo Payment options creation
 export const createDodoPaymentOptions = (
   data: FormData,
   amount: number,
@@ -215,7 +96,7 @@ export const createDodoPaymentOptions = (
   const totalAmount = calculateTotalAmount(amount);
   
   if (!DODO_PUBLIC_KEY) {
-    onError({ message: "Dodo payment configuration error. Please try again later." });
+    onError({ message: "Payment configuration error. Please try again later." });
     return null;
   }
   
@@ -224,7 +105,7 @@ export const createDodoPaymentOptions = (
   
   const options = {
     key: DODO_PUBLIC_KEY,
-    amount: totalAmount * 100, // Dodo also expects amount in paise
+    amount: totalAmount * 100, // Dodo expects amount in paise
     currency: "INR",
     name: "Dev Mentor Hub",
     description: `Enrollment for ${programTitle}`,
