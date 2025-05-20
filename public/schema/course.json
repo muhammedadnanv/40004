@@ -19,12 +19,12 @@
     "courseMode": "online",
     "duration": "P5W",
     "inLanguage": "en",
-    "eventStatus": "EventPostponed",
+    "eventStatus": "EventScheduled",
     "eventAttendanceMode": "OnlineEventAttendanceMode",
     "offers": {
       "@type": "Offer",
       "category": "Professional Developer Certification",
-      "availability": "http://schema.org/OutOfStock",
+      "availability": "http://schema.org/InStock",
       "price": "599",
       "priceCurrency": "INR",
       "acceptedPaymentMethod": [

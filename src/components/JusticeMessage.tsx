@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { TagIcon, AlertTriangle } from 'lucide-react';
+import { TagIcon } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { getCurrentReferralCode } from '@/utils/referralUtils';
 import { isMobileDevice, hasTouchCapability } from '@/utils/mobileResponsiveness';
@@ -49,12 +49,12 @@ export const JusticeMessage = () => {
       transition={{
         duration: 0.5
       }} 
-      className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-amber-600 to-red-600 text-white text-center py-3 px-4 shadow-md"
+      className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-purple-600 to-purple-800 text-white text-center py-3 px-4 shadow-md"
     >
       <div className="flex items-center justify-center space-x-2">
-        <AlertTriangle className="h-5 w-5" aria-hidden="true" />
+        <TagIcon className="h-5 w-5" aria-hidden="true" />
         <p className="font-medium">
-          <span className="hidden sm:inline">IMPORTANT NOTICE:</span> All programs closed for the next 7 months due to mentor unavailability and technical updates.
+          <span className="hidden sm:inline">SPECIAL OFFER:</span> Use code <strong>{currentCode}</strong> for 20% off all programs!
         </p>
       </div>
     </motion.div>

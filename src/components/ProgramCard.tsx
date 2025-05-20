@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { EnrollmentForm } from "./EnrollmentForm";
@@ -26,14 +27,11 @@ interface ProgramCardProps {
 }
 
 export const ProgramCard = ({ program }: ProgramCardProps) => {
-  // Enrollment is disabled, but we keep the state for future use
   const [showEnrollmentForm, setShowEnrollmentForm] = useState(false);
   const currentPrice = program.regularPrice;
 
-  // This is a dummy function that does nothing - enrollments are disabled
   const handleEnrollmentClick = () => {
-    // Enrollment is disabled, so this function does nothing
-    return;
+    setShowEnrollmentForm(true);
   };
 
   return (
@@ -96,6 +94,15 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
           </div>
         </div>
       </Card>
+
+      {showEnrollmentForm && (
+        <EnrollmentForm
+          isOpen={showEnrollmentForm}
+          onClose={() => setShowEnrollmentForm(false)}
+          programTitle={program.title}
+          amount={currentPrice}
+        />
+      )}
     </motion.div>
   );
 };
