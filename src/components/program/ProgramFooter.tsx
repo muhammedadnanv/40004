@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { CardFooter } from "@/components/ui/card";
-import { Share } from "lucide-react";
+import { Share, LockIcon } from "lucide-react";
 
 interface ProgramFooterProps {
   title: string;
@@ -28,10 +28,10 @@ export const ProgramFooter = ({
       </div>
       
       <Button 
-        className="w-full bg-purple-600 hover:bg-purple-700 text-sm font-medium shadow-lg transition-all duration-300"
-        onClick={onEnrollClick}
+        className="w-full bg-gray-400 hover:bg-gray-500 text-sm font-medium shadow-lg transition-all duration-300 cursor-not-allowed"
+        disabled={true}
       >
-        Enroll Now
+        <LockIcon className="w-4 h-4 mr-2" /> Programs Closed
       </Button>
       
       <Button 

@@ -49,12 +49,12 @@ export const JusticeMessage = () => {
       transition={{
         duration: 0.5
       }} 
-      className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-purple-600 to-purple-800 text-white text-center py-3 px-4 shadow-md"
+      className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-red-600 to-red-800 text-white text-center py-3 px-4 shadow-md"
     >
       <div className="flex items-center justify-center space-x-2">
         <TagIcon className="h-5 w-5" aria-hidden="true" />
         <p className="font-medium">
-          <span className="hidden sm:inline">SPECIAL OFFER:</span> Use code <strong>{currentCode}</strong> for 20% off all programs!
+          <span className="hidden sm:inline">IMPORTANT NOTICE:</span> All programs are currently closed for enrollment. <strong>Check back later!</strong>
         </p>
       </div>
     </motion.div>
