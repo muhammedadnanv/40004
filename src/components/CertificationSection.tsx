@@ -1,4 +1,3 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Award, CheckCircle, ExternalLink } from "lucide-react";
@@ -93,15 +92,14 @@ export const CertificationSection = () => {
     
     ctx.fillStyle = '#666666';
     ctx.font = '16px Arial';
-    ctx.fillText('Arjun Vijay Prakash', canvas.width / 2, 500);
-    ctx.fillText('Founder & CEO', canvas.width / 2, 520);
-    ctx.fillText('Dev Mentor Hub', canvas.width / 2, 540);
+    ctx.fillText('Dev Mentor Hub', canvas.width / 2, 500);
+    ctx.fillText('Director', canvas.width / 2, 520);
     
     // Verification ID
     const verificationId = Math.random().toString(36).substr(2, 9).toUpperCase();
     ctx.fillStyle = '#888888';
     ctx.font = '12px Arial';
-    ctx.fillText(`Verification ID: ${verificationId}`, canvas.width / 2, 570);
+    ctx.fillText(`Verification ID: ${verificationId}`, canvas.width / 2, 560);
     
     return canvas.toDataURL('image/png');
   };
