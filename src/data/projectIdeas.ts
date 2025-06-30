@@ -994,5 +994,216 @@ export const projectIdeas = [
     description: "Build a dashboard for tracking and reporting social impact metrics",
     difficulty: "Intermediate",
     category: "Non-profit"
+  },
+  // New Data Science and Machine Learning Projects
+  {
+    name: "Revenue Prediction using Linear Regression",
+    description: "Create an interactive system to predict company revenue with Linear Regression, using variables like expenses and employee count. Includes data preprocessing, user input for predictions, and performance metrics (MAE, RMSE, R²).",
+    difficulty: "Intermediate",
+    category: "Machine Learning"
+  },
+  {
+    name: "Exploratory Data Analysis - DVD Rentals",
+    description: "Perform SQL-based EDA on the Sakila database to identify rental trends, top customers, and revenue drivers. Analyze store performance, late returns, and more for optimization.",
+    difficulty: "Intermediate",
+    category: "Data Analysis"
+  },
+  {
+    name: "Brain Tumor Detection using CNN",
+    description: "Develop a CNN to categorize brain tumors from MRI images into types such as Glioma and Pituitary Tumor. Tasks include image preprocessing, CNN training, and performance evaluation using accuracy and precision metrics.",
+    difficulty: "Advanced",
+    category: "Deep Learning"
+  },
+  {
+    name: "Traffic Sign Recognition using CNN",
+    description: "Use CNNs to recognize traffic signs with the GTSRB dataset, involving image preprocessing, model training, and real-world assessment.",
+    difficulty: "Advanced",
+    category: "Computer Vision"
+  },
+  {
+    name: "Image Classification using CNN",
+    description: "Create a CNN model using the CIFAR-10 dataset to classify 60,000 images into 10 categories. Involves preprocessing, CNN development, and performance evaluation using metrics like accuracy and F1-score.",
+    difficulty: "Advanced",
+    category: "Deep Learning"
+  },
+  {
+    name: "Energy Forecasting using RNN",
+    description: "Develop an RNN to predict hourly electricity consumption with the UCI Power Consumption Dataset. Tasks include data preprocessing and model evaluation using RMSE, with visualized predictions.",
+    difficulty: "Advanced",
+    category: "Neural Networks"
+  },
+  {
+    name: "Stock Price Prediction using RNN",
+    description: "Build an RNN to predict AAPL stock's next-day close using Yahoo Finance data, involving preprocessing, training on historical data, and evaluation with RMSE.",
+    difficulty: "Advanced",
+    category: "Neural Networks"
+  },
+  {
+    name: "E-Commerce Database Management System",
+    description: "Design an SQL database for an online store, managing customers, products, orders, and transactions. Features efficient querying, reporting, and transactional integrity.",
+    difficulty: "Intermediate",
+    category: "SQL"
+  },
+  {
+    name: "Exploratory Data Analysis - World Data",
+    description: "Use SQL to analyze global population, economic, and linguistic trends. Extract meaningful insights on GDP rankings and life expectancy for informed global understanding.",
+    difficulty: "Intermediate",
+    category: "Data Analysis"
+  },
+  {
+    name: "Library Management System",
+    description: "Create a SQL-based system to track library books, members, and borrowing records, ensuring efficient updates and valuable analytics.",
+    difficulty: "Beginner",
+    category: "SQL"
+  },
+  {
+    name: "Online Examination System",
+    description: "Develop an SQL system to manage exams, students, and results, providing registration, exam creation, automated results, and performance analytics.",
+    difficulty: "Intermediate",
+    category: "SQL"
+  },
+  {
+    name: "Customer Clustering using K-Means",
+    description: "Use K-Means Clustering to segment credit card customers by engagement, revealing segments for targeted marketing.",
+    difficulty: "Intermediate",
+    category: "Machine Learning"
+  },
+  {
+    name: "Loan Approval using Logistic Regression",
+    description: "Predict loan approvals with Logistic Regression, processing financial data, handling missing values, and evaluating with precision and recall.",
+    difficulty: "Intermediate",
+    category: "Supervised Learning"
+  },
+  {
+    name: "Sentiment Analysis using MLP",
+    description: "Develop an MLP model for classifying airline tweets as Positive, Negative, or Neutral, encompassing text preprocessing and performance metrics.",
+    difficulty: "Advanced",
+    category: "Neural Networks"
+  },
+  {
+    name: "Loan Approval using Decision Trees",
+    description: "Create a Decision Tree model for loan predictions, optimizing with feature handling and performance evaluation, and visualizing decision-making.",
+    difficulty: "Intermediate",
+    category: "Supervised Learning"
+  },
+  {
+    name: "Website Traffic Prediction using RNN",
+    description: "Build an RNN to predict website traffic with daily metrics, using preprocessing and RMSE evaluation. Visualize actual vs. predicted trends.",
+    difficulty: "Advanced",
+    category: "Neural Networks"
+  },
+  {
+    name: "Clothing Classification using CNN",
+    description: "Classify clothing items with a CNN using Fashion MNIST data. The project involves model training, performance evaluation, and testing on new data.",
+    difficulty: "Advanced",
+    category: "Deep Learning"
+  },
+  {
+    name: "Traffic Prediction using RNN",
+    description: "Use an RNN with LSTM layers to forecast hourly traffic volume with the Metro Interstate Traffic Volume dataset. Includes data preprocessing and RMSE-based model evaluation.",
+    difficulty: "Advanced",
+    category: "Neural Networks"
+  },
+  {
+    name: "Trivia Quiz Game",
+    description: "Develop a Python-based Trivia Game with questions from an API, allowing users to choose categories, get feedback, and track scores.",
+    difficulty: "Beginner",
+    category: "Python"
+  },
+  {
+    name: "Airline Management System",
+    description: "Create a SQL system for a global airline to track flights, passengers, and delays, supporting operations like managing bookings and report generation.",
+    difficulty: "Advanced",
+    category: "SQL"
+  },
+  {
+    name: "Wikipedia Extractor",
+    description: "Create a Python tool to fetch details from Wikipedia using web scraping, ensuring error-handling for smooth information retrieval.",
+    difficulty: "Beginner",
+    category: "Python"
+  },
+  {
+    name: "Virtual Pet Game",
+    description: "Develop an interactive Python game for nurturing a virtual pet, managing its hunger, happiness, and health through real-time interactions.",
+    difficulty: "Beginner",
+    category: "Python"
+  },
+  {
+    name: "Income Prediction using Random Forests",
+    description: "Build a Random Forest model to predict income levels using demographic data, focusing on performance optimization.",
+    difficulty: "Intermediate",
+    category: "Supervised Learning"
+  },
+  {
+    name: "Sentiment Analysis using RNN",
+    description: "Build an RNN classifier for tweet sentiment, using word embeddings and performance evaluation metrics such as accuracy and F1-score.",
+    difficulty: "Advanced",
+    category: "Neural Networks"
+  },
+  {
+    name: "Digit Recognition using CNN",
+    description: "Train a CNN to recognize MNIST digits, with tasks including feature extraction and performance evaluation on test data.",
+    difficulty: "Advanced",
+    category: "Deep Learning"
+  },
+  {
+    name: "Topic Modeling with LDA",
+    description: "Perform topic modeling on AG News Dataset with LDA and NMF to uncover key themes, aiding in tagging and content analysis.",
+    difficulty: "Advanced",
+    category: "Machine Learning"
+  },
+  {
+    name: "Image Compression using Autoencoders",
+    description: "Use autoencoders for image compression with CIFAR-10 data, measuring performance with Mean Squared Error for accurate reconstruction.",
+    difficulty: "Advanced",
+    category: "Deep Learning"
+  },
+  {
+    name: "Customer Segmentation of Online Retail Store",
+    description: "Utilize K-Means clustering on the Online Retail dataset for customer segmentation, enabling personalized strategies and optimized revenue.",
+    difficulty: "Intermediate",
+    category: "Machine Learning"
+  },
+  {
+    name: "Data Visualization using MovieLens Dataset",
+    description: "Analyze MovieLens data for insights on movie ratings and trends, using visualizations to inform recommendations.",
+    difficulty: "Intermediate",
+    category: "Data Visualization"
+  },
+  {
+    name: "Math Symbol Classification",
+    description: "Develop a CNN to classify handwritten math symbols, ensuring accurate recognition for educational applications.",
+    difficulty: "Advanced",
+    category: "Computer Vision"
+  },
+  {
+    name: "Streaming Service Analytics System",
+    description: "Design an SQL system for streaming analytics, tracking content and user data to generate insights and optimize service performance.",
+    difficulty: "Advanced",
+    category: "SQL"
+  },
+  {
+    name: "Virtual Banking System",
+    description: "Create a Python-based Virtual Banking app for account management and secure transactions with robust features and real-time updates.",
+    difficulty: "Advanced",
+    category: "Python"
+  },
+  {
+    name: "Sentiment Analysis using SVM",
+    description: "Develop an SVM classifier for airline sentiment analysis, using text preprocessing techniques and evaluating performance with standard metrics.",
+    difficulty: "Intermediate",
+    category: "Supervised Learning"
+  },
+  {
+    name: "Personal Finance Tracker",
+    description: "Design a Python-based tool to track finances, categorize transactions, and visualize spending trends for better financial management.",
+    difficulty: "Intermediate",
+    category: "Python"
+  },
+  {
+    name: "Predictive Modeling with Multiple Algorithms",
+    description: "Compare various predictive modeling algorithms on a dataset to determine the best performing model for business predictions.",
+    difficulty: "Advanced",
+    category: "Predictive Modeling"
   }
 ];
