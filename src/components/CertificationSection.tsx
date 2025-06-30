@@ -1,4 +1,3 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Award, CheckCircle, ExternalLink } from "lucide-react";
@@ -173,7 +172,7 @@ export const CertificationSection = () => {
     } else {
       toast({
         title: "Invalid Code",
-        description: "Please enter a valid unlock code. You can get this after payment.",
+        description: "Please enter a valid unlock code.",
         variant: "destructive",
       });
     }
@@ -268,9 +267,6 @@ export const CertificationSection = () => {
                             Unlock Preview
                           </Button>
                         </div>
-                        <p className="text-xs text-gray-600">
-                          Use code: "DevCertification" to unlock
-                        </p>
                       </>
                     ) : (
                       <>
