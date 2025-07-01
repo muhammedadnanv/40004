@@ -90,16 +90,18 @@ export const CertificationSection = () => {
     ctx.lineTo(canvas.width / 2 + 100, 480);
     ctx.stroke();
     
+    // Founder signature and details
     ctx.fillStyle = '#666666';
     ctx.font = '16px Arial';
-    ctx.fillText('Dev Mentor Hub', canvas.width / 2, 500);
-    ctx.fillText('Director', canvas.width / 2, 520);
+    ctx.fillText('Muhammed Adnan Vv', canvas.width / 2, 500);
+    ctx.fillText('Founder & CEO', canvas.width / 2, 520);
+    ctx.fillText('Dev Mentor Hub', canvas.width / 2, 540);
     
     // Verification ID
     const verificationId = Math.random().toString(36).substr(2, 9).toUpperCase();
     ctx.fillStyle = '#888888';
     ctx.font = '12px Arial';
-    ctx.fillText(`Verification ID: ${verificationId}`, canvas.width / 2, 560);
+    ctx.fillText(`Verification ID: ${verificationId}`, canvas.width / 2, 580);
     
     return canvas.toDataURL('image/png');
   };
