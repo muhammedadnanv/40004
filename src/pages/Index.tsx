@@ -25,6 +25,46 @@ import { AlbatoAdPopup } from "@/components/AlbatoAdPopup";
 import { PromotionPopup } from "@/components/PromotionPopup";
 
 const Index = () => {
+  // Sample programs data
+  const programs = [
+    {
+      title: "Full Stack Web Development",
+      description: "Master React, Node.js, and modern web technologies",
+      duration: "12 weeks",
+      skills: ["React", "Node.js", "MongoDB", "Express"],
+      category: "web-development",
+      regularPrice: 15000
+    },
+    {
+      title: "Frontend React Mastery",
+      description: "Deep dive into React ecosystem and modern frontend",
+      duration: "8 weeks",
+      skills: ["React", "TypeScript", "Tailwind CSS", "Next.js"],
+      category: "frontend",
+      regularPrice: 12000
+    },
+    {
+      title: "Backend Development",
+      description: "Build scalable APIs and server applications",
+      duration: "10 weeks",
+      skills: ["Node.js", "Express", "PostgreSQL", "Docker"],
+      category: "backend",
+      regularPrice: 13000
+    }
+  ];
+
+  const mentorEarnings = 50000;
+
+  const organizationData = {
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    "name": "Dev Mentor Hub",
+    "description": "Expert web development training and mentorship programs",
+    "url": "https://devmentorhub.com",
+    "courseMode": "online",
+    "availableLanguage": "English"
+  };
+
   return (
     <>
       <Helmet>
@@ -52,9 +92,9 @@ const Index = () => {
       <div className="min-h-screen">
         <CategoryTopper />
         <HeroSection />
-        <ProgramsSection />
+        <ProgramsSection programs={programs} />
         <FeaturesSection />
-        <MentorSection />
+        <MentorSection mentorEarnings={mentorEarnings} />
         <CertificationSection />
         <PortfolioSection />
         <ProjectIdeasSection />
@@ -69,7 +109,11 @@ const Index = () => {
         <JusticeMessage />
         <SocialMediaFooter />
         <SEODashboard />
-        <StructuredDataManager />
+        <StructuredDataManager 
+          type="Organization" 
+          data={organizationData}
+          autoImplement={true}
+        />
         <LeadCollectionPopup />
         <AlbatoAdPopup />
         <PromotionPopup />
