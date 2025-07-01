@@ -1,4 +1,3 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { User, Globe, Star, ExternalLink } from "lucide-react";
@@ -36,92 +35,169 @@ export const PortfolioSection = () => {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${data.name} - Portfolio</title>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
+    <!-- Tailwind CDN + Theme -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    tailwind.config = {
+    theme: {
+    extend: {
+    colors: {
+    primary:  '#00e37f',
+    secondary:'#3be8fc',
+    bg:       '#000000',
+    card:     '#0d0d0d',
+    heading:  '#ffffff',
+    body:     '#e5e5e5'
+    },
+    fontFamily: {
+    sans:['Inter','ui-sans-serif','system-ui']
+    }
+    }
+    }
+    }
+    </script>
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"/>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Arial', sans-serif; line-height: 1.6; color: #333; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        .header { text-align: center; padding: 60px 0; color: white; }
-        .header h1 { font-size: 3rem; margin-bottom: 10px; }
-        .header p { font-size: 1.2rem; opacity: 0.9; }
-        .content { background: white; border-radius: 15px; padding: 40px; margin-top: -30px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
-        .section { margin-bottom: 40px; }
-        .section h2 { color: #4A00E0; margin-bottom: 20px; font-size: 2rem; border-bottom: 3px solid #4A00E0; padding-bottom: 10px; }
-        .bio { font-size: 1.1rem; color: #666; line-height: 1.8; }
-        .skills { display: flex; flex-wrap: wrap; gap: 10px; }
-        .skill { background: #4A00E0; color: white; padding: 8px 16px; border-radius: 25px; font-size: 0.9rem; }
-        .projects { list-style: none; }
-        .projects li { background: #f8f9fa; padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid #4A00E0; }
-        .contact { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        .contact-item { background: #f8f9fa; padding: 20px; border-radius: 10px; text-align: center; }
-        .contact-item a { color: #4A00E0; text-decoration: none; font-weight: bold; }
-        .footer { text-align: center; margin-top: 40px; color: #666; font-size: 0.9rem; }
+        body { 
+            font-family: 'Inter', ui-sans-serif, system-ui; 
+            background: #000000;
+            color: #e5e5e5;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #00e37f 0%, #3be8fc 100%);
+        }
+        .card-bg {
+            background: #0d0d0d;
+            border: 1px solid rgba(0, 227, 127, 0.2);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #00e37f 0%, #3be8fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .skill-tag {
+            background: linear-gradient(135deg, #00e37f 0%, #3be8fc 100%);
+            color: #000000;
+            font-weight: 600;
+        }
+        .hover-glow:hover {
+            box-shadow: 0 0 20px rgba(0, 227, 127, 0.3);
+            transform: translateY(-2px);
+            transition: all 0.3s ease;
+        }
+        .section-border {
+            border-left: 4px solid #00e37f;
+        }
         @media (max-width: 768px) {
-            .header h1 { font-size: 2rem; }
-            .content { padding: 20px; }
-            .contact { grid-template-columns: 1fr; }
+            .container { padding: 1rem; }
+            .text-6xl { font-size: 2.5rem; }
+            .text-xl { font-size: 1.1rem; }
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>${data.name}</h1>
-            <p>${data.title}</p>
-        </div>
-        
-        <div class="content">
-            <div class="section">
-                <h2>About Me</h2>
-                <p class="bio">${data.bio}</p>
-            </div>
-            
-            <div class="section">
-                <h2>Skills</h2>
-                <div class="skills">
-                    ${skillsArray.map(skill => `<span class="skill">${skill}</span>`).join('')}
-                </div>
-            </div>
-            
-            ${projectsArray.length > 0 ? `
-            <div class="section">
-                <h2>Projects</h2>
-                <ul class="projects">
-                    ${projectsArray.map(project => `<li>${project}</li>`).join('')}
-                </ul>
-            </div>
-            ` : ''}
-            
-            <div class="section">
-                <h2>Contact</h2>
-                <div class="contact">
-                    <div class="contact-item">
-                        <h3>Email</h3>
-                        <a href="mailto:${data.email}">${data.email}</a>
-                    </div>
-                    <div class="contact-item">
-                        <h3>Phone</h3>
-                        <a href="tel:${data.phone}">${data.phone}</a>
-                    </div>
+<body class="bg-bg text-body">
+    <div class="min-h-screen">
+        <!-- Hero Section -->
+        <section class="gradient-bg text-center py-20 px-4">
+            <div class="container mx-auto max-w-4xl" data-aos="fade-up">
+                <h1 class="text-6xl font-bold text-black mb-4">${data.name}</h1>
+                <p class="text-xl text-black/80 font-medium">${data.title}</p>
+                <div class="mt-8 flex justify-center space-x-4">
                     ${data.github ? `
-                    <div class="contact-item">
-                        <h3>GitHub</h3>
-                        <a href="${data.github}" target="_blank">View Profile</a>
-                    </div>
-                    ` : ''}
+                    <a href="${data.github}" target="_blank" class="bg-black/20 hover:bg-black/30 text-black px-6 py-3 rounded-full font-semibold transition-all duration-300">
+                        GitHub
+                    </a>` : ''}
                     ${data.linkedin ? `
-                    <div class="contact-item">
-                        <h3>LinkedIn</h3>
-                        <a href="${data.linkedin}" target="_blank">View Profile</a>
-                    </div>
-                    ` : ''}
+                    <a href="${data.linkedin}" target="_blank" class="bg-black/20 hover:bg-black/30 text-black px-6 py-3 rounded-full font-semibold transition-all duration-300">
+                        LinkedIn
+                    </a>` : ''}
                 </div>
             </div>
+        </section>
+
+        <div class="container mx-auto max-w-6xl px-4 py-16 space-y-16">
+            <!-- About Section -->
+            <section data-aos="fade-up" data-aos-delay="100">
+                <div class="card-bg rounded-2xl p-8 hover-glow">
+                    <h2 class="text-3xl font-bold text-heading mb-6 section-border pl-6">About Me</h2>
+                    <p class="text-lg leading-relaxed">${data.bio}</p>
+                </div>
+            </section>
+
+            <!-- Skills Section -->
+            <section data-aos="fade-up" data-aos-delay="200">
+                <div class="card-bg rounded-2xl p-8 hover-glow">
+                    <h2 class="text-3xl font-bold text-heading mb-6 section-border pl-6">Skills & Technologies</h2>
+                    <div class="flex flex-wrap gap-3">
+                        ${skillsArray.map(skill => `
+                            <span class="skill-tag px-4 py-2 rounded-full text-sm font-semibold">
+                                ${skill}
+                            </span>
+                        `).join('')}
+                    </div>
+                </div>
+            </section>
+
+            ${projectsArray.length > 0 ? `
+            <!-- Projects Section -->
+            <section data-aos="fade-up" data-aos-delay="300">
+                <div class="card-bg rounded-2xl p-8 hover-glow">
+                    <h2 class="text-3xl font-bold text-heading mb-6 section-border pl-6">Featured Projects</h2>
+                    <div class="space-y-4">
+                        ${projectsArray.map((project, index) => `
+                            <div class="bg-bg/50 p-6 rounded-xl border border-primary/20 hover:border-primary/40 transition-all duration-300" data-aos="fade-left" data-aos-delay="${400 + index * 100}">
+                                <p class="text-body">${project}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            </section>
+            ` : ''}
+
+            <!-- Contact Section -->
+            <section data-aos="fade-up" data-aos-delay="400">
+                <div class="card-bg rounded-2xl p-8 hover-glow">
+                    <h2 class="text-3xl font-bold text-heading mb-6 section-border pl-6">Get In Touch</h2>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-bg/50 p-6 rounded-xl border border-secondary/20 hover:border-secondary/40 transition-all duration-300">
+                            <h3 class="text-xl font-semibold text-heading mb-2">Email</h3>
+                            <a href="mailto:${data.email}" class="text-secondary hover:text-secondary/80 font-medium">
+                                ${data.email}
+                            </a>
+                        </div>
+                        ${data.phone ? `
+                        <div class="bg-bg/50 p-6 rounded-xl border border-secondary/20 hover:border-secondary/40 transition-all duration-300">
+                            <h3 class="text-xl font-semibold text-heading mb-2">Phone</h3>
+                            <a href="tel:${data.phone}" class="text-secondary hover:text-secondary/80 font-medium">
+                                ${data.phone}
+                            </a>
+                        </div>` : ''}
+                    </div>
+                </div>
+            </section>
         </div>
-        
-        <div class="footer">
-            <p>Portfolio generated by Dev Mentor Hub | © ${new Date().getFullYear()}</p>
-        </div>
+
+        <!-- Footer -->
+        <footer class="gradient-bg text-center py-8 mt-16">
+            <div class="container mx-auto px-4">
+                <p class="text-black/80 font-medium">
+                    Portfolio powered by <span class="font-bold">Dev Mentor Hub</span> | © ${new Date().getFullYear()}
+                </p>
+            </div>
+        </footer>
     </div>
+
+    <script>
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+    </script>
 </body>
 </html>`;
   };
@@ -255,9 +331,9 @@ export const PortfolioSection = () => {
             <div className="flex items-start gap-2 sm:gap-3">
               <Globe className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-[#4A00E0] mt-0.5 sm:mt-1" />
               <div>
-                <h3 className="font-semibold text-sm sm:text-base md:text-lg">Professional Design</h3>
+                <h3 className="font-semibold text-sm sm:text-base md:text-lg">Modern Dark Theme</h3>
                 <p className="text-xs sm:text-sm md:text-base text-gray-600">
-                  Modern, responsive portfolio with gradient backgrounds and clean typography
+                  Sleek dark design with green and cyan accents, Inter font, and smooth animations
                 </p>
               </div>
             </div>
@@ -277,20 +353,20 @@ export const PortfolioSection = () => {
               <div>
                 <h3 className="font-semibold text-sm sm:text-base md:text-lg">Instant Download</h3>
                 <p className="text-xs sm:text-sm md:text-base text-gray-600">
-                  Get your portfolio as an HTML file that you can host anywhere
+                  Get your portfolio as an HTML file with animations that you can host anywhere
                 </p>
               </div>
             </div>
 
             <div className="flex flex-wrap gap-1.5 sm:gap-2 mt-3 sm:mt-4">
               <Badge variant="secondary" className="bg-[#4A00E0]/10 text-[#4A00E0] text-[10px] sm:text-xs md:text-sm">
+                Dark Theme
+              </Badge>
+              <Badge variant="secondary" className="bg-[#4A00E0]/10 text-[#4A00E0] text-[10px] sm:text-xs md:text-sm">
+                AOS Animations
+              </Badge>
+              <Badge variant="secondary" className="bg-[#4A00E0]/10 text-[#4A00E0] text-[10px] sm:text-xs md:text-sm">
                 Mobile Responsive
-              </Badge>
-              <Badge variant="secondary" className="bg-[#4A00E0]/10 text-[#4A00E0] text-[10px] sm:text-xs md:text-sm">
-                SEO Friendly
-              </Badge>
-              <Badge variant="secondary" className="bg-[#4A00E0]/10 text-[#4A00E0] text-[10px] sm:text-xs md:text-sm">
-                Fast Loading
               </Badge>
             </div>
 
