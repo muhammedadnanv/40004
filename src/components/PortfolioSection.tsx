@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { User, Globe, Star, ExternalLink } from "lucide-react";
+import { User, Globe, Star, ExternalLink, Server } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { Input } from "@/components/ui/input";
@@ -358,6 +358,24 @@ export const PortfolioSection = () => {
               </div>
             </div>
 
+            <div className="flex items-start gap-2 sm:gap-3">
+              <Server className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-[#4A00E0] mt-0.5 sm:mt-1" />
+              <div>
+                <h3 className="font-semibold text-sm sm:text-base md:text-lg">Easy Hosting</h3>
+                <p className="text-xs sm:text-sm md:text-base text-gray-600">
+                  Host your portfolio online instantly with our recommended hosting partner
+                </p>
+                <a 
+                  href="https://hostinger.in?REFERRALCODE=Retailx" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 mt-2 text-[#4A00E0] hover:text-[#4A00E0]/80 font-medium text-xs sm:text-sm transition-colors"
+                >
+                  Get Hosting <ExternalLink className="w-3 h-3" />
+                </a>
+              </div>
+            </div>
+
             <div className="flex flex-wrap gap-1.5 sm:gap-2 mt-3 sm:mt-4">
               <Badge variant="secondary" className="bg-[#4A00E0]/10 text-[#4A00E0] text-[10px] sm:text-xs md:text-sm">
                 Dark Theme
@@ -367,6 +385,9 @@ export const PortfolioSection = () => {
               </Badge>
               <Badge variant="secondary" className="bg-[#4A00E0]/10 text-[#4A00E0] text-[10px] sm:text-xs md:text-sm">
                 Mobile Responsive
+              </Badge>
+              <Badge variant="secondary" className="bg-[#4A00E0]/10 text-[#4A00E0] text-[10px] sm:text-xs md:text-sm">
+                Easy Hosting
               </Badge>
             </div>
 
@@ -493,6 +514,21 @@ export const PortfolioSection = () => {
                 <p className="text-xs text-gray-500 text-center">
                   Payment will be processed securely. You'll receive your portfolio instantly after payment.
                 </p>
+
+                <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                  <p className="text-xs text-blue-700 text-center">
+                    💡 <strong>Pro Tip:</strong> After downloading your portfolio, you can easily host it online using{' '}
+                    <a 
+                      href="https://hostinger.in?REFERRALCODE=Retailx" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="underline hover:no-underline font-medium"
+                    >
+                      Hostinger
+                    </a>
+                    {' '}for professional web hosting.
+                  </p>
+                </div>
               </div>
             </CardContent>
           </Card>
