@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { CardFooter } from "@/components/ui/card";
-import { Share } from "lucide-react";
+import { Share, Lock } from "lucide-react";
 
 interface ProgramFooterProps {
   title: string;
@@ -9,6 +9,7 @@ interface ProgramFooterProps {
   onShareClick: () => void;
   currentPrice: number;
   regularPrice: number;
+  isLocked?: boolean;
 }
 
 export const ProgramFooter = ({ 
@@ -16,6 +17,7 @@ export const ProgramFooter = ({
   onEnrollClick, 
   onShareClick,
   currentPrice,
+  isLocked = false,
 }: ProgramFooterProps) => {
   return (
     <CardFooter className="flex flex-col gap-3 p-6 bg-gray-50/50 mt-auto w-full">
@@ -23,12 +25,12 @@ export const ProgramFooter = ({
         <div className="text-center">
           <p className="text-sm text-gray-600 mb-2">Choose Your Duration:</p>
           <div className="grid grid-cols-2 gap-2">
-            <div className="bg-white p-3 rounded-lg border border-purple-200">
-              <p className="text-lg font-bold text-purple-600">₹399</p>
+            <div className={`bg-white p-3 rounded-lg border ${isLocked ? 'border-gray-200 opacity-50' : 'border-purple-200'}`}>
+              <p className={`text-lg font-bold ${isLocked ? 'text-gray-400' : 'text-purple-600'}`}>₹399</p>
               <p className="text-xs text-gray-600">5 weeks</p>
             </div>
-            <div className="bg-white p-3 rounded-lg border border-purple-200">
-              <p className="text-lg font-bold text-purple-600">₹999</p>
+            <div className={`bg-white p-3 rounded-lg border ${isLocked ? 'border-gray-200 opacity-50' : 'border-purple-200'}`}>
+              <p className={`text-lg font-bold ${isLocked ? 'text-gray-400' : 'text-purple-600'}`}>₹999</p>
               <p className="text-xs text-gray-600">10 weeks</p>
             </div>
           </div>
@@ -36,10 +38,22 @@ export const ProgramFooter = ({
       </div>
       
       <Button 
-        className="w-full bg-purple-600 hover:bg-purple-700 text-sm font-medium shadow-lg transition-all duration-300"
+        className={`w-full text-sm font-medium shadow-lg transition-all duration-300 ${
+          isLocked 
+            ? 'bg-gray-400 hover:bg-gray-400 cursor-not-allowed text-white' 
+            : 'bg-purple-600 hover:bg-purple-700'
+        }`}
         onClick={onEnrollClick}
+        disabled={isLocked}
       >
-        Enroll Now - Start Learning
+        {isLocked ? (
+          <>
+            <Lock className="w-4 h-4 mr-2" />
+            Program Locked
+          </>
+        ) : (
+          'Enroll Now - Start Learning'
+        )}
       </Button>
       
       <Button 

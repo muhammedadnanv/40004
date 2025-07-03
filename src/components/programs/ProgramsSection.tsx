@@ -1,9 +1,10 @@
 
 import { motion } from "framer-motion";
-import { Star } from "lucide-react";
+import { Star, Lock } from "lucide-react";
 import { ProgramCard } from "@/components/ProgramCard";
 import { useState, useEffect, useRef } from "react";
 import { isMobileDevice } from "@/utils/mobileResponsiveness";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 interface Program {
   title: string;
@@ -77,6 +78,22 @@ export const ProgramsSection = ({ programs }: ProgramsSectionProps) => {
         >
           Choose Your Mentorship Path <Star className="inline-block w-5 h-5 sm:w-6 sm:h-6 text-purple-600 animate-pulse" aria-hidden="true" />
         </motion.h2>
+
+        {/* Lock Notice */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="mb-6"
+        >
+          <Alert className="border-orange-200 bg-orange-50/50 backdrop-blur-sm">
+            <Lock className="h-4 w-4 text-orange-600" />
+            <AlertDescription className="text-orange-800">
+              <strong>Notice:</strong> All programs are currently locked and enrollment is temporarily unavailable. 
+              Please check back later for updates or contact support for more information.
+            </AlertDescription>
+          </Alert>
+        </motion.div>
         
         {/* Mobile-friendly category filter with horizontal scrolling */}
         <div 

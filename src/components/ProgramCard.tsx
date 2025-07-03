@@ -13,7 +13,7 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from "@/components/ui/tooltip";
-import { InfoIcon } from "lucide-react";
+import { InfoIcon, Lock } from "lucide-react";
 
 interface ProgramCardProps {
   program: {
@@ -30,9 +30,12 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
   const [showEnrollmentForm, setShowEnrollmentForm] = useState(false);
   const [showShareCard, setShowShareCard] = useState(false);
   const currentPrice = 399; // Fixed price for all programs
+  const isLocked = true; // Lock all programs
 
   const handleEnrollmentClick = () => {
-    setShowEnrollmentForm(true);
+    if (!isLocked) {
+      setShowEnrollmentForm(true);
+    }
   };
 
   const handleShareClick = () => {
@@ -42,13 +45,21 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
+      whileHover={{ scale: isLocked ? 1 : 1.02 }}
+      whileTap={{ scale: isLocked ? 1 : 0.98 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       className="h-full"
     >
-      <Card className="premium-card overflow-hidden group h-full flex flex-col relative hover:shadow-xl transition-shadow duration-300">
+      <Card className={`premium-card overflow-hidden group h-full flex flex-col relative transition-shadow duration-300 ${isLocked ? 'opacity-75 grayscale' : 'hover:shadow-xl'}`}>
+        {isLocked && (
+          <div className="absolute inset-0 bg-black/10 z-20 flex items-center justify-center">
+            <div className="bg-white/90 backdrop-blur-sm p-3 rounded-full shadow-lg">
+              <Lock className="w-6 h-6 text-gray-600" />
+            </div>
+          </div>
+        )}
+        
         <TooltipProvider delayDuration={300}>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -66,8 +77,10 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
               className="max-w-[250px] p-3 bg-white shadow-lg rounded-lg border border-purple-100 z-50"
             >
               <p className="text-sm text-gray-600">
-                {program.title} is designed for both beginners and intermediate-level developers. 
-                Get personalized mentorship and hands-on project experience.
+                {isLocked 
+                  ? "This program is currently locked and enrollment is not available."
+                  : `${program.title} is designed for both beginners and intermediate-level developers. Get personalized mentorship and hands-on project experience.`
+                }
               </p>
             </TooltipContent>
           </Tooltip>
@@ -91,10 +104,11 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
           onShareClick={handleShareClick}
           currentPrice={currentPrice}
           regularPrice={program.regularPrice}
+          isLocked={isLocked}
         />
       </Card>
 
-      {showEnrollmentForm && (
+      {showEnrollmentForm && !isLocked && (
         <EnrollmentForm
           isOpen={showEnrollmentForm}
           onClose={() => setShowEnrollmentForm(false)}
