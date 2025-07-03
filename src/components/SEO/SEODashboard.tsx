@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,13 +11,16 @@ import { Badge } from "@/components/ui/badge";
 import { seoOptimizer } from '@/utils/seoOptimizer';
 import { initRetargetingService, createRetargetingPixel } from '@/utils/retargetingService';
 import { Button } from "@/components/ui/button";
+
 interface SEODashboardProps {
   pageType?: 'homepage' | 'program' | 'blog' | 'faq' | 'organization';
 }
+
 export function SEODashboard({
   pageType = 'homepage'
 }: SEODashboardProps) {
   const [activeTab, setActiveTab] = useState<string>('on-page');
+
   const runFullSEOOptimization = async () => {
     console.log("Running Full SEO Optimization");
 
@@ -119,5 +123,65 @@ export function SEODashboard({
         };
     }
   };
-  return;
+
+  return (
+    <div className="hidden">
+      <Card className="w-full max-w-4xl mx-auto">
+        <CardHeader>
+          <CardTitle className="flex items-center justify-between">
+            SEO Dashboard
+            <Badge variant="secondary">{pageType}</Badge>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="mb-4">
+            <Button onClick={runFullSEOOptimization} className="w-full">
+              Run Full SEO Optimization
+            </Button>
+          </div>
+          
+          <Tabs value={activeTab} onValueChange={setActiveTab}>
+            <TabsList className="grid w-full grid-cols-5">
+              <TabsTrigger value="on-page">On-Page</TabsTrigger>
+              <TabsTrigger value="preview">Preview</TabsTrigger>
+              <TabsTrigger value="schema">Schema</TabsTrigger>
+              <TabsTrigger value="sitemap">Sitemap</TabsTrigger>
+              <TabsTrigger value="blog-sitemap">Blog</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="on-page" className="space-y-4">
+              <OnPageOptimizer 
+                defaultKeywords={getDefaultKeywords()}
+                pageType={pageType}
+              />
+            </TabsContent>
+            
+            <TabsContent value="preview" className="space-y-4">
+              <GoogleSearchPreview 
+                title="Dev Mentor Hub - Expert Web Development Training"
+                description="Transform your career with expert-led web development programs"
+                url="https://devmentorhub.com"
+              />
+            </TabsContent>
+            
+            <TabsContent value="schema" className="space-y-4">
+              <StructuredDataManager 
+                type={getSchemaData().type}
+                data={getSchemaData().data}
+                autoImplement={false}
+              />
+            </TabsContent>
+            
+            <TabsContent value="sitemap" className="space-y-4">
+              <DynamicSitemap />
+            </TabsContent>
+            
+            <TabsContent value="blog-sitemap" className="space-y-4">
+              <BlogSitemap />
+            </TabsContent>
+          </Tabs>
+        </CardContent>
+      </Card>
+    </div>
+  );
 }
