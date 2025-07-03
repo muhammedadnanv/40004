@@ -19,11 +19,19 @@ export const ProgramFooter = ({
 }: ProgramFooterProps) => {
   return (
     <CardFooter className="flex flex-col gap-3 p-6 bg-gray-50/50 mt-auto">
-      <div className="flex items-center justify-between w-full">
-        <div className="flex flex-col">
-          <p className="text-lg font-semibold premium-gradient">
-            ₹{currentPrice}
-          </p>
+      <div className="flex flex-col gap-2 w-full">
+        <div className="text-center">
+          <p className="text-sm text-gray-600 mb-2">Choose Your Duration:</p>
+          <div className="grid grid-cols-2 gap-2">
+            <div className="bg-white p-3 rounded-lg border border-purple-200">
+              <p className="text-lg font-bold text-purple-600">₹399</p>
+              <p className="text-xs text-gray-600">5 weeks</p>
+            </div>
+            <div className="bg-white p-3 rounded-lg border border-purple-200">
+              <p className="text-lg font-bold text-purple-600">₹999</p>
+              <p className="text-xs text-gray-600">10 weeks</p>
+            </div>
+          </div>
         </div>
       </div>
       

@@ -1,3 +1,4 @@
+
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { User, Globe, Star, ExternalLink, Server } from "lucide-react";
@@ -6,8 +7,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
-import { initializeDodoPayment } from "@/utils/dodoPaymentService";
-import { supabase } from "@/integrations/supabase/client";
 
 export const PortfolioSection = () => {
   const { toast } = useToast();
@@ -92,14 +91,41 @@ export const PortfolioSection = () => {
         .section-border {
             border-left: 4px solid #00e37f;
         }
+        .watermark {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 227, 127, 0.1);
+            border: 1px solid rgba(0, 227, 127, 0.3);
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 12px;
+            color: #00e37f;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
         @media (max-width: 768px) {
             .container { padding: 1rem; }
             .text-6xl { font-size: 2.5rem; }
             .text-xl { font-size: 1.1rem; }
+            .watermark { 
+                position: relative; 
+                bottom: auto; 
+                right: auto; 
+                margin: 20px auto; 
+                text-align: center;
+                display: block;
+                width: fit-content;
+            }
         }
     </style>
 </head>
 <body class="bg-bg text-body">
+    <!-- Free Portfolio Watermark -->
+    <div class="watermark">
+        💫 Free Portfolio by Dev Mentor Hub
+    </div>
+
     <div class="min-h-screen">
         <!-- Hero Section -->
         <section class="gradient-bg text-center py-20 px-4">
@@ -181,11 +207,14 @@ export const PortfolioSection = () => {
             </section>
         </div>
 
-        <!-- Footer -->
+        <!-- Footer with Watermark -->
         <footer class="gradient-bg text-center py-8 mt-16">
             <div class="container mx-auto px-4">
                 <p class="text-black/80 font-medium">
-                    Portfolio powered by <span class="font-bold">Dev Mentor Hub</span> | © ${new Date().getFullYear()}
+                    Free Portfolio powered by <span class="font-bold">Dev Mentor Hub</span> | © ${new Date().getFullYear()}
+                </p>
+                <p class="text-black/60 text-sm mt-2">
+                    Create your own at devmentorhub.com
                 </p>
             </div>
         </footer>
@@ -202,7 +231,7 @@ export const PortfolioSection = () => {
 </html>`;
   };
 
-  const handleGeneratePortfolio = async () => {
+  const handleGeneratePortfolio = () => {
     if (!portfolioData.name || !portfolioData.title || !portfolioData.bio || !portfolioData.email) {
       toast({
         title: "Missing Information",
@@ -215,99 +244,35 @@ export const PortfolioSection = () => {
     try {
       setIsProcessing(true);
 
-      const options = {
-        key: import.meta.env.VITE_DODO_PAYMENT_PUBLIC_KEY || "VjyJF4pywuQ1M5du",
-        amount: 99 * 100, // ₹99 in paise
-        currency: "INR",
-        name: "Dev Mentor Hub",
-        description: "Dynamic Portfolio Generation Service",
-        order_id: `portfolio_${Date.now()}`,
-        prefill: {
-          name: portfolioData.name,
-          email: portfolioData.email,
-          contact: portfolioData.phone,
-        },
-        notes: {
-          service: "Portfolio Generation",
-          amount: "₹99",
-          recipient: "adnanmuhammad4393@okicici",
-        },
-        theme: {
-          color: "#4A00E0",
-        },
-        handler: async function (response: any) {
-          try {
-            // Store portfolio data and payment info
-            const { error } = await supabase
-              .from('payments')
-              .insert([{
-                payment_id: response.dodo_payment_id,
-                order_id: response.dodo_order_id,
-                program_title: "Portfolio Generation",
-                amount: 99,
-                user_name: portfolioData.name,
-                user_email: portfolioData.email,
-                user_phone: portfolioData.phone,
-                status: "completed",
-                created_at: new Date().toISOString(),
-              }]);
+      // Generate and download portfolio immediately (free)
+      const portfolioHTML = generatePortfolioHTML(portfolioData);
+      const blob = new Blob([portfolioHTML], { type: 'text/html' });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${portfolioData.name.replace(/\s+/g, '_')}_Portfolio.html`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
 
-            if (error) {
-              console.error("Error storing payment:", error);
-            }
+      // Also open in new tab for preview
+      const newWindow = window.open('', '_blank');
+      if (newWindow) {
+        newWindow.document.write(portfolioHTML);
+      }
 
-            // Generate and download portfolio
-            const portfolioHTML = generatePortfolioHTML(portfolioData);
-            const blob = new Blob([portfolioHTML], { type: 'text/html' });
-            const url = window.URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = `${portfolioData.name.replace(/\s+/g, '_')}_Portfolio.html`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            window.URL.revokeObjectURL(url);
+      toast({
+        title: "Portfolio Generated! 🎉",
+        description: "Your free portfolio has been downloaded and opened for preview.",
+      });
 
-            // Also open in new tab for preview
-            const newWindow = window.open('', '_blank');
-            if (newWindow) {
-              newWindow.document.write(portfolioHTML);
-            }
-
-            toast({
-              title: "Portfolio Generated! 🎉",
-              description: "Your portfolio has been downloaded and opened for preview.",
-            });
-
-            setIsProcessing(false);
-          } catch (error: any) {
-            console.error("Error processing portfolio:", error);
-            toast({
-              title: "Error",
-              description: "Failed to generate portfolio. Please try again.",
-              variant: "destructive",
-            });
-            setIsProcessing(false);
-          }
-        },
-        modal: {
-          ondismiss: function() {
-            setIsProcessing(false);
-            toast({
-              title: "Payment Cancelled",
-              description: "Portfolio generation was cancelled.",
-              variant: "destructive",
-            });
-          },
-        },
-      };
-
-      await initializeDodoPayment(options);
+      setIsProcessing(false);
     } catch (error: any) {
       console.error("Portfolio generation error:", error);
       toast({
         title: "Error",
-        description: "Failed to initialize payment. Please try again.",
+        description: "Failed to generate portfolio. Please try again.",
         variant: "destructive",
       });
       setIsProcessing(false);
@@ -319,10 +284,10 @@ export const PortfolioSection = () => {
       <div className="container mx-auto max-w-6xl">
         <div className="text-center mb-6 sm:mb-8 md:mb-10 lg:mb-12">
           <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-2 sm:mb-3 md:mb-4">
-            Dynamic Portfolio Generator
+            FREE Dynamic Portfolio Generator
           </h2>
           <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600">
-            Create a professional portfolio website instantly for just ₹99
+            Create a professional portfolio website instantly - completely free!
           </p>
         </div>
         
@@ -377,6 +342,9 @@ export const PortfolioSection = () => {
             </div>
 
             <div className="flex flex-wrap gap-1.5 sm:gap-2 mt-3 sm:mt-4">
+              <Badge variant="secondary" className="bg-green-100 text-green-700 text-[10px] sm:text-xs md:text-sm">
+                100% Free
+              </Badge>
               <Badge variant="secondary" className="bg-[#4A00E0]/10 text-[#4A00E0] text-[10px] sm:text-xs md:text-sm">
                 Dark Theme
               </Badge>
@@ -391,15 +359,15 @@ export const PortfolioSection = () => {
               </Badge>
             </div>
 
-            <div className="bg-white p-4 rounded-lg border-2 border-[#4A00E0]/20">
+            <div className="bg-green-50 border-2 border-green-200 p-4 rounded-lg">
               <div className="flex items-center justify-between">
                 <div>
-                  <h4 className="font-bold text-lg text-[#4A00E0]">Special Price</h4>
-                  <p className="text-gray-600 text-sm">Limited time offer</p>
+                  <h4 className="font-bold text-lg text-green-700">FREE Portfolio</h4>
+                  <p className="text-green-600 text-sm">No payment required</p>
                 </div>
                 <div className="text-right">
-                  <div className="text-2xl font-bold text-[#4A00E0]">₹99</div>
-                  <div className="text-sm text-gray-500 line-through">₹299</div>
+                  <div className="text-2xl font-bold text-green-700">₹0</div>
+                  <div className="text-sm text-green-600">Forever</div>
                 </div>
               </div>
             </div>
@@ -407,7 +375,7 @@ export const PortfolioSection = () => {
 
           <Card className="bg-white shadow-lg">
             <CardContent className="p-4 sm:p-6">
-              <h3 className="text-lg font-semibold mb-4 text-[#4A00E0]">Create Your Portfolio</h3>
+              <h3 className="text-lg font-semibold mb-4 text-[#4A00E0]">Create Your Free Portfolio</h3>
               
               <div className="space-y-4">
                 <div className="grid sm:grid-cols-2 gap-4">
@@ -500,19 +468,19 @@ export const PortfolioSection = () => {
                 <Button 
                   onClick={handleGeneratePortfolio}
                   disabled={isProcessing}
-                  className="w-full bg-[#4A00E0] hover:bg-[#4A00E0]/90 text-white py-3 text-base font-medium"
+                  className="w-full bg-green-600 hover:bg-green-700 text-white py-3 text-base font-medium"
                 >
                   {isProcessing ? (
-                    "Processing Payment..."
+                    "Generating Portfolio..."
                   ) : (
                     <>
-                      Generate Portfolio for ₹99 <ExternalLink className="w-4 h-4 ml-2" />
+                      Generate FREE Portfolio <ExternalLink className="w-4 h-4 ml-2" />
                     </>
                   )}
                 </Button>
 
                 <p className="text-xs text-gray-500 text-center">
-                  Payment will be processed securely. You'll receive your portfolio instantly after payment.
+                  Your portfolio will include a small watermark. Completely free, no payment required!
                 </p>
 
                 <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
