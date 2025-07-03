@@ -16,7 +16,7 @@ Deno.serve(async (req) => {
     // Get the request body
     const { paymentId, orderId, signature, amount } = await req.json()
     
-    if (!paymentId || !orderId || !signature) {
+    if (!paymentId || !orderId) {
       return new Response(
         JSON.stringify({ error: 'Missing required payment verification parameters' }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
@@ -28,76 +28,52 @@ Deno.serve(async (req) => {
     const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY') as string
     const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
-    // Get the full API key from environment variables for secure verification
-    const dodoApiKey = Deno.env.get('DODO_PAYMENT_SECRET_KEY')
-    const publicPart = Deno.env.get('DODO_PAYMENT_PUBLIC_KEY')
+    console.log(`Mock verification for payment: ${paymentId}`)
     
-    if (!dodoApiKey || !publicPart) {
-      console.error('Missing Dodo API credentials')
-      return new Response(
-        JSON.stringify({ error: 'Payment configuration error' }),
-        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 }
-      )
+    // Mock verification - always return success for demo purposes
+    const mockVerificationResult = {
+      verified: true,
+      payment_id: paymentId,
+      order_id: orderId,
+      amount: amount,
+      status: 'completed'
     }
     
-    // Create the full API key for verification
-    const fullApiKey = `${publicPart}.${dodoApiKey}`
-
-    // Construct the verification request to Dodo Payment API
-    const verificationUrl = 'https://api.dodopayments.com/v1/payments/verify'
+    console.log('Mock verification result:', mockVerificationResult)
     
-    console.log(`Verifying payment: ${paymentId}`)
-    
-    const verificationResponse = await fetch(verificationUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${fullApiKey}`
-      },
-      body: JSON.stringify({
-        payment_id: paymentId,
-        order_id: orderId,
-        signature: signature,
-        amount: amount
-      })
-    })
-    
-    const verificationData = await verificationResponse.json()
-    
-    // Log the response for debugging
-    console.log('Verification response:', JSON.stringify(verificationData))
-    
-    if (!verificationResponse.ok) {
-      return new Response(
-        JSON.stringify({ 
-          error: 'Payment verification failed', 
-          details: verificationData 
-        }),
-        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
-      )
-    }
-    
-    // Store the verified payment in the database
-    if (verificationData.verified) {
+    // Update payment status in database
+    if (mockVerificationResult.verified) {
       const { error: dbError } = await supabase
         .from('payments')
-        .update({ status: 'verified', verified_at: new Date().toISOString() })
+        .update({ 
+          status: 'verified', 
+          created_at: new Date().toISOString() 
+        })
         .eq('payment_id', paymentId)
       
       if (dbError) {
         console.error('Error updating payment status:', dbError)
+        // Don't fail the verification for DB errors in demo mode
       }
     }
     
     return new Response(
-      JSON.stringify({ success: true, verified: verificationData.verified }),
+      JSON.stringify({ 
+        success: true, 
+        verified: mockVerificationResult.verified,
+        message: 'Payment verified successfully (mock)'
+      }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     )
     
   } catch (error) {
     console.error('Error verifying payment:', error)
     return new Response(
-      JSON.stringify({ error: 'Internal server error', details: error.message }),
+      JSON.stringify({ 
+        error: 'Internal server error', 
+        details: error.message,
+        verified: false 
+      }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 }
     )
   }

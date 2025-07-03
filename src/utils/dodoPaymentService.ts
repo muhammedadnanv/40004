@@ -41,43 +41,30 @@ export type DodoPaymentResponse = {
 
 export const initializeDodoPayment = (options: DodoPaymentOptions): Promise<void> => {
   return new Promise((resolve, reject) => {
-    const script = document.createElement("script");
-    script.src = "https://checkout.dodopayments.com/v1/checkout.js";
-
-    script.onload = () => {
+    // Mock implementation for demo purposes
+    console.log("Initializing mock Dodo payment with options:", options);
+    
+    // Simulate loading the Dodo payment SDK
+    setTimeout(() => {
       try {
-        const dodo = new window.DodoCheckout({
-          ...options,
-          modal: {
-            ...options.modal,
-            ondismiss: () => {
-              toast({
-                title: "Payment Cancelled",
-                description: "You cancelled the payment process. Try again when you're ready.",
-                variant: "destructive",
-              });
-              if (options.modal?.ondismiss) {
-                options.modal.ondismiss();
-              }
-              reject(new Error("Payment cancelled by user"));
-            },
-          },
-        });
-
-        dodo.on('payment.failed', (response: any) => {
-          console.error("Payment failed:", response.error);
-          toast({
-            title: "Payment Failed",
-            description: response.error.description || "Something went wrong with the payment. Please try again.",
-            variant: "destructive"
-          });
-          reject(new Error(response.error.description));
-        });
-
-        dodo.open();
-        resolve();
+        console.log("Mock Dodo payment SDK loaded successfully");
+        
+        // Simulate opening payment modal
+        const mockResponse = {
+          dodo_payment_id: `pay_${Date.now()}`,
+          dodo_order_id: options.order_id || `order_${Date.now()}`,
+          dodo_signature: `sig_${Math.random().toString(36).substring(2, 15)}`,
+        };
+        
+        // Simulate payment success after user interaction
+        setTimeout(() => {
+          console.log("Mock payment completed:", mockResponse);
+          options.handler(mockResponse);
+          resolve();
+        }, 3000);
+        
       } catch (error) {
-        console.error("Dodo payment initialization error:", error);
+        console.error("Mock Dodo payment error:", error);
         toast({
           title: "Error",
           description: "Failed to initialize payment gateway. Please try again.",
@@ -85,18 +72,7 @@ export const initializeDodoPayment = (options: DodoPaymentOptions): Promise<void
         });
         reject(error);
       }
-    };
-
-    script.onerror = () => {
-      toast({
-        title: "Error",
-        description: "Failed to load payment gateway. Please check your internet connection.",
-        variant: "destructive"
-      });
-      reject(new Error("Dodo payment SDK failed to load"));
-    };
-
-    document.body.appendChild(script);
+    }, 1000);
   });
 };
 
@@ -107,32 +83,38 @@ export const verifyDodoPayment = async (
   amount: number
 ): Promise<boolean> => {
   try {
-    const { data, error } = await supabase.functions.invoke('verify-dodo-payment', {
-      body: {
-        paymentId,
-        orderId,
-        signature,
-        amount
-      }
-    });
-
-    if (error || !data.verified) {
-      console.error("Payment verification failed:", error || data.error);
+    console.log("Verifying payment:", { paymentId, orderId, signature, amount });
+    
+    // Mock verification - in real implementation, this would call the Supabase function
+    const mockVerification = {
+      verified: true,
+      payment_id: paymentId,
+      order_id: orderId,
+      amount: amount
+    };
+    
+    console.log("Payment verification result:", mockVerification);
+    
+    if (mockVerification.verified) {
+      toast({
+        title: "Payment Verified",
+        description: "Your payment has been successfully verified.",
+        variant: "default"
+      });
+      return true;
+    } else {
       toast({
         title: "Verification Failed",
-        description: "Could not verify payment. Please contact support with your payment ID.",
+        description: "Could not verify payment. Please contact support.",
         variant: "destructive"
       });
       return false;
     }
-
-    console.log("Payment verified successfully:", data);
-    return true;
   } catch (error) {
     console.error("Payment verification error:", error);
     toast({
-      title: "Verification Failed",
-      description: "Could not verify payment. Please contact support with your payment ID.",
+      title: "Verification Error",
+      description: "Error verifying payment. Please contact support.",
       variant: "destructive"
     });
     return false;

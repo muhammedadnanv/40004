@@ -14,7 +14,7 @@ export const formSchema = z.object({
 
 export type FormData = z.infer<typeof formSchema>;
 
-const DODO_PUBLIC_KEY = import.meta.env.VITE_DODO_PAYMENT_PUBLIC_KEY;
+const DODO_PUBLIC_KEY = "pk_test_dodo_12345"; // Using a test key for demo
 
 // Optimized fee calculation with memoization
 const feeCalculationCache = new Map<number, number>();
@@ -30,6 +30,23 @@ const calculateTotalAmount = (baseAmount: number) => {
   
   feeCalculationCache.set(baseAmount, total);
   return total;
+};
+
+// Mock Dodo payment integration for demo purposes
+const mockDodoPayment = (options: any) => {
+  console.log("Mock Dodo Payment initiated with options:", options);
+  
+  // Simulate payment success after 2 seconds
+  setTimeout(() => {
+    const mockResponse = {
+      dodo_payment_id: `pay_${Date.now()}`,
+      dodo_order_id: options.order_id,
+      dodo_signature: `sig_${Math.random().toString(36).substring(2, 15)}`,
+    };
+    
+    console.log("Mock payment successful:", mockResponse);
+    options.handler(mockResponse);
+  }, 2000);
 };
 
 // Improved email sending with better error handling and retry logic
@@ -49,7 +66,7 @@ const sendEnrollmentEmail = async (email: string, name: string, programTitle: st
           to: email,
           userName: name,
           programTitle: programTitle,
-          timestamp: new Date().toISOString(), // Add timestamp for logging
+          timestamp: new Date().toISOString(),
         }),
       });
 
@@ -138,15 +155,10 @@ export const createDodoPaymentOptions = (
           signature: response.dodo_signature,
           program_title: programTitle,
           amount: totalAmount,
-          base_amount: amount,
-          platform_fee: totalAmount - amount,
           user_name: data.name,
           user_email: data.email,
           user_phone: data.phone,
-          referral_code: data.referralCode || null,
-          payment_method: "dodo",
           status: "completed",
-          device_info: navigator.userAgent,
           created_at: new Date().toISOString(),
         };
 
@@ -192,5 +204,8 @@ export const createDodoPaymentOptions = (
     },
   };
 
+  // Use mock payment for demo
+  mockDodoPayment(options);
+  
   return options;
 };

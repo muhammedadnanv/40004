@@ -28,10 +28,15 @@ interface ProgramCardProps {
 
 export const ProgramCard = ({ program }: ProgramCardProps) => {
   const [showEnrollmentForm, setShowEnrollmentForm] = useState(false);
-  const currentPrice = program.regularPrice;
+  const [showShareCard, setShowShareCard] = useState(false);
+  const currentPrice = 399; // Fixed price for all programs
 
   const handleEnrollmentClick = () => {
     setShowEnrollmentForm(true);
+  };
+
+  const handleShareClick = () => {
+    setShowShareCard(true);
   };
 
   return (
@@ -80,19 +85,13 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
           title={program.title}
         />
 
-        <div className="flex justify-between items-center mt-auto p-4">
-          <ProgramFooter 
-            title={program.title}
-            onEnrollClick={handleEnrollmentClick}
-            onShareClick={() => {}}
-            currentPrice={currentPrice}
-            regularPrice={program.regularPrice}
-          />
-          
-          <div className="shrink-0 ml-2">
-            <ShareProgramCard program={program} />
-          </div>
-        </div>
+        <ProgramFooter 
+          title={program.title}
+          onEnrollClick={handleEnrollmentClick}
+          onShareClick={handleShareClick}
+          currentPrice={currentPrice}
+          regularPrice={program.regularPrice}
+        />
       </Card>
 
       {showEnrollmentForm && (
@@ -101,6 +100,14 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
           onClose={() => setShowEnrollmentForm(false)}
           programTitle={program.title}
           amount={currentPrice}
+        />
+      )}
+
+      {showShareCard && (
+        <ShareProgramCard 
+          program={program}
+          isOpen={showShareCard}
+          onClose={() => setShowShareCard(false)}
         />
       )}
     </motion.div>
