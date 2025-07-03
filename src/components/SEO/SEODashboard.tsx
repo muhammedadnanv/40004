@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -151,8 +150,9 @@ export function SEODashboard({
             
             <TabsContent value="on-page" className="space-y-4">
               <OnPageOptimizer 
-                defaultKeywords={getDefaultKeywords()}
-                pageType={pageType}
+                pageName={pageType}
+                targetKeywords={getDefaultKeywords()}
+                autoOptimize={false}
               />
             </TabsContent>
             
