@@ -25,6 +25,11 @@ export const ProgramsSection = ({ programs }: ProgramsSectionProps) => {
   const [isMobile, setIsMobile] = useState(false);
   const categoryScrollRef = useRef<HTMLDivElement>(null);
   
+  // Check if programs should be unlocked (July 21, 2025)
+  const activationDate = new Date('2025-07-21T00:00:00');
+  const currentDate = new Date();
+  const isLocked = currentDate < activationDate;
+  
   // Extract unique categories from programs
   useEffect(() => {
     const uniqueCategories = ["all", ...Array.from(new Set(programs.map(program => program.category)))];
@@ -80,20 +85,22 @@ export const ProgramsSection = ({ programs }: ProgramsSectionProps) => {
         </motion.h2>
 
         {/* Lock Notice */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="mb-6"
-        >
-          <Alert className="border-orange-200 bg-orange-50/50 backdrop-blur-sm">
-            <Lock className="h-4 w-4 text-orange-600" />
-            <AlertDescription className="text-orange-800">
-              <strong>Notice:</strong> All programs are currently locked and enrollment is temporarily unavailable. 
-              Please check back later for updates or contact support for more information.
-            </AlertDescription>
-          </Alert>
-        </motion.div>
+        {isLocked && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="mb-6"
+          >
+            <Alert className="border-orange-200 bg-orange-50/50 backdrop-blur-sm">
+              <Lock className="h-4 w-4 text-orange-600" />
+              <AlertDescription className="text-orange-800">
+                <strong>Notice:</strong> Programs will be automatically activated on July 21, 2025. 
+                Enrollment will be available starting from that date.
+              </AlertDescription>
+            </Alert>
+          </motion.div>
+        )}
         
         {/* Mobile-friendly category filter with horizontal scrolling */}
         <div 

@@ -22,6 +22,11 @@ export const PortfolioSection = () => {
     linkedin: ""
   });
   const [isProcessing, setIsProcessing] = useState(false);
+  const [secretCode, setSecretCode] = useState("");
+  const [isUnlocked, setIsUnlocked] = useState(false);
+  
+  // Secret code for portfolio generator access
+  const PORTFOLIO_SECRET = "DEVMENTOR2025";
 
   const generatePortfolioHTML = (data: typeof portfolioData) => {
     const skillsArray = data.skills.split(',').map(skill => skill.trim());
@@ -231,6 +236,22 @@ export const PortfolioSection = () => {
 </html>`;
   };
 
+  const handleSecretSubmit = () => {
+    if (secretCode === PORTFOLIO_SECRET) {
+      setIsUnlocked(true);
+      toast({
+        title: "Access Granted! 🎉",
+        description: "You can now use the Dynamic Portfolio Generator.",
+      });
+    } else {
+      toast({
+        title: "Invalid Secret Code",
+        description: "Please enter the correct secret code to access the portfolio generator.",
+        variant: "destructive",
+      });
+    }
+  };
+
   const handleGeneratePortfolio = () => {
     if (!portfolioData.name || !portfolioData.title || !portfolioData.bio || !portfolioData.email) {
       toast({
@@ -377,7 +398,29 @@ export const PortfolioSection = () => {
             <CardContent className="p-4 sm:p-6">
               <h3 className="text-lg font-semibold mb-4 text-[#4A00E0]">Create Your Free Portfolio</h3>
               
-              <div className="space-y-4">
+              {!isUnlocked ? (
+                <div className="space-y-4">
+                  <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-lg">
+                    <h4 className="font-semibold text-yellow-800 mb-2">🔐 Access Required</h4>
+                    <p className="text-sm text-yellow-700 mb-4">
+                      Enter the secret code to access the Dynamic Portfolio Generator.
+                    </p>
+                    <div className="flex gap-2">
+                      <Input
+                        type="password"
+                        value={secretCode}
+                        onChange={(e) => setSecretCode(e.target.value)}
+                        placeholder="Enter secret code"
+                        className="flex-1"
+                      />
+                      <Button onClick={handleSecretSubmit} className="bg-[#4A00E0] hover:bg-[#4A00E0]/90">
+                        Unlock
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-4">
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium mb-1">Full Name *</label>
@@ -483,21 +526,22 @@ export const PortfolioSection = () => {
                   Your portfolio will include a small watermark. Completely free, no payment required!
                 </p>
 
-                <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
-                  <p className="text-xs text-blue-700 text-center">
-                    💡 <strong>Pro Tip:</strong> After downloading your portfolio, you can easily host it online using{' '}
-                    <a 
-                      href="https://hostinger.in?REFERRALCODE=Retailx" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="underline hover:no-underline font-medium"
-                    >
-                      Hostinger
-                    </a>
-                    {' '}for professional web hosting.
-                  </p>
+                 <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                   <p className="text-xs text-blue-700 text-center">
+                     💡 <strong>Pro Tip:</strong> After downloading your portfolio, you can easily host it online using{' '}
+                     <a 
+                       href="https://hostinger.in?REFERRALCODE=Retailx" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       className="underline hover:no-underline font-medium"
+                     >
+                       Hostinger
+                     </a>
+                     {' '}for professional web hosting.
+                   </p>
+                 </div>
                 </div>
-              </div>
+              )}
             </CardContent>
           </Card>
         </div>
