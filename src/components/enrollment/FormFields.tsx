@@ -1,6 +1,7 @@
 
 import { Input } from "@/components/ui/input";
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { UseFormReturn } from "react-hook-form";
 import { isKeralaName, suggestKeralaNames } from "@/utils/keralaNameValidation";
 import { useState } from "react";
@@ -113,20 +114,34 @@ export const FormFields = ({ form }: FormFieldsProps) => {
           </FormItem>
         )}
       />
-      
+
       <FormField
         control={form.control}
-        name="address"
+        name="duration"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-gray-700 text-base sm:text-sm">Address</FormLabel>
+            <FormLabel className="text-gray-700 text-base sm:text-sm">Program Duration</FormLabel>
             <FormControl>
-              <Input 
-                placeholder="Enter your full address" 
-                {...field}
-                className="border-purple-200 focus:border-purple-400 transition-colors h-12 text-base"
-                aria-label="Address"
-              />
+              <RadioGroup
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+                className="grid grid-cols-1 sm:grid-cols-2 gap-3"
+              >
+                <div className="flex items-center space-x-2 p-3 border border-purple-200 rounded-lg hover:bg-purple-50 transition-colors">
+                  <RadioGroupItem value="5-week" id="5-week" />
+                  <label htmlFor="5-week" className="flex-1 cursor-pointer">
+                    <div className="font-medium text-purple-600">5 Weeks</div>
+                    <div className="text-sm text-gray-600">₹399</div>
+                  </label>
+                </div>
+                <div className="flex items-center space-x-2 p-3 border border-purple-200 rounded-lg hover:bg-purple-50 transition-colors">
+                  <RadioGroupItem value="10-week" id="10-week" />
+                  <label htmlFor="10-week" className="flex-1 cursor-pointer">
+                    <div className="font-medium text-purple-600">10 Weeks</div>
+                    <div className="text-sm text-gray-600">₹999</div>
+                  </label>
+                </div>
+              </RadioGroup>
             </FormControl>
             <FormMessage className="text-red-500" />
           </FormItem>

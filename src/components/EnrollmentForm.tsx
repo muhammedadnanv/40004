@@ -42,17 +42,20 @@ export const EnrollmentForm = ({
       name: "",
       email: "",
       phone: "",
-      address: "",
+      duration: undefined,
       referralCode: "",
     },
   });
+
+  const watchedDuration = form.watch("duration");
+  const currentPrice = watchedDuration === "5-week" ? 399 : watchedDuration === "10-week" ? 999 : initialAmount;
 
   const handleReferralCode = () => {
     const referralCode = form.getValues("referralCode");
     const { isValid, discountPercentage } = validateReferralCode(referralCode || '');
 
     if (referralCode && isValid && !referralApplied) {
-      const baseAmount = initialAmount;
+      const baseAmount = currentPrice;
       const discountAmount = baseAmount * discountPercentage;
       const newFinalAmount = Math.max(0, baseAmount - discountAmount);
       
@@ -83,7 +86,7 @@ export const EnrollmentForm = ({
     try {
       const options = createDodoPaymentOptions(
         data,
-        finalAmount,
+        referralApplied ? finalAmount : currentPrice,
         programTitle,
         async () => {
           setPaymentSuccess(true);
@@ -98,7 +101,7 @@ export const EnrollmentForm = ({
           
           toast({
             title: "Payment Successful! 🎉",
-            description: "Welcome to Dev Mentor Hub! You can now join our WhatsApp group.",
+            description: "Welcome to Dev Mentor Hub! Your details have been sent to our team.",
           });
         },
         (error) => {
@@ -133,6 +136,13 @@ export const EnrollmentForm = ({
     }
   };
 
+  // Update final amount when duration changes
+  React.useEffect(() => {
+    if (!referralApplied) {
+      setFinalAmount(currentPrice);
+    }
+  }, [currentPrice, referralApplied]);
+
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
@@ -144,7 +154,7 @@ export const EnrollmentForm = ({
                   Enroll in {programTitle}
                 </DialogTitle>
                 <DialogDescription className="text-gray-600">
-                  Complete the form below to enroll in the program and proceed with payment.
+                  Complete the form below to enroll in the program. Your details will be sent to our team via WhatsApp.
                 </DialogDescription>
               </DialogHeader>
               <Form {...form}>
@@ -153,7 +163,7 @@ export const EnrollmentForm = ({
                   <ReferralSection 
                     form={form}
                     onApplyReferral={handleReferralCode}
-                    finalAmount={finalAmount}
+                    finalAmount={referralApplied ? finalAmount : currentPrice}
                     referralApplied={referralApplied}
                   />
                   <Button 

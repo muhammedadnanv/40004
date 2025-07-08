@@ -7,8 +7,282 @@ export type Json =
   | Json[]
 
 export type Database = {
+  // Allows to automatically instanciate createClient with right options
+  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
+  __InternalSupabase: {
+    PostgrestVersion: "12.2.3 (519615d)"
+  }
   public: {
     Tables: {
+      automation_rules: {
+        Row: {
+          auto_like: boolean
+          campaign_id: string
+          created_at: string
+          daily_comment_limit: number
+          daily_connection_limit: number
+          id: string
+          is_active: boolean
+          keywords: string[] | null
+          name: string
+          schedule_time: string | null
+          trigger_type: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          auto_like?: boolean
+          campaign_id: string
+          created_at?: string
+          daily_comment_limit?: number
+          daily_connection_limit?: number
+          id?: string
+          is_active?: boolean
+          keywords?: string[] | null
+          name: string
+          schedule_time?: string | null
+          trigger_type: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          auto_like?: boolean
+          campaign_id?: string
+          created_at?: string
+          daily_comment_limit?: number
+          daily_connection_limit?: number
+          id?: string
+          is_active?: boolean
+          keywords?: string[] | null
+          name?: string
+          schedule_time?: string | null
+          trigger_type?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "automation_rules_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      campaigns: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          status: string
+          target_industry: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          status?: string
+          target_industry: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          status?: string
+          target_industry?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      engagement_history: {
+        Row: {
+          campaign_id: string | null
+          content: string | null
+          created_at: string
+          engagement_type: string
+          id: string
+          post_url: string | null
+          response_received: boolean | null
+          sent_at: string | null
+          status: string
+          target_id: string | null
+          user_id: string
+        }
+        Insert: {
+          campaign_id?: string | null
+          content?: string | null
+          created_at?: string
+          engagement_type: string
+          id?: string
+          post_url?: string | null
+          response_received?: boolean | null
+          sent_at?: string | null
+          status?: string
+          target_id?: string | null
+          user_id: string
+        }
+        Update: {
+          campaign_id?: string | null
+          content?: string | null
+          created_at?: string
+          engagement_type?: string
+          id?: string
+          post_url?: string | null
+          response_received?: boolean | null
+          sent_at?: string | null
+          status?: string
+          target_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "engagement_history_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "engagement_history_target_id_fkey"
+            columns: ["target_id"]
+            isOneToOne: false
+            referencedRelation: "engagement_targets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      engagement_queue: {
+        Row: {
+          automation_rule_id: string | null
+          campaign_id: string
+          content: string | null
+          created_at: string
+          engagement_type: string
+          error_message: string | null
+          id: string
+          processed_at: string | null
+          scheduled_for: string
+          status: string
+          target_id: string
+          user_id: string
+        }
+        Insert: {
+          automation_rule_id?: string | null
+          campaign_id: string
+          content?: string | null
+          created_at?: string
+          engagement_type: string
+          error_message?: string | null
+          id?: string
+          processed_at?: string | null
+          scheduled_for: string
+          status?: string
+          target_id: string
+          user_id: string
+        }
+        Update: {
+          automation_rule_id?: string | null
+          campaign_id?: string
+          content?: string | null
+          created_at?: string
+          engagement_type?: string
+          error_message?: string | null
+          id?: string
+          processed_at?: string | null
+          scheduled_for?: string
+          status?: string
+          target_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "engagement_queue_automation_rule_id_fkey"
+            columns: ["automation_rule_id"]
+            isOneToOne: false
+            referencedRelation: "automation_rules"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "engagement_queue_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "engagement_queue_target_id_fkey"
+            columns: ["target_id"]
+            isOneToOne: false
+            referencedRelation: "engagement_targets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      engagement_targets: {
+        Row: {
+          campaign_id: string | null
+          company: string
+          created_at: string
+          engagement_count: number | null
+          id: string
+          industry: string
+          last_engagement: string | null
+          linkedin_profile_url: string | null
+          name: string
+          position: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          campaign_id?: string | null
+          company: string
+          created_at?: string
+          engagement_count?: number | null
+          id?: string
+          industry: string
+          last_engagement?: string | null
+          linkedin_profile_url?: string | null
+          name: string
+          position: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          campaign_id?: string | null
+          company?: string
+          created_at?: string
+          engagement_count?: number | null
+          id?: string
+          industry?: string
+          last_engagement?: string | null
+          linkedin_profile_url?: string | null
+          name?: string
+          position?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "engagement_targets_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       flows: {
         Row: {
           created_at: string
@@ -108,6 +382,51 @@ export type Database = {
           updated_at?: string | null
           user_id?: string | null
           website?: string | null
+        }
+        Relationships: []
+      }
+      linkedin_accounts: {
+        Row: {
+          connection_count: number | null
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          last_sync: string | null
+          plan_type: string | null
+          profile_url: string | null
+          status: string
+          updated_at: string
+          user_id: string
+          username: string
+        }
+        Insert: {
+          connection_count?: number | null
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          last_sync?: string | null
+          plan_type?: string | null
+          profile_url?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+          username: string
+        }
+        Update: {
+          connection_count?: number | null
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          last_sync?: string | null
+          plan_type?: string | null
+          profile_url?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+          username?: string
         }
         Relationships: []
       }
@@ -652,21 +971,25 @@ export type Database = {
   }
 }
 
-type DefaultSchema = Database[Extract<keyof Database, "public">]
+type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
+
+type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
 
 export type Tables<
   DefaultSchemaTableNameOrOptions extends
     | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
-    | { schema: keyof Database },
+    | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof Database
+    schema: keyof DatabaseWithoutInternals
   }
-    ? keyof (Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-        Database[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
+    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
     : never = never,
-> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
-  ? (Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-      Database[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
       Row: infer R
     }
     ? R
@@ -684,14 +1007,16 @@ export type Tables<
 export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
-    | { schema: keyof Database },
+    | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof Database
+    schema: keyof DatabaseWithoutInternals
   }
-    ? keyof Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never = never,
-> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
-  ? Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Insert: infer I
     }
     ? I
@@ -707,14 +1032,16 @@ export type TablesInsert<
 export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
-    | { schema: keyof Database },
+    | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof Database
+    schema: keyof DatabaseWithoutInternals
   }
-    ? keyof Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never = never,
-> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
-  ? Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Update: infer U
     }
     ? U
@@ -730,14 +1057,16 @@ export type TablesUpdate<
 export type Enums<
   DefaultSchemaEnumNameOrOptions extends
     | keyof DefaultSchema["Enums"]
-    | { schema: keyof Database },
+    | { schema: keyof DatabaseWithoutInternals },
   EnumName extends DefaultSchemaEnumNameOrOptions extends {
-    schema: keyof Database
+    schema: keyof DatabaseWithoutInternals
   }
-    ? keyof Database[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
+    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
     : never = never,
-> = DefaultSchemaEnumNameOrOptions extends { schema: keyof Database }
-  ? Database[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
+> = DefaultSchemaEnumNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
     ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
     : never
@@ -745,14 +1074,16 @@ export type Enums<
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
     | keyof DefaultSchema["CompositeTypes"]
-    | { schema: keyof Database },
+    | { schema: keyof DatabaseWithoutInternals },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
-    schema: keyof Database
+    schema: keyof DatabaseWithoutInternals
   }
-    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
     : never = never,
-> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+> = PublicCompositeTypeNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
   : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
     ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never
