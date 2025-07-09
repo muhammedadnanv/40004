@@ -5,6 +5,7 @@ import { ProgramCard } from "@/components/ProgramCard";
 import { useState, useEffect, useRef } from "react";
 import { isMobileDevice } from "@/utils/mobileResponsiveness";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { CountdownTimer } from "@/components/ui/countdown-timer";
 
 interface Program {
   title: string;
@@ -84,12 +85,26 @@ export const ProgramsSection = ({ programs }: ProgramsSectionProps) => {
           Choose Your Mentorship Path <Star className="inline-block w-5 h-5 sm:w-6 sm:h-6 text-purple-600 animate-pulse" aria-hidden="true" />
         </motion.h2>
 
+        {/* Countdown Timer */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="mb-8"
+        >
+          <CountdownTimer 
+            targetDate={activationDate}
+            title="Programs Launch In"
+            className="mb-4"
+          />
+        </motion.div>
+
         {/* Lock Notice */}
         {isLocked && (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
             className="mb-6"
           >
             <Alert className="border-orange-200 bg-orange-50/50 backdrop-blur-sm">
