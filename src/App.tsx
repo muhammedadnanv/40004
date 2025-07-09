@@ -10,6 +10,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { runWebsiteTest } from "./utils/websiteValidator";
 import { optimizeForDevice } from "./utils/performanceOptimizer";
 import { seoOptimizer } from "./utils/seoOptimizer";
+import { MobileTestComponent } from "./components/mobile/MobileTestComponent";
 import { enhanceMobileExperience } from "./utils/mobileResponsiveness";
 import { autoFixAndReportLinkIssues } from "./utils/linkValidator";
 
@@ -134,7 +135,10 @@ function App() {
 
   return (
     <ErrorBoundary>
-      <Router>
+        {/* Mobile Test Component - Remove in production */}
+        {import.meta.env.DEV && <MobileTestComponent />}
+        
+        <Router>
         <div className="min-h-screen w-full">
           <Routes>
             <Route path="/" element={
