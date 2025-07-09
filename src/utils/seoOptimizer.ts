@@ -24,18 +24,15 @@ interface KeywordData {
  */
 export const seoOptimizer = {
   /**
-   * Generate SEO keywords for the specified categories with intent scoring
+   * Generate SEO keywords for the specified categories
    * @param quantity Number of keywords to generate
-   * @param minIntentScore Minimum intent score (0-1) for filtering high-intent keywords
    * @returns Promise resolving to the operation result
    */
-  async generateKeywords(quantity: number = 2500, minIntentScore: number = 0.7): Promise<{ success: boolean; message: string; sample?: any[] }> {
+  async generateKeywords(quantity: number = 2500): Promise<{ success: boolean; message: string; sample?: any[] }> {
     try {
       const { data, error } = await supabase.functions.invoke('generate-seo-keywords', {
         body: { 
-          quantity, 
-          minIntentScore, 
-          includeIntentScoring: true 
+          quantity
         },
       });
 
@@ -43,7 +40,7 @@ export const seoOptimizer = {
       
       return {
         success: true,
-        message: `Successfully generated ${quantity} high-intent SEO keywords`,
+        message: `Successfully generated ${quantity} SEO keywords`,
         sample: data?.sample,
       };
     } catch (error) {
@@ -56,14 +53,13 @@ export const seoOptimizer = {
   },
 
   /**
-   * Retrieve keywords from the database with enhanced filtering options for high-intent queries
+   * Retrieve keywords from the database with filtering options
    * @param category Optional category to filter by
    * @param limit Maximum number of keywords to retrieve (default 100)
    * @param minRelevance Minimum relevance score (0-1)
-   * @param minIntentScore Minimum intent score (0-1) for high-intent keywords
    * @returns Promise resolving to the retrieved keywords
    */
-  async getKeywords(category?: string, limit: number = 100, minRelevance: number = 0.5, minIntentScore: number = 0.7): Promise<{
+  async getKeywords(category?: string, limit: number = 100, minRelevance: number = 0.5): Promise<{
     success: boolean;
     keywords?: KeywordData[];
     message: string;
@@ -72,7 +68,7 @@ export const seoOptimizer = {
       let query = supabase
         .from('seo_keywords')
         .select('*')
-        .order('intent_score', { ascending: false })
+        .order('relevance_score', { ascending: false })
         .limit(limit);
       
       if (category) {
@@ -83,10 +79,6 @@ export const seoOptimizer = {
         query = query.gte('relevance_score', minRelevance);
       }
       
-      if (minIntentScore > 0) {
-        query = query.gte('intent_score', minIntentScore);
-      }
-      
       const { data, error } = await query;
       
       if (error) throw error;
@@ -94,7 +86,7 @@ export const seoOptimizer = {
       return {
         success: true,
         keywords: data,
-        message: `Retrieved ${data.length} high-intent keywords${category ? ` in category ${category}` : ''}`
+        message: `Retrieved ${data.length} keywords${category ? ` in category ${category}` : ''}`
       };
     } catch (error) {
       console.error('Error retrieving keywords:', error);
@@ -406,7 +398,7 @@ export const seoOptimizer = {
     // Generate high-intent keywords if requested
     if (options.generateKeywords) {
       tasks.push(
-        this.generateKeywords(2500, 0.7).then(result => {
+        this.generateKeywords(2500).then(result => {
           results.push({
             operation: 'Generate High-Intent SEO Keywords',
             success: result.success,
@@ -418,9 +410,9 @@ export const seoOptimizer = {
 
     // Generate blog post if requested
     if (options.generateBlogPost && options.blogTopic && options.blogCategory) {
-      // First get some high-intent keywords for the blog post
-      const keywordsResult = await this.getKeywords(options.blogCategory, 10, 0.7, 0.8);
-      const highIntentKeywords = keywordsResult.success && keywordsResult.keywords 
+      // First get some keywords for the blog post
+      const keywordsResult = await this.getKeywords(options.blogCategory, 10, 0.7);
+      const keywords = keywordsResult.success && keywordsResult.keywords 
         ? keywordsResult.keywords.map(k => k.keyword)
         : [];
         
@@ -429,7 +421,7 @@ export const seoOptimizer = {
           options.blogTopic, 
           options.blogCategory, 
           options.wordCount,
-          highIntentKeywords
+          keywords
         ).then(result => {
           results.push({
             operation: 'Generate SEO-Optimized Blog Post',
@@ -442,14 +434,14 @@ export const seoOptimizer = {
 
     // Optimize meta tags if requested
     if (options.optimizeMetaTags) {
-      // Get high-intent keywords for meta tag optimization
-      const keywordsResult = await this.getKeywords('general', 5, 0.8, 0.9);
-      const highIntentKeywords = keywordsResult.success && keywordsResult.keywords 
+      // Get keywords for meta tag optimization
+      const keywordsResult = await this.getKeywords('general', 5, 0.8);
+      const metaKeywords = keywordsResult.success && keywordsResult.keywords 
         ? keywordsResult.keywords.map(k => k.keyword)
         : ['developer certification', 'mentorship', 'professional skills'];
         
       tasks.push(
-        this.optimizeMetaTags(window.location.href, highIntentKeywords).then(result => {
+        this.optimizeMetaTags(window.location.href, metaKeywords).then(result => {
           results.push({
             operation: 'Meta Tags Optimization',
             success: result.success,
