@@ -48,7 +48,6 @@ export const MentorSection = ({ mentorEarnings }: MentorSectionProps) => {
               width="250" 
               height="54" 
               loading="lazy"
-              fetchPriority="low"
             />
           </a>
         </div>
