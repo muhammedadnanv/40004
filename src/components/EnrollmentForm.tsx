@@ -16,6 +16,7 @@ import { ReferralSection } from "./enrollment/ReferralSection";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { sendWelcomeNotification } from "@/utils/notificationService";
 import { initializeDodoPayment } from "@/utils/dodoPaymentService";
+import { supabase } from "@/integrations/supabase/client";
 
 interface EnrollmentFormProps {
   isOpen: boolean;
@@ -100,9 +101,41 @@ export const EnrollmentForm = ({
             console.error("Error sending welcome notification:", error);
           }
           
+          // Send WhatsApp notifications
+          try {
+            // Send student enrollment notification
+            await supabase.functions.invoke('send-whatsapp-notification', {
+              body: {
+                type: 'student',
+                data: {
+                  name: data.name,
+                  email: data.email,
+                  phone: data.phone,
+                  program: programTitle
+                }
+              }
+            });
+
+            // Send payment notification
+            await supabase.functions.invoke('send-whatsapp-notification', {
+              body: {
+                type: 'payment',
+                data: {
+                  name: data.name,
+                  email: data.email,
+                  program: programTitle,
+                  amount: referralApplied ? finalAmount : currentPrice,
+                  paymentId: Date.now().toString() // This would be actual payment ID from Dodo
+                }
+              }
+            });
+          } catch (error) {
+            console.error("Error sending WhatsApp notifications:", error);
+          }
+          
           toast({
             title: "Payment Successful! 🎉",
-            description: "Welcome to Dev Mentor Hub! Your details have been sent to our team.",
+            description: "Welcome to Dev Mentor Hub! Your details have been sent to our team via WhatsApp.",
           });
         },
         (error) => {

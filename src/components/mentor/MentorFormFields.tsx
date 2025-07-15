@@ -13,20 +13,37 @@ import {
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { toast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 interface MentorFormFieldsProps {
   onClose: () => void;
   mentorEarnings?: number;
 }
 
-// Function to send WhatsApp message
-const sendMentorWhatsAppMessage = async (data: MentorFormData) => {
-  const message = `New Mentor Application%0A%0AName: ${data.name}%0AEmail: ${data.email}%0APhone: ${data.phone}%0AGitHub: ${data.github}%0ALinkedIn: ${data.linkedin}%0ACodePen: ${data.codepen}%0AProgram: ${data.program}%0A%0APlease review this mentor application.`;
-  
-  const whatsappUrl = `https://wa.me/919656778508?text=${message}`;
-  
-  // Open WhatsApp in new tab
-  window.open(whatsappUrl, '_blank');
+// Function to send WhatsApp notification via edge function
+const sendMentorWhatsAppNotification = async (data: MentorFormData) => {
+  try {
+    const { error } = await supabase.functions.invoke('send-whatsapp-notification', {
+      body: {
+        type: 'mentor',
+        data: {
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          expertise: `GitHub: ${data.github}, LinkedIn: ${data.linkedin}, CodePen: ${data.codepen}`,
+          experience: `Program: ${data.program}`,
+          program: data.program
+        }
+      }
+    });
+
+    if (error) {
+      throw error;
+    }
+  } catch (error) {
+    console.error("Error sending WhatsApp notification:", error);
+    throw error;
+  }
 };
 
 export function MentorFormFields({ onClose, mentorEarnings = 0 }: MentorFormFieldsProps) {
@@ -47,8 +64,8 @@ export function MentorFormFields({ onClose, mentorEarnings = 0 }: MentorFormFiel
     try {
       console.log("Mentor application data:", data);
       
-      // Send WhatsApp message with mentor details
-      await sendMentorWhatsAppMessage(data);
+      // Send WhatsApp notification via edge function
+      await sendMentorWhatsAppNotification(data);
       
       toast({
         title: "Application submitted successfully! 🎉",
@@ -59,7 +76,7 @@ export function MentorFormFields({ onClose, mentorEarnings = 0 }: MentorFormFiel
       console.error("Error submitting mentor application:", error);
       toast({
         title: "Error submitting application",
-        description: "Please try again later.",
+        description: "Please try again later or contact support if the issue persists.",
         variant: "destructive",
       });
     }
