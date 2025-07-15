@@ -436,19 +436,28 @@ export const seoOptimizer = {
     if (options.optimizeMetaTags) {
       // Get keywords for meta tag optimization
       const keywordsResult = await this.getKeywords('general', 5, 0.8);
-      const metaKeywords = keywordsResult.success && keywordsResult.keywords 
+      const metaKeywords = keywordsResult.success && keywordsResult.keywords && keywordsResult.keywords.length > 0
         ? keywordsResult.keywords.map(k => k.keyword)
-        : ['developer certification', 'mentorship', 'professional skills'];
+        : ['developer certification', 'mentorship', 'professional skills', 'programming courses', 'tech training'];
         
-      tasks.push(
-        this.optimizeMetaTags(window.location.href, metaKeywords).then(result => {
-          results.push({
-            operation: 'Meta Tags Optimization',
-            success: result.success,
-            message: result.message
-          });
-        })
-      );
+      // Only proceed if we have keywords
+      if (metaKeywords.length > 0) {
+        tasks.push(
+          this.optimizeMetaTags(window.location.href, metaKeywords).then(result => {
+            results.push({
+              operation: 'Meta Tags Optimization',
+              success: result.success,
+              message: result.message
+            });
+          })
+        );
+      } else {
+        results.push({
+          operation: 'Meta Tags Optimization',
+          success: false,
+          message: 'No keywords available for meta tag optimization'
+        });
+      }
     }
 
     // Analyze headings and internal linking if requested
