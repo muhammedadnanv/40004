@@ -13,37 +13,29 @@ import {
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { toast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
 
 interface MentorFormFieldsProps {
   onClose: () => void;
   mentorEarnings?: number;
 }
 
-// Function to send WhatsApp notification via edge function
-const sendMentorWhatsAppNotification = async (data: MentorFormData) => {
-  try {
-    const { error } = await supabase.functions.invoke('send-whatsapp-notification', {
-      body: {
-        type: 'mentor',
-        data: {
-          name: data.name,
-          email: data.email,
-          phone: data.phone,
-          expertise: `GitHub: ${data.github}, LinkedIn: ${data.linkedin}, CodePen: ${data.codepen}`,
-          experience: `Program: ${data.program}`,
-          program: data.program
-        }
-      }
-    });
-
-    if (error) {
-      throw error;
-    }
-  } catch (error) {
-    console.error("Error sending WhatsApp notification:", error);
-    throw error;
-  }
+// Function to send WhatsApp message via direct link
+const sendMentorWhatsAppMessage = async (data: MentorFormData) => {
+  const message = `🔥 *NEW MENTOR APPLICATION* 🔥%0A%0A` +
+                 `👤 *Name:* ${data.name}%0A` +
+                 `📧 *Email:* ${data.email}%0A` +
+                 `📱 *Phone:* ${data.phone}%0A` +
+                 `💻 *GitHub:* ${data.github}%0A` +
+                 `💼 *LinkedIn:* ${data.linkedin}%0A` +
+                 `🎨 *CodePen:* ${data.codepen}%0A` +
+                 `📚 *Program:* ${data.program}%0A` +
+                 `⏰ *Applied At:* ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}%0A%0A` +
+                 `Please review this mentor application and respond accordingly. 👨‍🏫`;
+  
+  const whatsappUrl = `https://wa.me/919656778508?text=${message}`;
+  
+  // Open WhatsApp in new tab
+  window.open(whatsappUrl, '_blank');
 };
 
 export function MentorFormFields({ onClose, mentorEarnings = 0 }: MentorFormFieldsProps) {
@@ -64,19 +56,19 @@ export function MentorFormFields({ onClose, mentorEarnings = 0 }: MentorFormFiel
     try {
       console.log("Mentor application data:", data);
       
-      // Send WhatsApp notification via edge function
-      await sendMentorWhatsAppNotification(data);
+      // Send WhatsApp message with mentor details
+      await sendMentorWhatsAppMessage(data);
       
       toast({
         title: "Application submitted successfully! 🎉",
-        description: "Your details have been sent to our team via WhatsApp. We'll review your application and get back to you soon.",
+        description: "Your details are being sent to our team via WhatsApp. We'll review your application and get back to you soon.",
       });
       onClose();
     } catch (error) {
       console.error("Error submitting mentor application:", error);
       toast({
         title: "Error submitting application",
-        description: "Please try again later or contact support if the issue persists.",
+        description: "Please try again later.",
         variant: "destructive",
       });
     }
