@@ -89,23 +89,29 @@ const Index = () => {
       </Helmet>
       
       <div className="min-h-screen">
-        <CategoryTopper />
-        <HeroSection />
-        <ProgramsSection programs={programs} />
-        <FeaturesSection />
-        <MentorSection mentorEarnings={mentorEarnings} />
-        <CertificationSection />
-        <PortfolioSection />
-        <ProjectIdeasSection />
-        <ReviewSection />
-        <LearningPathSection />
-        <FAQSection />
-        <WhatsAppSection />
-        <PartnershipsSection />
-        <ShareSection />
-        <CodeOfConductSection />
-        <JusticeMessage />
-        <SocialMediaFooter />
+        <header>
+          <CategoryTopper />
+        </header>
+        <main>
+          <HeroSection />
+          <ProgramsSection programs={programs} />
+          <FeaturesSection />
+          <MentorSection mentorEarnings={mentorEarnings} />
+          <CertificationSection />
+          <PortfolioSection />
+          <ProjectIdeasSection />
+          <ReviewSection />
+          <LearningPathSection />
+          <FAQSection />
+          <WhatsAppSection />
+          <PartnershipsSection />
+          <ShareSection />
+          <CodeOfConductSection />
+          <JusticeMessage />
+        </main>
+        <footer>
+          <SocialMediaFooter />
+        </footer>
         <SEODashboard />
         <StructuredDataManager 
           type="Organization" 
