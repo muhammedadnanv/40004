@@ -54,7 +54,7 @@ export const JusticeMessage = () => {
       <div className="flex items-center justify-center space-x-2">
         <TagIcon className="h-5 w-5" aria-hidden="true" />
         <p className="font-medium">
-          <span className="hidden sm:inline">IMPORTANT NOTICE:</span> All programs are currently closed for enrollment. <strong>Check back later!</strong>
+          <span className="hidden sm:inline">GREAT NEWS:</span> All programs are now LIVE! <strong>Enroll today!</strong>
         </p>
       </div>
     </motion.div>
