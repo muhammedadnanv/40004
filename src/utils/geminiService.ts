@@ -1,12 +1,9 @@
 
-/**
- * Utility for interacting with the Google Gemini API
- */
+import { supabase } from "@/integrations/supabase/client";
 
-// Note: In a production environment, this API key should be stored in a secure place
-// like Supabase secrets, not directly in the code
-const GEMINI_API_KEY = "AIzaSyBdNlUw4NFrejPzvuEvFOl_Pb9DyB6qlus";
-const API_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent";
+/**
+ * Utility for interacting with the Google Gemini API via secure Edge Function
+ */
 
 interface GeminiRequestOptions {
   prompt: string;
@@ -15,103 +12,32 @@ interface GeminiRequestOptions {
   timeout?: number;
 }
 
-interface GeminiResponse {
-  candidates: Array<{
-    content: {
-      parts: Array<{
-        text: string;
-      }>;
-    };
-    finishReason?: string;
-  }>;
-  promptFeedback?: {
-    blockReason?: string;
-    safetyRatings?: Array<{
-      category: string;
-      probability: string;
-    }>;
-  };
-}
-
 /**
- * Send a request to the Gemini API with better error handling
+ * Send a request to the Gemini API via Supabase Edge Function with better error handling
  */
 export async function generateWithGemini(options: GeminiRequestOptions): Promise<string> {
-  const controller = new AbortController();
-  const timeout = options.timeout || 30000; // 30 second default timeout
-  
-  // Setup timeout
-  const timeoutId = setTimeout(() => controller.abort(), timeout);
-  
   try {
-    const response = await fetch(`${API_ENDPOINT}?key=${GEMINI_API_KEY}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        contents: [
-          {
-            parts: [
-              {
-                text: options.prompt,
-              },
-            ],
-          },
-        ],
-        generationConfig: {
-          maxOutputTokens: options.maxOutputTokens || 1024,
-          temperature: options.temperature || 0.7,
-        },
-        safetySettings: [
-          {
-            category: "HARM_CATEGORY_DANGEROUS_CONTENT",
-            threshold: "BLOCK_ONLY_HIGH"
-          }
-        ]
-      }),
-      signal: controller.signal
+    const { data, error } = await supabase.functions.invoke('generate-content-summary', {
+      body: {
+        prompt: options.prompt,
+        maxOutputTokens: options.maxOutputTokens || 1024,
+        temperature: options.temperature || 0.7,
+      }
     });
 
-    clearTimeout(timeoutId);
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      let errorMessage = `Gemini API error (${response.status}): ${response.statusText}`;
-      
-      try {
-        const errorData = JSON.parse(errorText);
-        if (errorData.error?.message) {
-          errorMessage = `Gemini API error: ${errorData.error.message}`;
-        }
-      } catch (e) {
-        // If we can't parse the error JSON, just use the status text
-      }
-      
-      throw new Error(errorMessage);
+    if (error) {
+      console.error("Supabase function error:", error);
+      throw new Error(`Failed to generate content: ${error.message}`);
     }
 
-    const data = await response.json() as GeminiResponse;
-    
-    // Check for content filtering
-    if (data.promptFeedback?.blockReason) {
-      throw new Error(`Content blocked: ${data.promptFeedback.blockReason}`);
-    }
-    
-    // Check if we have valid response data
-    if (!data.candidates || data.candidates.length === 0) {
+    if (!data || !data.text) {
       throw new Error("No response generated");
     }
-    
-    return data.candidates[0]?.content.parts[0]?.text || "No response generated";
+
+    return data.text;
   } catch (error) {
-    if (error.name === 'AbortError') {
-      throw new Error("Request timed out. Please try again.");
-    }
     console.error("Error calling Gemini API:", error);
     throw error;
-  } finally {
-    clearTimeout(timeoutId);
   }
 }
 

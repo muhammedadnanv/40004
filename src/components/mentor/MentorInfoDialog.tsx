@@ -1,5 +1,5 @@
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { MentorFormFields } from "./MentorFormFields";
 import { useState } from "react";
@@ -37,6 +37,9 @@ export const MentorInfoDialog = ({ isOpen, onClose, mentorEarnings = 0 }: Mentor
               <DialogTitle className="text-xl sm:text-2xl font-light text-center mb-3 sm:mb-4">
                 Mentor Earnings Overview
               </DialogTitle>
+              <DialogDescription className="text-center text-gray-600">
+                Join our platform as a mentor and earn competitive rates from student enrollments
+              </DialogDescription>
               <div className="text-center space-y-4 sm:space-y-6">
                 <p className="text-sm sm:text-base md:text-lg text-gray-600">
                   As a mentor on our platform, you'll earn 85% of program fees:
