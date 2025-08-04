@@ -52,7 +52,8 @@ const Index = () => {
     }
   ];
 
-  const mentorEarnings = 50000;
+  // Mentor earnings: 85% of average program fees (₹399 + ₹999) / 2 = ₹699 * 0.85 = ₹594
+  const mentorEarnings = 594;
 
   const organizationData = {
     "@context": "https://schema.org",

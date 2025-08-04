@@ -18,10 +18,15 @@ export const MentorInfoDialog = ({ isOpen, onClose, mentorEarnings = 0 }: Mentor
     onClose();
   };
 
-  const programFee = 199; // Updated from 2160 to 199
-  const platformFeePercentage = 20; // Updated from 10% to 20%
-  const platformFee = programFee * (platformFeePercentage / 100);
-  const paymentGatewayFee = programFee * 0.02; // 2% payment gateway fee
+  // Platform pricing structure: 5-week (₹399) and 10-week (₹999)
+  const fiveWeekPrice = 399;
+  const tenWeekPrice = 999;
+  const platformFeePercentage = 15; // 15% platform fee
+  
+  // Calculate mentor earnings (85% of program fees)
+  const fiveWeekMentorEarning = fiveWeekPrice * 0.85;
+  const tenWeekMentorEarning = tenWeekPrice * 0.85;
+  const avgMentorEarning = (fiveWeekMentorEarning + tenWeekMentorEarning) / 2;
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
@@ -34,15 +39,21 @@ export const MentorInfoDialog = ({ isOpen, onClose, mentorEarnings = 0 }: Mentor
               </DialogTitle>
               <div className="text-center space-y-4 sm:space-y-6">
                 <p className="text-sm sm:text-base md:text-lg text-gray-600">
-                  As a mentor on our platform, you'll earn approximately:
+                  As a mentor on our platform, you'll earn 85% of program fees:
                 </p>
-                <p className="text-2xl sm:text-3xl md:text-4xl font-semibold text-primary">
-                  ₹{mentorEarnings.toFixed(2)} per student
-                </p>
+                <div className="space-y-2">
+                  <p className="text-xl sm:text-2xl md:text-3xl font-semibold text-primary">
+                    ₹{fiveWeekMentorEarning.toFixed(0)} (5-week program)
+                  </p>
+                  <p className="text-xl sm:text-2xl md:text-3xl font-semibold text-primary">
+                    ₹{tenWeekMentorEarning.toFixed(0)} (10-week program)
+                  </p>
+                </div>
                 <div className="text-xs sm:text-sm text-gray-500 space-y-1 sm:space-y-2 max-w-md mx-auto">
-                  <p>Program Fee: ₹{programFee}</p>
-                  <p>Platform Fee ({platformFeePercentage}%): ₹{platformFee.toFixed(2)}</p>
-                  <p>Payment Gateway Fee (2%): ₹{paymentGatewayFee.toFixed(2)}</p>
+                  <p className="font-medium">Pricing Breakdown:</p>
+                  <p>5-week Program: ₹{fiveWeekPrice} → Mentor gets ₹{fiveWeekMentorEarning.toFixed(0)} (85%)</p>
+                  <p>10-week Program: ₹{tenWeekPrice} → Mentor gets ₹{tenWeekMentorEarning.toFixed(0)} (85%)</p>
+                  <p className="text-xs mt-2">Platform fee: {platformFeePercentage}% | Mentor earnings: 85%</p>
                 </div>
               </div>
             </DialogHeader>
