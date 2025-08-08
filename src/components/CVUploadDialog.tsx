@@ -275,16 +275,16 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="text-xl">Job Placement Support</DialogTitle>
-          <DialogDescription>
+        <DialogHeader className="pb-4">
+          <DialogTitle className="text-lg sm:text-xl responsive-heading">Job Placement Support</DialogTitle>
+          <DialogDescription className="text-fluid-sm">
             Upload your CV for review and potential job placement opportunities. We'll check if your resume is ATS-friendly.
           </DialogDescription>
         </DialogHeader>
         
-        <div className="space-y-4 py-4">
+        <div className="space-y-4 py-4 responsive-padding">
           <div className="space-y-2">
-            <label htmlFor="fullName" className="text-sm font-medium">
+            <label htmlFor="fullName" className="text-sm font-medium mobile-form-label">
               Full Name <span className="text-red-500">*</span>
             </label>
             <Input
@@ -293,7 +293,7 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
               onChange={(e) => setFullName(e.target.value)}
               placeholder="Enter your full name"
               required
-              className="h-12"
+              className="mobile-touch-target text-fluid-base"
               aria-required="true"
               autoComplete="name"
             />

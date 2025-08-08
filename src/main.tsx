@@ -3,10 +3,13 @@ import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 import { addResourceHints } from './utils/performanceOptimizer';
+import { initializeMobileOptimizations } from './utils/mobileResponsiveness';
 
 // Add resource hints for faster loading
 if (typeof window !== 'undefined') {
   addResourceHints();
+  // Initialize mobile optimizations immediately
+  initializeMobileOptimizations();
 }
 
 // Register Service Worker with better error handling and updates

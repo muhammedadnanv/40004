@@ -4,20 +4,20 @@ const REGULAR_PRICE = 199;
 
 export const FAQSection = () => {
   return (
-    <section className="py-12 md:py-16 px-4 md:px-6 lg:px-8 bg-white">
+    <section className="py-8 sm:py-12 md:py-16 px-4 md:px-6 lg:px-8 bg-white" id="faq-section">
       <div className="container mx-auto max-w-3xl">
-        <h2 className="text-2xl md:text-3xl font-bold text-center mb-6 md:mb-8">Frequently Asked Questions</h2>
-        <Accordion type="single" collapsible className="w-full">
-          <AccordionItem value="item-1">
-            <AccordionTrigger>What makes this mentorship program unique?</AccordionTrigger>
-            <AccordionContent>
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-6 md:mb-8 responsive-heading">Frequently Asked Questions</h2>
+        <Accordion type="single" collapsible className="w-full space-y-2">
+          <AccordionItem value="item-1" className="border rounded-lg px-4 mb-2">
+            <AccordionTrigger className="text-left hover:no-underline py-4 text-fluid-base touch-manipulation mobile-touch-target">What makes this mentorship program unique?</AccordionTrigger>
+            <AccordionContent className="text-fluid-sm pb-4">
               Unlike traditional courses, we offer pure project-based mentorship. You'll work on real projects with weekly guidance and personalized feedback from dedicated mentors, all at an accessible price point of ₹{REGULAR_PRICE}. No courses, just hands-on project experience with expert support.
             </AccordionContent>
           </AccordionItem>
 
-          <AccordionItem value="item-2">
-            <AccordionTrigger>How is the mentorship structured?</AccordionTrigger>
-            <AccordionContent>
+          <AccordionItem value="item-2" className="border rounded-lg px-4 mb-2">
+            <AccordionTrigger className="text-left hover:no-underline py-4 text-fluid-base touch-manipulation mobile-touch-target">How is the mentorship structured?</AccordionTrigger>
+            <AccordionContent className="text-fluid-sm pb-4">
               You'll receive guidance through our WhatsApp community, where mentors provide regular feedback on your weekly tasks, code reviews, and career advice. We focus on practical assignments rather than theoretical courses, ensuring hands-on learning with expert guidance.
             </AccordionContent>
           </AccordionItem>

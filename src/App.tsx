@@ -11,6 +11,7 @@ import { runWebsiteTest } from "./utils/websiteValidator";
 import { optimizeForDevice } from "./utils/performanceOptimizer";
 import { seoOptimizer } from "./utils/seoOptimizer";
 import { MobileTestComponent } from "./components/mobile/MobileTestComponent";
+import { MobileOptimizer } from "./components/mobile/MobileOptimizer";
 import { enhanceMobileExperience } from "./utils/mobileResponsiveness";
 import { autoFixAndReportLinkIssues } from "./utils/linkValidator";
 
@@ -137,9 +138,10 @@ function App() {
     <ErrorBoundary>
         {/* Mobile Test Component - Remove in production */}
         {import.meta.env.DEV && <MobileTestComponent />}
+        <MobileOptimizer />
         
         <Router>
-        <div className="min-h-screen w-full">
+        <div className="min-h-screen w-full responsive-container">
           <Routes>
             <Route path="/" element={
               <Suspense fallback={<LoadingFallback />}>
