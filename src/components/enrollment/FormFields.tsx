@@ -46,7 +46,7 @@ export const FormFields = ({ form }: FormFieldsProps) => {
                     field.onChange(e);
                     handleNameChange(e.target.value);
                   }}
-                  className="border-purple-200 focus:border-purple-400 transition-colors h-12 text-base"
+                  className="border-purple-200 focus:border-purple-400 transition-colors mobile-touch-target text-fluid-base"
                   aria-label="Full name"
                 />
                 {nameSuggestions.length > 0 && (
@@ -84,7 +84,7 @@ export const FormFields = ({ form }: FormFieldsProps) => {
                 type="email" 
                 placeholder="john@example.com" 
                 {...field}
-                className="border-purple-200 focus:border-purple-400 transition-colors h-12 text-base"
+                className="border-purple-200 focus:border-purple-400 transition-colors mobile-touch-target text-fluid-base"
                 inputMode="email"
                 aria-label="Email address"
               />
@@ -105,7 +105,7 @@ export const FormFields = ({ form }: FormFieldsProps) => {
                 type="tel" 
                 placeholder="1234567890" 
                 {...field}
-                className="border-purple-200 focus:border-purple-400 transition-colors h-12 text-base"
+                className="border-purple-200 focus:border-purple-400 transition-colors mobile-touch-target text-fluid-base"
                 inputMode="tel"
                 aria-label="Phone number"
               />
@@ -125,20 +125,20 @@ export const FormFields = ({ form }: FormFieldsProps) => {
               <RadioGroup
                 onValueChange={field.onChange}
                 defaultValue={field.value}
-                className="grid grid-cols-1 sm:grid-cols-2 gap-3"
+                className="grid grid-cols-1 gap-3"
               >
-                <div className="flex items-center space-x-2 p-3 border border-purple-200 rounded-lg hover:bg-purple-50 transition-colors">
+                <div className="flex items-center space-x-2 p-3 border border-purple-200 rounded-lg hover:bg-purple-50 transition-colors mobile-touch-target touch-manipulation">
                   <RadioGroupItem value="5-week" id="5-week" />
                   <label htmlFor="5-week" className="flex-1 cursor-pointer">
-                    <div className="font-medium text-purple-600">5 Weeks</div>
-                    <div className="text-sm text-gray-600">₹399</div>
+                    <div className="font-medium text-purple-600 text-fluid-base">5 Weeks</div>
+                    <div className="text-fluid-sm text-gray-600">₹399</div>
                   </label>
                 </div>
-                <div className="flex items-center space-x-2 p-3 border border-purple-200 rounded-lg hover:bg-purple-50 transition-colors">
+                <div className="flex items-center space-x-2 p-3 border border-purple-200 rounded-lg hover:bg-purple-50 transition-colors mobile-touch-target touch-manipulation">
                   <RadioGroupItem value="10-week" id="10-week" />
                   <label htmlFor="10-week" className="flex-1 cursor-pointer">
-                    <div className="font-medium text-purple-600">10 Weeks</div>
-                    <div className="text-sm text-gray-600">₹999</div>
+                    <div className="font-medium text-purple-600 text-fluid-base">10 Weeks</div>
+                    <div className="text-fluid-sm text-gray-600">₹999</div>
                   </label>
                 </div>
               </RadioGroup>

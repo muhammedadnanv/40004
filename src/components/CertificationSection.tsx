@@ -181,20 +181,20 @@ export const CertificationSection = () => {
   };
 
   return (
-    <section className="py-6 sm:py-8 md:py-12 lg:py-16 px-3 sm:px-4 md:px-6 lg:px-8 bg-white flex items-center justify-center min-h-screen">
-      <div className="container mx-auto max-w-5xl">
+    <section className="responsive-padding bg-white flex items-center justify-center mobile-safe-area" id="certification-section">
+      <div className="responsive-container max-w-5xl">
         <div className="text-center mb-6 sm:mb-8 md:mb-10 lg:mb-12">
-          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-2 sm:mb-3 md:mb-4">Community Certification</h2>
-          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600">Earn a personalized certificate upon completing your chosen program</p>
+          <h2 className="responsive-heading mb-2 sm:mb-3 md:mb-4">Community Certification</h2>
+          <p className="text-fluid-lg text-gray-600">Earn a personalized certificate upon completing your chosen program</p>
         </div>
         
-        <div className="grid md:grid-cols-2 gap-4 sm:gap-6 md:gap-8 items-center">
+        <div className="responsive-grid gap-4 sm:gap-6 md:gap-8 items-center" style={{gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))'}}>
           <div className="space-y-3 sm:space-y-4 md:space-y-6">
             <div className="flex items-start gap-2 sm:gap-3">
-              <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-[#4A00E0] mt-0.5 sm:mt-1" />
+              <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-[#4A00E0] mt-0.5 sm:mt-1 flex-shrink-0" />
               <div>
-                <h3 className="font-semibold text-sm sm:text-base md:text-lg">Personalized Certificate</h3>
-                <p className="text-xs sm:text-sm md:text-base text-gray-600">Each certificate is dynamically generated with your name and program details</p>
+                <h3 className="font-semibold text-fluid-base">Personalized Certificate</h3>
+                <p className="text-fluid-sm text-gray-600">Each certificate is dynamically generated with your name and program details</p>
               </div>
             </div>
             
@@ -260,11 +260,11 @@ export const CertificationSection = () => {
                             placeholder="Enter unlock code"
                             value={specialCode}
                             onChange={(e) => setSpecialCode(e.target.value)}
-                            className="text-sm"
+                            className="text-fluid-sm mobile-touch-target"
                           />
                           <Button 
                             onClick={handleUnlock}
-                            className="w-full bg-[#4A00E0] hover:bg-[#4A00E0]/90 text-white"
+                            className="w-full bg-[#4A00E0] hover:bg-[#4A00E0]/90 text-white mobile-touch-target text-fluid-sm touch-manipulation"
                           >
                             Unlock Preview
                           </Button>

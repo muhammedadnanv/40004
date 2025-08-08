@@ -155,14 +155,14 @@ export const EnrollmentForm = ({
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="w-[95%] max-w-[425px] mx-auto rounded-lg p-4 sm:p-6">
+        <DialogContent className="w-[95vw] max-w-[425px] mx-auto rounded-lg responsive-padding mobile-safe-area">
           {!paymentSuccess ? (
             <>
-              <DialogHeader>
-                <DialogTitle className="text-lg sm:text-xl font-semibold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">
+              <DialogHeader className="pb-4">
+                <DialogTitle className="text-lg sm:text-xl font-semibold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent responsive-heading">
                   Enroll in {programTitle}
                 </DialogTitle>
-                <DialogDescription className="text-gray-600">
+                <DialogDescription className="text-gray-600 text-fluid-sm">
                   Complete the form below to enroll in the program. Your details will be sent to our team via WhatsApp.
                 </DialogDescription>
               </DialogHeader>
@@ -177,7 +177,7 @@ export const EnrollmentForm = ({
                   />
                   <Button 
                     type="submit" 
-                    className="w-full bg-purple-600 hover:bg-purple-700 text-white transition-all duration-300 text-sm sm:text-base py-2 sm:py-3"
+                    className="w-full bg-purple-600 hover:bg-purple-700 text-white transition-all duration-300 text-fluid-base mobile-touch-target touch-manipulation"
                     disabled={isProcessing}
                   >
                     {isProcessing ? "Processing..." : "Proceed to Payment"}

@@ -55,7 +55,7 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
       transition={{ duration: 0.3 }}
       className="h-full"
     >
-      <Card className={`premium-card overflow-hidden group h-full flex flex-col relative transition-shadow duration-300 ${isLocked ? 'opacity-75 grayscale' : 'hover:shadow-xl'}`}>
+      <Card className={`premium-card overflow-hidden group h-full flex flex-col relative transition-shadow duration-300 mobile-card touch-manipulation ${isLocked ? 'opacity-75 grayscale' : 'hover:shadow-xl'}`}>
         {isLocked && (
           <div className="absolute inset-0 bg-black/10 z-20 flex items-center justify-center">
             <div className="bg-white/90 backdrop-blur-sm p-3 rounded-full shadow-lg">
@@ -68,7 +68,7 @@ export const ProgramCard = ({ program }: ProgramCardProps) => {
           <Tooltip>
             <TooltipTrigger asChild>
               <button 
-                className="absolute top-3 right-3 z-10 p-2 rounded-full bg-white/90 hover:bg-white transition-colors shadow-sm hover:shadow-md"
+                className="absolute top-3 right-3 z-10 p-2 rounded-full bg-white/90 hover:bg-white transition-colors shadow-sm hover:shadow-md mobile-touch-target touch-manipulation"
                 aria-label={`Information about ${program.title}`}
               >
                 <InfoIcon className="w-4 h-4 text-purple-600" />
