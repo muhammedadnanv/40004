@@ -2,7 +2,7 @@
   "@context": "https://schema.org",
   "@type": "EducationalOrganization",
   "name": "Dev Mentor Hub",
-  "description": "Premier developer certification and mentorship platform offering Professional Developer Certification through personalized guidance and real-world projects in AI, Frontend, Full Stack, and Low-Code development. Transform your tech career with hands-on experience and industry-leading mentors.",
+  "description": "This platform is exclusively designed to connect students (mentees) with mentors, providing hands-on training through the development of ultra-innovative, visionary projects that build real-world experience and skills",
   "url": "https://devmentorhub.com",
   "logo": "https://devmentorhub.com/logo.png",
   "sameAs": [

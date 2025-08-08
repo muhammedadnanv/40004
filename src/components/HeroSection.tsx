@@ -83,7 +83,7 @@ export const HeroSection = () => {
             </h1>
             
             <p className="text-fluid-lg text-gray-600 font-light max-w-2xl mx-auto px-2">
-              Transform your career through personalized tech mentorship
+              This platform is exclusively designed to connect students (mentees) with mentors, providing hands-on training through the development of ultra-innovative, visionary projects that build real-world experience and skills
             </p>
           </motion.div>
           

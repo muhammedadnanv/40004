@@ -59,7 +59,7 @@ const Index = () => {
     "@context": "https://schema.org",
     "@type": "EducationalOrganization",
     "name": "Dev Mentor Hub",
-    "description": "Expert web development training and mentorship programs",
+    "description": "This platform is exclusively designed to connect students (mentees) with mentors, providing hands-on training through the development of ultra-innovative, visionary projects that build real-world experience and skills",
     "url": "https://devmentorhub.com",
     "courseMode": "online",
     "availableLanguage": "English"
@@ -68,11 +68,11 @@ const Index = () => {
   return (
     <>
       <Helmet>
-        <title>Dev Mentor Hub - Expert Web Development Training & Mentorship</title>
-        <meta name="description" content="Transform your career with expert-led web development programs. Learn React, Node.js, Python & more with 1-on-1 mentorship, real projects & job placement support." />
+        <title>Dev Mentor Hub - Mentor-Student Connection Platform for Innovative Projects</title>
+        <meta name="description" content="Exclusively designed to connect students (mentees) with mentors, providing hands-on training through ultra-innovative, visionary projects that build real-world experience and skills." />
         <meta name="keywords" content="web development training, programming courses, React training, Node.js courses, Python development, coding mentorship, full stack development" />
-        <meta property="og:title" content="Dev Mentor Hub - Expert Web Development Training" />
-        <meta property="og:description" content="Master web development with expert mentorship. Real projects, personalized learning, and career support." />
+        <meta property="og:title" content="Dev Mentor Hub - Mentor-Student Connection Platform" />
+        <meta property="og:description" content="Exclusively connects students with mentors for hands-on training through ultra-innovative, visionary projects that build real-world experience and skills." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://devmentorhub.com" />
         <link rel="canonical" href="https://devmentorhub.com" />
@@ -81,7 +81,7 @@ const Index = () => {
             "@context": "https://schema.org",
             "@type": "EducationalOrganization",
             "name": "Dev Mentor Hub",
-            "description": "Expert web development training and mentorship programs",
+            "description": "This platform is exclusively designed to connect students (mentees) with mentors, providing hands-on training through the development of ultra-innovative, visionary projects that build real-world experience and skills",
             "url": "https://devmentorhub.com",
             "courseMode": "online",
             "availableLanguage": "English"
