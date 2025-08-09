@@ -3,6 +3,7 @@ import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMe
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { isMobileDevice } from "@/utils/mobileResponsiveness";
+import { Link } from "react-router-dom";
 
 export function MainNav() {
   const [isMobile, setIsMobile] = useState(false);
@@ -64,78 +65,78 @@ export function MainNav() {
               
               <nav className="p-4 space-y-6">
                 {/* Main navigation links */}
-                <a 
-                  href="/" 
+                <Link 
+                  to="/" 
                   className="block py-3 px-4 rounded-md hover:bg-gray-100 font-medium touch-manipulation"
                   onClick={closeMenu}
                 >
                   Home
-                </a>
+                </Link>
                 
                 {/* Programs submenu */}
                 <div className="space-y-2">
                   <div className="px-4 font-medium">Programs</div>
                   <div className="ml-4 space-y-2 border-l border-gray-200 pl-4">
-                    <a 
-                      href="/programs/frontend" 
+                    <Link 
+                      to="/programs/frontend" 
                       className="block py-2 px-2 rounded-md hover:bg-gray-100 text-sm touch-manipulation"
                       onClick={closeMenu}
                     >
                       Frontend Development
-                    </a>
-                    <a 
-                      href="/programs/lowcode" 
+                    </Link>
+                    <Link 
+                      to="/programs/lowcode" 
                       className="block py-2 px-2 rounded-md hover:bg-gray-100 text-sm touch-manipulation"
                       onClick={closeMenu}
                     >
                       Low-Code Development
-                    </a>
-                    <a 
-                      href="/programs/nocode" 
+                    </Link>
+                    <Link 
+                      to="/programs/nocode" 
                       className="block py-2 px-2 rounded-md hover:bg-gray-100 text-sm touch-manipulation"
                       onClick={closeMenu}
                     >
                       No-Code Development
-                    </a>
-                    <a 
-                      href="/programs/fullstack" 
+                    </Link>
+                    <Link 
+                      to="/programs/fullstack" 
                       className="block py-2 px-2 rounded-md hover:bg-gray-100 text-sm touch-manipulation"
                       onClick={closeMenu}
                     >
                       Full Stack Development
-                    </a>
-                    <a 
-                      href="/programs/manychat" 
+                    </Link>
+                    <Link 
+                      to="/programs/manychat" 
                       className="block py-2 px-2 rounded-md hover:bg-gray-100 text-sm touch-manipulation"
                       onClick={closeMenu}
                     >
                       ManyChat Automation
-                    </a>
+                    </Link>
                   </div>
                 </div>
                 
                 {/* Other main links */}
-                <a 
-                  href="/certification" 
+                <Link 
+                  to="/certification" 
                   className="block py-3 px-4 rounded-md hover:bg-gray-100 font-medium touch-manipulation"
                   onClick={closeMenu}
                 >
                   Certification
-                </a>
-                <a 
-                  href="/partnerships" 
+                </Link>
+                <Link 
+                  to="/partnerships" 
                   className="block py-3 px-4 rounded-md hover:bg-gray-100 font-medium touch-manipulation"
                   onClick={closeMenu}
                 >
                   Partnerships
-                </a>
-                <a 
-                  href="/cms" 
+                </Link>
+                <Link 
+                  to="/cms" 
                   className="block py-3 px-4 rounded-md hover:bg-gray-100 font-medium touch-manipulation"
                   onClick={closeMenu}
                 >
                   CMS
-                </a>
+                </Link>
               </nav>
             </div>
           </div>

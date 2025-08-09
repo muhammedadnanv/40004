@@ -22,6 +22,7 @@ import { Helmet } from "react-helmet";
 import { LeadCollectionPopup } from "@/components/LeadCollectionPopup";
 import { AlbatoAdPopup } from "@/components/AlbatoAdPopup";
 import { PromotionPopup } from "@/components/PromotionPopup";
+import { MainNav } from "@/components/MainNav";
 
 const Index = () => {
   // Sample programs data
@@ -91,6 +92,7 @@ const Index = () => {
       
       <div className="min-h-screen">
         <header>
+          <MainNav />
           <CategoryTopper />
         </header>
         <main>
