@@ -20,6 +20,7 @@ const Index = lazy(() => import("./pages/Index"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const Terms = lazy(() => import("./pages/Terms"));
 const ContentSummarizerPage = lazy(() => import("./pages/ContentSummarizerPage"));
+const Certification = lazy(() => import("./pages/Certification"));
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -168,6 +169,13 @@ function App() {
               <Suspense fallback={<LoadingFallback />}>
                 <ErrorBoundary>
                   <ContentSummarizerPage />
+                </ErrorBoundary>
+              </Suspense>
+            } />
+            <Route path="/certification" element={
+              <Suspense fallback={<LoadingFallback />}>
+                <ErrorBoundary>
+                  <Certification />
                 </ErrorBoundary>
               </Suspense>
             } />
