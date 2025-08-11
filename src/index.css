@@ -224,6 +224,12 @@
     @apply min-h-[48px] min-w-[48px];
   }
   
+  /* Alias for components using this class */
+  .touch-manipulation {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
   /* Hide scrollbars but keep functionality */
   .hide-scrollbar {
     scrollbar-width: none; /* Firefox */
