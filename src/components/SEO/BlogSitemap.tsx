@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Skeleton } from "@/components/ui/skeleton";
-
+import { Link } from 'react-router-dom';
 interface BlogSitemapEntry {
   slug: string;
   title: string;
@@ -70,12 +70,12 @@ export function BlogSitemap() {
       <ul className="space-y-2">
         {blogEntries.map((entry) => (
           <li key={entry.slug} className="border-b pb-2">
-            <a 
-              href={`/blog/${entry.slug}`} 
+            <Link 
+              to={`/blog/${entry.slug}`} 
               className="text-blue-600 hover:underline"
             >
               {entry.title}
-            </a>
+            </Link>
             <p className="text-sm text-gray-500">
               {new Date(entry.created_at).toLocaleDateString()}
             </p>

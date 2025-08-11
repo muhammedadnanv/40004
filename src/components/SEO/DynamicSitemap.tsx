@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Skeleton } from "@/components/ui/skeleton";
-
+import { Link } from 'react-router-dom';
 interface SitemapEntry {
   path: string;
   title: string;
@@ -79,12 +79,12 @@ export function DynamicSitemap() {
       <ul className="space-y-2">
         {entries.map((entry) => (
           <li key={entry.path} className="border-b pb-2">
-            <a 
-              href={entry.path} 
+            <Link 
+              to={entry.path} 
               className="text-blue-600 hover:underline"
             >
               {entry.title}
-            </a>
+            </Link>
             <p className="text-sm text-gray-500">
               {new Date(entry.updated_at).toLocaleDateString()}
             </p>

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { isMobileDevice } from '@/utils/mobileResponsiveness';
-
+import { Link } from 'react-router-dom';
 interface MobileNavigationProps {
   links: Array<{
     label: string;
@@ -81,25 +81,25 @@ export const MobileNavigation = ({ links }: MobileNavigationProps) => {
             <nav className="p-4 space-y-2 overflow-y-auto max-h-[calc(100vh-80px)]">
               {links.map((link) => (
                 <div key={link.href}>
-                  <a
-                    href={link.href}
+                  <Link
+                    to={link.href}
                     className="block py-3 px-4 rounded-md hover:bg-gray-100 font-medium touch-manipulation mobile-touch-target text-fluid-base"
                     onClick={closeMenu}
                   >
                     {link.label}
-                  </a>
+                  </Link>
                   
                   {link.children && (
                     <div className="ml-4 space-y-1 border-l border-gray-200 pl-4">
                       {link.children.map((child) => (
-                        <a
+                        <Link
                           key={child.href}
-                          href={child.href}
+                          to={child.href}
                           className="block py-2 px-2 rounded-md hover:bg-gray-100 text-sm touch-manipulation mobile-touch-target text-fluid-sm"
                           onClick={closeMenu}
                         >
                           {child.label}
-                        </a>
+                        </Link>
                       ))}
                     </div>
                   )}
