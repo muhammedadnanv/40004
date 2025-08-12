@@ -256,7 +256,7 @@ export const CVUploadDialog = ({ isOpen, onClose }: CVUploadDialogProps) => {
       
       toast({
         title: "CV Submitted Successfully!",
-        description: "Please email your CV to comicfixxx@gmail.com for additional job placement support.",
+        description: "Please email your CV to support@devmentorhub.com for additional job placement support.",
       });
       
       handleClose();

@@ -24,7 +24,7 @@ const Privacy = () => {
           <div className="prose prose-purple max-w-none space-y-6">
             <section>
               <h2 className="text-2xl font-semibold text-purple-700">Introduction</h2>
-              <p>This Privacy Policy describes how ComicFix ("we," "our," or "us") collects, uses, and shares your personal information in connection with our mentorship platform, certification programs, and related services.</p>
+              <p>This Privacy Policy describes how Dev Mentor Hub ("we," "our," or "us") collects, uses, and shares your personal information in connection with our mentorship platform, certification programs, and related services.</p>
               <p>By accessing or using our services, you agree to this Privacy Policy. If you do not agree with our policies and practices, please do not use our services.</p>
             </section>
             
@@ -76,7 +76,7 @@ const Privacy = () => {
                 <li>Withdrawing consent for optional data processing</li>
                 <li>Requesting portability of your information</li>
               </ul>
-              <p>To exercise these rights, please contact us at support@comicfix.com.</p>
+              <p>To exercise these rights, please contact us at support@devmentorhub.com.</p>
             </section>
             
             <section>
@@ -97,7 +97,7 @@ const Privacy = () => {
             <section>
               <h2 className="text-2xl font-semibold text-purple-700">Contact Us</h2>
               <p>If you have any questions about this Privacy Policy, please contact us at:</p>
-              <p>Email: support@comicfix.com</p>
+              <p>Email: support@devmentorhub.com</p>
               <p>Last Updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
             </section>
           </div>

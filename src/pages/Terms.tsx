@@ -24,7 +24,7 @@ const Terms = () => {
           <div className="prose prose-purple max-w-none space-y-6">
             <section>
               <h2 className="text-2xl font-semibold text-purple-700">Introduction</h2>
-              <p>Welcome to ComicFix. These Terms of Service ("Terms") govern your access to and use of our mentorship platform, certification programs, and related services. Please read these Terms carefully before using our services.</p>
+              <p>Welcome to Dev Mentor Hub. These Terms of Service ("Terms") govern your access to and use of our mentorship platform, certification programs, and related services. Please read these Terms carefully before using our services.</p>
               <p>By accessing or using our services, you agree to be bound by these Terms. If you do not agree with any part of these Terms, you may not use our services.</p>
             </section>
             
@@ -62,7 +62,7 @@ const Terms = () => {
             
             <section>
               <h2 className="text-2xl font-semibold text-purple-700">Intellectual Property</h2>
-              <p>Our platform, including its content, features, and functionality, is owned by ComicFix and is protected by copyright, trademark, and other intellectual property laws.</p>
+              <p>Our platform, including its content, features, and functionality, is owned by Dev Mentor Hub and is protected by copyright, trademark, and other intellectual property laws.</p>
               <p>Our mentorship materials, certification programs, and platform content are for personal, non-commercial use only. You may not modify, reproduce, distribute, create derivative works, publicly display, or perform our content without our explicit permission.</p>
             </section>
             
@@ -79,7 +79,7 @@ const Terms = () => {
             
             <section>
               <h2 className="text-2xl font-semibold text-purple-700">Limitation of Liability</h2>
-              <p>To the maximum extent permitted by law, ComicFix and its affiliates shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of our services.</p>
+              <p>To the maximum extent permitted by law, Dev Mentor Hub and its affiliates shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of our services.</p>
             </section>
             
             <section>
@@ -95,7 +95,7 @@ const Terms = () => {
             <section>
               <h2 className="text-2xl font-semibold text-purple-700">Contact Us</h2>
               <p>If you have any questions about these Terms, please contact us at:</p>
-              <p>Email: support@comicfix.com</p>
+              <p>Email: support@devmentorhub.com</p>
               <p>Last Updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
             </section>
           </div>

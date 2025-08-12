@@ -17,7 +17,7 @@ import { SEODashboard } from "@/components/SEO/SEODashboard";
 import { StructuredDataManager } from "@/components/SEO/StructuredDataManager";
 import { CategoryTopper } from "@/components/CategoryTopper";
 import { CodeOfConductSection } from "@/components/CodeOfConductSection";
-import { JusticeMessage } from "@/components/JusticeMessage";
+
 import { Helmet } from "react-helmet";
 import { LeadCollectionPopup } from "@/components/LeadCollectionPopup";
 import { AlbatoAdPopup } from "@/components/AlbatoAdPopup";
@@ -110,7 +110,7 @@ const Index = () => {
           <PartnershipsSection />
           <ShareSection />
           <CodeOfConductSection />
-          <JusticeMessage />
+          
         </main>
         <footer>
           <SocialMediaFooter />
