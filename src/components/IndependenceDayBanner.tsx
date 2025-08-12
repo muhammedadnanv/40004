@@ -28,7 +28,7 @@ export const IndependenceDayBanner: React.FC = () => {
       className="w-full"
       role="region"
     >
-      <div className="w-full bg-gradient-to-r from-primary/90 to-primary/70 text-primary-foreground">
+      <div className="w-full bg-gradient-to-r from-primary/90 to-primary/70 text-primary-foreground safe-area-padding">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
           <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
             <div className="flex items-center gap-2">
@@ -49,9 +49,19 @@ export const IndependenceDayBanner: React.FC = () => {
 
             <div className="flex items-center gap-2 sm:gap-3">
               <Button asChild size="sm" variant="secondary">
-                <Link to="/#programs-section" aria-label="Explore programs">
+                <a
+                  href="/#programs-section"
+                  aria-label="Explore programs"
+                  onClick={(e) => {
+                    if (window.location.pathname === "/") {
+                      e.preventDefault();
+                      const el = document.getElementById("programs-section");
+                      el?.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }
+                  }}
+                >
                   <Code2 className="h-4 w-4 mr-2" /> Explore Programs
-                </Link>
+                </a>
               </Button>
               <Button size="icon" variant="outline" aria-label="Dismiss banner" onClick={dismiss}>
                 ✕
