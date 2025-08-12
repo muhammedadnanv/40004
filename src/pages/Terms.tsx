@@ -8,8 +8,9 @@ const Terms = () => {
   return (
     <main className="min-h-screen bg-gradient-to-br from-white via-purple-50 to-white">
       <Helmet>
-        <title>Terms of Service | ComicFix Mentorship</title>
-        <meta name="description" content="Review ComicFix's terms of service for our mentorship platform, certification programs, and related services." />
+        <title>Terms of Service | Dev Mentor Hub</title>
+        <meta name="description" content="Review Dev Mentor Hub's Terms of Service for programs and platform usage." />
+        <link rel="canonical" href={typeof window !== 'undefined' ? window.location.origin + "/terms" : "https://devmentorhub.com/terms"} />
       </Helmet>
       
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1485827404703-89b55fcc595e')] bg-cover bg-center opacity-5 pointer-events-none" />

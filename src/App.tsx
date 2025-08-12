@@ -14,7 +14,7 @@ import { MobileTestComponent } from "./components/mobile/MobileTestComponent";
 import { MobileOptimizer } from "./components/mobile/MobileOptimizer";
 import { enhanceMobileExperience } from "./utils/mobileResponsiveness";
 import { autoFixAndReportLinkIssues } from "./utils/linkValidator";
-
+import { IndependenceDayBanner } from "@/components/IndependenceDayBanner";
 // Lazy load pages for better initial loading performance
 const Index = lazy(() => import("./pages/Index"));
 const Privacy = lazy(() => import("./pages/Privacy"));
@@ -143,6 +143,7 @@ function App() {
         
         <Router>
         <div className="min-h-screen w-full responsive-container">
+          <IndependenceDayBanner />
           <Routes>
             <Route path="/" element={
               <Suspense fallback={<LoadingFallback />}>
