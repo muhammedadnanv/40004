@@ -40,12 +40,14 @@
   }
   
   body {
-    @apply bg-background text-foreground antialiased min-h-screen overflow-x-hidden touch-manipulation pt-6 sm:pt-8;
+    @apply bg-background text-foreground antialiased min-h-screen overflow-x-hidden touch-manipulation;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
     background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(249,250,251,1) 100%);
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -369,5 +371,70 @@
 @media (hover: none) {
   *:focus-visible {
     @apply outline-none ring-2 ring-primary/70 ring-offset-2 transition-shadow duration-150;
+  }
+}
+
+/* Critical loading optimizations */
+.loading-skeleton {
+  @apply animate-pulse bg-gray-200 rounded;
+}
+
+/* Content preloading styles */
+.preload-content {
+  @apply opacity-0 transition-opacity duration-300;
+}
+
+.preload-content.loaded {
+  @apply opacity-100;
+}
+
+/* Performance optimized scrolling */
+.smooth-scroll {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Prevent layout shifts */
+.prevent-layout-shift {
+  @apply min-h-[1px] min-w-[1px];
+}
+
+/* Critical Web Vitals optimizations */
+.optimize-lcp {
+  content-visibility: auto;
+  contain-intrinsic-size: 200px;
+}
+
+.reduce-cls {
+  @apply transition-none;
+}
+
+/* Mobile-first responsive breakpoints */
+@media (max-width: 475px) {
+  .text-responsive-xs {
+    font-size: clamp(12px, 3vw, 14px);
+  }
+}
+
+@media (min-width: 476px) and (max-width: 639px) {
+  .text-responsive-sm {
+    font-size: clamp(14px, 3.5vw, 16px);
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .high-contrast {
+    @apply border-2 border-black text-black bg-white;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .reduce-motion,
+  .reduce-motion * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

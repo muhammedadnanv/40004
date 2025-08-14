@@ -12,6 +12,7 @@ import { optimizeForDevice } from "./utils/performanceOptimizer";
 import { seoOptimizer } from "./utils/seoOptimizer";
 import { MobileTestComponent } from "./components/mobile/MobileTestComponent";
 import { MobileOptimizer } from "./components/mobile/MobileOptimizer";
+import { PerformanceOptimizer } from "./components/PerformanceOptimizer";
 import { enhanceMobileExperience } from "./utils/mobileResponsiveness";
 import { autoFixAndReportLinkIssues } from "./utils/linkValidator";
 import { IndependenceDayBanner } from "@/components/IndependenceDayBanner";
@@ -140,9 +141,10 @@ function App() {
         {/* Mobile Test Component - Remove in production */}
         {import.meta.env.DEV && <MobileTestComponent />}
         <MobileOptimizer />
+        <PerformanceOptimizer />
         
         <Router>
-        <div className="min-h-screen w-full responsive-container">
+        <div className="min-h-screen w-full">
           <IndependenceDayBanner />
           <Routes>
             <Route path="/" element={

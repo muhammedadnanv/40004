@@ -25,11 +25,11 @@ export const IndependenceDayBanner: React.FC = () => {
       initial={{ opacity: 0, y: -12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="w-full"
+      className="w-full relative"
       role="region"
     >
       <div className="w-full bg-gradient-to-r from-primary/90 to-primary/70 text-primary-foreground safe-area-padding">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4 relative z-10">
           <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
             <div className="flex items-center gap-2">
               <Flag className="h-5 w-5 sm:h-6 sm:w-6" aria-hidden="true" />
