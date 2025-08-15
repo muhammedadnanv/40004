@@ -154,6 +154,19 @@ export default {
           'background-clip': 'text',
           'color': 'transparent',
         },
+        '.mobile-touch-enhanced': {
+          'touch-action': 'manipulation',
+          '-webkit-tap-highlight-color': 'transparent',
+          'min-height': '48px',
+          'min-width': '48px'
+        },
+        '.scrollbar-hide': {
+          'scrollbar-width': 'none',
+          '-ms-overflow-style': 'none'
+        },
+        '.scrollbar-hide::-webkit-scrollbar': {
+          'display': 'none'
+        }
       }
       addUtilities(newUtilities)
     }

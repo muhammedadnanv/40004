@@ -52,58 +52,58 @@ export function MainNav() {
         
         {isMenuOpen && (
           <div className="fixed inset-0 bg-black/50 z-40" onClick={closeMenu}>
-            <div className="absolute top-0 left-0 bottom-0 w-4/5 max-w-xs bg-white shadow-xl z-50 animate-in slide-in-from-left-full safe-area-padding" onClick={e => e.stopPropagation()}>
-              <div className="flex justify-between items-center p-4 border-b">
+            <div className="absolute top-0 left-0 bottom-0 w-4/5 max-w-xs bg-white/95 backdrop-blur-md shadow-xl z-50 animate-in slide-in-from-left-full safe-area-padding" onClick={e => e.stopPropagation()}>
+              <div className="flex justify-between items-center p-4 border-b border-border/20">
                 <span className="font-bold text-lg text-primary">Menu</span>
-                <Button variant="ghost" size="sm" onClick={closeMenu} className="p-1 touch-manipulation" aria-label="Close menu">
+                <Button variant="ghost" size="sm" onClick={closeMenu} className="p-2 min-h-[44px] min-w-[44px] touch-manipulation hover:bg-accent/50 transition-colors" aria-label="Close menu">
                   <X className="h-5 w-5" />
                 </Button>
               </div>
               
-              <nav className="p-4 space-y-6 overflow-y-auto max-h-[calc(100vh-120px)]">
+              <nav className="p-4 space-y-6 overflow-y-auto max-h-[calc(100vh-120px)] scrollbar-hide">
                 {/* Main navigation links with icons */}
-                <Link to="/" className="flex items-center space-x-3 py-3 px-4 rounded-md hover:bg-gray-100 font-medium touch-manipulation transition-colors" onClick={closeMenu}>
-                  <Home className="h-5 w-5 text-primary" />
-                  <span>Home</span>
+                <Link to="/" className="flex items-center space-x-3 py-4 px-4 rounded-lg hover:bg-accent/10 font-medium touch-manipulation transition-colors min-h-[52px] active:scale-[0.98]" onClick={closeMenu}>
+                  <Home className="h-5 w-5 text-primary flex-shrink-0" />
+                  <span className="text-foreground">Home</span>
                 </Link>
                 
                 {/* Programs submenu */}
-                <div className="space-y-2">
-                  <div className="flex items-center space-x-3 px-4 font-medium text-primary">
-                    <Settings className="h-5 w-5" />
+                <div className="space-y-3">
+                  <div className="flex items-center space-x-3 px-4 py-2 font-medium text-primary">
+                    <Settings className="h-5 w-5 flex-shrink-0" />
                     <span>Programs</span>
                   </div>
-                  <div className="ml-8 space-y-2 border-l border-gray-200 pl-4">
-                    <Link to="/programs/frontend" className="block py-2 px-2 rounded-md hover:bg-gray-100 text-sm touch-manipulation transition-colors" onClick={closeMenu}>
+                  <div className="ml-8 space-y-2 border-l border-border/30 pl-4">
+                    <Link to="/programs/frontend" className="block py-3 px-3 rounded-lg hover:bg-accent/10 text-sm touch-manipulation transition-colors min-h-[48px] flex items-center active:scale-[0.98]" onClick={closeMenu}>
                       Frontend Development
                     </Link>
-                    <Link to="/programs/lowcode" className="block py-2 px-2 rounded-md hover:bg-gray-100 text-sm touch-manipulation transition-colors" onClick={closeMenu}>
+                    <Link to="/programs/lowcode" className="block py-3 px-3 rounded-lg hover:bg-accent/10 text-sm touch-manipulation transition-colors min-h-[48px] flex items-center active:scale-[0.98]" onClick={closeMenu}>
                       Low-Code Development
                     </Link>
-                    <Link to="/programs/nocode" className="block py-2 px-2 rounded-md hover:bg-gray-100 text-sm touch-manipulation transition-colors" onClick={closeMenu}>
+                    <Link to="/programs/nocode" className="block py-3 px-3 rounded-lg hover:bg-accent/10 text-sm touch-manipulation transition-colors min-h-[48px] flex items-center active:scale-[0.98]" onClick={closeMenu}>
                       No-Code Development
                     </Link>
-                    <Link to="/programs/fullstack" className="block py-2 px-2 rounded-md hover:bg-gray-100 text-sm touch-manipulation transition-colors" onClick={closeMenu}>
+                    <Link to="/programs/fullstack" className="block py-3 px-3 rounded-lg hover:bg-accent/10 text-sm touch-manipulation transition-colors min-h-[48px] flex items-center active:scale-[0.98]" onClick={closeMenu}>
                       Full Stack Development
                     </Link>
-                    <Link to="/programs/manychat" className="block py-2 px-2 rounded-md hover:bg-gray-100 text-sm touch-manipulation transition-colors" onClick={closeMenu}>
+                    <Link to="/programs/manychat" className="block py-3 px-3 rounded-lg hover:bg-accent/10 text-sm touch-manipulation transition-colors min-h-[48px] flex items-center active:scale-[0.98]" onClick={closeMenu}>
                       ManyChat Automation
                     </Link>
                   </div>
                 </div>
                 
                 {/* Other main links with icons */}
-                <Link to="/certification" className="flex items-center space-x-3 py-3 px-4 rounded-md hover:bg-gray-100 font-medium touch-manipulation transition-colors" onClick={closeMenu}>
-                  <Award className="h-5 w-5 text-primary" />
-                  <span>Certification</span>
+                <Link to="/certification" className="flex items-center space-x-3 py-4 px-4 rounded-lg hover:bg-accent/10 font-medium touch-manipulation transition-colors min-h-[52px] active:scale-[0.98]" onClick={closeMenu}>
+                  <Award className="h-5 w-5 text-primary flex-shrink-0" />
+                  <span className="text-foreground">Certification</span>
                 </Link>
-                <Link to="/partnerships" className="flex items-center space-x-3 py-3 px-4 rounded-md hover:bg-gray-100 font-medium touch-manipulation transition-colors" onClick={closeMenu}>
-                  <Users className="h-5 w-5 text-primary" />
-                  <span>Partnerships</span>
+                <Link to="/partnerships" className="flex items-center space-x-3 py-4 px-4 rounded-lg hover:bg-accent/10 font-medium touch-manipulation transition-colors min-h-[52px] active:scale-[0.98]" onClick={closeMenu}>
+                  <Users className="h-5 w-5 text-primary flex-shrink-0" />
+                  <span className="text-foreground">Partnerships</span>
                 </Link>
-                <Link to="/content-summarizer" className="flex items-center space-x-3 py-3 px-4 rounded-md hover:bg-gray-100 font-medium touch-manipulation transition-colors" onClick={closeMenu}>
-                  <Settings className="h-5 w-5 text-primary" />
-                  <span>Content Summarizer</span>
+                <Link to="/content-summarizer" className="flex items-center space-x-3 py-4 px-4 rounded-lg hover:bg-accent/10 font-medium touch-manipulation transition-colors min-h-[52px] active:scale-[0.98]" onClick={closeMenu}>
+                  <Settings className="h-5 w-5 text-primary flex-shrink-0" />
+                  <span className="text-foreground">Content Summarizer</span>
                 </Link>
               </nav>
             </div>
@@ -131,21 +131,21 @@ export function MainNav() {
               <span className="text-sm font-medium transition-colors hover:text-primary cursor-pointer">
                 Programs
               </span>
-              <div className="absolute left-0 mt-2 w-64 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+              <div className="absolute left-0 mt-2 w-64 bg-white/95 backdrop-blur-sm rounded-lg shadow-xl border border-border/20 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                 <div className="py-2">
-                  <Link to="/programs/frontend" className="block px-4 py-2 text-sm hover:bg-gray-100 transition-colors">
+                  <Link to="/programs/frontend" className="block px-4 py-3 text-sm hover:bg-accent/10 transition-colors rounded-md mx-2">
                     Frontend Development
                   </Link>
-                  <Link to="/programs/lowcode" className="block px-4 py-2 text-sm hover:bg-gray-100 transition-colors">
+                  <Link to="/programs/lowcode" className="block px-4 py-3 text-sm hover:bg-accent/10 transition-colors rounded-md mx-2">
                     Low-Code Development
                   </Link>
-                  <Link to="/programs/nocode" className="block px-4 py-2 text-sm hover:bg-gray-100 transition-colors">
+                  <Link to="/programs/nocode" className="block px-4 py-3 text-sm hover:bg-accent/10 transition-colors rounded-md mx-2">
                     No-Code Development
                   </Link>
-                  <Link to="/programs/fullstack" className="block px-4 py-2 text-sm hover:bg-gray-100 transition-colors">
+                  <Link to="/programs/fullstack" className="block px-4 py-3 text-sm hover:bg-accent/10 transition-colors rounded-md mx-2">
                     Full Stack Development
                   </Link>
-                  <Link to="/programs/manychat" className="block px-4 py-2 text-sm hover:bg-gray-100 transition-colors">
+                  <Link to="/programs/manychat" className="block px-4 py-3 text-sm hover:bg-accent/10 transition-colors rounded-md mx-2">
                     ManyChat Automation
                   </Link>
                 </div>
