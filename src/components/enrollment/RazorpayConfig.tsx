@@ -76,28 +76,21 @@ const sendEnrollmentEmail = async (email: string, name: string, programTitle: st
 
   while (retryCount <= maxRetries && !success) {
     try {
-      const response = await fetch('https://zbnwztqwkusdurqllgzc.supabase.co/functions/v1/send-enrollment-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+      const { data, error } = await supabase.functions.invoke('send-enrollment-email', {
+        body: {
           to: email,
           userName: name,
           programTitle: programTitle,
           timestamp: new Date().toISOString(),
-        }),
+        },
       });
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        console.error(`Email sending failed (attempt ${retryCount + 1}/${maxRetries + 1}):`, 
-          response.status, response.statusText, errorData);
-        throw new Error(`Failed to send enrollment email: ${response.statusText}`);
+      if (error) {
+        throw error;
       }
-      
+
       success = true;
-      console.log("Enrollment email sent successfully");
+      console.log("Enrollment email sent successfully", data);
     } catch (error) {
       console.error(`Email sending error (attempt ${retryCount + 1}/${maxRetries + 1}):`, error);
       retryCount++;
