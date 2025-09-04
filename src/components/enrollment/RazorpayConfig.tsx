@@ -193,8 +193,13 @@ export const createDodoPaymentOptions = (
         // Send WhatsApp message with enrollment details
         await sendWhatsAppMessage(data, programTitle);
 
-        // Send enrollment confirmation email
-        await sendEnrollmentEmail(data.email, data.name, programTitle);
+        // Send enrollment confirmation email using the centralized email service
+        try {
+          await sendEnrollmentEmail(data.email, data.name, programTitle);
+        } catch (emailError) {
+          console.error("Error sending enrollment email:", emailError);
+          // Don't fail the payment process if email fails
+        }
         
         onSuccess();
         

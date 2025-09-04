@@ -14,6 +14,7 @@ import type { FormData } from "./enrollment/RazorpayConfig";
 import { PaymentAlert } from "./enrollment/PaymentAlert";
 import { ReferralSection } from "./enrollment/ReferralSection";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { sendEnrollmentEmail } from "@/utils/emailService";
 import { sendWelcomeNotification } from "@/utils/notificationService";
 import { handleWhatsAppUPIPayment, sendPaymentConfirmationViaWhatsApp } from "@/utils/whatsappPaymentService";
 import type { StudentData } from "@/utils/whatsappPaymentService";
@@ -104,11 +105,14 @@ export const EnrollmentForm = ({
       const success = handleWhatsAppUPIPayment(studentData, finalPaymentAmount);
       
       if (success) {
-        // Send welcome notification
+        // Send welcome notification and enrollment email
         try {
-          await sendWelcomeNotification(data.email, data.name);
+          await Promise.all([
+            sendWelcomeNotification(data.email, data.name),
+            sendEnrollmentEmail(data.email, data.name, programTitle)
+          ]);
         } catch (error) {
-          console.error("Error sending welcome notification:", error);
+          console.error("Error sending notifications:", error);
         }
         
         // Set payment success after a delay to show the process

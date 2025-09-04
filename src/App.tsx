@@ -2,7 +2,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Suspense, lazy, useEffect } from "react";
 import { Toaster } from "./components/ui/toaster";
-import { toast } from "./hooks/use-toast";
+import { useToast } from "./hooks/use-toast";
 import { startMarketingRecommendations } from "./utils/marketingRecommendations";
 import { supabase } from "@/integrations/supabase/client";
 import { dataProcessor } from "./utils/dataProcessor";
@@ -16,6 +16,9 @@ import { PerformanceOptimizer } from "./components/PerformanceOptimizer";
 import { enhanceMobileExperience } from "./utils/mobileResponsiveness";
 import { autoFixAndReportLinkIssues } from "./utils/linkValidator";
 import { IndependenceDayBanner } from "@/components/IndependenceDayBanner";
+import { LoadingSpinner } from "./components/LoadingSpinner";
+import PlatformHealthCheck from "./components/PlatformHealthCheck";
+
 // Lazy load pages for better initial loading performance
 const Index = lazy(() => import("./pages/Index"));
 const Privacy = lazy(() => import("./pages/Privacy"));
@@ -25,15 +28,16 @@ const Certification = lazy(() => import("./pages/Certification"));
 
 // Loading fallback component
 const LoadingFallback = () => (
-  <div className="min-h-screen w-full flex items-center justify-center">
-    <div className="animate-pulse">
-      <div className="h-12 w-48 bg-gray-200 rounded-md mb-4"></div>
-      <div className="h-4 w-32 bg-gray-200 rounded-md"></div>
-    </div>
-  </div>
+  <LoadingSpinner 
+    size="lg" 
+    text="Loading..." 
+    className="min-h-screen"
+  />
 );
 
 function App() {
+  const { toast } = useToast();
+  
   useEffect(() => {
     const initializeApp = async () => {
       try {
@@ -185,6 +189,7 @@ function App() {
           </Routes>
           
           <Toaster />
+          <PlatformHealthCheck />
         </div>
       </Router>
     </ErrorBoundary>
