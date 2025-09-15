@@ -15,7 +15,7 @@ import { MobileOptimizer } from "./components/mobile/MobileOptimizer";
 import { PerformanceOptimizer } from "./components/PerformanceOptimizer";
 import { enhanceMobileExperience } from "./utils/mobileResponsiveness";
 import { autoFixAndReportLinkIssues } from "./utils/linkValidator";
-import { IndependenceDayBanner } from "@/components/IndependenceDayBanner";
+
 import { LoadingSpinner } from "./components/LoadingSpinner";
 import PlatformHealthCheck from "./components/PlatformHealthCheck";
 
@@ -149,7 +149,6 @@ function App() {
         
         <Router>
         <div className="min-h-screen w-full">
-          <IndependenceDayBanner />
           <Routes>
             <Route path="/" element={
               <Suspense fallback={<LoadingFallback />}>
