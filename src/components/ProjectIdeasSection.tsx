@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { projectIdeas } from "@/data/projectIdeas";
 import { UnlockForm } from "./project-ideas/UnlockForm";
 import { SearchFilters } from "./project-ideas/SearchFilters";

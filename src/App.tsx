@@ -25,6 +25,8 @@ const Privacy = lazy(() => import("./pages/Privacy"));
 const Terms = lazy(() => import("./pages/Terms"));
 const ContentSummarizerPage = lazy(() => import("./pages/ContentSummarizerPage"));
 const Certification = lazy(() => import("./pages/Certification"));
+const Programs = lazy(() => import("./pages/Programs"));
+const Partnerships = lazy(() => import("./pages/Partnerships"));
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -182,6 +184,27 @@ function App() {
               <Suspense fallback={<LoadingFallback />}>
                 <ErrorBoundary>
                   <Certification />
+                </ErrorBoundary>
+              </Suspense>
+            } />
+            <Route path="/programs" element={
+              <Suspense fallback={<LoadingFallback />}>
+                <ErrorBoundary>
+                  <Programs />
+                </ErrorBoundary>
+              </Suspense>
+            } />
+            <Route path="/programs/:category" element={
+              <Suspense fallback={<LoadingFallback />}>
+                <ErrorBoundary>
+                  <Programs />
+                </ErrorBoundary>
+              </Suspense>
+            } />
+            <Route path="/partnerships" element={
+              <Suspense fallback={<LoadingFallback />}>
+                <ErrorBoundary>
+                  <Partnerships />
                 </ErrorBoundary>
               </Suspense>
             } />
