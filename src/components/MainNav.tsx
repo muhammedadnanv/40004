@@ -89,6 +89,9 @@ export function MainNav() {
                     <Link to="/programs/manychat" className="block py-3 px-3 rounded-lg hover:bg-accent/10 text-sm touch-manipulation transition-colors min-h-[48px] flex items-center active:scale-[0.98]" onClick={closeMenu}>
                       ManyChat Automation
                     </Link>
+                    <Link to="/programs" className="block py-3 px-3 rounded-lg hover:bg-accent/10 text-sm touch-manipulation transition-colors min-h-[48px] flex items-center active:scale-[0.98] font-semibold text-primary" onClick={closeMenu}>
+                      View All Programs
+                    </Link>
                   </div>
                 </div>
                 
@@ -148,12 +151,19 @@ export function MainNav() {
                   <Link to="/programs/manychat" className="block px-4 py-3 text-sm hover:bg-accent/10 transition-colors rounded-md mx-2">
                     ManyChat Automation
                   </Link>
+                  <Link to="/programs" className="block px-4 py-3 text-sm hover:bg-accent/10 transition-colors rounded-md mx-2 font-semibold text-primary border-t border-border/20 mt-2 pt-3">
+                    View All Programs
+                  </Link>
                 </div>
               </div>
             </div>
             
             <Link to="/certification" className="text-sm font-medium transition-colors hover:text-primary">
               Certification
+            </Link>
+            
+            <Link to="/partnerships" className="text-sm font-medium transition-colors hover:text-primary">
+              Partnerships
             </Link>
             
             <Link to="/content-summarizer" className="text-sm font-medium transition-colors hover:text-primary">
