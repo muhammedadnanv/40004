@@ -108,6 +108,10 @@ export function MainNav() {
                   <Settings className="h-5 w-5 text-primary flex-shrink-0" />
                   <span className="text-foreground">Content Summarizer</span>
                 </Link>
+                <Link to="/professional-development" className="flex items-center space-x-3 py-4 px-4 rounded-lg hover:bg-accent/10 font-medium touch-manipulation transition-colors min-h-[52px] active:scale-[0.98]" onClick={closeMenu}>
+                  <Users className="h-5 w-5 text-primary flex-shrink-0" />
+                  <span className="text-foreground">Career Tools</span>
+                </Link>
               </nav>
             </div>
           </div>
@@ -168,6 +172,10 @@ export function MainNav() {
             
             <Link to="/content-summarizer" className="text-sm font-medium transition-colors hover:text-primary">
               Content Summarizer
+            </Link>
+            
+            <Link to="/professional-development" className="text-sm font-medium transition-colors hover:text-primary">
+              Career Tools
             </Link>
           </nav>
         </div>
