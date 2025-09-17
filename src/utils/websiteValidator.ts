@@ -1,6 +1,6 @@
 // This file contains utilities for validating website structure, content, and SEO factors
 
-import { toast } from "sonner";
+// Import toast is not used directly in utility functions
 
 // Website validation result interface
 interface ValidationResult {
@@ -107,8 +107,7 @@ export async function runWebsiteTest(): Promise<ValidationResult> {
     console.log('Passes:', result.passes.length);
     console.log('Issues:', result.issues.length);
     
-    // Display toast with results
-    toast.success(`Website test complete! Score: ${result.score}%`);
+    // Log results to console (toast removed from utility)
     
     return result;
   } catch (error) {
@@ -119,7 +118,7 @@ export async function runWebsiteTest(): Promise<ValidationResult> {
       impact: 'high'
     });
     
-    toast.error('Website test failed. See console for details.');
+    // Error logged to console
     
     return result;
   }
@@ -673,10 +672,8 @@ export function runSEOOptimizations(): SEOValidationResult {
      result.mobileFriendlinessScore + result.performanceScore) / 4
   );
   
-  // Show notification
-  toast.success(`SEO Score: ${result.overallScore}%`, {
-    description: `${result.recommendations.length} recommendations available`
-  });
+  // Log notification to console
+  console.log(`SEO Score: ${result.overallScore}%`, `${result.recommendations.length} recommendations available`);
   
   return result;
 }

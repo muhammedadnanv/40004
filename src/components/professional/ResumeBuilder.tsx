@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Separator } from "@/components/ui/separator";
 import { Download, FileText, Sparkles, Plus, Trash2 } from "lucide-react";
 import { generateWithGemini } from "@/utils/geminiService";
-import { toast } from "sonner";
+import { useToast } from "@/hooks/use-toast";
 
 interface Experience {
   id: string;
@@ -51,6 +51,7 @@ const TEMPLATES = [
 ];
 
 export const ResumeBuilder = () => {
+  const { toast } = useToast();
   const [resumeData, setResumeData] = useState<ResumeData>({
     personalInfo: {
       name: '',
@@ -148,7 +149,7 @@ export const ResumeBuilder = () => {
 
   const optimizeWithAI = async () => {
     if (!resumeData.template) {
-      toast.error("Please select a template first");
+      toast({ title: "Error", description: "Please select a template first", variant: "destructive" });
       return;
     }
 
@@ -191,18 +192,18 @@ Format as JSON with keys: summary, experiences (array), additionalSkills (array)
           }));
         }
 
-        toast.success("Resume optimized successfully!");
+        toast({ title: "Success", description: "Resume optimized successfully!" });
       } catch (parseError) {
         // If JSON parsing fails, treat as plain text improvements
         setResumeData(prev => ({
           ...prev,
           summary: response.substring(0, 500) // Use first part as summary
         }));
-        toast.success("Resume improvements applied!");
+        toast({ title: "Success", description: "Resume improvements applied!" });
       }
     } catch (error) {
       console.error('Error optimizing resume:', error);
-      toast.error("Failed to optimize resume. Please try again.");
+      toast({ title: "Error", description: "Failed to optimize resume. Please try again.", variant: "destructive" });
     } finally {
       setIsOptimizing(false);
     }
@@ -289,7 +290,7 @@ Format as JSON with keys: summary, experiences (array), additionalSkills (array)
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
     
-    toast.success("Resume downloaded successfully!");
+    toast({ title: "Success", description: "Resume downloaded successfully!" });
   };
 
   return (

@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Mic, MicOff, Play, Pause, RotateCcw, Brain, Clock, Target } from "lucide-react";
 import { generateWithGemini } from "@/utils/geminiService";
-import { toast } from "sonner";
+import { useToast } from "@/hooks/use-toast";
 
 interface Question {
   id: string;
@@ -93,6 +93,7 @@ const SAMPLE_QUESTIONS: Record<string, Question[]> = {
 };
 
 export const InterviewPrep = () => {
+  const { toast } = useToast();
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [session, setSession] = useState<InterviewSession | null>(null);
   const [isRecording, setIsRecording] = useState(false);
@@ -120,13 +121,13 @@ export const InterviewPrep = () => {
 
   const startInterview = () => {
     if (!selectedCategory) {
-      toast.error("Please select a question category");
+      toast({ title: "Error", description: "Please select a question category", variant: "destructive" });
       return;
     }
 
     const questions = SAMPLE_QUESTIONS[selectedCategory] || [];
     if (questions.length === 0) {
-      toast.error("No questions available for this category");
+      toast({ title: "Error", description: "No questions available for this category", variant: "destructive" });
       return;
     }
 
@@ -142,22 +143,22 @@ export const InterviewPrep = () => {
     });
     setCurrentResponse('');
     setTimeElapsed(0);
-    toast.success("Interview session started!");
+    toast({ title: "Success", description: "Interview session started!" });
   };
 
   const toggleRecording = () => {
     setIsRecording(!isRecording);
     if (!isRecording) {
       setTimeElapsed(0);
-      toast.success("Recording started");
+      toast({ title: "Recording", description: "Recording started" });
     } else {
-      toast.success("Recording stopped");
+      toast({ title: "Recording", description: "Recording stopped" });
     }
   };
 
   const submitResponse = async () => {
     if (!session || !currentResponse.trim()) {
-      toast.error("Please provide a response");
+      toast({ title: "Error", description: "Please provide a response", variant: "destructive" });
       return;
     }
 
@@ -207,10 +208,10 @@ Format as JSON with keys: score, strengths, improvements, suggestions`;
       setTimeElapsed(0);
       setIsRecording(false);
       
-      toast.success("Response analyzed!");
+      toast({ title: "Success", description: "Response analyzed!" });
     } catch (error) {
       console.error('Error analyzing response:', error);
-      toast.error("Failed to analyze response. Please try again.");
+      toast({ title: "Error", description: "Failed to analyze response. Please try again.", variant: "destructive" });
     } finally {
       setIsAnalyzing(false);
     }

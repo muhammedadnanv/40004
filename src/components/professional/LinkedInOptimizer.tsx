@@ -6,9 +6,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CheckCircle, AlertCircle, Linkedin, Lightbulb, Target, TrendingUp } from "lucide-react";
 import { generateWithGemini } from "@/utils/geminiService";
-import { toast } from "sonner";
+import { useToast } from "@/hooks/use-toast";
 
 interface ProfileData {
   headline: string;
@@ -51,6 +52,7 @@ const SCORING_CRITERIA = [
 ];
 
 export const LinkedInOptimizer = () => {
+  const { toast } = useToast();
   const [profileData, setProfileData] = useState<ProfileData>({
     headline: '',
     summary: '',
@@ -111,7 +113,7 @@ export const LinkedInOptimizer = () => {
 
   const optimizeProfile = async () => {
     if (!profileData.headline && !profileData.summary) {
-      toast.error("Please fill in at least your headline and summary");
+      toast({ title: "Error", description: "Please fill in at least your headline and summary", variant: "destructive" });
       return;
     }
 
@@ -175,10 +177,10 @@ Focus on:
       };
 
       setOptimizationResult(result);
-      toast.success("Profile optimization complete!");
+      toast({ title: "Success", description: "Profile optimization complete!" });
     } catch (error) {
       console.error('Error optimizing profile:', error);
-      toast.error("Failed to optimize profile. Please try again.");
+      toast({ title: "Error", description: "Failed to optimize profile. Please try again.", variant: "destructive" });
     } finally {
       setIsOptimizing(false);
     }
@@ -192,7 +194,7 @@ Focus on:
       [field]: optimizationResult[field].optimized
     }));
     
-    toast.success(`${field.charAt(0).toUpperCase() + field.slice(1)} updated!`);
+    toast({ title: "Success", description: `${field.charAt(0).toUpperCase() + field.slice(1)} updated!` });
   };
 
   return (
@@ -220,19 +222,19 @@ Focus on:
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Industry</label>
-                  <select
-                    className="w-full p-2 border rounded-md"
-                    value={profileData.industry}
-                    onChange={(e) => setProfileData(prev => ({ ...prev, industry: e.target.value }))}
-                  >
-                    <option value="">Select Industry</option>
-                    {INDUSTRIES.map(industry => (
-                      <option key={industry} value={industry}>{industry}</option>
-                    ))}
-                  </select>
-                </div>
+                 <div className="space-y-2">
+                   <label className="text-sm font-medium">Industry</label>
+                   <Select value={profileData.industry} onValueChange={(value) => setProfileData(prev => ({ ...prev, industry: value }))}>
+                     <SelectTrigger>
+                       <SelectValue placeholder="Select Industry" />
+                     </SelectTrigger>
+                     <SelectContent>
+                       {INDUSTRIES.map(industry => (
+                         <SelectItem key={industry} value={industry}>{industry}</SelectItem>
+                       ))}
+                     </SelectContent>
+                   </Select>
+                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Target Role</label>
                   <Input
