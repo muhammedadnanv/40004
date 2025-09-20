@@ -79,11 +79,16 @@ export const HeroSection = () => {
               className="text-fluid-3xl font-bold tracking-tight premium-gradient"
               style={getHeadingStyle()}
             >
-              Dev Mentor Hub 
+              Transform Your Career with AI-Powered Mentorship
             </h1>
             
-            <p className="text-fluid-lg text-gray-600 font-light max-w-2xl mx-auto px-2">
-              This platform is exclusively designed to connect students (mentees) with mentors, providing hands-on training through the development of ultra-innovative, visionary projects that build real-world experience and skills
+            <p className="text-fluid-xl text-gray-700 font-medium max-w-3xl mx-auto px-2 mb-4">
+              Connect with industry experts. Build innovative projects. Launch your tech career.
+            </p>
+            
+            <p className="text-fluid-lg text-gray-600 max-w-2xl mx-auto px-2">
+              Dev Mentor Hub is the world's first AI-enhanced platform that exclusively connects students with industry mentors 
+              for hands-on training through ultra-innovative, real-world projects. Experience personalized learning that adapts to your goals.
             </p>
           </motion.div>
           
