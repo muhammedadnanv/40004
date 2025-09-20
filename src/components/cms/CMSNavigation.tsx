@@ -1,6 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Home, Settings, HelpCircle } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const CMSNavigation = () => {
   return (
@@ -13,9 +14,11 @@ export const CMSNavigation = () => {
             </div>
           </div>
           <div className="flex items-center space-x-4">
-            <Button variant="ghost" size="sm">
-              <Home className="h-4 w-4 mr-2" />
-              Home
+            <Button variant="ghost" size="sm" asChild>
+              <Link to="/">
+                <Home className="h-4 w-4 mr-2" />
+                Home
+              </Link>
             </Button>
             <Button variant="ghost" size="sm">
               <Settings className="h-4 w-4 mr-2" />
