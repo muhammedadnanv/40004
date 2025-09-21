@@ -2,10 +2,17 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { FileText, MessageCircle, Linkedin, ArrowRight, CheckCircle } from "lucide-react";
+import { 
+  FileText, MessageCircle, Linkedin, ArrowRight, CheckCircle, 
+  DollarSign, MapPin, BarChart, User, TrendingUp, Target 
+} from "lucide-react";
 import { ResumeBuilder } from "@/components/professional/ResumeBuilder";
 import { InterviewPrep } from "@/components/professional/InterviewPrep";
 import { LinkedInOptimizer } from "@/components/professional/LinkedInOptimizer";
+import { SalaryNegotiationCoach } from "@/components/professional/SalaryNegotiationCoach";
+import { CareerPathPlanner } from "@/components/professional/CareerPathPlanner";
+import { SkillsGapAnalyzer } from "@/components/professional/SkillsGapAnalyzer";
+import { PersonalBrandBuilder } from "@/components/professional/PersonalBrandBuilder";
 
 const FEATURES = [
   {
@@ -15,7 +22,7 @@ const FEATURES = [
     icon: FileText,
     benefits: [
       'Industry-specific templates',
-      'AI-powered content optimization',
+      'AI-powered content optimization', 
       'ATS-friendly formatting',
       'Instant download in multiple formats'
     ]
@@ -43,6 +50,54 @@ const FEATURES = [
       'Industry trend insights',
       'Professional headline suggestions'
     ]
+  },
+  {
+    id: 'salary',
+    title: 'Salary Negotiation Coach',
+    description: 'Get AI-powered strategies and scripts for successful salary negotiations',
+    icon: DollarSign,
+    benefits: [
+      'Personalized negotiation strategies',
+      'Market research analysis',
+      'Custom negotiation scripts',
+      'Counter-offer handling tips'
+    ]
+  },
+  {
+    id: 'career-path',
+    title: 'Career Path Planner',
+    description: 'Create a personalized roadmap to achieve your long-term career goals',
+    icon: MapPin,
+    benefits: [
+      'Strategic career milestones',
+      'Skill development roadmap',
+      'Timeline-based planning',
+      'Learning resource recommendations'
+    ]
+  },
+  {
+    id: 'skills-gap',
+    title: 'Skills Gap Analyzer',
+    description: 'Identify skill gaps and get targeted learning recommendations',
+    icon: BarChart,
+    benefits: [
+      'Comprehensive skill assessment',
+      'Industry benchmarking',
+      'Personalized learning plans',
+      'Progress tracking tools'
+    ]
+  },
+  {
+    id: 'personal-brand',
+    title: 'Personal Brand Builder',
+    description: 'Build an authentic professional brand that stands out in your industry',
+    icon: User,
+    benefits: [
+      'Brand strategy development',
+      'Content pillar planning',
+      'Social media guidance',
+      'Visual identity guidelines'
+    ]
   }
 ];
 
@@ -60,11 +115,15 @@ const ProfessionalDevelopment = () => {
             </p>
           </div>
 
-          <TabsList className="grid w-full grid-cols-4 max-w-2xl mx-auto">
+          <TabsList className="grid w-full grid-cols-4 lg:grid-cols-8 max-w-6xl mx-auto">
             <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="resume">Resume Builder</TabsTrigger>
-            <TabsTrigger value="interview">Interview Prep</TabsTrigger>
-            <TabsTrigger value="linkedin">LinkedIn Optimizer</TabsTrigger>
+            <TabsTrigger value="resume">Resume</TabsTrigger>
+            <TabsTrigger value="interview">Interview</TabsTrigger>
+            <TabsTrigger value="linkedin">LinkedIn</TabsTrigger>
+            <TabsTrigger value="salary">Salary</TabsTrigger>
+            <TabsTrigger value="career-path">Career Path</TabsTrigger>
+            <TabsTrigger value="skills-gap">Skills</TabsTrigger>
+            <TabsTrigger value="personal-brand">Brand</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview" className="space-y-8">
@@ -86,25 +145,25 @@ const ProfessionalDevelopment = () => {
             </Card>
 
             {/* Features Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {FEATURES.map((feature) => {
                 const Icon = feature.icon;
                 return (
                   <Card key={feature.id} className="hover:shadow-lg transition-all duration-300">
-                    <CardHeader>
+                    <CardHeader className="pb-4">
                       <div className="flex items-center gap-3 mb-2">
                         <div className="p-2 bg-primary/10 rounded-lg">
                           <Icon className="w-6 h-6 text-primary" />
                         </div>
-                        <CardTitle className="text-lg">{feature.title}</CardTitle>
+                        <CardTitle className="text-base leading-tight">{feature.title}</CardTitle>
                       </div>
-                      <CardDescription>{feature.description}</CardDescription>
+                      <CardDescription className="text-sm">{feature.description}</CardDescription>
                     </CardHeader>
-                    <CardContent className="space-y-4">
+                    <CardContent className="space-y-4 pt-0">
                       <ul className="space-y-2">
                         {feature.benefits.map((benefit, index) => (
-                          <li key={index} className="flex items-center gap-2 text-sm">
-                            <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0" />
+                          <li key={index} className="flex items-center gap-2 text-xs">
+                            <CheckCircle className="w-3 h-3 text-green-600 flex-shrink-0" />
                             {benefit}
                           </li>
                         ))}
@@ -113,8 +172,9 @@ const ProfessionalDevelopment = () => {
                         onClick={() => setActiveTab(feature.id)}
                         className="w-full"
                         variant="outline"
+                        size="sm"
                       >
-                        Try {feature.title}
+                        Try Tool
                       </Button>
                     </CardContent>
                   </Card>
@@ -128,21 +188,41 @@ const ProfessionalDevelopment = () => {
                 <CardTitle className="text-center">Why Choose Our Professional Development Tools?</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-6 text-center">
                   <div>
-                    <div className="text-3xl font-bold text-primary mb-2">95%</div>
-                    <p className="text-sm text-muted-foreground">ATS Pass Rate</p>
-                    <p className="text-xs text-muted-foreground mt-1">Our AI-optimized resumes pass through Applicant Tracking Systems</p>
+                    <div className="text-2xl font-bold text-primary mb-2">95%</div>
+                    <p className="text-xs text-muted-foreground font-medium">ATS Pass Rate</p>
+                    <p className="text-xs text-muted-foreground mt-1">AI-optimized resumes</p>
                   </div>
                   <div>
-                    <div className="text-3xl font-bold text-primary mb-2">3x</div>
-                    <p className="text-sm text-muted-foreground">Interview Success</p>
-                    <p className="text-xs text-muted-foreground mt-1">Users report 3x higher interview success rates after practice</p>
+                    <div className="text-2xl font-bold text-primary mb-2">3x</div>
+                    <p className="text-xs text-muted-foreground font-medium">Interview Success</p>
+                    <p className="text-xs text-muted-foreground mt-1">Higher success rates</p>
                   </div>
                   <div>
-                    <div className="text-3xl font-bold text-primary mb-2">87%</div>
-                    <p className="text-sm text-muted-foreground">Profile Improvement</p>
-                    <p className="text-xs text-muted-foreground mt-1">Average LinkedIn profile optimization score improvement</p>
+                    <div className="text-2xl font-bold text-primary mb-2">87%</div>
+                    <p className="text-xs text-muted-foreground font-medium">Profile Boost</p>
+                    <p className="text-xs text-muted-foreground mt-1">LinkedIn improvements</p>
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-primary mb-2">$15k</div>
+                    <p className="text-xs text-muted-foreground font-medium">Avg. Salary Increase</p>
+                    <p className="text-xs text-muted-foreground mt-1">Through negotiations</p>
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-primary mb-2">6mo</div>
+                    <p className="text-xs text-muted-foreground font-medium">Career Acceleration</p>
+                    <p className="text-xs text-muted-foreground mt-1">Faster promotions</p>
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-primary mb-2">92%</div>
+                    <p className="text-xs text-muted-foreground font-medium">Skill Improvement</p>
+                    <p className="text-xs text-muted-foreground mt-1">Competency gains</p>
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-primary mb-2">5x</div>
+                    <p className="text-xs text-muted-foreground font-medium">Brand Visibility</p>
+                    <p className="text-xs text-muted-foreground mt-1">Professional presence</p>
                   </div>
                 </div>
               </CardContent>
@@ -177,6 +257,22 @@ const ProfessionalDevelopment = () => {
 
           <TabsContent value="linkedin">
             <LinkedInOptimizer />
+          </TabsContent>
+
+          <TabsContent value="salary">
+            <SalaryNegotiationCoach />
+          </TabsContent>
+
+          <TabsContent value="career-path">
+            <CareerPathPlanner />
+          </TabsContent>
+
+          <TabsContent value="skills-gap">
+            <SkillsGapAnalyzer />
+          </TabsContent>
+
+          <TabsContent value="personal-brand">
+            <PersonalBrandBuilder />
           </TabsContent>
         </Tabs>
       </div>
