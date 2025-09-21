@@ -24,3 +24,21 @@ port = 54325
 
 [functions.verify-dodo-payment]
 verify_jwt = true
+
+[functions.openai-chat]
+verify_jwt = false
+
+[functions.send-enrollment-email]
+verify_jwt = false
+
+[functions.send-notification]
+verify_jwt = false
+
+[functions.generate-blog-post]
+verify_jwt = false
+
+[functions.generate-content-summary]
+verify_jwt = false
+
+[functions.generate-seo-keywords]
+verify_jwt = false
