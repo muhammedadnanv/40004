@@ -22,6 +22,7 @@ import { AIFeaturesSection } from "@/components/AIFeaturesSection";
 import { AIChatWidget } from "@/components/AIChatWidget";
 import { SitemapGenerator } from "@/components/SEO/SitemapGenerator";
 import { PerformanceMonitor } from "@/components/SEO/PerformanceMonitor";
+import { AdvertiserSection } from "@/components/AdvertiserSection";
 
 import { Helmet } from "react-helmet";
 import { LeadCollectionPopup } from "@/components/LeadCollectionPopup";
@@ -216,6 +217,7 @@ const Index = () => {
           <LearningPathSection />
           <FAQSection />
           <WhatsAppSection />
+          <AdvertiserSection />
           <PartnershipsSection />
           <ShareSection />
           <CodeOfConductSection />
