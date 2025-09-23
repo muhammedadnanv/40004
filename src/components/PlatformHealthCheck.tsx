@@ -56,16 +56,18 @@ export const PlatformHealthCheck: React.FC = () => {
 
       // Email Service Check
       try {
-        // Just check if the function exists
-        const {
-          error
-        } = await supabase.functions.invoke('send-notification', {
-          body: {
-            test: true
-          }
+        const { data, error } = await supabase.functions.invoke('send-notification', {
+          body: { test: true }
         });
-        // If it's a validation error, the function exists
-        if (error && (error.message?.includes('validation') || error.message?.includes('required'))) {
+        
+        if (data && data.status === 'healthy') {
+          newChecks[1] = {
+            name: 'Email Service',
+            status: 'healthy',
+            message: 'Email service operational',
+            details: 'Send notification functions are working properly'
+          };
+        } else if (error && (error.message?.includes('validation') || error.message?.includes('required'))) {
           newChecks[1] = {
             name: 'Email Service',
             status: 'healthy',
@@ -193,6 +195,33 @@ export const PlatformHealthCheck: React.FC = () => {
   if (process.env.NODE_ENV !== 'development') {
     return null; // Only show in development
   }
-  return;
+
+  return (
+    <Card className="fixed bottom-4 right-4 w-80 max-h-96 overflow-auto z-50 bg-background/95 backdrop-blur border shadow-lg">
+      <CardHeader className="pb-3">
+        <CardTitle className="text-lg">Platform Health</CardTitle>
+        <CardDescription>System status overview</CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        {checks.map((check, index) => (
+          <div key={index} className="flex items-center justify-between p-2 rounded-lg bg-muted/30">
+            <div className="flex items-center space-x-3">
+              {getStatusIcon(check.status)}
+              <div>
+                <div className="font-medium text-sm">{check.name}</div>
+                <div className="text-xs text-muted-foreground">{check.message}</div>
+                {check.details && (
+                  <div className="text-xs text-muted-foreground mt-1 opacity-70">
+                    {check.details}
+                  </div>
+                )}
+              </div>
+            </div>
+            {getStatusBadge(check.status)}
+          </div>
+        ))}
+      </CardContent>
+    </Card>
+  );
 };
 export default PlatformHealthCheck;

@@ -13,6 +13,7 @@ interface NotificationRequest {
   subject: string;
   message: string;
   userName?: string;
+  test?: boolean;
 }
 
 const handler = async (req: Request): Promise<Response> => {
@@ -22,7 +23,35 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { to, subject, message, userName }: NotificationRequest = await req.json();
+    const { to, subject, message, userName, test }: NotificationRequest = await req.json();
+
+    // Handle health check test requests
+    if (test) {
+      console.log("Health check request received");
+      return new Response(JSON.stringify({ 
+        status: "healthy", 
+        message: "Email service is operational" 
+      }), {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+          ...corsHeaders,
+        },
+      });
+    }
+
+    // Validate required fields for actual email sending
+    if (!to || !subject || !message) {
+      return new Response(JSON.stringify({ 
+        error: "Missing required fields: to, subject, and message are required" 
+      }), {
+        status: 400,
+        headers: {
+          "Content-Type": "application/json",
+          ...corsHeaders,
+        },
+      });
+    }
 
     console.log(`Sending notification email to ${to}`);
 

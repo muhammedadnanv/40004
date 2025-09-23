@@ -16,6 +16,8 @@ import { PerformanceOptimizer } from "./components/PerformanceOptimizer";
 import { enhanceMobileExperience } from "./utils/mobileResponsiveness";
 import { autoFixAndReportLinkIssues } from "./utils/linkValidator";
 
+import { PlatformStatusMonitor } from "./components/PlatformStatusMonitor";
+
 import { LoadingSpinner } from "./components/LoadingSpinner";
 import PlatformHealthCheck from "./components/PlatformHealthCheck";
 
@@ -235,6 +237,7 @@ function App() {
           </Routes>
           
           <Toaster />
+          <PlatformStatusMonitor />
           <PlatformHealthCheck />
         </div>
       </Router>
