@@ -31,8 +31,10 @@ export const FeaturesSection = () => {
     <section 
       className="py-8 sm:py-16 md:py-24 lg:py-32 px-4 sm:px-6 relative overflow-hidden"
       aria-labelledby="features-heading"
+      itemScope 
+      itemType="https://schema.org/ItemList"
     >
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-50/30 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-50/30 to-transparent" role="presentation" />
       <div className="container mx-auto max-w-5xl relative">
         <motion.h2 
           id="features-heading"
@@ -40,9 +42,13 @@ export const FeaturesSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="text-xl sm:text-2xl md:text-3xl font-extralight text-center mb-6 sm:mb-8 md:mb-16 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-purple-800"
+          itemProp="name"
         >
           Our Task-Based Mentorship Approach
         </motion.h2>
+        <p className="text-center text-gray-600 mb-8 max-w-2xl mx-auto" itemProp="description">
+          Learn by doing with our proven mentorship methodology that focuses on practical skills and real-world application.
+        </p>
         
         <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
           {features.map((feature, index) => (

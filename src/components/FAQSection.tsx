@@ -4,9 +4,23 @@ const REGULAR_PRICE = 199;
 
 export const FAQSection = () => {
   return (
-    <section className="py-8 sm:py-12 md:py-16 px-4 md:px-6 lg:px-8 bg-white" id="faq-section">
+    <section 
+      className="py-8 sm:py-12 md:py-16 px-4 md:px-6 lg:px-8 bg-white" 
+      id="faq-section"
+      aria-labelledby="faq-heading"
+      itemScope 
+      itemType="https://schema.org/FAQPage"
+    >
       <div className="container mx-auto max-w-3xl">
-        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-6 md:mb-8 responsive-heading">Frequently Asked Questions</h2>
+        <h2 
+          id="faq-heading"
+          className="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-6 md:mb-8 responsive-heading"
+        >
+          Frequently Asked Questions About Dev Mentor Hub
+        </h2>
+        <p className="text-center text-gray-600 mb-8 max-w-2xl mx-auto">
+          Get answers to common questions about our mentorship programs, pricing, career support, and learning methodology.
+        </p>
         <Accordion type="single" collapsible className="w-full space-y-2">
           <AccordionItem value="item-1" className="border rounded-lg px-4 mb-2">
             <AccordionTrigger className="text-left hover:no-underline py-4 text-fluid-base touch-manipulation mobile-touch-target">What makes this mentorship program unique?</AccordionTrigger>
