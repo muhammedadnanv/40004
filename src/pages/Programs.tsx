@@ -4,6 +4,7 @@ import { CategoryTopper } from "@/components/CategoryTopper";
 import { SocialMediaFooter } from "@/components/SocialMediaFooter";
 import { Helmet } from "react-helmet";
 import { useParams } from "react-router-dom";
+import { Home, ChevronRight } from "lucide-react";
 
 const Programs = () => {
   const { category } = useParams();
@@ -90,25 +91,115 @@ const Programs = () => {
   const title = getCategoryTitle(category);
   const description = getCategoryDescription(category);
 
+  const currentUrl = `https://devmentorhub.com/programs${category ? `/${category}` : ''}`;
+  
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": `${title} Programs`,
+    "description": description,
+    "numberOfItems": filteredPrograms.length,
+    "itemListElement": filteredPrograms.map((program, index) => ({
+      "@type": "Course",
+      "position": index + 1,
+      "name": program.title,
+      "description": program.description,
+      "provider": {
+        "@type": "Organization",
+        "name": "Dev Mentor Hub",
+        "url": "https://devmentorhub.com"
+      },
+      "educationalLevel": "Beginner to Advanced",
+      "timeRequired": program.duration,
+      "hasCourseInstance": {
+        "@type": "CourseInstance",
+        "courseMode": "online",
+        "courseWorkload": program.duration
+      },
+      "teaches": program.skills,
+      "offers": {
+        "@type": "Offer",
+        "category": "Paid",
+        "price": program.regularPrice,
+        "priceCurrency": "INR"
+      }
+    }))
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://devmentorhub.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Programs",
+        "item": "https://devmentorhub.com/programs"
+      },
+      ...(category ? [{
+        "@type": "ListItem",
+        "position": 3,
+        "name": title,
+        "item": currentUrl
+      }] : [])
+    ]
+  };
+
   return (
     <>
       <Helmet>
-        <title>{title} - Dev Mentor Hub</title>
-        <meta name="description" content={description} />
-        <meta name="keywords" content={`${category || 'programming'} courses, web development training, coding mentorship, ${title.toLowerCase()}`} />
-        <meta property="og:title" content={`${title} - Dev Mentor Hub`} />
+        <title>{title} - Professional Developer Certification Programs | Dev Mentor Hub</title>
+        <meta name="description" content={`${description}. Earn industry-recognized certifications with expert mentorship, hands-on projects, and career support. Join ${filteredPrograms.length}+ programs starting today.`} />
+        <meta name="keywords" content={`${category || 'programming'} certification, ${category || 'developer'} courses, web development training, coding bootcamp, programming mentorship, ${title.toLowerCase()}, professional developer certification, tech career training, software development courses`} />
+        <meta property="og:title" content={`${title} - Professional Certification Programs | Dev Mentor Hub`} />
         <meta property="og:description" content={description} />
         <meta property="og:type" content="website" />
-        <link rel="canonical" href={`https://devmentorhub.com/programs${category ? `/${category}` : ''}`} />
+        <meta property="og:url" content={currentUrl} />
+        <meta property="og:image" content="https://devmentorhub.com/og-programs.jpg" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${title} - Dev Mentor Hub`} />
+        <meta name="twitter:description" content={description} />
+        <link rel="canonical" href={currentUrl} />
+        <script type="application/ld+json">
+          {JSON.stringify(structuredData)}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbSchema)}
+        </script>
       </Helmet>
       
       <div className="min-h-screen">
-        <header>
+        <header role="banner">
           <MainNav />
           <CategoryTopper />
         </header>
         
-        <main>
+        <main role="main">
+          <nav aria-label="Breadcrumb" className="container mx-auto px-4 pt-4">
+            <ol className="flex items-center gap-2 text-sm text-muted-foreground">
+              <li className="flex items-center gap-2">
+                <Home className="w-4 h-4" />
+                <a href="/" className="hover:text-primary transition-colors">Home</a>
+              </li>
+              <ChevronRight className="w-4 h-4" />
+              <li className="flex items-center gap-2">
+                <a href="/programs" className={!category ? "text-primary font-medium" : "hover:text-primary transition-colors"}>Programs</a>
+              </li>
+              {category && (
+                <>
+                  <ChevronRight className="w-4 h-4" />
+                  <li className="text-primary font-medium" aria-current="page">{title}</li>
+                </>
+              )}
+            </ol>
+          </nav>
+          
           <section className="py-16 px-4 sm:px-6 lg:px-8">
             <div className="container mx-auto max-w-4xl text-center">
               <h1 className="text-4xl font-bold mb-4 text-primary">{title}</h1>
@@ -121,7 +212,7 @@ const Programs = () => {
           <ProgramsSection programs={filteredPrograms} />
         </main>
         
-        <footer>
+        <footer role="contentinfo">
           <SocialMediaFooter />
         </footer>
       </div>

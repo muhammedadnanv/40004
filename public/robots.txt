@@ -1,0 +1,34 @@
+# robots.txt for Dev Mentor Hub
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://devmentorhub.com/sitemap.xml
+
+# Crawl delay
+Crawl-delay: 1
+
+# Block specific bots if needed
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Disallow admin or private areas (if any)
+Disallow: /admin/
+Disallow: /private/
+Disallow: /*.json$
+
+# Allow all media
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.gif$
+Allow: /*.webp$
+Allow: /*.svg$
+Allow: /*.css$
+Allow: /*.js$

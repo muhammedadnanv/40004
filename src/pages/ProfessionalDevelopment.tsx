@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import { Helmet } from "react-helmet";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   FileText, MessageCircle, Linkedin, ArrowRight, CheckCircle, 
-  DollarSign, MapPin, BarChart, User, TrendingUp, Target 
+  DollarSign, MapPin, BarChart, User, TrendingUp, Target, Home, ChevronRight 
 } from "lucide-react";
 import { ResumeBuilder } from "@/components/professional/ResumeBuilder";
 import { InterviewPrep } from "@/components/professional/InterviewPrep";
@@ -103,10 +104,93 @@ const FEATURES = [
 
 const ProfessionalDevelopment = () => {
   const [activeTab, setActiveTab] = useState('overview');
+  const pageUrl = "https://devmentorhub.com/professional-development";
+
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Professional Development Hub",
+    "description": "AI-powered career development tools including resume builder, interview prep, LinkedIn optimization, and salary negotiation coaching",
+    "url": pageUrl,
+    "mainEntity": {
+      "@type": "SoftwareApplication",
+      "name": "Professional Development Tools Suite",
+      "applicationCategory": "BusinessApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR"
+      },
+      "featureList": [
+        "AI Resume Builder",
+        "Interview Preparation",
+        "LinkedIn Profile Optimizer",
+        "Salary Negotiation Coach",
+        "Career Path Planner",
+        "Skills Gap Analyzer",
+        "Personal Brand Builder"
+      ]
+    }
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://devmentorhub.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Professional Development",
+        "item": pageUrl
+      }
+    ]
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-muted">
-      <div className="container mx-auto px-4 py-8">
+    <>
+      <Helmet>
+        <title>Professional Development Hub | AI Resume Builder, Interview Prep & Career Tools | Dev Mentor Hub</title>
+        <meta name="description" content="Accelerate your tech career with AI-powered professional development tools. Build ATS-optimized resumes, practice interviews, optimize LinkedIn profile, negotiate salary, and plan your career path. Free career tools for developers." />
+        <meta name="keywords" content="professional development, career development tools, AI resume builder, interview preparation, LinkedIn optimization, salary negotiation, career planning, skills assessment, personal branding, tech career tools, developer career growth, job search tools, ATS resume, career coaching" />
+        <meta property="og:title" content="Professional Development Hub | Career Tools for Developers | Dev Mentor Hub" />
+        <meta property="og:description" content="AI-powered tools for resume building, interview prep, LinkedIn optimization, and career planning. Free career development resources." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:image" content="https://devmentorhub.com/og-professional.jpg" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Professional Development Hub | Dev Mentor Hub" />
+        <meta name="twitter:description" content="AI-powered career tools for developers - resume builder, interview prep, and more" />
+        <link rel="canonical" href={pageUrl} />
+        <script type="application/ld+json">
+          {JSON.stringify(structuredData)}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbSchema)}
+        </script>
+      </Helmet>
+      
+      <div className="min-h-screen bg-gradient-to-br from-background to-muted">
+        <nav aria-label="Breadcrumb" className="container mx-auto px-4 pt-4">
+          <ol className="flex items-center gap-2 text-sm text-muted-foreground">
+            <li className="flex items-center gap-2">
+              <Home className="w-4 h-4" />
+              <a href="/" className="hover:text-primary transition-colors">Home</a>
+            </li>
+            <ChevronRight className="w-4 h-4" />
+            <li className="flex items-center gap-2">
+              <Target className="w-4 h-4" />
+              <span className="text-primary font-medium" aria-current="page">Professional Development</span>
+            </li>
+          </ol>
+        </nav>
+        
+        <div className="container mx-auto px-4 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold mb-4">Professional Development Hub</h1>
@@ -275,8 +359,9 @@ const ProfessionalDevelopment = () => {
             <PersonalBrandBuilder />
           </TabsContent>
         </Tabs>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
