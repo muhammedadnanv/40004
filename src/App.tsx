@@ -61,14 +61,23 @@ function App() {
           console.error("Website validation failed:", error);
         }
         
-        // Run SEO optimization
+        // Run SEO optimization after DOM is ready
         try {
-          await seoOptimizer.runOptimizations({
-            optimizeMetaTags: true,
-            optimizeHeadings: true,
-            checkTechnicalSEO: true
-          });
-          console.log("SEO optimization completed");
+          // Wait for DOM to be fully loaded before running SEO analysis
+          if (document.readyState === 'complete') {
+            await seoOptimizer.runOptimizations({
+              optimizeMetaTags: true,
+              checkTechnicalSEO: true
+            });
+          } else {
+            window.addEventListener('load', async () => {
+              await seoOptimizer.runOptimizations({
+                optimizeMetaTags: true,
+                checkTechnicalSEO: true
+              });
+            });
+          }
+          console.log("SEO optimization initialized");
         } catch (error) {
           console.error("Error during SEO optimization:", error);
         }

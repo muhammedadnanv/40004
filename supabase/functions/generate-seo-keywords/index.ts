@@ -642,23 +642,56 @@ Deno.serve(async (req) => {
     const batches = Math.ceil(allKeywords.length / batchSize);
     let successCount = 0;
     
+    // Helper function to insert batch with retry logic for deadlocks
+    const insertBatchWithRetry = async (batch: any[], batchNumber: number, maxRetries = 3) => {
+      for (let attempt = 0; attempt < maxRetries; attempt++) {
+        try {
+          const { error } = await supabaseClient
+            .from('seo_keywords')
+            .upsert(
+              batch,
+              { onConflict: 'keyword', ignoreDuplicates: false }
+            );
+
+          if (error) {
+            // Check if it's a deadlock error
+            if (error.code === '40P01' && attempt < maxRetries - 1) {
+              console.log(`Deadlock detected in batch ${batchNumber}, retrying (attempt ${attempt + 1})...`);
+              // Wait before retrying with exponential backoff
+              await new Promise(resolve => setTimeout(resolve, Math.pow(2, attempt) * 100));
+              continue;
+            }
+            throw error;
+          }
+          
+          // Success
+          return batch.length;
+        } catch (error) {
+          if (attempt === maxRetries - 1) {
+            console.error(`Error in batch ${batchNumber} after ${maxRetries} attempts:`, error);
+            throw error;
+          }
+        }
+      }
+      return 0;
+    };
+    
     for (let i = 0; i < batches; i++) {
       const batch = allKeywords.slice(i * batchSize, (i + 1) * batchSize);
       
-      const { error } = await supabaseClient
-        .from('seo_keywords')
-        .upsert(
-          batch,
-          { onConflict: 'keyword', ignoreDuplicates: false }
-        );
-
-      if (error) {
-        console.error(`Error in batch ${i}:`, error);
-        throw error;
+      try {
+        const inserted = await insertBatchWithRetry(batch, i + 1);
+        successCount += inserted;
+        console.log(`Successfully inserted batch ${i + 1} of ${batches} (${batch.length} keywords)`);
+        
+        // Add small delay between batches to reduce lock contention
+        if (i < batches - 1) {
+          await new Promise(resolve => setTimeout(resolve, 50));
+        }
+      } catch (error) {
+        console.error(`Failed to insert batch ${i + 1}:`, error);
+        // Continue with next batch instead of failing completely
       }
-      
-      successCount += batch.length;
-      console.log(`Successfully inserted batch ${i + 1} of ${batches} (${batch.length} keywords)`);
     }
 
     return new Response(
