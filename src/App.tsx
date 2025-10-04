@@ -16,10 +16,7 @@ import { PerformanceOptimizer } from "./components/PerformanceOptimizer";
 import { enhanceMobileExperience } from "./utils/mobileResponsiveness";
 import { autoFixAndReportLinkIssues } from "./utils/linkValidator";
 
-import { PlatformStatusMonitor } from "./components/PlatformStatusMonitor";
-
 import { LoadingSpinner } from "./components/LoadingSpinner";
-import PlatformHealthCheck from "./components/PlatformHealthCheck";
 
 // Lazy load pages for better initial loading performance
 const Index = lazy(() => import("./pages/Index"));
@@ -237,8 +234,6 @@ function App() {
           </Routes>
           
           <Toaster />
-          <PlatformStatusMonitor />
-          <PlatformHealthCheck />
         </div>
       </Router>
     </ErrorBoundary>
