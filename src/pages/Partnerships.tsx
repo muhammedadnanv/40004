@@ -2,7 +2,7 @@ import { PartnershipsSection } from "@/components/PartnershipsSection";
 import { MainNav } from "@/components/MainNav";
 import { CategoryTopper } from "@/components/CategoryTopper";
 import { SocialMediaFooter } from "@/components/SocialMediaFooter";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { Home, ChevronRight, Handshake } from "lucide-react";
 
 const Partnerships = () => {

@@ -2,7 +2,7 @@
 import React from 'react';
 import { SocialMediaFooter } from "@/components/SocialMediaFooter";
 import { MainNav } from "@/components/MainNav";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 const Terms = () => {
   return (

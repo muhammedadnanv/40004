@@ -2,7 +2,7 @@ import { ProgramsSection } from "@/components/programs/ProgramsSection";
 import { MainNav } from "@/components/MainNav";
 import { CategoryTopper } from "@/components/CategoryTopper";
 import { SocialMediaFooter } from "@/components/SocialMediaFooter";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { useParams } from "react-router-dom";
 import { Home, ChevronRight } from "lucide-react";
 

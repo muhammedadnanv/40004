@@ -2,7 +2,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Button } from "@/components/ui/button";
 import { Share2, Facebook, Twitter, Linkedin, Link2, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { useState, useEffect } from "react";
 
 interface ShareProjectIdeaProps {

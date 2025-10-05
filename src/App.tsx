@@ -1,6 +1,7 @@
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Suspense, lazy, useEffect } from "react";
+import { HelmetProvider } from "react-helmet-async";
 import { Toaster } from "./components/ui/toaster";
 import { useToast } from "./hooks/use-toast";
 import { startMarketingRecommendations } from "./utils/marketingRecommendations";
@@ -155,7 +156,8 @@ function App() {
   }, []);
 
   return (
-    <ErrorBoundary>
+    <HelmetProvider>
+      <ErrorBoundary>
         {/* Mobile Test Component - Remove in production */}
         {import.meta.env.DEV && <MobileTestComponent />}
         <MobileOptimizer />
@@ -248,6 +250,7 @@ function App() {
         </div>
       </Router>
     </ErrorBoundary>
+    </HelmetProvider>
   );
 }
 

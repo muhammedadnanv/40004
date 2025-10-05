@@ -6,7 +6,7 @@ import { UnlockForm } from "./project-ideas/UnlockForm";
 import { SearchFilters } from "./project-ideas/SearchFilters";
 import { ProjectList } from "./project-ideas/ProjectList";
 import { ProjectGalleryFooter } from "./project-ideas/ProjectGalleryFooter";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 export function ProjectIdeasSection() {
   const [isUnlocked, setIsUnlocked] = useState(false);

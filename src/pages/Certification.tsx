@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { MainNav } from "@/components/MainNav";
 import { CategoryTopper } from "@/components/CategoryTopper";
 import { CertificationSection } from "@/components/CertificationSection";

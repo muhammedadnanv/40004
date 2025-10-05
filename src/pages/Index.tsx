@@ -24,7 +24,7 @@ import { SitemapGenerator } from "@/components/SEO/SitemapGenerator";
 import { PerformanceMonitor } from "@/components/SEO/PerformanceMonitor";
 import { AdvertiserSection } from "@/components/AdvertiserSection";
 
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { LeadCollectionPopup } from "@/components/LeadCollectionPopup";
 import { AlbatoAdPopup } from "@/components/AlbatoAdPopup";
 import { PromotionPopup } from "@/components/PromotionPopup";
