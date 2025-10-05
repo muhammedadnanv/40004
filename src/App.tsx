@@ -15,6 +15,7 @@ import { MobileOptimizer } from "./components/mobile/MobileOptimizer";
 import { PerformanceOptimizer } from "./components/PerformanceOptimizer";
 import { enhanceMobileExperience } from "./utils/mobileResponsiveness";
 import { autoFixAndReportLinkIssues } from "./utils/linkValidator";
+import { EmailWidget } from "./components/EmailWidget";
 
 import { LoadingSpinner } from "./components/LoadingSpinner";
 
@@ -243,6 +244,7 @@ function App() {
           </Routes>
           
           <Toaster />
+          <EmailWidget />
         </div>
       </Router>
     </ErrorBoundary>
