@@ -5,7 +5,6 @@
 declare global {
   interface Window {
     gtag: any;  // Define gtag as any type to resolve TypeScript error
-    wonderchat?: any; // Define wonderchat for the chat widget
   }
 }
 
@@ -75,17 +74,6 @@ export function initRetargetingService(config: RetargetingConfig): void {
   
   // Store local visitor data
   storeVisitorData();
-  
-  // Initialize Wonderchat integration when widget loads
-  if (typeof window !== 'undefined') {
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        if (window.wonderchat) {
-          console.log('Wonderchat widget detected and initialized for retargeting');
-        }
-      }, 2000);
-    });
-  }
 }
 
 // Track a visitor event
