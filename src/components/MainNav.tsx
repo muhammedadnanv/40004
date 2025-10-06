@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu";
-import { Menu, X, Home, Award, Users, Settings } from "lucide-react";
+import { Menu, X, Home, Award, Users, Settings, FolderKanban, LayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { isMobileDevice } from "@/utils/mobileResponsiveness";
 import { Link } from "react-router-dom";
@@ -112,6 +112,14 @@ export function MainNav() {
                   <Users className="h-5 w-5 text-primary flex-shrink-0" />
                   <span className="text-foreground">Career Tools</span>
                 </Link>
+                <Link to="/gallery" className="flex items-center space-x-3 py-4 px-4 rounded-lg hover:bg-accent/10 font-medium touch-manipulation transition-colors min-h-[52px] active:scale-[0.98]" onClick={closeMenu}>
+                  <FolderKanban className="h-5 w-5 text-primary flex-shrink-0" />
+                  <span className="text-foreground">Project Gallery</span>
+                </Link>
+                <Link to="/dashboard" className="flex items-center space-x-3 py-4 px-4 rounded-lg hover:bg-accent/10 font-medium touch-manipulation transition-colors min-h-[52px] active:scale-[0.98]" onClick={closeMenu}>
+                  <LayoutDashboard className="h-5 w-5 text-primary flex-shrink-0" />
+                  <span className="text-foreground">Dashboard</span>
+                </Link>
               </nav>
             </div>
           </div>
@@ -176,6 +184,14 @@ export function MainNav() {
             
             <Link to="/professional-development" className="text-sm font-medium transition-colors hover:text-primary">
               Career Tools
+            </Link>
+            
+            <Link to="/gallery" className="text-sm font-medium transition-colors hover:text-primary">
+              Gallery
+            </Link>
+            
+            <Link to="/dashboard" className="text-sm font-medium transition-colors hover:text-primary">
+              Dashboard
             </Link>
           </nav>
         </div>
