@@ -4,6 +4,7 @@ import { Menu, X, Home, Award, Users, Settings, FolderKanban, LayoutDashboard } 
 import { Button } from "@/components/ui/button";
 import { isMobileDevice } from "@/utils/mobileResponsiveness";
 import { Link } from "react-router-dom";
+import { UserMenu } from "@/components/auth/UserMenu";
 
 export function MainNav() {
   const [isMobile, setIsMobile] = useState(false);
@@ -39,15 +40,18 @@ export function MainNav() {
             <span className="font-bold text-xl text-primary">Dev Mentor Hub</span>
           </Link>
           
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            onClick={toggleMenu} 
-            className="p-2 touch-manipulation relative z-50" 
-            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          >
-            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </Button>
+          <div className="flex items-center gap-2">
+            <UserMenu />
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={toggleMenu} 
+              className="p-2 touch-manipulation relative z-50" 
+              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+            >
+              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </Button>
+          </div>
         </div>
         
         {isMenuOpen && (
@@ -137,7 +141,8 @@ export function MainNav() {
             <span className="font-bold text-xl text-primary">Dev Mentor Hub</span>
           </Link>
           
-          <nav className="flex items-center space-x-8">
+          <div className="flex items-center gap-6">
+            <nav className="flex items-center space-x-8">
             <Link to="/" className="text-sm font-medium transition-colors hover:text-primary">
               Home
             </Link>
@@ -194,6 +199,9 @@ export function MainNav() {
               Dashboard
             </Link>
           </nav>
+          
+          <UserMenu />
+          </div>
         </div>
       </div>
     </div>
