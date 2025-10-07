@@ -7,13 +7,18 @@ import { Leaderboard } from "@/components/gamification/Leaderboard";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { LayoutDashboard, Trophy, FolderKanban, History } from "lucide-react";
+import { LayoutDashboard, FolderKanban, History } from "lucide-react";
+import type { User } from "@supabase/supabase-js";
+import type { Database } from "@/integrations/supabase/types";
+
+type Project = Database["public"]["Tables"]["projects"]["Row"];
+type PointsHistory = Database["public"]["Tables"]["points_history"]["Row"];
 
 export default function Dashboard() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [projects, setProjects] = useState<any[]>([]);
-  const [pointsHistory, setPointsHistory] = useState<any[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [pointsHistory, setPointsHistory] = useState<PointsHistory[]>([]);
 
   useEffect(() => {
     checkUser();

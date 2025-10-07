@@ -8,10 +8,18 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ProjectCard } from "@/components/gallery/ProjectCard";
 import { ProjectSubmissionDialog } from "@/components/gallery/ProjectSubmissionDialog";
 import { Plus, Search } from "lucide-react";
+import type { Database } from "@/integrations/supabase/types";
+
+type ProjectRow = Database["public"]["Tables"]["projects"]["Row"];
+type ProfileRow = Database["public"]["Tables"]["profiles"]["Row"];
+
+interface Project extends ProjectRow {
+  profiles: ProfileRow | null;
+}
 
 export default function ProjectGallery() {
-  const [projects, setProjects] = useState<any[]>([]);
-  const [filteredProjects, setFilteredProjects] = useState<any[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [difficultyFilter, setDifficultyFilter] = useState("all");
@@ -31,16 +39,31 @@ export default function ProjectGallery() {
     try {
       const { data, error } = await supabase
         .from("projects")
-        .select(`
-          *,
-          profiles:user_id (full_name, email)
-        `)
+        .select("*")
         .eq("status", "published")
         .order("created_at", { ascending: false });
 
       if (error) throw error;
-      setProjects(data || []);
-    } catch (error: any) {
+      
+      // Fetch profile data separately if needed
+      if (data && data.length > 0) {
+        const userIds = [...new Set(data.map(p => p.user_id))];
+        const { data: profiles } = await supabase
+          .from("profiles")
+          .select("*")
+          .in("id", userIds);
+        
+        const profileMap = new Map((profiles || []).map(p => [p.id, p]));
+        const projectsWithProfiles = data.map(project => ({
+          ...project,
+          profiles: profileMap.get(project.user_id) || null
+        }));
+        
+        setProjects(projectsWithProfiles as Project[]);
+      } else {
+        setProjects([]);
+      }
+    } catch (error) {
       toast({
         title: "Error",
         description: "Failed to load projects",
