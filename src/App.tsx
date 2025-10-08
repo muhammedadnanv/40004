@@ -33,6 +33,7 @@ const ProfessionalDevelopment = lazy(() => import("./pages/ProfessionalDevelopme
 const CMS = lazy(() => import("./pages/cms"));
 const ProjectGallery = lazy(() => import("./pages/ProjectGallery"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
+const CodePlayground = lazy(() => import("./pages/CodePlayground"));
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -249,6 +250,13 @@ function App() {
               <Suspense fallback={<LoadingFallback />}>
                 <ErrorBoundary>
                   <Dashboard />
+                </ErrorBoundary>
+              </Suspense>
+            } />
+            <Route path="/code-playground" element={
+              <Suspense fallback={<LoadingFallback />}>
+                <ErrorBoundary>
+                  <CodePlayground />
                 </ErrorBoundary>
               </Suspense>
             } />
