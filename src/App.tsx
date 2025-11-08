@@ -55,89 +55,105 @@ function App() {
         console.log("Device optimization:", deviceCapabilities);
         
         // Initialize data processor
-        console.log("Initializing centralized data processing...");
         const processor = dataProcessor;
         
-        // Run website validation with error handling
+        // Run critical initializations first
         try {
-          await runWebsiteTest();
-          console.log("Website validation completed successfully");
-        } catch (error) {
-          console.error("Website validation failed:", error);
-        }
-        
-        // Run SEO optimization after DOM is ready
-        try {
-          // Wait for DOM to be fully loaded before running SEO analysis
-          if (document.readyState === 'complete') {
-            await seoOptimizer.runOptimizations({
-              optimizeMetaTags: true,
-              checkTechnicalSEO: true
-            });
-          } else {
-            window.addEventListener('load', async () => {
-              await seoOptimizer.runOptimizations({
-                optimizeMetaTags: true,
-                checkTechnicalSEO: true
-              });
-            });
-          }
-          console.log("SEO optimization initialized");
-        } catch (error) {
-          console.error("Error during SEO optimization:", error);
-        }
-        
-        // Initialize marketing features
-        try {
-          if (typeof startMarketingRecommendations === 'function') {
-            await startMarketingRecommendations();
-            console.log("Marketing recommendations started successfully");
-          }
-        } catch (error: any) {
-          console.error("Error starting marketing recommendations:", error);
-        }
-
-        // Check Supabase connection
-        try {
-          const { data, error } = await supabase.from('payments').select('count').limit(1);
-          if (error && error.code !== 'PGRST116') { // PGRST116 is "no rows returned"
-            throw error;
-          }
-          console.log("Supabase connection verified");
-          
-          // Log initial data processing metrics
-          const metrics = processor.getMetricsSummary();
-          console.log("Initial data processing metrics:", metrics);
-        } catch (error) {
-          console.error("Supabase connection error:", error);
-          toast({
-            title: "Connection Issue",
-            description: "There might be issues with the database connection. Some features may be limited.",
-            variant: "destructive",
-            duration: 5000,
-          });
-        }
-
-        // Enhance mobile experience
-        try {
+          // Enhanced mobile experience (critical for UX)
           enhanceMobileExperience();
-          autoFixAndReportLinkIssues();
           
-          // Add resize event listener
+          // Add optimized resize event listener
+          let resizeTimeout: ReturnType<typeof setTimeout>;
           const handleResize = () => {
-            clearTimeout(window.resizeTimer);
-            window.resizeTimer = setTimeout(enhanceMobileExperience, 250);
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(enhanceMobileExperience, 300);
           };
           
-          window.addEventListener('resize', handleResize);
+          window.addEventListener('resize', handleResize, { passive: true });
           
-          console.log("Mobile optimizations and link validation complete");
+          console.log("Mobile optimizations complete");
         } catch (error) {
           console.error("Error during mobile optimization:", error);
         }
 
+        // Run non-critical features asynchronously
+        Promise.all([
+          // Check Supabase connection
+          (async () => {
+            try {
+              const { error } = await supabase.from('payments').select('count').limit(1).single();
+              if (error && error.code !== 'PGRST116' && error.code !== 'PGRST301') {
+                throw error;
+              }
+              console.log("Supabase connection verified");
+              
+              // Log initial data processing metrics
+              const metrics = processor.getMetricsSummary();
+              console.log("Initial data processing metrics:", metrics);
+            } catch (error) {
+              console.error("Supabase connection error:", error);
+            }
+          })(),
+          
+          // Website validation (non-blocking)
+          (async () => {
+            try {
+              await runWebsiteTest();
+              console.log("Website validation completed");
+            } catch (error) {
+              console.error("Website validation failed:", error);
+            }
+          })(),
+          
+          // SEO optimization (non-blocking)
+          (async () => {
+            try {
+              if (document.readyState === 'complete') {
+                await seoOptimizer.runOptimizations({
+                  optimizeMetaTags: true,
+                  checkTechnicalSEO: true
+                });
+              } else {
+                window.addEventListener('load', () => {
+                  seoOptimizer.runOptimizations({
+                    optimizeMetaTags: true,
+                    checkTechnicalSEO: true
+                  }).catch(err => console.error("SEO optimization error:", err));
+                }, { once: true });
+              }
+              console.log("SEO optimization initialized");
+            } catch (error) {
+              console.error("Error during SEO optimization:", error);
+            }
+          })(),
+          
+          // Marketing features (non-blocking)
+          (async () => {
+            try {
+              if (typeof startMarketingRecommendations === 'function') {
+                await startMarketingRecommendations();
+                console.log("Marketing recommendations started");
+              }
+            } catch (error) {
+              console.error("Error starting marketing recommendations:", error);
+            }
+          })(),
+          
+          // Link validation (non-blocking)
+          (async () => {
+            try {
+              await autoFixAndReportLinkIssues();
+              console.log("Link validation complete");
+            } catch (error) {
+              console.error("Link validation error:", error);
+            }
+          })()
+        ]).catch(error => {
+          console.error("Non-critical initialization errors:", error);
+        });
+
       } catch (error) {
-        console.error("App initialization error:", error);
+        console.error("Critical app initialization error:", error);
         toast({
           title: "Initialization Error",
           description: "Some features might not work correctly. Please refresh the page.",
@@ -147,16 +163,18 @@ function App() {
       }
     };
 
-    initializeApp();
+    // Use requestIdleCallback for better performance
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(() => initializeApp(), { timeout: 2000 });
+    } else {
+      setTimeout(initializeApp, 0);
+    }
 
     // Cleanup function
     return () => {
-      console.log("App cleanup: removing event listeners and clearing timeouts");
-      if (window.resizeTimer) {
-        clearTimeout(window.resizeTimer);
-      }
+      console.log("App cleanup");
     };
-  }, []);
+  }, [toast]);
 
   return (
     <HelmetProvider>
@@ -278,11 +296,5 @@ function App() {
   );
 }
 
-// Add the window resize timer type for TypeScript
-declare global {
-  interface Window {
-    resizeTimer: ReturnType<typeof setTimeout>;
-  }
-}
 
 export default App;

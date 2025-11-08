@@ -15,8 +15,13 @@ export default function CodePlayground() {
   const [output, setOutput] = useState('');
   const [activeTab, setActiveTab] = useState('html');
 
+  // Debounce code execution for better performance
   useEffect(() => {
-    runCode();
+    const timer = setTimeout(() => {
+      runCode();
+    }, 500);
+    
+    return () => clearTimeout(timer);
   }, [html, css, js]);
 
   const runCode = () => {
@@ -73,21 +78,23 @@ export default function CodePlayground() {
     }
   };
 
-  // Load shared code from URL
+  // Load shared code from URL on mount
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const encodedCode = params.get('code');
     if (encodedCode) {
       try {
         const decoded = JSON.parse(atob(encodedCode));
-        setHtml(decoded.html || html);
-        setCss(decoded.css || css);
-        setJs(decoded.js || js);
+        if (decoded.html) setHtml(decoded.html);
+        if (decoded.css) setCss(decoded.css);
+        if (decoded.js) setJs(decoded.js);
         toast.success('Shared code loaded!');
       } catch (error) {
+        console.error('Failed to parse shared code:', error);
         toast.error('Failed to load shared code');
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const structuredData = {
@@ -130,60 +137,63 @@ export default function CodePlayground() {
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted">
         <MainNav />
         
-        <main className="container mx-auto px-4 py-8 mt-20">
+        <main className="container mx-auto px-3 sm:px-4 md:px-6 py-6 sm:py-8 mt-16 sm:mt-20">
           {/* Header */}
-          <div className="mb-8 text-center">
-            <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 rounded-full bg-primary/10 text-primary">
-              <Code2 className="w-5 h-5" />
-              <span className="text-sm font-medium">Interactive Code Editor</span>
+          <div className="mb-6 sm:mb-8 text-center">
+            <div className="inline-flex items-center gap-2 mb-3 sm:mb-4 px-3 sm:px-4 py-2 rounded-full bg-primary/10 text-primary">
+              <Code2 className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span className="text-xs sm:text-sm font-medium">Interactive Code Editor</span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent px-4">
               Code Playground
             </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
               Write HTML, CSS, and JavaScript and see your code come to life instantly
             </p>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex flex-wrap gap-3 justify-center mb-6">
-            <Button onClick={runCode} className="gap-2">
+          <div className="flex flex-wrap gap-2 sm:gap-3 justify-center mb-4 sm:mb-6 px-4">
+            <Button onClick={runCode} className="gap-2 text-sm sm:text-base" size="default">
               <Play className="w-4 h-4" />
-              Run Code
+              <span className="hidden xs:inline">Run Code</span>
+              <span className="xs:hidden">Run</span>
             </Button>
-            <Button onClick={resetCode} variant="outline" className="gap-2">
+            <Button onClick={resetCode} variant="outline" className="gap-2 text-sm sm:text-base" size="default">
               <RotateCcw className="w-4 h-4" />
               Reset
             </Button>
-            <Button onClick={downloadCode} variant="outline" className="gap-2">
+            <Button onClick={downloadCode} variant="outline" className="gap-2 text-sm sm:text-base" size="default">
               <Download className="w-4 h-4" />
-              Download
+              <span className="hidden sm:inline">Download</span>
+              <span className="sm:hidden">Save</span>
             </Button>
-            <Button onClick={shareCode} variant="outline" className="gap-2">
+            <Button onClick={shareCode} variant="outline" className="gap-2 text-sm sm:text-base" size="default">
               <Share2 className="w-4 h-4" />
               Share
             </Button>
           </div>
 
           {/* Code Editor and Preview */}
-          <div className="grid lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
             {/* Code Editor */}
-            <Card className="p-6">
-              <h2 className="text-xl font-semibold mb-4">Code Editor</h2>
+            <Card className="p-4 sm:p-6">
+              <h2 className="text-lg sm:text-xl font-semibold mb-4">Code Editor</h2>
               <Tabs value={activeTab} onValueChange={setActiveTab}>
-                <TabsList className="grid w-full grid-cols-3 mb-4">
-                  <TabsTrigger value="html">HTML</TabsTrigger>
-                  <TabsTrigger value="css">CSS</TabsTrigger>
-                  <TabsTrigger value="js">JavaScript</TabsTrigger>
+                <TabsList className="grid w-full grid-cols-3 mb-4 h-auto">
+                  <TabsTrigger value="html" className="text-sm sm:text-base py-2 sm:py-2.5">HTML</TabsTrigger>
+                  <TabsTrigger value="css" className="text-sm sm:text-base py-2 sm:py-2.5">CSS</TabsTrigger>
+                  <TabsTrigger value="js" className="text-sm sm:text-base py-2 sm:py-2.5">JavaScript</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="html" className="mt-0">
                   <textarea
                     value={html}
                     onChange={(e) => setHtml(e.target.value)}
-                    className="w-full h-[500px] p-4 font-mono text-sm bg-muted border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+                    className="w-full h-[400px] sm:h-[500px] p-3 sm:p-4 font-mono text-xs sm:text-sm bg-muted border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary resize-none touch-manipulation"
                     placeholder="Write your HTML here..."
                     spellCheck="false"
+                    aria-label="HTML editor"
                   />
                 </TabsContent>
 
@@ -191,9 +201,10 @@ export default function CodePlayground() {
                   <textarea
                     value={css}
                     onChange={(e) => setCss(e.target.value)}
-                    className="w-full h-[500px] p-4 font-mono text-sm bg-muted border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+                    className="w-full h-[400px] sm:h-[500px] p-3 sm:p-4 font-mono text-xs sm:text-sm bg-muted border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary resize-none touch-manipulation"
                     placeholder="Write your CSS here..."
                     spellCheck="false"
+                    aria-label="CSS editor"
                   />
                 </TabsContent>
 
@@ -201,33 +212,35 @@ export default function CodePlayground() {
                   <textarea
                     value={js}
                     onChange={(e) => setJs(e.target.value)}
-                    className="w-full h-[500px] p-4 font-mono text-sm bg-muted border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+                    className="w-full h-[400px] sm:h-[500px] p-3 sm:p-4 font-mono text-xs sm:text-sm bg-muted border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary resize-none touch-manipulation"
                     placeholder="Write your JavaScript here..."
                     spellCheck="false"
+                    aria-label="JavaScript editor"
                   />
                 </TabsContent>
               </Tabs>
             </Card>
 
             {/* Preview */}
-            <Card className="p-6">
-              <h2 className="text-xl font-semibold mb-4">Live Preview</h2>
+            <Card className="p-4 sm:p-6">
+              <h2 className="text-lg sm:text-xl font-semibold mb-4">Live Preview</h2>
               <div className="border border-border rounded-lg overflow-hidden bg-white">
                 <iframe
                   srcDoc={output}
-                  title="Preview"
+                  title="Code preview"
                   sandbox="allow-scripts allow-modals"
-                  className="w-full h-[560px] border-0"
+                  className="w-full h-[400px] sm:h-[560px] border-0"
+                  loading="lazy"
                 />
               </div>
             </Card>
           </div>
 
           {/* Tips Section */}
-          <Card className="mt-8 p-6 bg-primary/5">
-            <h3 className="text-lg font-semibold mb-3">💡 Quick Tips</h3>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>• Your code runs automatically as you type</li>
+          <Card className="mt-6 sm:mt-8 p-4 sm:p-6 bg-primary/5">
+            <h3 className="text-base sm:text-lg font-semibold mb-3">💡 Quick Tips</h3>
+            <ul className="space-y-2 text-xs sm:text-sm text-muted-foreground">
+              <li>• Your code runs automatically as you type (with 500ms delay)</li>
               <li>• Use the Share button to create a shareable link to your code</li>
               <li>• Press the Download button to save your work as an HTML file</li>
               <li>• Console messages will appear in your browser's developer console</li>
