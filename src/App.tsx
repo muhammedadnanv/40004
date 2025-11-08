@@ -167,7 +167,7 @@ function App() {
         <PerformanceOptimizer />
         
         <Router>
-        <div className="min-h-screen w-full">
+        <div className="min-h-screen w-full flex flex-col">
           <Routes>
             <Route path="/" element={
               <Suspense fallback={<LoadingFallback />}>

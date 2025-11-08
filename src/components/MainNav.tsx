@@ -34,7 +34,7 @@ export function MainNav() {
   // Mobile menu version
   if (isMobile) {
     return (
-      <div className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-md border-b border-gray-200 z-50 px-4 py-3 safe-area-padding">
+      <nav className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-md border-b border-border/20 z-50 px-3 sm:px-4 py-3 safe-area-padding" role="navigation" aria-label="Main navigation">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-2" onClick={closeMenu}>
             <span className="font-bold text-xl text-primary">Dev Mentor Hub</span>
@@ -55,8 +55,8 @@ export function MainNav() {
         </div>
         
         {isMenuOpen && (
-          <div className="fixed inset-0 bg-black/50 z-40" onClick={closeMenu}>
-            <div className="absolute top-0 left-0 bottom-0 w-4/5 max-w-xs bg-white/95 backdrop-blur-md shadow-xl z-50 animate-in slide-in-from-left-full safe-area-padding" onClick={e => e.stopPropagation()}>
+          <div className="fixed inset-0 bg-black/50 z-40" onClick={closeMenu} role="dialog" aria-modal="true" aria-label="Mobile navigation menu">
+            <nav className="absolute top-0 left-0 bottom-0 w-4/5 max-w-xs bg-white shadow-xl z-50 animate-in slide-in-from-left-full safe-area-padding overflow-hidden" onClick={e => e.stopPropagation()}>
               <div className="flex justify-between items-center p-4 border-b border-border/20">
                 <span className="font-bold text-lg text-primary">Menu</span>
                 <Button variant="ghost" size="sm" onClick={closeMenu} className="p-2 min-h-[44px] min-w-[44px] touch-manipulation hover:bg-accent/50 transition-colors" aria-label="Close menu">
@@ -64,7 +64,8 @@ export function MainNav() {
                 </Button>
               </div>
               
-              <nav className="p-4 space-y-6 overflow-y-auto max-h-[calc(100vh-120px)] scrollbar-hide">
+              <div className="p-3 sm:p-4 space-y-4 sm:space-y-6 overflow-y-auto max-h-[calc(100vh-80px)] overscroll-contain"
+                style={{ WebkitOverflowScrolling: 'touch' }}>
                 {/* Main navigation links with icons */}
                 <Link to="/" className="flex items-center space-x-3 py-4 px-4 rounded-lg hover:bg-accent/10 font-medium touch-manipulation transition-colors min-h-[52px] active:scale-[0.98]" onClick={closeMenu}>
                   <Home className="h-5 w-5 text-primary flex-shrink-0" />
@@ -128,25 +129,25 @@ export function MainNav() {
                   <Code2 className="h-5 w-5 text-primary flex-shrink-0" />
                   <span className="text-foreground">Code Playground</span>
                 </Link>
-              </nav>
-            </div>
+              </div>
+            </nav>
           </div>
         )}
-      </div>
+      </nav>
     );
   }
 
-  // Desktop menu version - simplified without asChild
+  // Desktop menu version
   return (
-    <div className="hidden md:block w-full bg-white/95 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
+    <nav className="hidden md:block w-full bg-white/95 backdrop-blur-md border-b border-border/20 sticky top-0 z-50" role="navigation" aria-label="Main navigation">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex items-center space-x-2">
             <span className="font-bold text-xl text-primary">Dev Mentor Hub</span>
           </Link>
           
-          <div className="flex items-center gap-6">
-            <nav className="flex items-center space-x-8">
+          <div className="flex items-center gap-4 lg:gap-6">
+            <div className="flex items-center space-x-4 lg:space-x-6 xl:space-x-8">
             <Link to="/" className="text-sm font-medium transition-colors hover:text-primary">
               Home
             </Link>
@@ -203,15 +204,15 @@ export function MainNav() {
               Dashboard
             </Link>
             
-            <Link to="/code-playground" className="text-sm font-medium transition-colors hover:text-primary">
+            <Link to="/code-playground" className="text-sm font-medium transition-colors hover:text-primary whitespace-nowrap">
               Code Playground
             </Link>
-          </nav>
+          </div>
           
           <UserMenu />
           </div>
         </div>
       </div>
-    </div>
+    </nav>
   );
 }
