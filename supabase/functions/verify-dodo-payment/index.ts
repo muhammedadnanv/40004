@@ -27,8 +27,6 @@ Deno.serve(async (req) => {
     const supabaseUrl = Deno.env.get('SUPABASE_URL') as string
     const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY') as string
     const supabase = createClient(supabaseUrl, supabaseAnonKey)
-
-    console.log(`Mock verification for payment: ${paymentId}`)
     
     // Mock verification - always return success for demo purposes
     const mockVerificationResult = {
@@ -38,8 +36,6 @@ Deno.serve(async (req) => {
       amount: amount,
       status: 'completed'
     }
-    
-    console.log('Mock verification result:', mockVerificationResult)
     
     // Update payment status in database
     if (mockVerificationResult.verified) {
@@ -52,7 +48,6 @@ Deno.serve(async (req) => {
         .eq('payment_id', paymentId)
       
       if (dbError) {
-        console.error('Error updating payment status:', dbError)
         // Don't fail the verification for DB errors in demo mode
       }
     }
@@ -67,7 +62,6 @@ Deno.serve(async (req) => {
     )
     
   } catch (error) {
-    console.error('Error verifying payment:', error)
     return new Response(
       JSON.stringify({ 
         error: 'Internal server error', 

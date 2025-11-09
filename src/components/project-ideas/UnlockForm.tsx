@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 interface UnlockFormProps {
   onUnlock: () => void;
@@ -10,22 +11,48 @@ interface UnlockFormProps {
 
 export const UnlockForm = ({ onUnlock }: UnlockFormProps) => {
   const [specialCode, setSpecialCode] = useState("");
+  const [isVerifying, setIsVerifying] = useState(false);
   const { toast } = useToast();
 
-  const handleUnlock = () => {
-    // Check if the special code matches the payment verification code
-    if (specialCode === "DMH2024") {
+  const handleUnlock = async () => {
+    if (!specialCode.trim()) {
+      toast({
+        title: "Invalid Code",
+        description: "Please enter an unlock code.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsVerifying(true);
+    
+    try {
+      const { data, error } = await supabase.functions.invoke('verify-unlock-code', {
+        body: { code: specialCode.trim() }
+      });
+
+      if (error || !data?.success) {
+        toast({
+          title: "Invalid Code",
+          description: data?.error || "Please enter a valid unlock code. You can get this after payment.",
+          variant: "destructive",
+        });
+        return;
+      }
+
       onUnlock();
       toast({
         title: "Project Ideas Unlocked! 🎉",
         description: "You now have access to all project ideas.",
       });
-    } else {
+    } catch (error) {
       toast({
-        title: "Invalid Code",
-        description: "Please enter a valid unlock code. You can get this after payment.",
+        title: "Verification Failed",
+        description: "Unable to verify unlock code. Please try again.",
         variant: "destructive",
       });
+    } finally {
+      setIsVerifying(false);
     }
   };
 
@@ -49,8 +76,9 @@ export const UnlockForm = ({ onUnlock }: UnlockFormProps) => {
             onClick={handleUnlock} 
             className="w-full bg-primary hover:bg-primary/90"
             data-testid="unlock-button"
+            disabled={isVerifying}
           >
-            Unlock Gallery
+            {isVerifying ? "Verifying..." : "Unlock Gallery"}
           </Button>
         </div>
         <p className="mt-3 sm:mt-4 text-xs sm:text-sm text-gray-500 text-center">

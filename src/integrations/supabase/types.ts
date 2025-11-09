@@ -1067,6 +1067,42 @@ export type Database = {
           },
         ]
       }
+      unlock_codes: {
+        Row: {
+          code: string
+          created_at: string
+          expires_at: string | null
+          id: string
+          is_active: boolean
+          payment_id: string | null
+          project_access: string
+          used_at: string | null
+          user_id: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean
+          payment_id?: string | null
+          project_access?: string
+          used_at?: string | null
+          user_id: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean
+          payment_id?: string | null
+          project_access?: string
+          used_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_api_keys: {
         Row: {
           created_at: string | null
@@ -1197,10 +1233,7 @@ export type Database = {
         }
         Returns: undefined
       }
-      generate_unique_referral_code: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
+      generate_unique_referral_code: { Args: never; Returns: string }
     }
     Enums: {
       [_ in never]: never

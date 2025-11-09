@@ -25,6 +25,9 @@ port = 54325
 [functions.verify-dodo-payment]
 verify_jwt = true
 
+[functions.verify-unlock-code]
+verify_jwt = false
+
 [functions.openai-chat]
 verify_jwt = false
 

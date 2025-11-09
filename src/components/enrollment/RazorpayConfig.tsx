@@ -41,20 +41,10 @@ const sendWhatsAppMessage = async (data: FormData, programTitle: string) => {
   
   // Open WhatsApp in new tab
   window.open(whatsappUrl, '_blank');
-  
-  console.log("WhatsApp message sent with details:", {
-    name: data.name,
-    email: data.email,
-    phone: data.phone,
-    duration: data.duration,
-    price: price
-  });
 };
 
 // Mock Dodo payment integration for demo purposes
 const mockDodoPayment = (options: any) => {
-  console.log("Mock Dodo Payment initiated with options:", options);
-  
   // Simulate payment success after 2 seconds
   setTimeout(() => {
     const mockResponse = {
@@ -63,7 +53,6 @@ const mockDodoPayment = (options: any) => {
       dodo_signature: `sig_${Math.random().toString(36).substring(2, 15)}`,
     };
     
-    console.log("Mock payment successful:", mockResponse);
     options.handler(mockResponse);
   }, 2000);
 };
@@ -90,9 +79,7 @@ const sendEnrollmentEmail = async (email: string, name: string, programTitle: st
       }
 
       success = true;
-      console.log("Enrollment email sent successfully", data);
     } catch (error) {
-      console.error(`Email sending error (attempt ${retryCount + 1}/${maxRetries + 1}):`, error);
       retryCount++;
       
       if (retryCount > maxRetries) {
@@ -157,8 +144,6 @@ export const createDodoPaymentOptions = (
       color: "#7c3aed",
     },
     handler: async function (response: any) {
-      console.log("Dodo payment successful, response:", response);
-      
       try {
         // Enhanced payment record with additional metadata
         const paymentRecord = {
@@ -180,9 +165,6 @@ export const createDodoPaymentOptions = (
           .insert([paymentRecord]);
 
         if (error) {
-          console.error("Error storing payment:", error);
-          console.log("Payment details for recovery:", JSON.stringify(paymentRecord));
-          
           toast({
             title: "Payment Recorded",
             description: "Your payment was successful but we encountered an issue saving your details. Our team will contact you shortly.",
@@ -197,7 +179,6 @@ export const createDodoPaymentOptions = (
         try {
           await sendEnrollmentEmail(data.email, data.name, programTitle);
         } catch (emailError) {
-          console.error("Error sending enrollment email:", emailError);
           // Don't fail the payment process if email fails
         }
         
@@ -208,13 +189,11 @@ export const createDodoPaymentOptions = (
           description: "Your details have been sent to our team via WhatsApp. Check your email for confirmation.",
         });
       } catch (error: any) {
-        console.error("Error processing payment:", error);
         onError({ message: error.message || "Error processing payment" });
       }
     },
     modal: {
       ondismiss: function() {
-        console.log("Payment modal dismissed");
         onError({ message: "Payment cancelled by user" });
       },
       confirm_close: true,
