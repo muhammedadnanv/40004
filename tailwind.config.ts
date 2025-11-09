@@ -5,27 +5,36 @@ export default {
   darkMode: ["class"],
   content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
   theme: {
+    // Mobile-first responsive breakpoints
+    screens: {
+      'xs': '375px',
+      'sm': '640px',
+      'md': '768px',
+      'lg': '1024px',
+      'xl': '1280px',
+      '2xl': '1536px',
+    },
     container: {
       center: true,
       padding: {
         DEFAULT: '1rem',
-        sm: '2rem',
-        lg: '3rem',
-        xl: '4rem',
+        xs: '1rem',
+        sm: '1.5rem',
+        md: '2rem',
+        lg: '2.5rem',
+        xl: '3rem',
+        '2xl': '4rem',
       },
       screens: {
-        xs: "475px",
+        xs: "375px",
         sm: "640px",
         md: "768px",
         lg: "1024px",
         xl: "1280px",
-        "2xl": "1400px",
+        "2xl": "1536px",
       },
     },
     extend: {
-      screens: {
-        'xs': '475px',
-      },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
         display: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],

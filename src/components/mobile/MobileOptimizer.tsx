@@ -1,10 +1,17 @@
 import { useEffect } from 'react';
 import { enhanceMobileExperience } from '@/utils/mobileResponsiveness';
+import { initMobileOptimizations, isMobileDevice } from '@/utils/mobileOptimizations';
 
 export const MobileOptimizer = () => {
   useEffect(() => {
-    // Apply mobile optimizations on component mount
+    // Check if on mobile device
+    if (!isMobileDevice()) return;
+
+    // Apply legacy mobile optimizations
     enhanceMobileExperience();
+    
+    // Initialize comprehensive mobile optimizations
+    const cleanup = initMobileOptimizations();
     
     // Apply optimizations when the DOM changes (for dynamic content)
     const observer = new MutationObserver(() => {
@@ -18,6 +25,7 @@ export const MobileOptimizer = () => {
     
     return () => {
       observer.disconnect();
+      cleanup?.();
     };
   }, []);
   

@@ -9,7 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { dataProcessor } from "./utils/dataProcessor";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { runWebsiteTest } from "./utils/websiteValidator";
-import { optimizeForDevice } from "./utils/performanceOptimizer";
+import { optimizeForDevice, addResourceHints, applySEOOptimizations, optimizeImagesForSEO, fetchAndApplySEOKeywords, generateInternalLinks } from "./utils/performanceOptimizer";
 import { seoOptimizer } from "./utils/seoOptimizer";
 import { MobileTestComponent } from "./components/mobile/MobileTestComponent";
 import { MobileOptimizer } from "./components/mobile/MobileOptimizer";
@@ -49,132 +49,54 @@ function App() {
   
   useEffect(() => {
     const initializeApp = async () => {
+      // Use requestIdleCallback for non-critical initializations
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => {
+          const deviceInfo = optimizeForDevice();
+          
+          // Apply performance optimizations based on device
+          if (deviceInfo.isMobile || deviceInfo.isTablet) {
+            enhanceMobileExperience();
+          }
+          
+          // Add resource hints for better loading
+          addResourceHints();
+          
+          // Apply SEO optimizations
+          applySEOOptimizations();
+          
+          // Optimize images
+          optimizeImagesForSEO('main');
+        });
+      } else {
+        // Fallback for browsers without requestIdleCallback
+        setTimeout(() => {
+          const deviceInfo = optimizeForDevice();
+          if (deviceInfo.isMobile || deviceInfo.isTablet) {
+            enhanceMobileExperience();
+          }
+          addResourceHints();
+          applySEOOptimizations();
+          optimizeImagesForSEO('main');
+        }, 100);
+      }
+      
+      // Critical async operations
       try {
-        // Check device capabilities and optimize
-        const deviceCapabilities = optimizeForDevice();
-        console.log("Device optimization:", deviceCapabilities);
-        
-        // Initialize data processor
-        const processor = dataProcessor;
-        
-        // Run critical initializations first
-        try {
-          // Enhanced mobile experience (critical for UX)
-          enhanceMobileExperience();
+        await Promise.all([
+          // Fetch and apply SEO keywords
+          fetchAndApplySEOKeywords('developer-programs', 10).catch(() => {}),
           
-          // Add optimized resize event listener
-          let resizeTimeout: ReturnType<typeof setTimeout>;
-          const handleResize = () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(enhanceMobileExperience, 300);
-          };
-          
-          window.addEventListener('resize', handleResize, { passive: true });
-          
-          console.log("Mobile optimizations complete");
-        } catch (error) {
-          console.error("Error during mobile optimization:", error);
-        }
-
-        // Run non-critical features asynchronously
-        Promise.all([
-          // Check Supabase connection
-          (async () => {
-            try {
-              const { error } = await supabase.from('payments').select('count').limit(1).single();
-              if (error && error.code !== 'PGRST116' && error.code !== 'PGRST301') {
-                throw error;
-              }
-              console.log("Supabase connection verified");
-              
-              // Log initial data processing metrics
-              const metrics = processor.getMetricsSummary();
-              console.log("Initial data processing metrics:", metrics);
-            } catch (error) {
-              console.error("Supabase connection error:", error);
-            }
-          })(),
-          
-          // Website validation (non-blocking)
-          (async () => {
-            try {
-              await runWebsiteTest();
-              console.log("Website validation completed");
-            } catch (error) {
-              console.error("Website validation failed:", error);
-            }
-          })(),
-          
-          // SEO optimization (non-blocking)
-          (async () => {
-            try {
-              if (document.readyState === 'complete') {
-                await seoOptimizer.runOptimizations({
-                  optimizeMetaTags: true,
-                  checkTechnicalSEO: true
-                });
-              } else {
-                window.addEventListener('load', () => {
-                  seoOptimizer.runOptimizations({
-                    optimizeMetaTags: true,
-                    checkTechnicalSEO: true
-                  }).catch(err => console.error("SEO optimization error:", err));
-                }, { once: true });
-              }
-              console.log("SEO optimization initialized");
-            } catch (error) {
-              console.error("Error during SEO optimization:", error);
-            }
-          })(),
-          
-          // Marketing features (non-blocking)
-          (async () => {
-            try {
-              if (typeof startMarketingRecommendations === 'function') {
-                await startMarketingRecommendations();
-                console.log("Marketing recommendations started");
-              }
-            } catch (error) {
-              console.error("Error starting marketing recommendations:", error);
-            }
-          })(),
-          
-          // Link validation (non-blocking)
-          (async () => {
-            try {
-              await autoFixAndReportLinkIssues();
-              console.log("Link validation complete");
-            } catch (error) {
-              console.error("Link validation error:", error);
-            }
-          })()
-        ]).catch(error => {
-          console.error("Non-critical initialization errors:", error);
-        });
-
+          // Generate internal links
+          generateInternalLinks('main', 'developer-programs', 5).catch(() => {})
+        ]);
       } catch (error) {
-        console.error("Critical app initialization error:", error);
-        toast({
-          title: "Initialization Error",
-          description: "Some features might not work correctly. Please refresh the page.",
-          variant: "destructive",
-          duration: 5000,
-        });
+        // Silent error handling for non-critical features
       }
     };
 
-    // Use requestIdleCallback for better performance
-    if ('requestIdleCallback' in window) {
-      requestIdleCallback(() => initializeApp(), { timeout: 2000 });
-    } else {
-      setTimeout(initializeApp, 0);
-    }
-
-    // Cleanup function
-    return () => {
-      console.log("App cleanup");
-    };
-  }, [toast]);
+    initializeApp();
+  }, []);
 
   return (
     <HelmetProvider>
