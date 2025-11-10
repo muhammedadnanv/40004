@@ -1,34 +1,43 @@
-
+import { lazy, Suspense } from "react";
 import { HeroSection } from "@/components/HeroSection";
 import { ProgramsSection } from "@/components/programs/ProgramsSection";
-import { FeaturesSection } from "@/components/features/FeaturesSection";
-import { MentorSection } from "@/components/MentorSection";
-import { CertificationSection } from "@/components/CertificationSection";
-import { PortfolioSection } from "@/components/PortfolioSection";
-import { ProjectIdeasSection } from "@/components/ProjectIdeasSection";
-import { ReviewSection } from "@/components/ReviewSection";
-import { FAQSection } from "@/components/FAQSection";
-import { WhatsAppSection } from "@/components/WhatsAppSection";
-import { PartnershipsSection } from "@/components/PartnershipsSection";
-import { LearningPathSection } from "@/components/LearningPathSection";
-import { ShareSection } from "@/components/ShareSection";
-import { SocialMediaFooter } from "@/components/SocialMediaFooter";
-import { SEODashboard } from "@/components/SEO/SEODashboard";
-import { StructuredDataManager } from "@/components/SEO/StructuredDataManager";
-import { CategoryTopper } from "@/components/CategoryTopper";
-import { CodeOfConductSection } from "@/components/CodeOfConductSection";
-import { PlatformExplanation } from "@/components/PlatformExplanation";
-import { AIFeaturesSection } from "@/components/AIFeaturesSection";
-import { AIChatWidget } from "@/components/AIChatWidget";
-import { SitemapGenerator } from "@/components/SEO/SitemapGenerator";
-import { PerformanceMonitor } from "@/components/SEO/PerformanceMonitor";
-import { AdvertiserSection } from "@/components/AdvertiserSection";
-
-import { Helmet } from "react-helmet-async";
-import { LeadCollectionPopup } from "@/components/LeadCollectionPopup";
-import { AlbatoAdPopup } from "@/components/AlbatoAdPopup";
-import { PromotionPopup } from "@/components/PromotionPopup";
 import { MainNav } from "@/components/MainNav";
+import { Helmet } from "react-helmet-async";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
+
+// Lazy load below-the-fold components for better performance
+const FeaturesSection = lazy(() => import("@/components/features/FeaturesSection").then(m => ({ default: m.FeaturesSection })));
+const MentorSection = lazy(() => import("@/components/MentorSection").then(m => ({ default: m.MentorSection })));
+const CertificationSection = lazy(() => import("@/components/CertificationSection").then(m => ({ default: m.CertificationSection })));
+const PortfolioSection = lazy(() => import("@/components/PortfolioSection").then(m => ({ default: m.PortfolioSection })));
+const ProjectIdeasSection = lazy(() => import("@/components/ProjectIdeasSection").then(m => ({ default: m.ProjectIdeasSection })));
+const ReviewSection = lazy(() => import("@/components/ReviewSection").then(m => ({ default: m.ReviewSection })));
+const FAQSection = lazy(() => import("@/components/FAQSection").then(m => ({ default: m.FAQSection })));
+const WhatsAppSection = lazy(() => import("@/components/WhatsAppSection").then(m => ({ default: m.WhatsAppSection })));
+const PartnershipsSection = lazy(() => import("@/components/PartnershipsSection").then(m => ({ default: m.PartnershipsSection })));
+const LearningPathSection = lazy(() => import("@/components/LearningPathSection").then(m => ({ default: m.LearningPathSection })));
+const ShareSection = lazy(() => import("@/components/ShareSection").then(m => ({ default: m.ShareSection })));
+const SocialMediaFooter = lazy(() => import("@/components/SocialMediaFooter").then(m => ({ default: m.SocialMediaFooter })));
+const SEODashboard = lazy(() => import("@/components/SEO/SEODashboard").then(m => ({ default: m.SEODashboard })));
+const StructuredDataManager = lazy(() => import("@/components/SEO/StructuredDataManager").then(m => ({ default: m.StructuredDataManager })));
+const CategoryTopper = lazy(() => import("@/components/CategoryTopper").then(m => ({ default: m.CategoryTopper })));
+const CodeOfConductSection = lazy(() => import("@/components/CodeOfConductSection").then(m => ({ default: m.CodeOfConductSection })));
+const PlatformExplanation = lazy(() => import("@/components/PlatformExplanation").then(m => ({ default: m.PlatformExplanation })));
+const AIFeaturesSection = lazy(() => import("@/components/AIFeaturesSection").then(m => ({ default: m.AIFeaturesSection })));
+const AIChatWidget = lazy(() => import("@/components/AIChatWidget").then(m => ({ default: m.AIChatWidget })));
+const SitemapGenerator = lazy(() => import("@/components/SEO/SitemapGenerator").then(m => ({ default: m.SitemapGenerator })));
+const PerformanceMonitor = lazy(() => import("@/components/SEO/PerformanceMonitor").then(m => ({ default: m.PerformanceMonitor })));
+const AdvertiserSection = lazy(() => import("@/components/AdvertiserSection").then(m => ({ default: m.AdvertiserSection })));
+const LeadCollectionPopup = lazy(() => import("@/components/LeadCollectionPopup").then(m => ({ default: m.LeadCollectionPopup })));
+const AlbatoAdPopup = lazy(() => import("@/components/AlbatoAdPopup").then(m => ({ default: m.AlbatoAdPopup })));
+const PromotionPopup = lazy(() => import("@/components/PromotionPopup").then(m => ({ default: m.PromotionPopup })));
+
+// Lightweight loading fallback
+const SectionLoader = () => (
+  <div className="flex justify-center items-center py-12">
+    <LoadingSpinner />
+  </div>
+);
 
 const Index = () => {
   // Sample programs data
@@ -76,12 +85,12 @@ const Index = () => {
     <>
       <Helmet>
         <title>Dev Mentor Hub - AI-Powered Mentorship Platform | Learn Web Development, Programming & Tech Skills Online</title>
-        <meta name="description" content="Join India's leading AI-enhanced mentorship platform. Get personalized guidance from industry experts, build real-world projects, and master web development, React, Node.js, AI integration & more. Affordable programs starting at ₹199. Free career support & resume building." />
+        <meta name="description" content="Join India's leading AI-enhanced mentorship platform. Get personalized guidance from industry experts, build real-world projects, and master web development, React, Node.js, AI integration & more. Affordable programs starting at ₹699. Free career support & resume building." />
         <meta name="keywords" content="AI mentorship platform India, online programming mentorship, web development course online, React training India, Node.js mentorship, full stack developer course, coding bootcamp India, project based learning, tech career mentorship, software development training, learn to code online, affordable programming courses, AI integration course, frontend development training, backend development course, career change to tech, programming for beginners, coding mentor online, tech education India, developer certification program" />
         
         {/* Enhanced Open Graph Meta Tags */}
         <meta property="og:title" content="Dev Mentor Hub - Transform Your Tech Career with AI-Powered Mentorship" />
-        <meta property="og:description" content="Learn web development, AI integration, and programming from industry experts. Affordable mentorship programs starting at ₹199. Build real projects, get personalized feedback, and accelerate your tech career." />
+        <meta property="og:description" content="Learn web development, AI integration, and programming from industry experts. Affordable mentorship programs starting at ₹699. Build real projects, get personalized feedback, and accelerate your tech career." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://devmentorhub.com" />
         <meta property="og:image" content="https://devmentorhub.com/og-image.jpg" />
@@ -490,59 +499,137 @@ const Index = () => {
       </Helmet>
       
       <div className="min-h-screen">
-        <header role="banner">
-          <MainNav />
+      <header role="banner">
+        <MainNav />
+        <Suspense fallback={<SectionLoader />}>
           <CategoryTopper />
-        </header>
-        <main role="main" id="main-content">
-          {/* Breadcrumb Navigation for SEO */}
-          <nav aria-label="Breadcrumb" className="bg-gray-50 py-2 px-4 sm:px-6 lg:px-8">
-            <div className="container mx-auto max-w-7xl">
-              <ol className="flex items-center space-x-2 text-sm text-gray-600" itemScope itemType="https://schema.org/BreadcrumbList">
-                <li itemProp="itemListElement" itemScope itemType="https://schema.org/ListItem">
-                  <a href="/" itemProp="item" className="hover:text-primary transition-colors">
-                    <span itemProp="name">Home</span>
-                  </a>
-                  <meta itemProp="position" content="1" />
-                </li>
-              </ol>
-            </div>
-          </nav>
-          
-          <HeroSection />
+        </Suspense>
+      </header>
+      <main role="main" id="main-content">
+        {/* Breadcrumb Navigation for SEO */}
+        <nav aria-label="Breadcrumb" className="bg-gray-50 py-2 px-4 sm:px-6 lg:px-8">
+          <div className="container mx-auto max-w-7xl">
+            <ol className="flex items-center space-x-2 text-sm text-gray-600" itemScope itemType="https://schema.org/BreadcrumbList">
+              <li itemProp="itemListElement" itemScope itemType="https://schema.org/ListItem">
+                <a href="/" itemProp="item" className="hover:text-primary transition-colors">
+                  <span itemProp="name">Home</span>
+                </a>
+                <meta itemProp="position" content="1" />
+              </li>
+            </ol>
+          </div>
+        </nav>
+        
+        {/* Above-the-fold content - load immediately */}
+        <HeroSection />
+        
+        {/* Below-the-fold content - lazy load with Suspense */}
+        <Suspense fallback={<SectionLoader />}>
           <PlatformExplanation />
+        </Suspense>
+        
+        <Suspense fallback={<SectionLoader />}>
           <AIFeaturesSection />
-          <ProgramsSection programs={programs} />
+        </Suspense>
+        
+        <ProgramsSection programs={programs} />
+        
+        <Suspense fallback={<SectionLoader />}>
           <FeaturesSection />
+        </Suspense>
+        
+        <Suspense fallback={<SectionLoader />}>
           <MentorSection mentorEarnings={mentorEarnings} />
+        </Suspense>
+        
+        <Suspense fallback={<SectionLoader />}>
           <CertificationSection />
+        </Suspense>
+        
+        <Suspense fallback={<SectionLoader />}>
           <PortfolioSection />
+        </Suspense>
+        
+        <Suspense fallback={<SectionLoader />}>
           <ProjectIdeasSection />
+        </Suspense>
+        
+        <Suspense fallback={<SectionLoader />}>
           <ReviewSection />
+        </Suspense>
+        
+        <Suspense fallback={<SectionLoader />}>
           <LearningPathSection />
+        </Suspense>
+        
+        <Suspense fallback={<SectionLoader />}>
           <FAQSection />
+        </Suspense>
+        
+        <Suspense fallback={<SectionLoader />}>
           <WhatsAppSection />
+        </Suspense>
+        
+        <Suspense fallback={<SectionLoader />}>
           <AdvertiserSection />
+        </Suspense>
+        
+        <Suspense fallback={<SectionLoader />}>
           <PartnershipsSection />
+        </Suspense>
+        
+        <Suspense fallback={<SectionLoader />}>
           <ShareSection />
+        </Suspense>
+        
+        <Suspense fallback={<SectionLoader />}>
           <CodeOfConductSection />
-          
-        </main>
-        <footer role="contentinfo">
+        </Suspense>
+        
+      </main>
+      <footer role="contentinfo">
+        <Suspense fallback={<SectionLoader />}>
           <SocialMediaFooter />
-        </footer>
+        </Suspense>
+      </footer>
+      
+      {/* SEO and Analytics components - defer loading */}
+      <Suspense fallback={null}>
         <SEODashboard />
+      </Suspense>
+      
+      <Suspense fallback={null}>
         <StructuredDataManager 
           type="Organization" 
           data={organizationData}
           autoImplement={true}
         />
+      </Suspense>
+      
+      <Suspense fallback={null}>
         <SitemapGenerator />
+      </Suspense>
+      
+      <Suspense fallback={null}>
         <PerformanceMonitor />
+      </Suspense>
+      
+      <Suspense fallback={null}>
         <AIChatWidget />
+      </Suspense>
+      
+      {/* Popups - lazy load */}
+      <Suspense fallback={null}>
         <LeadCollectionPopup />
+      </Suspense>
+      
+      <Suspense fallback={null}>
         <AlbatoAdPopup />
+      </Suspense>
+      
+      <Suspense fallback={null}>
         <PromotionPopup />
+      </Suspense>
       </div>
     </>
   );

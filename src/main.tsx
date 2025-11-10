@@ -5,12 +5,19 @@ import App from './App.tsx';
 import './index.css';
 import { addResourceHints } from './utils/performanceOptimizer';
 import { initializeMobileOptimizations } from './utils/mobileResponsiveness';
+import { initPerformanceOptimizations, monitorPerformance } from './utils/performanceOptimizations';
 
 // Add resource hints for faster loading
 if (typeof window !== 'undefined') {
   addResourceHints();
   // Initialize mobile optimizations immediately
   initializeMobileOptimizations();
+  // Initialize additional performance optimizations
+  initPerformanceOptimizations();
+  // Monitor performance in development
+  if (import.meta.env.DEV) {
+    monitorPerformance();
+  }
 }
 
 // Register Service Worker with better error handling and updates
