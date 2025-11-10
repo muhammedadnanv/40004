@@ -52,7 +52,7 @@ export const EnrollmentForm = ({
   });
 
   const watchedDuration = form.watch("duration");
-  const currentPrice = watchedDuration === "5-week" ? 399 : watchedDuration === "10-week" ? 999 : initialAmount;
+  const currentPrice = watchedDuration === "5-week" ? 699 : watchedDuration === "10-week" ? 2999 : initialAmount;
 
   const handleReferralCode = () => {
     const referralCode = form.getValues("referralCode");

@@ -29,7 +29,7 @@ interface ProgramCardProps {
 export const ProgramCard = ({ program }: ProgramCardProps) => {
   const [showEnrollmentForm, setShowEnrollmentForm] = useState(false);
   const [showShareCard, setShowShareCard] = useState(false);
-  const currentPrice = 399; // Fixed price for all programs
+  const currentPrice = 699; // Fixed price for all programs
   
   // Check if programs should be unlocked (July 21, 2025)
   const activationDate = new Date('2025-07-21T00:00:00');

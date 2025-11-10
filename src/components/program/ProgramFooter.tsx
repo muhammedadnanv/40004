@@ -26,11 +26,11 @@ export const ProgramFooter = ({
           <p className="text-sm text-gray-600 mb-2">Choose Your Duration:</p>
           <div className="grid grid-cols-2 gap-2">
             <div className={`bg-white p-3 rounded-lg border ${isLocked ? 'border-gray-200 opacity-50' : 'border-purple-200'}`}>
-              <p className={`text-lg font-bold ${isLocked ? 'text-gray-400' : 'text-purple-600'}`}>₹399</p>
+              <p className={`text-lg font-bold ${isLocked ? 'text-gray-400' : 'text-purple-600'}`}>₹699</p>
               <p className="text-xs text-gray-600">5 weeks</p>
             </div>
             <div className={`bg-white p-3 rounded-lg border ${isLocked ? 'border-gray-200 opacity-50' : 'border-purple-200'}`}>
-              <p className={`text-lg font-bold ${isLocked ? 'text-gray-400' : 'text-purple-600'}`}>₹999</p>
+              <p className={`text-lg font-bold ${isLocked ? 'text-gray-400' : 'text-purple-600'}`}>₹2,999</p>
               <p className="text-xs text-gray-600">10 weeks</p>
             </div>
           </div>

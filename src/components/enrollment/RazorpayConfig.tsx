@@ -50,7 +50,7 @@ const calculateTotalAmount = (baseAmount: number) => {
 
 // Function to send WhatsApp message
 const sendWhatsAppMessage = async (data: FormData, programTitle: string) => {
-  const price = data.duration === "5-week" ? "₹399" : "₹999";
+  const price = data.duration === "5-week" ? "₹699" : "₹2,999";
   const message = `New enrollment for ${programTitle}%0A%0AName: ${data.name}%0AEmail: ${data.email}%0APhone: ${data.phone}%0ADuration: ${data.duration}%0APrice: ${price}%0A%0APlease contact the student for next steps.`;
   
   const whatsappUrl = `https://wa.me/919656778508?text=${message}`;

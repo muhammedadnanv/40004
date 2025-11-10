@@ -162,7 +162,7 @@ export const FormFields = ({ form }: FormFieldsProps) => {
                   <RadioGroupItem value="5-week" id="5-week" />
                   <label htmlFor="5-week" className="flex-1 cursor-pointer">
                     <div className="font-semibold text-purple-600 text-fluid-base">5 Weeks</div>
-                    <div className="text-fluid-sm text-gray-600">₹399 only</div>
+                    <div className="text-fluid-sm text-gray-600">₹699 only</div>
                   </label>
                 </div>
                 <div className={`flex items-center space-x-2 p-3 sm:p-4 border-2 rounded-lg transition-all mobile-touch-target touch-manipulation ${
@@ -173,7 +173,7 @@ export const FormFields = ({ form }: FormFieldsProps) => {
                   <RadioGroupItem value="10-week" id="10-week" />
                   <label htmlFor="10-week" className="flex-1 cursor-pointer">
                     <div className="font-semibold text-purple-600 text-fluid-base">10 Weeks</div>
-                    <div className="text-fluid-sm text-gray-600">₹999 only</div>
+                    <div className="text-fluid-sm text-gray-600">₹2,999 only</div>
                   </label>
                 </div>
               </RadioGroup>

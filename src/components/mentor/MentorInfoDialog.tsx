@@ -18,9 +18,9 @@ export const MentorInfoDialog = ({ isOpen, onClose, mentorEarnings = 0 }: Mentor
     onClose();
   };
 
-  // Platform pricing structure: 5-week (₹399) and 10-week (₹999)
-  const fiveWeekPrice = 399;
-  const tenWeekPrice = 999;
+  // Platform pricing structure: 5-week (₹699) and 10-week (₹2,999)
+  const fiveWeekPrice = 699;
+  const tenWeekPrice = 2999;
   const platformFeePercentage = 15; // 15% platform fee
   
   // Calculate mentor earnings (85% of program fees)
