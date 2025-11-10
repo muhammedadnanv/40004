@@ -3,12 +3,28 @@ import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 
-// Optimized schema with better error messages
+// Enhanced schema with real-time validation and better error messages
 export const formSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters").max(100, "Name is too long"),
-  email: z.string().email("Please enter a valid email address"),
-  phone: z.string().min(10, "Phone number must be at least 10 digits").max(15, "Phone number is too long"),
-  duration: z.enum(["5-week", "10-week"], { required_error: "Please select a program duration" }),
+  name: z.string()
+    .min(2, "Name must be at least 2 characters")
+    .max(100, "Name is too long")
+    .regex(/^[a-zA-Z\s]+$/, "Name can only contain letters and spaces")
+    .trim(),
+  email: z.string()
+    .min(1, "Email is required")
+    .email("Please enter a valid email address")
+    .regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Invalid email format")
+    .trim()
+    .toLowerCase(),
+  phone: z.string()
+    .min(10, "Phone number must be 10 digits")
+    .max(10, "Phone number must be 10 digits")
+    .regex(/^[6-9]\d{9}$/, "Enter a valid 10-digit Indian mobile number starting with 6-9")
+    .trim(),
+  duration: z.enum(["5-week", "10-week"], { 
+    required_error: "Please select a program duration",
+    invalid_type_error: "Invalid duration selected"
+  }),
   referralCode: z.string().optional(),
 });
 

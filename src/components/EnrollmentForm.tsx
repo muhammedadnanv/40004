@@ -40,6 +40,8 @@ export const EnrollmentForm = ({
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
+    mode: "onBlur", // Enable real-time validation on blur
+    reValidateMode: "onChange", // Re-validate on change after first submission
     defaultValues: {
       name: "",
       email: "",

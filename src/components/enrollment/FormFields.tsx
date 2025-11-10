@@ -36,26 +36,32 @@ export const FormFields = ({ form }: FormFieldsProps) => {
         name="name"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-gray-700 text-base sm:text-sm">Full Name</FormLabel>
+            <FormLabel className="text-gray-700 text-base sm:text-sm">Full Name *</FormLabel>
             <FormControl>
               <div className="space-y-2">
                 <Input 
-                  placeholder="John Doe" 
+                  placeholder="Enter your full name" 
                   {...field}
                   onChange={(e) => {
-                    field.onChange(e);
-                    handleNameChange(e.target.value);
+                    // Remove special characters and numbers in real-time
+                    const value = e.target.value.replace(/[^a-zA-Z\s]/g, '');
+                    field.onChange(value);
+                    handleNameChange(value);
                   }}
+                  onBlur={field.onBlur}
                   className="border-purple-200 focus:border-purple-400 transition-colors mobile-touch-target text-fluid-base"
+                  autoComplete="name"
                   aria-label="Full name"
+                  aria-required="true"
+                  aria-invalid={!!form.formState.errors.name}
                 />
                 {nameSuggestions.length > 0 && (
-                  <div className="bg-white p-3 rounded-md shadow-lg border border-purple-200 max-h-[200px] overflow-y-auto">
-                    <p className="text-sm text-gray-600 mb-2">Suggestions:</p>
+                  <div className="bg-white p-3 rounded-md shadow-lg border border-purple-200 max-h-[200px] overflow-y-auto mobile-safe-area">
+                    <p className="text-xs sm:text-sm text-gray-600 mb-2">Suggested Kerala names:</p>
                     {nameSuggestions.map((suggestion, index) => (
                       <div
                         key={index}
-                        className="text-sm text-purple-600 cursor-pointer hover:bg-purple-50 p-2 rounded touch-manipulation"
+                        className="text-xs sm:text-sm text-purple-600 cursor-pointer hover:bg-purple-50 p-2 rounded touch-manipulation mobile-touch-target"
                         onClick={() => {
                           form.setValue('name', suggestion);
                           setNameSuggestions([]);
@@ -68,7 +74,7 @@ export const FormFields = ({ form }: FormFieldsProps) => {
                 )}
               </div>
             </FormControl>
-            <FormMessage className="text-red-500" />
+            <FormMessage className="text-red-500 text-xs sm:text-sm" />
           </FormItem>
         )}
       />
@@ -78,18 +84,25 @@ export const FormFields = ({ form }: FormFieldsProps) => {
         name="email"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-gray-700 text-base sm:text-sm">Email</FormLabel>
+            <FormLabel className="text-gray-700 text-base sm:text-sm">Email Address *</FormLabel>
             <FormControl>
               <Input 
                 type="email" 
                 placeholder="john@example.com" 
                 {...field}
+                onChange={(e) => {
+                  field.onChange(e.target.value.toLowerCase().trim());
+                }}
+                onBlur={field.onBlur}
                 className="border-purple-200 focus:border-purple-400 transition-colors mobile-touch-target text-fluid-base"
                 inputMode="email"
+                autoComplete="email"
                 aria-label="Email address"
+                aria-required="true"
+                aria-invalid={!!form.formState.errors.email}
               />
             </FormControl>
-            <FormMessage className="text-red-500" />
+            <FormMessage className="text-red-500 text-xs sm:text-sm" />
           </FormItem>
         )}
       />
@@ -99,18 +112,31 @@ export const FormFields = ({ form }: FormFieldsProps) => {
         name="phone"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-gray-700 text-base sm:text-sm">Phone Number</FormLabel>
+            <FormLabel className="text-gray-700 text-base sm:text-sm">Phone Number *</FormLabel>
             <FormControl>
               <Input 
                 type="tel" 
-                placeholder="1234567890" 
+                placeholder="Enter 10-digit mobile number" 
                 {...field}
+                onChange={(e) => {
+                  // Only allow numbers and limit to 10 digits
+                  const value = e.target.value.replace(/\D/g, '').slice(0, 10);
+                  field.onChange(value);
+                }}
+                onBlur={field.onBlur}
+                maxLength={10}
                 className="border-purple-200 focus:border-purple-400 transition-colors mobile-touch-target text-fluid-base"
-                inputMode="tel"
+                inputMode="numeric"
+                autoComplete="tel"
                 aria-label="Phone number"
+                aria-required="true"
+                aria-invalid={!!form.formState.errors.phone}
               />
             </FormControl>
-            <FormMessage className="text-red-500" />
+            <FormMessage className="text-red-500 text-xs sm:text-sm" />
+            {field.value && field.value.length > 0 && field.value.length < 10 && (
+              <p className="text-xs text-gray-500 mt-1">{field.value.length}/10 digits</p>
+            )}
           </FormItem>
         )}
       />
@@ -120,30 +146,39 @@ export const FormFields = ({ form }: FormFieldsProps) => {
         name="duration"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-gray-700 text-base sm:text-sm">Program Duration</FormLabel>
+            <FormLabel className="text-gray-700 text-base sm:text-sm">Program Duration *</FormLabel>
             <FormControl>
               <RadioGroup
                 onValueChange={field.onChange}
                 defaultValue={field.value}
-                className="grid grid-cols-1 gap-3"
+                className="grid grid-cols-1 sm:grid-cols-2 gap-3"
+                aria-required="true"
               >
-                <div className="flex items-center space-x-2 p-3 border border-purple-200 rounded-lg hover:bg-purple-50 transition-colors mobile-touch-target touch-manipulation">
+                <div className={`flex items-center space-x-2 p-3 sm:p-4 border-2 rounded-lg transition-all mobile-touch-target touch-manipulation ${
+                  field.value === "5-week" 
+                    ? "border-purple-600 bg-purple-50" 
+                    : "border-purple-200 hover:border-purple-400 hover:bg-purple-50"
+                }`}>
                   <RadioGroupItem value="5-week" id="5-week" />
                   <label htmlFor="5-week" className="flex-1 cursor-pointer">
-                    <div className="font-medium text-purple-600 text-fluid-base">5 Weeks</div>
-                    <div className="text-fluid-sm text-gray-600">₹399</div>
+                    <div className="font-semibold text-purple-600 text-fluid-base">5 Weeks</div>
+                    <div className="text-fluid-sm text-gray-600">₹399 only</div>
                   </label>
                 </div>
-                <div className="flex items-center space-x-2 p-3 border border-purple-200 rounded-lg hover:bg-purple-50 transition-colors mobile-touch-target touch-manipulation">
+                <div className={`flex items-center space-x-2 p-3 sm:p-4 border-2 rounded-lg transition-all mobile-touch-target touch-manipulation ${
+                  field.value === "10-week" 
+                    ? "border-purple-600 bg-purple-50" 
+                    : "border-purple-200 hover:border-purple-400 hover:bg-purple-50"
+                }`}>
                   <RadioGroupItem value="10-week" id="10-week" />
                   <label htmlFor="10-week" className="flex-1 cursor-pointer">
-                    <div className="font-medium text-purple-600 text-fluid-base">10 Weeks</div>
-                    <div className="text-fluid-sm text-gray-600">₹999</div>
+                    <div className="font-semibold text-purple-600 text-fluid-base">10 Weeks</div>
+                    <div className="text-fluid-sm text-gray-600">₹999 only</div>
                   </label>
                 </div>
               </RadioGroup>
             </FormControl>
-            <FormMessage className="text-red-500" />
+            <FormMessage className="text-red-500 text-xs sm:text-sm" />
           </FormItem>
         )}
       />
