@@ -1,11 +1,10 @@
 
-import React from "react";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@/hooks/use-toast";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FormFields } from "./enrollment/FormFields";
 import { SuccessCard } from "./enrollment/SuccessCard";
 import { validateReferralCode, getReferralSuccessMessage } from "@/utils/referralUtils";
@@ -150,7 +149,7 @@ export const EnrollmentForm = ({
   };
 
   // Update final amount when duration changes
-  React.useEffect(() => {
+  useEffect(() => {
     if (!referralApplied) {
       setFinalAmount(currentPrice);
     }
