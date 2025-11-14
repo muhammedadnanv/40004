@@ -364,6 +364,54 @@ export type Database = {
           },
         ]
       }
+      image_assets: {
+        Row: {
+          cdn_url: string | null
+          created_at: string | null
+          file_size: number | null
+          height: number | null
+          id: string
+          is_optimized: boolean | null
+          mime_type: string | null
+          original_url: string
+          storage_path: string
+          updated_at: string | null
+          user_id: string | null
+          webp_url: string | null
+          width: number | null
+        }
+        Insert: {
+          cdn_url?: string | null
+          created_at?: string | null
+          file_size?: number | null
+          height?: number | null
+          id?: string
+          is_optimized?: boolean | null
+          mime_type?: string | null
+          original_url: string
+          storage_path: string
+          updated_at?: string | null
+          user_id?: string | null
+          webp_url?: string | null
+          width?: number | null
+        }
+        Update: {
+          cdn_url?: string | null
+          created_at?: string | null
+          file_size?: number | null
+          height?: number | null
+          id?: string
+          is_optimized?: boolean | null
+          mime_type?: string | null
+          original_url?: string
+          storage_path?: string
+          updated_at?: string | null
+          user_id?: string | null
+          webp_url?: string | null
+          width?: number | null
+        }
+        Relationships: []
+      }
       leads: {
         Row: {
           company: string
