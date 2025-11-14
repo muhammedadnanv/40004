@@ -36,8 +36,12 @@ export const OptimizedImage = ({
     };
 
     checkWebPSupport().then((supportsWebP) => {
-      // For external URLs or already optimized images, use as-is
-      if (src.startsWith('http') || src.startsWith('data:')) {
+      // For Supabase Storage CDN URLs, use directly (already optimized)
+      if (src.includes('supabase.co/storage')) {
+        setCurrentSrc(src);
+      }
+      // For external URLs or data URLs, use as-is
+      else if (src.startsWith('http') || src.startsWith('data:')) {
         setCurrentSrc(src);
       } else {
         // Try WebP first if supported, fallback to original

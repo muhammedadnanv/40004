@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { ImageUpload } from "@/components/ui/image-upload";
 
 interface ProjectSubmissionDialogProps {
   open: boolean;
@@ -195,13 +196,21 @@ export const ProjectSubmissionDialog = ({ open, onOpenChange, onSuccess }: Proje
           </div>
 
           <div>
-            <Label htmlFor="image_url">Project Image URL</Label>
+            <Label htmlFor="image_url">Project Image</Label>
+            <ImageUpload
+              onUploadComplete={(result) => {
+                setFormData({ ...formData, image_url: result.cdnUrl });
+              }}
+              folder="projects"
+              className="mt-2"
+            />
             <Input
               id="image_url"
               type="url"
               value={formData.image_url}
               onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-              placeholder="https://example.com/image.jpg"
+              placeholder="Or paste image URL"
+              className="mt-2"
             />
           </div>
 
