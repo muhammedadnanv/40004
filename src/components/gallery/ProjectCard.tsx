@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Heart, MessageSquare, Eye, ExternalLink, Github } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 
 interface ProjectCardProps {
   project: any;
@@ -67,9 +68,11 @@ export const ProjectCard = ({ project, onUpdate }: ProjectCardProps) => {
     <Card className="overflow-hidden hover:shadow-lg transition-shadow">
       {project.image_url && (
         <div className="aspect-video overflow-hidden bg-muted">
-          <img
+          <OptimizedImage
             src={project.image_url}
             alt={project.title}
+            width={800}
+            height={450}
             className="w-full h-full object-cover"
           />
         </div>
