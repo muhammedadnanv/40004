@@ -4,6 +4,7 @@ import { CategoryTopper } from "@/components/CategoryTopper";
 import { SocialMediaFooter } from "@/components/SocialMediaFooter";
 import { Helmet } from "react-helmet-async";
 import { Home, ChevronRight, Handshake } from "lucide-react";
+import { ResponsiveSection } from "@/components/layout/ResponsiveSection";
 
 const Partnerships = () => {
   const pageUrl = "https://devmentorhub.com/partnerships";
@@ -63,14 +64,15 @@ const Partnerships = () => {
         </script>
       </Helmet>
       
-      <div className="min-h-screen">
+      <div className="min-h-screen w-full">
         <header role="banner">
           <MainNav />
           <CategoryTopper />
         </header>
         
-        <main role="main">
-          <nav aria-label="Breadcrumb" className="container mx-auto px-4 pt-4">
+        <main role="main" className="w-full">
+          <ResponsiveSection spacing="sm">
+            <nav aria-label="Breadcrumb" className="max-w-7xl mx-auto">
             <ol className="flex items-center gap-2 text-sm text-muted-foreground">
               <li className="flex items-center gap-2">
                 <Home className="w-4 h-4" />
@@ -83,18 +85,21 @@ const Partnerships = () => {
               </li>
             </ol>
           </nav>
+          </ResponsiveSection>
           
-          <section className="py-16 px-4 sm:px-6 lg:px-8">
-            <div className="container mx-auto max-w-4xl text-center">
+          <ResponsiveSection spacing="md">
+            <div className="max-w-4xl mx-auto text-center">
               <h1 className="text-4xl font-bold mb-4 text-primary">Partnership Opportunities</h1>
-              <p className="text-lg text-gray-600 mb-12 max-w-2xl mx-auto">
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                 Join our network of industry professionals, educational institutions, and technology partners. 
                 Together, we can create better learning experiences and career opportunities for developers.
               </p>
             </div>
-          </section>
+          </ResponsiveSection>
           
-          <PartnershipsSection />
+          <ResponsiveSection spacing="lg">
+            <PartnershipsSection />
+          </ResponsiveSection>
         </main>
         
         <footer role="contentinfo">

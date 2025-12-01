@@ -39,6 +39,8 @@ const SectionLoader = () => (
   </div>
 );
 
+import { ResponsiveSection } from "@/components/layout/ResponsiveSection";
+
 const Index = () => {
   // Sample programs data
   const programs = [
@@ -82,7 +84,7 @@ const Index = () => {
   };
 
   return (
-    <>
+    <div className="min-h-screen w-full">
       <Helmet>
         <title>Dev Mentor Hub - AI-Powered Mentorship Platform | Learn Web Development, Programming & Tech Skills Online</title>
         <meta name="description" content="Join India's leading AI-enhanced mentorship platform. Get personalized guidance from industry experts, build real-world projects, and master web development, React, Node.js, AI integration & more. Affordable programs starting at ₹699. Free career support & resume building." />
@@ -498,14 +500,13 @@ const Index = () => {
         </script>
       </Helmet>
       
-      <div className="min-h-screen">
       <header role="banner">
         <MainNav />
         <Suspense fallback={<SectionLoader />}>
           <CategoryTopper />
         </Suspense>
       </header>
-      <main role="main" id="main-content">
+      <main role="main" id="main-content" className="w-full">
         {/* Breadcrumb Navigation for SEO */}
         <nav aria-label="Breadcrumb" className="bg-gray-50 py-2 px-4 sm:px-6 lg:px-8">
           <div className="container mx-auto max-w-7xl">
@@ -533,60 +534,84 @@ const Index = () => {
         </Suspense>
         
         <ProgramsSection programs={programs} />
-        
-        <Suspense fallback={<SectionLoader />}>
-          <FeaturesSection />
-        </Suspense>
-        
-        <Suspense fallback={<SectionLoader />}>
-          <MentorSection mentorEarnings={mentorEarnings} />
-        </Suspense>
-        
-        <Suspense fallback={<SectionLoader />}>
-          <CertificationSection />
-        </Suspense>
-        
-        <Suspense fallback={<SectionLoader />}>
-          <PortfolioSection />
-        </Suspense>
-        
-        <Suspense fallback={<SectionLoader />}>
-          <ProjectIdeasSection />
-        </Suspense>
-        
-        <Suspense fallback={<SectionLoader />}>
-          <ReviewSection />
-        </Suspense>
-        
-        <Suspense fallback={<SectionLoader />}>
-          <LearningPathSection />
-        </Suspense>
-        
-        <Suspense fallback={<SectionLoader />}>
-          <FAQSection />
-        </Suspense>
-        
-        <Suspense fallback={<SectionLoader />}>
-          <WhatsAppSection />
-        </Suspense>
+      
+        <ResponsiveSection spacing="lg">
+          <Suspense fallback={<SectionLoader />}>
+            <FeaturesSection />
+          </Suspense>
+        </ResponsiveSection>
+      
+        <ResponsiveSection spacing="lg">
+          <Suspense fallback={<SectionLoader />}>
+            <MentorSection mentorEarnings={mentorEarnings} />
+          </Suspense>
+        </ResponsiveSection>
+      
+        <ResponsiveSection spacing="lg">
+          <Suspense fallback={<SectionLoader />}>
+            <CertificationSection />
+          </Suspense>
+        </ResponsiveSection>
+      
+        <ResponsiveSection spacing="lg">
+          <Suspense fallback={<SectionLoader />}>
+            <PortfolioSection />
+          </Suspense>
+        </ResponsiveSection>
+      
+        <ResponsiveSection spacing="lg">
+          <Suspense fallback={<SectionLoader />}>
+            <ProjectIdeasSection />
+          </Suspense>
+        </ResponsiveSection>
+      
+        <ResponsiveSection spacing="lg">
+          <Suspense fallback={<SectionLoader />}>
+            <ReviewSection />
+          </Suspense>
+        </ResponsiveSection>
+      
+        <ResponsiveSection spacing="lg">
+          <Suspense fallback={<SectionLoader />}>
+            <LearningPathSection />
+          </Suspense>
+        </ResponsiveSection>
+      
+        <ResponsiveSection spacing="lg">
+          <Suspense fallback={<SectionLoader />}>
+            <FAQSection />
+          </Suspense>
+        </ResponsiveSection>
+      
+        <ResponsiveSection spacing="md">
+          <Suspense fallback={<SectionLoader />}>
+            <WhatsAppSection />
+          </Suspense>
+        </ResponsiveSection>
         
         <Suspense fallback={<SectionLoader />}>
           <AdvertiserSection />
         </Suspense>
+      
+        <ResponsiveSection spacing="lg">
+          <Suspense fallback={<SectionLoader />}>
+            <PartnershipsSection />
+          </Suspense>
+        </ResponsiveSection>
+      
+        <ResponsiveSection spacing="md">
+          <Suspense fallback={<SectionLoader />}>
+            <ShareSection />
+          </Suspense>
+        </ResponsiveSection>
         
-        <Suspense fallback={<SectionLoader />}>
-          <PartnershipsSection />
-        </Suspense>
-        
-        <Suspense fallback={<SectionLoader />}>
-          <ShareSection />
-        </Suspense>
-        
-        <Suspense fallback={<SectionLoader />}>
-          <CodeOfConductSection />
-        </Suspense>
-        
+        <ResponsiveSection spacing="lg">
+          <Suspense fallback={<SectionLoader />}>
+            <CodeOfConductSection />
+          </Suspense>
+        </ResponsiveSection>
       </main>
+      
       <footer role="contentinfo">
         <Suspense fallback={<SectionLoader />}>
           <SocialMediaFooter />
@@ -630,8 +655,7 @@ const Index = () => {
       <Suspense fallback={null}>
         <PromotionPopup />
       </Suspense>
-      </div>
-    </>
+    </div>
   );
 };
 

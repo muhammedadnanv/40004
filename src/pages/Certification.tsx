@@ -4,6 +4,7 @@ import { CategoryTopper } from "@/components/CategoryTopper";
 import { CertificationSection } from "@/components/CertificationSection";
 import { SocialMediaFooter } from "@/components/SocialMediaFooter";
 import { Home, ChevronRight, Award } from "lucide-react";
+import { ResponsiveSection } from "@/components/layout/ResponsiveSection";
 
 const Certification = () => {
   const pageUrl = "https://devmentorhub.com/certification";
@@ -74,13 +75,14 @@ const Certification = () => {
         </script>
       </Helmet>
 
-      <div className="min-h-screen">
+      <div className="min-h-screen w-full">
         <header role="banner">
           <MainNav />
           <CategoryTopper />
         </header>
-        <main role="main">
-          <nav aria-label="Breadcrumb" className="container mx-auto px-4 pt-4">
+        <main role="main" className="w-full">
+          <ResponsiveSection spacing="sm">
+            <nav aria-label="Breadcrumb" className="max-w-7xl mx-auto">
             <ol className="flex items-center gap-2 text-sm text-muted-foreground">
               <li className="flex items-center gap-2">
                 <Home className="w-4 h-4" />
@@ -93,12 +95,18 @@ const Certification = () => {
               </li>
             </ol>
           </nav>
+          </ResponsiveSection>
           
-          <section className="responsive-padding">
-            <h1 className="responsive-heading mb-4">Professional Developer Certification</h1>
-            <p className="text-fluid-lg opacity-80 mb-6">Create your personalized, industry-recognized certificate and download it instantly. Verified and shareable credentials for your professional portfolio.</p>
-          </section>
-          <CertificationSection />
+          <ResponsiveSection spacing="md">
+            <div className="max-w-4xl mx-auto text-center">
+              <h1 className="text-4xl font-bold mb-4 text-primary">Professional Developer Certification</h1>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Create your personalized, industry-recognized certificate and download it instantly. Verified and shareable credentials for your professional portfolio.</p>
+            </div>
+          </ResponsiveSection>
+          
+          <ResponsiveSection spacing="lg">
+            <CertificationSection />
+          </ResponsiveSection>
         </main>
         <footer role="contentinfo">
           <SocialMediaFooter />
