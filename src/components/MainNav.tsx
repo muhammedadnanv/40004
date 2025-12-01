@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu";
-import { Menu, X, Home, Award, Users, Settings, FolderKanban, LayoutDashboard, Code2 } from "lucide-react";
+import { Menu, X, Home, Award, Users, Settings, FolderKanban, LayoutDashboard, Code2, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { isMobileDevice } from "@/utils/mobileResponsiveness";
 import { Link } from "react-router-dom";
@@ -128,6 +128,10 @@ export function MainNav() {
                 <Link to="/code-playground" className="flex items-center space-x-3 py-4 px-4 rounded-lg hover:bg-accent/10 font-medium touch-manipulation transition-colors min-h-[52px] active:scale-[0.98]" onClick={closeMenu}>
                   <Code2 className="h-5 w-5 text-primary flex-shrink-0" />
                   <span className="text-foreground">Code Playground</span>
+                </Link>
+                <Link to="/install" className="flex items-center space-x-3 py-4 px-4 rounded-lg hover:bg-accent/10 font-medium touch-manipulation transition-colors min-h-[52px] active:scale-[0.98] bg-primary/5 border border-primary/20" onClick={closeMenu}>
+                  <Download className="h-5 w-5 text-primary flex-shrink-0" />
+                  <span className="text-foreground">Install App</span>
                 </Link>
               </div>
             </nav>

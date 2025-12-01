@@ -19,6 +19,9 @@ import { autoFixAndReportLinkIssues } from "./utils/linkValidator";
 import { EmailWidget } from "./components/EmailWidget";
 
 import { LoadingSpinner } from "./components/LoadingSpinner";
+import { PWAInstallPrompt } from "./components/PWAInstallPrompt";
+import { OfflineIndicator } from "./components/OfflineIndicator";
+import { trackPWAInstall } from "./utils/pwaInstall";
 
 // Lazy load pages for better initial loading performance
 const Index = lazy(() => import("./pages/Index"));
@@ -34,6 +37,7 @@ const CMS = lazy(() => import("./pages/cms"));
 const ProjectGallery = lazy(() => import("./pages/ProjectGallery"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const CodePlayground = lazy(() => import("./pages/CodePlayground"));
+const Install = lazy(() => import("./pages/Install"));
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -48,6 +52,9 @@ function App() {
   const { toast } = useToast();
   
   useEffect(() => {
+    // Track PWA installation events
+    trackPWAInstall();
+    
     const initializeApp = async () => {
       // Use requestIdleCallback for non-critical initializations
       if ('requestIdleCallback' in window) {
@@ -200,6 +207,13 @@ function App() {
                 </ErrorBoundary>
               </Suspense>
             } />
+            <Route path="/install" element={
+              <Suspense fallback={<LoadingFallback />}>
+                <ErrorBoundary>
+                  <Install />
+                </ErrorBoundary>
+              </Suspense>
+            } />
             <Route path="*" element={
               <Suspense fallback={<LoadingFallback />}>
                 <ErrorBoundary>
@@ -211,6 +225,8 @@ function App() {
           
           <Toaster />
           <EmailWidget />
+          <PWAInstallPrompt />
+          <OfflineIndicator />
         </div>
       </Router>
     </ErrorBoundary>
