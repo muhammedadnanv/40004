@@ -223,47 +223,74 @@ self.addEventListener('fetch', event => {
   );
 });
 
-// Enhanced push notification handling
+// Enhanced push notification handling for Dev Mentor Hub
 self.addEventListener('push', event => {
+  let notificationData = {
+    title: 'Dev Mentor Hub',
+    body: 'You have a new notification',
+    icon: '/logo.png',
+    badge: '/logo.png',
+    tag: 'notification',
+    data: { url: '/' }
+  };
+
+  // Parse push data if available
+  if (event.data) {
+    try {
+      const pushData = event.data.json();
+      notificationData = {
+        title: pushData.title || notificationData.title,
+        body: pushData.body || notificationData.body,
+        icon: pushData.icon || notificationData.icon,
+        badge: pushData.badge || notificationData.badge,
+        tag: pushData.tag || pushData.data?.tag || notificationData.tag,
+        data: {
+          url: pushData.data?.url || pushData.url || '/',
+          ...pushData.data
+        }
+      };
+    } catch (e) {
+      // If not JSON, use as text
+      notificationData.body = event.data.text();
+    }
+  }
+
   const options = {
-    body: event.data ? event.data.text() : 'Connect your favorite apps and automate your workflow',
-    icon: ALBATO_IMG,
-    badge: ALBATO_IMG,
+    body: notificationData.body,
+    icon: notificationData.icon,
+    badge: notificationData.badge,
     vibrate: [100, 50, 100],
     data: {
       dateOfArrival: Date.now(),
-      primaryKey: 1,
-      url: 'https://albato.com?fpr=muhammad51'
+      ...notificationData.data
     },
     actions: [
       {
-        action: 'explore',
-        title: 'Learn More',
-        icon: ALBATO_IMG
+        action: 'open',
+        title: 'View',
+        icon: '/logo.png'
       },
       {
         action: 'close',
-        title: 'Close',
-        icon: ALBATO_IMG
+        title: 'Dismiss',
+        icon: '/logo.png'
       }
     ],
-    // Added tag for notification grouping
-    tag: 'promo-notification',
-    // Auto-close after 1 hour
-    requireInteraction: false
+    tag: notificationData.tag,
+    requireInteraction: false,
+    renotify: true
   };
 
   // Track notification analytics
-  const analyticsData = {
+  console.log('Push notification received:', {
     event: 'notification_displayed',
     timestamp: Date.now(),
-    campaign: options.tag
-  };
-  
-  console.log('Notification analytics:', analyticsData);
+    title: notificationData.title,
+    tag: notificationData.tag
+  });
 
   event.waitUntil(
-    self.registration.showNotification('Discover Albato Integration Platform', options)
+    self.registration.showNotification(notificationData.title, options)
   );
 });
 
@@ -273,20 +300,36 @@ self.addEventListener('notificationclick', event => {
   notification.close();
 
   // Track notification interaction
-  const analyticsData = {
+  console.log('Notification interaction:', {
     event: 'notification_clicked',
     timestamp: Date.now(),
     action: event.action || 'default',
-    campaign: notification.tag
-  };
-  
-  console.log('Notification interaction:', analyticsData);
+    tag: notification.tag,
+    url: notification.data?.url
+  });
 
-  if (event.action === 'explore' || !event.action) {
-    event.waitUntil(
-      clients.openWindow(notification.data.url || 'https://albato.com?fpr=muhammad51')
-    );
+  // Handle actions
+  if (event.action === 'close') {
+    return; // Just close the notification
   }
+
+  // Default action or 'open' action - open the URL
+  const urlToOpen = notification.data?.url || '/';
+  
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true })
+      .then(windowClients => {
+        // Check if there's already a window open
+        for (const client of windowClients) {
+          if (client.url.includes(self.location.origin) && 'focus' in client) {
+            client.navigate(urlToOpen);
+            return client.focus();
+          }
+        }
+        // If no window is open, open a new one
+        return clients.openWindow(urlToOpen);
+      })
+  );
 });
 
 // Improved sync event handling with error recovery

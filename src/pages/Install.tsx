@@ -11,9 +11,9 @@ import {
   Wifi, 
   BellRing, 
   Home,
-  Check,
-  ChevronRight
+  Check
 } from 'lucide-react';
+import NotificationSettings from '@/components/NotificationSettings';
 import { installPWA, canInstallPWA, isPWAInstalled, getInstallInstructions } from '@/utils/pwaInstall';
 import { ResponsiveSection } from '@/components/layout/ResponsiveSection';
 
@@ -184,6 +184,18 @@ const Install = () => {
                   </div>
                 ))}
               </div>
+            </div>
+          </ResponsiveSection>
+
+          <ResponsiveSection spacing="lg" className="bg-accent/5">
+            <div className="max-w-2xl mx-auto">
+              <h2 className="text-3xl font-bold text-center mb-8">
+                Stay Updated
+              </h2>
+              <p className="text-center text-muted-foreground mb-8">
+                Enable push notifications to receive updates about new programs, announcements, and personalized reminders.
+              </p>
+              <NotificationSettings />
             </div>
           </ResponsiveSection>
         </main>
