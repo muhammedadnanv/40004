@@ -77,15 +77,8 @@ const Programs = () => {
       skills: ["Glide", "Adalo", "FlutterFlow", "Figma"],
       category: "nocode",
       regularPrice: 8000
-    },
-    {
-      title: "ManyChat Automation Expert",
-      description: "Master chatbot creation and customer engagement automation",
-      duration: "3 weeks",
-      skills: ["ManyChat", "Facebook Messenger", "Instagram DM", "SMS Marketing"],
-      category: "manychat",
-      regularPrice: 6000
     }
+    
   ];
 
   const filteredPrograms = category ? allPrograms.filter(p => p.category === category) : allPrograms;
