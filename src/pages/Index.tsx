@@ -31,6 +31,8 @@ const AdvertiserSection = lazy(() => import("@/components/AdvertiserSection").th
 const LeadCollectionPopup = lazy(() => import("@/components/LeadCollectionPopup").then(m => ({ default: m.LeadCollectionPopup })));
 const AlbatoAdPopup = lazy(() => import("@/components/AlbatoAdPopup").then(m => ({ default: m.AlbatoAdPopup })));
 const PromotionPopup = lazy(() => import("@/components/PromotionPopup").then(m => ({ default: m.PromotionPopup })));
+const BrutalistEnrollSection = lazy(() => import("@/components/BrutalistEnrollSection").then(m => ({ default: m.BrutalistEnrollSection })));
+
 
 // Lightweight loading fallback
 const SectionLoader = () => (
@@ -542,6 +544,12 @@ const Index = () => {
         </Suspense>
         
         <ProgramsSection programs={programs} />
+
+        <Suspense fallback={<SectionLoader />}>
+          <BrutalistEnrollSection />
+        </Suspense>
+      
+
       
         <ResponsiveSection spacing="lg">
           <Suspense fallback={<SectionLoader />}>
