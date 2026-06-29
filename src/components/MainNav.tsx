@@ -66,7 +66,7 @@ export function MainNav() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur-md border-b border-border/20 safe-area-padding">
+    <header className="sticky top-0 z-50 w-full bg-background border-b-2 border-foreground safe-area-padding">
       <nav 
         className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" 
         role="navigation" 
@@ -76,11 +76,13 @@ export function MainNav() {
           {/* Logo */}
           <Link 
             to="/" 
-            className="flex items-center space-x-2 flex-shrink-0"
+            className="flex items-center gap-2 flex-shrink-0 group"
             aria-label="Dev Mentor Hub - Home"
           >
-            <span className="font-bold text-lg sm:text-xl text-primary">Dev Mentor Hub</span>
+            <span className="inline-block w-7 h-7 bg-accent border-2 border-foreground shadow-brutal-sm group-hover:rotate-12 transition-transform" aria-hidden="true" />
+            <span className="font-display uppercase tracking-tight text-lg sm:text-xl text-foreground">Dev<span className="text-accent">/</span>Mentor</span>
           </Link>
+
           
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-1 xl:gap-2">

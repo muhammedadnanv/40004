@@ -1,129 +1,211 @@
-
 import { Button } from "@/components/ui/button";
-import { ExternalLink, BookOpen, Upload } from "lucide-react";
+import { BookOpen, Upload, Sparkles, ArrowUpRight, Star } from "lucide-react";
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { CVUploadDialog } from "./CVUploadDialog";
-import { isMobileDevice, hasTouchCapability, fluidTypography } from "@/utils/mobileResponsiveness";
 
 export const HeroSection = () => {
   const [showCVDialog, setShowCVDialog] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const [isTouchDevice, setIsTouchDevice] = useState(false);
-  
-  useEffect(() => {
-    const checkDeviceCapabilities = () => {
-      setIsMobile(isMobileDevice());
-      setIsTouchDevice(hasTouchCapability());
-    };
-    
-    checkDeviceCapabilities();
-    window.addEventListener('resize', checkDeviceCapabilities);
-    
-    return () => window.removeEventListener('resize', checkDeviceCapabilities);
-  }, []);
-  
+
   const scrollToPrograms = () => {
     const programsSection = document.getElementById('programs-section');
     if (programsSection) {
-      const yOffset = -60; // Account for sticky headers
+      const yOffset = -60;
       const y = programsSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      
-      window.scrollTo({
-        top: y,
-        behavior: 'smooth'
-      });
+      window.scrollTo({ top: y, behavior: 'smooth' });
     }
-  };
-
-  // Determine font sizes based on viewport
-  const getHeadingStyle = () => {
-    if (isMobile) {
-      return {
-        fontSize: "calc(1.75rem + 2vw)",
-        lineHeight: 1.2
-      };
-    }
-    return {};
   };
 
   return (
-    <section 
-      className="relative min-h-[80vh] sm:min-h-[90vh] flex items-center justify-center py-8 sm:py-12 md:py-16 lg:py-20 xl:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden safe-area-padding"
+    <section
+      className="relative min-h-[88vh] grain-overlay bg-background border-b-2 border-foreground overflow-hidden"
       id="hero-section"
       aria-labelledby="hero-heading"
     >
-      <div 
-        className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1498050108023-c5249f4df085')] bg-cover bg-center opacity-[0.02] pointer-events-none"
-        style={{ willChange: 'transform' }}
+      {/* Decorative coral stripe */}
+      <div
         aria-hidden="true"
+        className="absolute top-0 right-0 h-full w-[42%] bg-accent hidden lg:block"
+        style={{ clipPath: "polygon(18% 0, 100% 0, 100% 100%, 0% 100%)" }}
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-white via-purple-50/30 to-white" aria-hidden="true" />
-      
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="container mx-auto max-w-4xl text-center relative px-4 sm:px-6"
-        style={{ willChange: 'transform' }}
+      {/* Floating brutalist stickers */}
+      <motion.div
+        aria-hidden="true"
+        initial={{ opacity: 0, rotate: -15, y: -10 }}
+        animate={{ opacity: 1, rotate: -8, y: 0 }}
+        transition={{ delay: 0.4, type: "spring", stiffness: 120 }}
+        className="absolute top-24 right-6 lg:right-[10%] z-10 hidden sm:flex items-center gap-2 bg-background border-2 border-foreground px-3 py-1.5 shadow-brutal-sm"
       >
-        <div className="space-y-6 sm:space-y-8">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-            className="space-y-3 sm:space-y-4"
-          >
-            <h1 
+        <Star className="w-4 h-4 fill-accent text-foreground" />
+        <span className="font-display uppercase text-xs tracking-widest">Now Hiring Mentors</span>
+      </motion.div>
+
+      <motion.div
+        aria-hidden="true"
+        initial={{ opacity: 0, rotate: 12 }}
+        animate={{ opacity: 1, rotate: 6 }}
+        transition={{ delay: 0.6, type: "spring", stiffness: 120 }}
+        className="absolute bottom-16 left-6 lg:left-[8%] z-10 hidden sm:block bg-secondary text-secondary-foreground border-2 border-foreground px-3 py-1.5 shadow-brutal-sm font-display uppercase text-xs tracking-widest"
+      >
+        v2.0 / Gen-Z Edition
+      </motion.div>
+
+      <div className="relative z-20 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          {/* Left: editorial copy */}
+          <div className="lg:col-span-7 space-y-6 sm:space-y-8">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+              className="brutal-sticker"
+            >
+              <Sparkles className="w-3 h-3" />
+              Issue 001 — Build / Ship / Repeat
+            </motion.div>
+
+            <motion.h1
               id="hero-heading"
-              className="text-fluid-3xl font-bold tracking-tight premium-gradient"
-              style={getHeadingStyle()}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="font-display uppercase leading-[0.88] tracking-tight text-foreground"
+              style={{ fontSize: "clamp(2.5rem, 8vw, 6.5rem)" }}
             >
-              Transform Your Career with AI-Powered Mentorship
-            </h1>
-            
-            <p className="text-fluid-xl text-gray-700 font-medium max-w-3xl mx-auto px-2 mb-4">
-              Connect with industry experts. Build innovative projects. Launch your tech career.
-            </p>
-            
-            <p className="text-fluid-lg text-gray-600 max-w-2xl mx-auto px-2">
-              Dev Mentor Hub is the world's first AI-enhanced platform that exclusively connects students with industry mentors 
-              for hands-on training through ultra-innovative, real-world projects. Experience personalized learning that adapts to your goals.
-            </p>
-          </motion.div>
-          
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.5 }}
-            className={`flex ${isMobile ? 'flex-col' : 'sm:flex-row'} items-center justify-center gap-3 sm:gap-4 max-w-md mx-auto`}
+              Mentor
+              <span className="block">
+                <span className="deconstructed-underline">driven</span>{" "}
+                <span className="italic text-accent" style={{ fontFamily: '"Archivo Black", serif' }}>
+                  careers.
+                </span>
+              </span>
+              <span className="block text-secondary -mt-2">
+                Built loud.
+              </span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="max-w-xl text-base sm:text-lg text-foreground/80 font-medium leading-relaxed"
+            >
+              The world's first AI-enhanced platform pairing students with industry
+              mentors on absurdly real projects. No fluff. No filler. Just shipped work.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4"
+            >
+              <Button
+                onClick={scrollToPrograms}
+                className="group bg-foreground text-background hover:bg-foreground hover:-translate-x-0.5 hover:-translate-y-0.5 transition-transform border-2 border-foreground rounded-none shadow-brutal-coral font-display uppercase tracking-widest text-sm px-6 py-6"
+                aria-label="Explore our mentorship programs"
+              >
+                <BookOpen className="w-5 h-5 mr-2" aria-hidden="true" />
+                Explore Programs
+                <ArrowUpRight className="w-5 h-5 ml-2 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </Button>
+
+              <Button
+                onClick={() => setShowCVDialog(true)}
+                variant="outline"
+                className="group bg-background text-foreground hover:bg-accent hover:text-accent-foreground hover:-translate-x-0.5 hover:-translate-y-0.5 transition-transform border-2 border-foreground rounded-none shadow-brutal-sm font-display uppercase tracking-widest text-sm px-6 py-6"
+                aria-label="Upload your CV for job placement support"
+              >
+                <Upload className="w-5 h-5 mr-2" aria-hidden="true" />
+                Drop Your CV
+              </Button>
+            </motion.div>
+
+            {/* Stat strip */}
+            <motion.dl
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+              className="grid grid-cols-3 max-w-lg border-2 border-foreground bg-background shadow-brutal-sm divide-x-2 divide-foreground"
+            >
+              {[
+                { v: "2.5K+", l: "Builders" },
+                { v: "180+", l: "Mentors" },
+                { v: "94%", l: "Placed" },
+              ].map((s) => (
+                <div key={s.l} className="px-4 py-3 text-center">
+                  <dt className="font-display text-2xl sm:text-3xl">{s.v}</dt>
+                  <dd className="text-[10px] uppercase tracking-widest text-foreground/70">{s.l}</dd>
+                </div>
+              ))}
+            </motion.dl>
+          </div>
+
+          {/* Right: deconstructed visual card */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, rotate: 4 }}
+            animate={{ opacity: 1, scale: 1, rotate: 2 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="lg:col-span-5 relative"
           >
-            <Button 
-              onClick={scrollToPrograms} 
-              className={`w-full sm:w-auto bg-primary hover:bg-primary-600 text-white font-medium px-5 sm:px-6 py-4 sm:py-5 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 text-fluid-base group focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 touch-manipulation mobile-touch-target`}
-              aria-label="Explore our mentorship programs"
-            >
-              <BookOpen className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" aria-hidden="true" />
-              <span className="text-white font-semibold text-base">Explore Programs</span>
-            </Button>
-            
-            <Button 
-              onClick={() => setShowCVDialog(true)}
-              className={`w-full sm:w-auto mt-3 sm:mt-0 inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-4 sm:py-5 text-fluid-base border-2 border-primary/20 rounded-xl hover:bg-primary/5 transition-all duration-300 hover:scale-105 font-medium text-primary group focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 touch-manipulation mobile-touch-target`}
-              aria-label="Upload your CV for job placement support"
-              variant="outline"
-            >
-              Job Placement Support
-              <Upload className="w-5 h-5 group-hover:translate-y-[-2px] transition-transform" aria-hidden="true" />
-            </Button>
+            <div className="relative brutal-card p-6 sm:p-8 bg-background">
+              <div className="flex items-center justify-between mb-4">
+                <span className="brutal-tag">// LIVE</span>
+                <span className="font-mono text-xs text-foreground/60">~/dmh/mentor.sh</span>
+              </div>
+              <pre className="font-mono text-xs sm:text-sm leading-relaxed bg-foreground text-background p-4 border-2 border-foreground overflow-x-auto">
+{`> match --student "you"
+  --goal "ship real product"
+
+✓ mentor   : senior eng @ stripe
+✓ project  : ai code reviewer
+✓ stack    : ts · react · supabase
+✓ timeline : 8 weeks → portfolio
+
+$ npm run launch-career_`}
+              </pre>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {["React", "AI", "Supabase", "No-Code", "FullStack"].map((t, i) => (
+                  <span
+                    key={t}
+                    className="brutal-tag"
+                    style={{ transform: `rotate(${(i % 2 ? 1 : -1) * (i + 1)}deg)` }}
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+            {/* Layered offset card behind */}
+            <div
+              aria-hidden="true"
+              className="absolute -z-10 inset-0 translate-x-3 translate-y-3 bg-secondary border-2 border-foreground"
+            />
           </motion.div>
         </div>
-      </motion.div>
-      
-      <CVUploadDialog 
-        isOpen={showCVDialog} 
-        onClose={() => setShowCVDialog(false)} 
-      />
+      </div>
+
+      {/* Marquee strip */}
+      <div className="relative z-20 bg-foreground text-background border-t-2 border-foreground overflow-hidden">
+        <div className="flex gap-8 py-2.5 animate-[marquee_30s_linear_infinite] whitespace-nowrap font-display uppercase tracking-widest text-sm">
+          {Array.from({ length: 2 }).map((_, i) => (
+            <div key={i} className="flex gap-8 shrink-0">
+              {["Ship Real Projects", "★", "Mentor-Matched", "★", "AI-Enhanced", "★", "Portfolio-First", "★", "Career-Ready", "★"].map((t, j) => (
+                <span key={`${i}-${j}`} className={t === "★" ? "text-accent" : ""}>{t}</span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <CVUploadDialog isOpen={showCVDialog} onClose={() => setShowCVDialog(false)} />
+
+      <style>{`
+        @keyframes marquee {
+          from { transform: translateX(0); }
+          to { transform: translateX(-50%); }
+        }
+      `}</style>
     </section>
   );
 };
