@@ -36,43 +36,48 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-        display: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
+        sans: ['Hind', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        display: ['"Archivo Black"', 'Impact', 'system-ui', 'sans-serif'],
+        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
       },
       colors: {
-        border: "hsl(220 13% 91%)",
-        input: "hsl(220 13% 91%)",
-        ring: "hsl(195 100% 33%)",
-        background: "hsl(0 0% 100%)",
-        foreground: "hsl(210 27% 25%)",
+        border: "hsl(0 0% 8%)",
+        input: "hsl(0 0% 8%)",
+        ring: "hsl(348 53% 52%)",
+        background: "hsl(40 33% 97%)",
+        foreground: "hsl(0 0% 6%)",
         primary: {
-          DEFAULT: "hsl(210 27% 25%)", // Deep Navy Blue (#2E4053)
-          foreground: "hsl(0 0% 100%)",
-          muted: "hsl(210 27% 95%)",
-          hover: "hsl(210 27% 20%)",
-          light: "hsl(210 27% 90%)",
-          dark: "hsl(210 27% 15%)",
-          600: "hsl(210 27% 20%)",
+          DEFAULT: "hsl(0 0% 6%)", // Brutalist black ink
+          foreground: "hsl(40 33% 97%)",
+          muted: "hsl(0 0% 92%)",
+          hover: "hsl(0 0% 0%)",
+          light: "hsl(0 0% 88%)",
+          dark: "hsl(0 0% 0%)",
+          600: "hsl(0 0% 0%)",
         },
-        secondary: { 
-          DEFAULT: "hsl(187 100% 33%)", // Bright Teal (#0097A7)
-          foreground: "hsl(0 0% 100%)", 
-          hover: "hsl(187 100% 28%)" 
+        secondary: {
+          DEFAULT: "hsl(252 27% 45%)", // Deep purple #574b90
+          foreground: "hsl(40 33% 97%)",
+          hover: "hsl(252 27% 38%)",
         },
-        accent: { 
-          DEFAULT: "hsl(43 100% 50%)", // Warm Orange (#FFC107)
-          foreground: "hsl(210 27% 25%)", 
-          hover: "hsl(43 100% 45%)" 
+        accent: {
+          DEFAULT: "hsl(0 100% 71%)", // Electric coral #ff6b6b
+          foreground: "hsl(0 0% 6%)",
+          hover: "hsl(348 80% 64%)",
         },
         success: {
-          DEFAULT: "hsl(120 61% 50%)", // Lime Green (#32CD32)
+          DEFAULT: "hsl(120 61% 50%)",
           foreground: "hsl(0 0% 100%)",
           hover: "hsl(120 61% 45%)",
         },
-        muted: { 
-          DEFAULT: "hsl(0 0% 96%)", // Soft Gray (#F7F7F7)
-          foreground: "hsl(0 0% 27%)" // Dark Gray (#444444)
+        muted: {
+          DEFAULT: "hsl(40 25% 93%)",
+          foreground: "hsl(0 0% 27%)"
         },
+        coral: "hsl(0 100% 71%)",
+        rose: "hsl(348 80% 64%)",
+        magenta: "hsl(338 47% 52%)",
+        plum: "hsl(252 27% 45%)",
         glass: {
           DEFAULT: "rgba(255, 255, 255, 0.8)",
           dark: "rgba(255, 255, 255, 0.1)",
@@ -81,11 +86,16 @@ export default {
       },
       boxShadow: {
         'soft': '0 2px 15px rgba(0,0,0,0.03)',
-        'glow': '0 0 15px rgba(101,93,255,0.1)',
+        'glow': '0 0 0 2px hsl(0 100% 71%)',
         'card': '0 1px 3px rgba(0,0,0,0.05)',
         'premium': '0 8px 32px rgba(0, 0, 0, 0.1)',
         'glass': '0 8px 32px rgba(31, 38, 135, 0.15)',
         'mobile': '0 2px 8px rgba(0, 0, 0, 0.08)',
+        'brutal': '6px 6px 0 0 hsl(0 0% 6%)',
+        'brutal-sm': '4px 4px 0 0 hsl(0 0% 6%)',
+        'brutal-lg': '10px 10px 0 0 hsl(0 0% 6%)',
+        'brutal-coral': '6px 6px 0 0 hsl(0 100% 71%)',
+        'brutal-plum': '6px 6px 0 0 hsl(252 27% 45%)',
       },
       animation: {
         "fade-up": "fadeUp 0.5s ease-out",
