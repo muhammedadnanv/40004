@@ -86,11 +86,16 @@ export default {
       },
       boxShadow: {
         'soft': '0 2px 15px rgba(0,0,0,0.03)',
-        'glow': '0 0 15px rgba(101,93,255,0.1)',
+        'glow': '0 0 0 2px hsl(0 100% 71%)',
         'card': '0 1px 3px rgba(0,0,0,0.05)',
         'premium': '0 8px 32px rgba(0, 0, 0, 0.1)',
         'glass': '0 8px 32px rgba(31, 38, 135, 0.15)',
         'mobile': '0 2px 8px rgba(0, 0, 0, 0.08)',
+        'brutal': '6px 6px 0 0 hsl(0 0% 6%)',
+        'brutal-sm': '4px 4px 0 0 hsl(0 0% 6%)',
+        'brutal-lg': '10px 10px 0 0 hsl(0 0% 6%)',
+        'brutal-coral': '6px 6px 0 0 hsl(0 100% 71%)',
+        'brutal-plum': '6px 6px 0 0 hsl(252 27% 45%)',
       },
       animation: {
         "fade-up": "fadeUp 0.5s ease-out",

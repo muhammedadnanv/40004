@@ -1,38 +1,39 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 210 27% 25%;
+    --background: 40 33% 97%;
+    --foreground: 0 0% 6%;
     --card: 0 0% 100%;
-    --card-foreground: 210 27% 25%;
+    --card-foreground: 0 0% 6%;
     --popover: 0 0% 100%;
-    --popover-foreground: 210 27% 25%;
-    --primary: 210 27% 25%;
-    --primary-foreground: 0 0% 100%;
-    --primary-muted: 210 27% 95%;
-    --primary-hover: 210 27% 20%;
-    --secondary: 187 100% 33%;
-    --secondary-foreground: 0 0% 100%;
-    --secondary-hover: 187 100% 28%;
-    --muted: 0 0% 96%;
+    --popover-foreground: 0 0% 6%;
+    --primary: 0 0% 6%;
+    --primary-foreground: 40 33% 97%;
+    --primary-muted: 0 0% 92%;
+    --primary-hover: 0 0% 0%;
+    --secondary: 252 27% 45%;
+    --secondary-foreground: 40 33% 97%;
+    --secondary-hover: 252 27% 38%;
+    --muted: 40 25% 93%;
     --muted-foreground: 0 0% 27%;
-    --accent: 43 100% 50%;
-    --accent-foreground: 210 27% 25%;
-    --accent-hover: 43 100% 45%;
+    --accent: 0 100% 71%;
+    --accent-foreground: 0 0% 6%;
+    --accent-hover: 348 80% 64%;
     --success: 120 61% 50%;
     --success-foreground: 0 0% 100%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 195 100% 33%;
-    --radius: 0.5rem;
+    --border: 0 0% 8%;
+    --input: 0 0% 8%;
+    --ring: 348 53% 52%;
+    --radius: 0.25rem;
+    --coral: 0 100% 71%;
+    --plum: 252 27% 45%;
+    --magenta: 338 47% 52%;
   }
 
   * {
@@ -41,17 +42,21 @@
   
   body {
     @apply bg-background text-foreground antialiased min-h-screen overflow-x-hidden touch-manipulation;
-    font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
-    background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(249,250,251,1) 100%);
+    background-color: hsl(var(--background));
+    /* Grain texture overlay */
+    background-image:
+      radial-gradient(circle at 1px 1px, hsl(0 0% 6% / 0.12) 1px, transparent 0);
+    background-size: 3px 3px;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     padding-top: env(safe-area-inset-top);
     padding-bottom: env(safe-area-inset-bottom);
   }
-  
+
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display tracking-tight;
+    @apply font-display tracking-tight uppercase;
+    letter-spacing: -0.02em;
   }
 
   /* Mobile-first form inputs - prevent zoom and ensure touch-friendly */
