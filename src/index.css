@@ -268,31 +268,70 @@
 
   /* Glass card with new color theme */
   .glass-card-2025 {
-    @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-lg rounded-xl 
-           hover:shadow-xl transition-all duration-300 
-           dark:bg-gray-800/80 dark:border-gray-700/20;
+    @apply bg-white border-2 border-foreground shadow-brutal-sm rounded-sm
+           hover:shadow-brutal transition-all duration-200
+           hover:-translate-x-0.5 hover:-translate-y-0.5;
   }
-  
-  /* Enhanced gradient backgrounds */
+
+  /* Brutalist gradient backgrounds */
   .bg-primary-gradient {
-    background: linear-gradient(135deg, #2E4053 0%, #1A1D23 100%);
+    background: linear-gradient(135deg, hsl(0 0% 6%) 0%, hsl(252 27% 18%) 100%);
   }
-  
+
   .bg-secondary-gradient {
-    background: linear-gradient(135deg, #0097A7 0%, #00BFFF 100%);
+    background: linear-gradient(135deg, hsl(252 27% 45%) 0%, hsl(338 47% 52%) 100%);
   }
-  
+
   .bg-accent-gradient {
-    background: linear-gradient(135deg, #FFC107 0%, #FF9900 100%);
+    background: linear-gradient(135deg, hsl(0 100% 71%) 0%, hsl(348 80% 64%) 100%);
   }
-  
+
   .bg-success-gradient {
-    background: linear-gradient(135deg, #32CD32 0%, #8BC34A 100%);
+    background: linear-gradient(135deg, hsl(120 61% 50%) 0%, hsl(180 60% 45%) 100%);
+  }
+
+  /* Brutalist utilities */
+  .premium-gradient {
+    background: linear-gradient(120deg, hsl(0 0% 6%) 0%, hsl(338 47% 52%) 55%, hsl(0 100% 71%) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .brutal-card {
+    @apply bg-background border-2 border-foreground shadow-brutal rounded-sm transition-all duration-150;
+  }
+  .brutal-card:hover {
+    @apply -translate-x-1 -translate-y-1 shadow-brutal-lg;
+  }
+  .brutal-tag {
+    @apply inline-block bg-accent text-accent-foreground border-2 border-foreground px-2 py-0.5 text-xs font-display uppercase tracking-wide;
+  }
+  .brutal-sticker {
+    @apply inline-flex items-center gap-1 bg-accent text-accent-foreground border-2 border-foreground px-3 py-1 font-display uppercase text-xs tracking-widest shadow-brutal-sm;
+    transform: rotate(-2deg);
+  }
+  .deconstructed-underline {
+    background-image: linear-gradient(transparent 60%, hsl(0 100% 71% / 0.5) 60%);
+    background-repeat: no-repeat;
+    padding: 0 0.1em;
+  }
+  .grain-overlay::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      radial-gradient(circle at 1px 1px, hsl(0 0% 0% / 0.18) 1px, transparent 0);
+    background-size: 3px 3px;
+    mix-blend-mode: multiply;
+    opacity: 0.35;
+    z-index: 1;
   }
 
   .interactive-element {
     @apply hover:scale-105 active:scale-95 transition-transform duration-200
-           focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2;
+           focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2;
   }
   
   /* Mobile specific utilities */
