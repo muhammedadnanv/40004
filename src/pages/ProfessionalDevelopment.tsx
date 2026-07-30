@@ -104,7 +104,7 @@ const FEATURES = [
 
 const ProfessionalDevelopment = () => {
   const [activeTab, setActiveTab] = useState('overview');
-  const pageUrl = "https://devmentorhub.com/professional-development";
+  const pageUrl = "https://dev-mentor-hub-39.lovable.app/professional-development";
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -141,7 +141,7 @@ const ProfessionalDevelopment = () => {
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://devmentorhub.com"
+        "item": "https://dev-mentor-hub-39.lovable.app"
       },
       {
         "@type": "ListItem",
@@ -162,7 +162,7 @@ const ProfessionalDevelopment = () => {
         <meta property="og:description" content="AI-powered tools for resume building, interview prep, LinkedIn optimization, and career planning. Free career development resources." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={pageUrl} />
-        <meta property="og:image" content="https://devmentorhub.com/og-professional.jpg" />
+        <meta property="og:image" content="https://dev-mentor-hub-39.lovable.app/og-professional.jpg" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Professional Development Hub | Dev Mentor Hub" />
         <meta name="twitter:description" content="AI-powered career tools for developers - resume builder, interview prep, and more" />

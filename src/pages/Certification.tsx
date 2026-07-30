@@ -7,7 +7,7 @@ import { Home, ChevronRight, Award } from "lucide-react";
 import { ResponsiveSection } from "@/components/layout/ResponsiveSection";
 
 const Certification = () => {
-  const pageUrl = "https://devmentorhub.com/certification";
+  const pageUrl = "https://dev-mentor-hub-39.lovable.app/certification";
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -41,7 +41,7 @@ const Certification = () => {
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://devmentorhub.com"
+        "item": "https://dev-mentor-hub-39.lovable.app"
       },
       {
         "@type": "ListItem",
@@ -62,7 +62,7 @@ const Certification = () => {
         <meta property="og:description" content="Earn your industry-recognized Professional Developer Certification. Download personalized, verifiable certificates." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={pageUrl} />
-        <meta property="og:image" content="https://devmentorhub.com/og-certification.jpg" />
+        <meta property="og:image" content="https://dev-mentor-hub-39.lovable.app/og-certification.jpg" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Professional Developer Certification | Dev Mentor Hub" />
         <meta name="twitter:description" content="Generate and download your industry-recognized certification" />

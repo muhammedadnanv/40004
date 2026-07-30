@@ -85,7 +85,7 @@ const Programs = () => {
   const title = getCategoryTitle(category);
   const description = getCategoryDescription(category);
 
-  const currentUrl = `https://devmentorhub.com/programs${category ? `/${category}` : ''}`;
+  const currentUrl = `https://dev-mentor-hub-39.lovable.app/programs${category ? `/${category}` : ''}`;
   
   const structuredData = {
     "@context": "https://schema.org",
@@ -101,7 +101,7 @@ const Programs = () => {
       "provider": {
         "@type": "Organization",
         "name": "Dev Mentor Hub",
-        "url": "https://devmentorhub.com"
+        "url": "https://dev-mentor-hub-39.lovable.app"
       },
       "educationalLevel": "Beginner to Advanced",
       "timeRequired": program.duration,
@@ -128,13 +128,13 @@ const Programs = () => {
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://devmentorhub.com"
+        "item": "https://dev-mentor-hub-39.lovable.app"
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "Programs",
-        "item": "https://devmentorhub.com/programs"
+        "item": "https://dev-mentor-hub-39.lovable.app/programs"
       },
       ...(category ? [{
         "@type": "ListItem",
@@ -155,7 +155,7 @@ const Programs = () => {
         <meta property="og:description" content={description} />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={currentUrl} />
-        <meta property="og:image" content="https://devmentorhub.com/og-programs.jpg" />
+        <meta property="og:image" content="https://dev-mentor-hub-39.lovable.app/og-programs.jpg" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={`${title} - Dev Mentor Hub`} />
         <meta name="twitter:description" content={description} />

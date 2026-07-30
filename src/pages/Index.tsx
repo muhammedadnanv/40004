@@ -80,7 +80,7 @@ const Index = () => {
     "@type": "EducationalOrganization",
     "name": "Dev Mentor Hub",
     "description": "This platform is exclusively designed to connect students (mentees) with mentors, providing hands-on training through the development of ultra-innovative, visionary projects that build real-world experience and skills",
-    "url": "https://devmentorhub.com",
+    "url": "https://dev-mentor-hub-39.lovable.app",
     "courseMode": "online",
     "availableLanguage": "English"
   };
@@ -96,8 +96,8 @@ const Index = () => {
         <meta property="og:title" content="Dev Mentor Hub - Transform Your Tech Career with AI-Powered Mentorship" />
         <meta property="og:description" content="Learn web development, AI integration, and programming from industry experts. Affordable mentorship programs starting at ₹699. Build real projects, get personalized feedback, and accelerate your tech career." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://devmentorhub.com" />
-        <meta property="og:image" content="https://devmentorhub.com/og-image.jpg" />
+        <meta property="og:url" content="https://dev-mentor-hub-39.lovable.app" />
+        <meta property="og:image" content="https://dev-mentor-hub-39.lovable.app/og-image.jpg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:image:alt" content="Dev Mentor Hub - AI-Powered Mentorship Platform for Web Development and Programming" />
@@ -110,7 +110,7 @@ const Index = () => {
         <meta name="twitter:creator" content="@devmentorhub" />
         <meta name="twitter:title" content="Dev Mentor Hub - AI-Powered Mentorship for Tech Careers" />
         <meta name="twitter:description" content="Master web development & programming with personalized mentorship. Real projects, expert guidance, affordable pricing. Start your tech career today!" />
-        <meta name="twitter:image" content="https://devmentorhub.com/twitter-card.jpg" />
+        <meta name="twitter:image" content="https://dev-mentor-hub-39.lovable.app/twitter-card.jpg" />
         <meta name="twitter:image:alt" content="Dev Mentor Hub Platform Preview" />
         
         {/* Additional SEO Meta Tags */}
@@ -130,11 +130,11 @@ const Index = () => {
         <meta name="referrer" content="no-referrer-when-downgrade" />
         
         {/* Canonical URL */}
-        <link rel="canonical" href="https://devmentorhub.com" />
+        <link rel="canonical" href="https://dev-mentor-hub-39.lovable.app" />
         
         {/* Alternate Links for Multilingual Support (Future) */}
-        <link rel="alternate" hrefLang="en" href="https://devmentorhub.com" />
-        <link rel="alternate" hrefLang="x-default" href="https://devmentorhub.com" />
+        <link rel="alternate" hrefLang="en" href="https://dev-mentor-hub-39.lovable.app" />
+        <link rel="alternate" hrefLang="x-default" href="https://dev-mentor-hub-39.lovable.app" />
         
         {/* Additional Link Tags */}
         <link rel="icon" href="/favicon.ico" />
@@ -156,13 +156,13 @@ const Index = () => {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "Home",
-                "item": "https://devmentorhub.com"
+                "item": "https://dev-mentor-hub-39.lovable.app"
               },
               {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "Programs",
-                "item": "https://devmentorhub.com#programs-section"
+                "item": "https://dev-mentor-hub-39.lovable.app#programs-section"
               }
             ]
           })}
@@ -174,12 +174,12 @@ const Index = () => {
             "@context": "https://schema.org",
             "@type": "WebSite",
             "name": "Dev Mentor Hub",
-            "url": "https://devmentorhub.com",
+            "url": "https://dev-mentor-hub-39.lovable.app",
             "potentialAction": {
               "@type": "SearchAction",
               "target": {
                 "@type": "EntryPoint",
-                "urlTemplate": "https://devmentorhub.com/programs?q={search_term_string}"
+                "urlTemplate": "https://dev-mentor-hub-39.lovable.app/programs?q={search_term_string}"
               },
               "query-input": "required name=search_term_string"
             }
@@ -195,16 +195,16 @@ const Index = () => {
             "alternateName": "DevMentorHub",
             "legalName": "Dev Mentor Hub Private Limited",
             "description": "India's leading AI-powered mentorship platform connecting students with industry experts for hands-on training in web development, React, Node.js, AI integration, and modern programming technologies. Affordable, personalized, project-based learning.",
-            "url": "https://devmentorhub.com",
+            "url": "https://dev-mentor-hub-39.lovable.app",
             "logo": {
               "@type": "ImageObject",
-              "url": "https://devmentorhub.com/logo.png",
+              "url": "https://dev-mentor-hub-39.lovable.app/logo.png",
               "width": 250,
               "height": 60
             },
             "image": {
               "@type": "ImageObject",
-              "url": "https://devmentorhub.com/og-image.jpg",
+              "url": "https://dev-mentor-hub-39.lovable.app/og-image.jpg",
               "width": 1200,
               "height": 630
             },
@@ -436,7 +436,7 @@ const Index = () => {
                 "item": {
                   "@type": "Course",
                   "name": "Full Stack Web Development",
-                  "url": "https://devmentorhub.com/programs/fullstack",
+                  "url": "https://dev-mentor-hub-39.lovable.app/programs/fullstack",
                   "description": "Master React, Node.js, and modern web technologies"
                 }
               },
@@ -446,7 +446,7 @@ const Index = () => {
                 "item": {
                   "@type": "Course",
                   "name": "Frontend React Mastery",
-                  "url": "https://devmentorhub.com/programs/frontend",
+                  "url": "https://dev-mentor-hub-39.lovable.app/programs/frontend",
                   "description": "Deep dive into React ecosystem and modern frontend"
                 }
               },
@@ -456,7 +456,7 @@ const Index = () => {
                 "item": {
                   "@type": "Course",
                   "name": "Backend Development",
-                  "url": "https://devmentorhub.com/programs/backend",
+                  "url": "https://dev-mentor-hub-39.lovable.app/programs/backend",
                   "description": "Build scalable APIs and server applications"
                 }
               }
@@ -471,16 +471,16 @@ const Index = () => {
             "@type": "WebPage",
             "name": "Dev Mentor Hub - AI-Powered Mentorship Platform",
             "description": "Learn web development and programming with personalized mentorship from industry experts. Affordable programs, real projects, career support.",
-            "url": "https://devmentorhub.com",
+            "url": "https://dev-mentor-hub-39.lovable.app",
             "inLanguage": "en-IN",
             "isPartOf": {
               "@type": "WebSite",
               "name": "Dev Mentor Hub",
-              "url": "https://devmentorhub.com"
+              "url": "https://dev-mentor-hub-39.lovable.app"
             },
             "primaryImageOfPage": {
               "@type": "ImageObject",
-              "url": "https://devmentorhub.com/og-image.jpg",
+              "url": "https://dev-mentor-hub-39.lovable.app/og-image.jpg",
               "width": 1200,
               "height": 630
             },
@@ -495,7 +495,7 @@ const Index = () => {
               "name": "Dev Mentor Hub",
               "logo": {
                 "@type": "ImageObject",
-                "url": "https://devmentorhub.com/logo.png"
+                "url": "https://dev-mentor-hub-39.lovable.app/logo.png"
               }
             }
           })}

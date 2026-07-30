@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Sitemaps
-Sitemap: https://devmentorhub.com/sitemap.xml
+Sitemap: https://dev-mentor-hub-39.lovable.app/sitemap.xml
 
 # Crawl delay
 Crawl-delay: 1
