@@ -1,14 +1,11 @@
 # robots.txt for Dev Mentor Hub
 User-agent: *
 Allow: /
+Disallow: /dashboard
+Disallow: /cms
+Disallow: /admin/
+Disallow: /private/
 
-# Sitemaps
-Sitemap: https://dev-mentor-hub-39.lovable.app/sitemap.xml
-
-# Crawl delay
-Crawl-delay: 1
-
-# Block specific bots if needed
 User-agent: Googlebot
 Allow: /
 
@@ -18,17 +15,20 @@ Allow: /
 User-agent: Bingbot
 Allow: /
 
-# Disallow admin or private areas (if any)
-Disallow: /admin/
-Disallow: /private/
-Disallow: /*.json$
+# AI / answer-engine crawlers
+User-agent: GPTBot
+Allow: /
 
-# Allow all media
-Allow: /*.jpg$
-Allow: /*.jpeg$
-Allow: /*.png$
-Allow: /*.gif$
-Allow: /*.webp$
-Allow: /*.svg$
-Allow: /*.css$
-Allow: /*.js$
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://dev-mentor-hub-39.lovable.app/sitemap.xml
