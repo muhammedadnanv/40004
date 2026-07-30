@@ -10,7 +10,7 @@ const Terms = () => {
       <Helmet>
         <title>Terms of Service | Dev Mentor Hub</title>
         <meta name="description" content="Review Dev Mentor Hub's Terms of Service for programs and platform usage." />
-        <link rel="canonical" href={typeof window !== 'undefined' ? window.location.origin + "/terms" : "https://dev-mentor-hub-39.lovable.app/terms"} />
+        <link rel="canonical" href="https://dev-mentor-hub-39.lovable.app/terms" />
       </Helmet>
       
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1485827404703-89b55fcc595e')] bg-cover bg-center opacity-5 pointer-events-none" />
