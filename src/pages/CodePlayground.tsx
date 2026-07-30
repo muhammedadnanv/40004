@@ -116,13 +116,13 @@ export default function CodePlayground() {
         <title>Code Playground - Interactive HTML, CSS & JavaScript Editor | Kerala Government Skills Program</title>
         <meta name="description" content="Practice coding with our interactive code playground. Write HTML, CSS, and JavaScript and see live results instantly. Perfect for learning and experimentation." />
         <meta name="keywords" content="code playground, online code editor, HTML editor, CSS editor, JavaScript editor, coding practice, web development" />
-        <link rel="canonical" href="https://keralaskills.org/code-playground" />
+        <link rel="canonical" href="https://dev-mentor-hub-39.lovable.app/code-playground" />
         
         {/* Open Graph */}
         <meta property="og:title" content="Code Playground - Interactive Coding Environment" />
         <meta property="og:description" content="Practice HTML, CSS, and JavaScript with live preview. Free interactive code editor." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://keralaskills.org/code-playground" />
+        <meta property="og:url" content="https://dev-mentor-hub-39.lovable.app/code-playground" />
         
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
