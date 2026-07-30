@@ -64,9 +64,6 @@ export function ProjectIdeasSection() {
   return (
     <>
       <Helmet>
-        <title>Developer Project Ideas Gallery | Find Your Next Coding Project</title>
-        <meta name="description" content={`Browse our collection of ${projectIdeas.length}+ coding project ideas across multiple technologies and difficulty levels to enhance your portfolio.`} />
-        <meta name="keywords" content="developer projects, coding projects, portfolio projects, beginner coding projects, intermediate projects, advanced projects" />
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",

@@ -10,7 +10,7 @@ const Privacy = () => {
       <Helmet>
         <title>Privacy Policy | Dev Mentor Hub</title>
         <meta name="description" content="Read Dev Mentor Hub's Privacy Policy covering data collection, usage, and your rights." />
-        <link rel="canonical" href={typeof window !== 'undefined' ? window.location.origin + "/privacy" : "https://devmentorhub.com/privacy"} />
+        <link rel="canonical" href="https://dev-mentor-hub-39.lovable.app/privacy" />
       </Helmet>
       
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1485827404703-89b55fcc595e')] bg-cover bg-center opacity-5 pointer-events-none" />

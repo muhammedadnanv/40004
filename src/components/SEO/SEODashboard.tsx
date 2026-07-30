@@ -160,7 +160,7 @@ export function SEODashboard({
               <GoogleSearchPreview 
                 title="Dev Mentor Hub - Expert Web Development Training"
                 description="Transform your career with expert-led web development programs"
-                url="https://devmentorhub.com"
+                url="https://dev-mentor-hub-39.lovable.app"
               />
             </TabsContent>
             

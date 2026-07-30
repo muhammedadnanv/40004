@@ -75,7 +75,7 @@ const Install = () => {
       <Helmet>
         <title>Install Dev Mentor Hub App | Progressive Web App</title>
         <meta name="description" content="Install Dev Mentor Hub as a Progressive Web App for offline access, faster loading, and an app-like experience on your device." />
-        <link rel="canonical" href="https://devmentorhub.com/install" />
+        <link rel="canonical" href="https://dev-mentor-hub-39.lovable.app/install" />
       </Helmet>
 
       <div className="min-h-screen w-full flex flex-col">

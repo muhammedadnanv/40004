@@ -7,7 +7,7 @@ import { Home, ChevronRight, Handshake } from "lucide-react";
 import { ResponsiveSection } from "@/components/layout/ResponsiveSection";
 
 const Partnerships = () => {
-  const pageUrl = "https://devmentorhub.com/partnerships";
+  const pageUrl = "https://dev-mentor-hub-39.lovable.app/partnerships";
   
   const structuredData = {
     "@context": "https://schema.org",
@@ -30,7 +30,7 @@ const Partnerships = () => {
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://devmentorhub.com"
+        "item": "https://dev-mentor-hub-39.lovable.app"
       },
       {
         "@type": "ListItem",
@@ -51,7 +51,7 @@ const Partnerships = () => {
         <meta property="og:description" content="Join our network of industry professionals and educational institutions. Collaborative partnerships for mutual growth and success." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={pageUrl} />
-        <meta property="og:image" content="https://devmentorhub.com/og-partnerships.jpg" />
+        <meta property="og:image" content="https://dev-mentor-hub-39.lovable.app/og-partnerships.jpg" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Partnership Opportunities | Dev Mentor Hub" />
         <meta name="twitter:description" content="Join our network of partners and grow together" />

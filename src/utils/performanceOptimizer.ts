@@ -107,14 +107,8 @@ export const optimizeForDevice = (): {
  * Apply SEO optimizations to the current page
  */
 export const applySEOOptimizations = (): void => {
-  // Add canonical URL if not present
-  if (!document.querySelector('link[rel="canonical"]')) {
-    const canonical = document.createElement('link');
-    canonical.rel = 'canonical';
-    canonical.href = window.location.href.split('?')[0]; // Remove query parameters
-    document.head.appendChild(canonical);
-  }
-  
+  // Canonical URLs are owned by each route via the <SEO /> component (react-helmet-async).
+
   // Add Open Graph meta tags if not present
   const title = document.title;
   const description = document.querySelector('meta[name="description"]')?.getAttribute('content');

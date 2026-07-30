@@ -124,14 +124,6 @@ export const ShareProjectIdea = ({ project, onClose }: ShareProjectIdeaProps) =>
   return (
     <>
       <Helmet>
-        <meta name="description" content={`${project.name} - A ${project.difficulty} level ${project.category} project idea. ${project.description.substring(0, 150)}...`} />
-        <meta property="og:title" content={`${project.name} - ${project.difficulty} ${project.category} Project`} />
-        <meta property="og:description" content={project.description.substring(0, 200)} />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={shareUrl} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={`${project.name} - ${project.difficulty} ${project.category} Project`} />
-        <meta name="twitter:description" content={project.description.substring(0, 200)} />
         <script type="application/ld+json">
           {JSON.stringify(structuredData)}
         </script>
