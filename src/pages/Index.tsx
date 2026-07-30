@@ -266,7 +266,7 @@ const Index = () => {
                   "timeRequired": "P12W",
                   "offers": {
                     "@type": "Offer",
-                    "price": "15000",
+                    "price": "2999",
                     "priceCurrency": "INR",
                     "availability": "https://schema.org/InStock"
                   },
@@ -289,7 +289,7 @@ const Index = () => {
                   "timeRequired": "P8W",
                   "offers": {
                     "@type": "Offer",
-                    "price": "12000",
+                    "price": "699",
                     "priceCurrency": "INR",
                     "availability": "https://schema.org/InStock"
                   }
@@ -307,7 +307,7 @@ const Index = () => {
                   "timeRequired": "P10W",
                   "offers": {
                     "@type": "Offer",
-                    "price": "13000",
+                    "price": "2999",
                     "priceCurrency": "INR",
                     "availability": "https://schema.org/InStock"
                   }
