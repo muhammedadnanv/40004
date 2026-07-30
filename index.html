@@ -78,28 +78,44 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     
     <!-- Scripts -->
-    <script type="module" src="/src/main.tsx" async></script>
+    <script type="module" src="/src/main.tsx"></script>
     <script type="module" src="https://cdn.gpteng.co/gptengineer.js"></script>
 
-    <!-- Structured Data -->
+    <!-- Structured Data: WebSite + sitelinks search -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebSite",
       "url": "https://dev-mentor-hub-39.lovable.app",
       "name": "Dev Mentor Hub",
-      "description": "Professional Developer Certification and expert mentorship platform offering personalized guidance and real-world projects",
+      "description": "Developer mentorship and certification platform offering personalized guidance and real-world projects",
       "potentialAction": {
         "@type": "SearchAction",
-        "target": "https://dev-mentor-hub-39.lovable.app/search?q={search_term_string}",
+        "target": "https://dev-mentor-hub-39.lovable.app/programs?q={search_term_string}",
         "query-input": "required name=search_term_string"
       }
     }
     </script>
 
-    <script type="application/ld+json" src="/schema/organization.json"></script>
-    <script type="application/ld+json" src="/schema/course.json"></script>
-    <script type="application/ld+json" src="/schema/faq.json"></script>
+    <!-- Structured Data: Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "EducationalOrganization",
+      "name": "Dev Mentor Hub",
+      "alternateName": "DevMentorHub",
+      "url": "https://dev-mentor-hub-39.lovable.app",
+      "logo": "https://dev-mentor-hub-39.lovable.app/logo.png",
+      "description": "Developer mentorship and certification programs with 1-on-1 guidance, real projects and career support.",
+      "areaServed": { "@type": "Country", "name": "India" },
+      "sameAs": [
+        "https://twitter.com/devmentorhub",
+        "https://www.linkedin.com/company/devmentorhub",
+        "https://github.com/devmentorhub"
+      ]
+    }
+    </script>
+
     <meta property="og:title" content="Dev Mentor Hub - Professional Developer Certification &amp; Career Growth | Expert Mentorship">
   <meta name="twitter:title" content="Dev Mentor Hub - Professional Developer Certification &amp; Career Growth | Expert Mentorship">
   <meta property="og:description" content="Earn industry-recognized Professional Developer Certification while mastering modern tech stacks. Get personalized mentorship, hands-on projects, and direct feedback to accelerate your development career.">
