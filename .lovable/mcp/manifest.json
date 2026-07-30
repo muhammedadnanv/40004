@@ -1,0 +1,175 @@
+{
+  "version": 1,
+  "sdk_version": "0.25.0",
+  "path": "/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://zbnwztqwkusdurqllgzc.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "dev-mentor-hub-39",
+      "version": "0.1.0",
+      "title": "dev-mentor-hub-39"
+    },
+    "tools": [
+      {
+        "name": "list_projects",
+        "title": "List gallery projects",
+        "description": "List projects from the Dev Mentor Hub project gallery, optionally filtered by category, difficulty or search text.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "search": {
+              "type": "string",
+              "description": "Text to match in project title or description."
+            },
+            "category": {
+              "type": "string",
+              "description": "Project category filter."
+            },
+            "difficulty": {
+              "type": "string",
+              "enum": [
+                "beginner",
+                "intermediate",
+                "advanced"
+              ],
+              "description": "Difficulty filter."
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 10,
+              "description": "Maximum projects to return."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "submit_project",
+        "title": "Submit a project",
+        "description": "Submit a new project to the Dev Mentor Hub gallery on behalf of the signed-in user.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 120,
+              "description": "Project title."
+            },
+            "description": {
+              "type": "string",
+              "minLength": 10,
+              "maxLength": 2000,
+              "description": "Project description."
+            },
+            "category": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 60,
+              "description": "Project category, e.g. 'Web Development'."
+            },
+            "difficulty": {
+              "type": "string",
+              "enum": [
+                "beginner",
+                "intermediate",
+                "advanced"
+              ],
+              "description": "Project difficulty."
+            },
+            "tech_stack": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "maxItems": 20,
+              "default": [],
+              "description": "Technologies used."
+            },
+            "demo_url": {
+              "type": "string",
+              "format": "uri",
+              "description": "Live demo URL."
+            },
+            "github_url": {
+              "type": "string",
+              "format": "uri",
+              "description": "Source repository URL."
+            }
+          },
+          "required": [
+            "title",
+            "description",
+            "category",
+            "difficulty"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_my_progress",
+        "title": "Get my learning progress",
+        "description": "Get the signed-in user's Dev Mentor Hub profile, points, level, earned badges and submitted projects.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_leaderboard",
+        "title": "Get points leaderboard",
+        "description": "Get the Dev Mentor Hub leaderboard ranked by total points.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 10,
+              "description": "Number of leaderboard entries."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}

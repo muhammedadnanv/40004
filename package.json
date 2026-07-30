@@ -19,6 +19,7 @@
     "@fontsource/hind": "^5.2.8",
     "@hookform/resolvers": "^3.9.0",
     "@huggingface/transformers": "^4.2.0",
+    "@lovable.dev/mcp-js": "^0.25.0",
     "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-alert-dialog": "^1.1.1",
     "@radix-ui/react-aspect-ratio": "^1.1.0",
@@ -78,7 +79,7 @@
     "vaul": "^0.9.3",
     "vite-plugin-pwa": "^1.2.0",
     "workbox-window": "^7.4.0",
-    "zod": "^3.23.8"
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
