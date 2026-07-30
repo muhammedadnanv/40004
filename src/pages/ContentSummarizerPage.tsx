@@ -1,15 +1,18 @@
 
 import ContentSummarizer from "@/components/ContentSummarizer";
-import { Helmet } from "react-helmet-async";
+import { SEO } from "@/components/SEO";
+import { breadcrumbSchema } from "@/config/seo";
 
 const ContentSummarizerPage = () => {
   return (
     <>
-      <Helmet>
-        <title>AI Content Summarizer | Student-Friendly Learning Tool</title>
-        <meta name="description" content="Upload PDFs, videos, or paste links to get AI-powered summaries in student-friendly formats. Make learning materials more accessible." />
-        <meta name="keywords" content="AI summarizer, student tool, PDF summarizer, video summary, learning aid, study help" />
-      </Helmet>
+      <SEO
+        title="AI Content Summarizer — Summarize PDFs & Videos Free"
+        description="Upload PDFs, videos or paste links to get AI-powered, student-friendly summaries in seconds. A free study tool from Dev Mentor Hub."
+        path="/content-summarizer"
+        keywords="AI summarizer, PDF summarizer, video summary tool, study help, learning aid"
+        schema={breadcrumbSchema([{ name: "Home", path: "/" }, { name: "AI Content Summarizer", path: "/content-summarizer" }])}
+      />
       
       <div className="container mx-auto py-12 px-4">
         <h1 className="text-3xl md:text-4xl font-bold text-center mb-2">

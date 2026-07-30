@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Helmet } from "react-helmet-async";
+import { SEO } from "@/components/SEO";
 import { Navigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { GamificationWidget } from "@/components/gamification/GamificationWidget";
@@ -68,10 +68,12 @@ export default function Dashboard() {
 
   return (
     <>
-      <Helmet>
-        <title>Dashboard | Your Learning Journey</title>
-        <meta name="description" content="Track your progress, view your projects, and see your achievements" />
-      </Helmet>
+      <SEO
+        title="Dashboard | Dev Mentor Hub"
+        description="Track your progress, view your projects and see your achievements."
+        path="/dashboard"
+        noindex
+      />
 
       <main className="min-h-screen bg-background py-4 sm:py-6 md:py-8 px-3 sm:px-4 md:px-6">
         <div className="container mx-auto max-w-7xl">

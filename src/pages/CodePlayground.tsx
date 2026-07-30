@@ -113,7 +113,7 @@ export default function CodePlayground() {
   return (
     <>
       <Helmet>
-        <title>Code Playground - Interactive HTML, CSS & JavaScript Editor | Kerala Government Skills Program</title>
+        <title>Free Online Code Playground — HTML, CSS & JS Editor | Dev Mentor Hub</title>
         <meta name="description" content="Practice coding with our interactive code playground. Write HTML, CSS, and JavaScript and see live results instantly. Perfect for learning and experimentation." />
         <meta name="keywords" content="code playground, online code editor, HTML editor, CSS editor, JavaScript editor, coding practice, web development" />
         <link rel="canonical" href="https://dev-mentor-hub-39.lovable.app/code-playground" />

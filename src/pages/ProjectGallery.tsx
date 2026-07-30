@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { Helmet } from "react-helmet-async";
+import { SEO } from "@/components/SEO";
+import { breadcrumbSchema } from "@/config/seo";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
@@ -101,13 +102,13 @@ export default function ProjectGallery() {
 
   return (
     <>
-      <Helmet>
-        <title>Student Project Gallery | Showcase Your Work</title>
-        <meta
-          name="description"
-          content="Browse student projects, get inspired, and share your own work with the community."
-        />
-      </Helmet>
+      <SEO
+        title="Student Project Gallery — Real Developer Projects | Dev Mentor Hub"
+        description="Browse real projects built by Dev Mentor Hub students, get inspired by their code and share your own work with the developer community."
+        path="/gallery"
+        keywords="student projects, developer portfolio projects, web development project ideas, coding project gallery"
+        schema={breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Project Gallery", path: "/gallery" }])}
+      />
 
       <main className="min-h-screen bg-background">
         <section className="py-12 px-4">
