@@ -38,6 +38,8 @@ const ProjectGallery = lazy(() => import("./pages/ProjectGallery"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const CodePlayground = lazy(() => import("./pages/CodePlayground"));
 const Install = lazy(() => import("./pages/Install"));
+const LearnIndex = lazy(() => import("./pages/LearnIndex"));
+const LandingPage = lazy(() => import("./pages/LandingPage"));
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -211,6 +213,20 @@ function App() {
               <Suspense fallback={<LoadingFallback />}>
                 <ErrorBoundary>
                   <Install />
+                </ErrorBoundary>
+              </Suspense>
+            } />
+            <Route path="/learn" element={
+              <Suspense fallback={<LoadingFallback />}>
+                <ErrorBoundary>
+                  <LearnIndex />
+                </ErrorBoundary>
+              </Suspense>
+            } />
+            <Route path="/learn/:slug" element={
+              <Suspense fallback={<LoadingFallback />}>
+                <ErrorBoundary>
+                  <LandingPage />
                 </ErrorBoundary>
               </Suspense>
             } />
