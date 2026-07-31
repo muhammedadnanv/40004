@@ -2,6 +2,7 @@
 
 import { writeFileSync } from "fs";
 import { resolve } from "path";
+import { landingPages } from "../src/data/landingPages";
 
 const BASE_URL = "https://dev-mentor-hub-39.lovable.app";
 
@@ -35,6 +36,12 @@ const entries: SitemapEntry[] = [
   { path: "/install", changefreq: "yearly", priority: "0.4" },
   { path: "/privacy", changefreq: "yearly", priority: "0.3" },
   { path: "/terms", changefreq: "yearly", priority: "0.3" },
+  { path: "/learn", changefreq: "weekly", priority: "0.9" },
+  ...landingPages.map((page) => ({
+    path: page.path,
+    changefreq: "monthly" as const,
+    priority: "0.7",
+  })),
 ];
 
 function generateSitemap(items: SitemapEntry[]) {
